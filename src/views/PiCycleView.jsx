@@ -1,5 +1,5 @@
 import React from 'react';
-import { DS } from '../config/design';
+import { DS, DSCard } from '../config/design';
 import { INFO } from '../config/constants';
 import { fP, isFake } from '../utils/format';
 import StatCard from '../components/StatCard';
@@ -21,19 +21,19 @@ export default function PiCycleView({ live, calc, hist, mob }) {
   const proximity = ma350x2 > 0 ? Math.min(100, (ma111 / ma350x2) * 100) : 0;
 
   let stLabel, stColor, stBg, stDesc;
-  if (isCrossed) { stLabel = 'CROISEMENT ACTIF'; stColor = DS.down; stBg = 'rgba(239,68,68,0.08)'; stDesc = 'Le 111 DMA a croisé le 350 DMA x2 — signal de top historique'; }
-  else if (proximity > 90) { stLabel = 'ZONE CRITIQUE'; stColor = DS.warn; stBg = 'rgba(245,158,11,0.08)'; stDesc = 'Les moyennes convergent rapidement — surveillance requise'; }
-  else if (proximity > 75) { stLabel = 'CONVERGENCE'; stColor = DS.warn; stBg = 'rgba(245,158,11,0.06)'; stDesc = 'Les moyennes se rapprochent — tendance à surveiller'; }
-  else { stLabel = 'ZONE SÛRE'; stColor = DS.up; stBg = 'rgba(16,185,129,0.08)'; stDesc = 'Les moyennes sont bien espacées — pas de signal de top'; }
+  if (isCrossed) { stLabel = 'CROISEMENT ACTIF'; stColor = DSCard.down; stBg = 'rgba(239,68,68,0.08)'; stDesc = 'Le 111 DMA a croisé le 350 DMA x2 — signal de top historique'; }
+  else if (proximity > 90) { stLabel = 'ZONE CRITIQUE'; stColor = DSCard.warn; stBg = 'rgba(245,158,11,0.08)'; stDesc = 'Les moyennes convergent rapidement — surveillance requise'; }
+  else if (proximity > 75) { stLabel = 'CONVERGENCE'; stColor = DSCard.warn; stBg = 'rgba(245,158,11,0.06)'; stDesc = 'Les moyennes se rapprochent — tendance à surveiller'; }
+  else { stLabel = 'ZONE SÛRE'; stColor = DSCard.up; stBg = 'rgba(16,185,129,0.08)'; stDesc = 'Les moyennes sont bien espacées — pas de signal de top'; }
 
   const lastCross = crosses.length > 0 ? crosses[crosses.length - 1] : null;
   const daysSinceLastCross = lastCross ? Math.floor((Date.now() - lastCross.date.getTime()) / 86400000) : null;
 
   const zones = [
-    { label: '< 75%', desc: 'Zone sûre', c: DS.up, min: 0, max: 75 },
-    { label: '75-90%', desc: 'Convergence', c: DS.warn, min: 75, max: 90 },
-    { label: '90-100%', desc: 'Critique', c: DS.down, min: 90, max: 100 },
-    { label: '≥ 100%', desc: 'Croisement = TOP', c: DS.down, min: 100, max: Infinity }
+    { label: '< 75%', desc: 'Zone sûre', c: DSCard.up, min: 0, max: 75 },
+    { label: '75-90%', desc: 'Convergence', c: DSCard.warn, min: 75, max: 90 },
+    { label: '90-100%', desc: 'Critique', c: DSCard.down, min: 90, max: 100 },
+    { label: '≥ 100%', desc: 'Croisement = TOP', c: DSCard.down, min: 100, max: Infinity }
   ];
 
   return (
@@ -59,16 +59,16 @@ export default function PiCycleView({ live, calc, hist, mob }) {
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: stColor }} />
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 14 }}>{stLabel}</div>
-                  <div style={{ fontSize: 15, color: DS.text2, marginTop: 2 }}>{stDesc}</div>
+                  <div style={{ fontSize: 15, color: DSCard.text2, marginTop: 2 }}>{stDesc}</div>
                 </div>
               </div>
               {lastCross && (
-                <div style={{ padding: '12px 14px', background: DS.borderLight, borderRadius: 8 }}>
-                  <div style={{ fontSize: 14, color: DS.text3, marginBottom: 4 }}>Dernier croisement</div>
+                <div style={{ padding: '12px 14px', background: DSCard.borderLight, borderRadius: 8 }}>
+                  <div style={{ fontSize: 14, color: DSCard.text3, marginBottom: 4 }}>Dernier croisement</div>
                   <div style={{ fontSize: 15, fontWeight: 600, fontFamily: DS.mono }}>{daysSinceLastCross} jours</div>
                 </div>
               )}
-              <div style={{ fontSize: 15, color: DS.text2, lineHeight: 1.6 }}>{INFO.picycle}</div>
+              <div style={{ fontSize: 15, color: DSCard.text2, lineHeight: 1.6 }}>{INFO.picycle}</div>
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@ export default function PiCycleView({ live, calc, hist, mob }) {
                     <div style={{ width: 8, height: 8, borderRadius: '50%', background: z.c, opacity: active ? 1 : 0.3 }} />
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: 16, fontWeight: active ? 600 : 400 }}>{z.label}</div>
-                      <div style={{ fontSize: 14, color: DS.text3 }}>{z.desc}</div>
+                      <div style={{ fontSize: 14, color: DSCard.text3 }}>{z.desc}</div>
                     </div>
                     {active && <div style={{ fontSize: 15, fontWeight: 600, color: z.c }}>◀</div>}
                   </div>
