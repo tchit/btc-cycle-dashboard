@@ -53,8 +53,21 @@
   --radius-lg: 16px;
 
   /* Typography */
-  --font: 'Instrument Sans', -apple-system, sans-serif;
+  --font: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+  /* Type Scale */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+
+  /* Weights */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
 
   /* Layout */
   --sidebar-width: 240px;
@@ -65,8 +78,9 @@ body {
   background: var(--bg-app);
   color: var(--text-primary);
   font-family: var(--font);
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.5;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
 }
 

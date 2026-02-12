@@ -17,18 +17,22 @@ import DerivativesView from './views/DerivativesView';
 import ScenariosView from './views/ScenariosView';
 import ConnectorsView from './components/ConnectorsView';
 import TradingViewView from './views/TradingViewView';
+import {
+  IconDashboard, IconChain, IconDollar, IconRainbow, IconCycle,
+  IconMiner, IconTrending, IconSparkles, IconPlug, IconMonitor
+} from './components/Icons';
 
 const TABS = [
-  { id: 'dashboard', l: 'Dashboard', i: '📊' },
-  { id: 'onchain', l: 'On-Chain', i: '🔗' },
-  { id: 'price', l: 'Prix', i: '💰' },
-  { id: 'rainbow', l: 'Rainbow', i: '🌈' },
-  { id: 'picycle', l: 'Pi Cycle', i: '🔄' },
-  { id: 'miners', l: 'Miners', i: '⛏' },
-  { id: 'derivatives', l: 'Dérivés', i: '📈' },
-  { id: 'scenarios', l: 'Scénarios', i: '🔮' },
-  { id: 'connectors', l: 'Connecteurs', i: '🔌' },
-  { id: 'tradingview', l: 'TradingView', i: '📺' }
+  { id: 'dashboard', l: 'Dashboard', i: <IconDashboard /> },
+  { id: 'onchain', l: 'On-Chain', i: <IconChain /> },
+  { id: 'price', l: 'Prix', i: <IconDollar /> },
+  { id: 'rainbow', l: 'Rainbow', i: <IconRainbow /> },
+  { id: 'picycle', l: 'Pi Cycle', i: <IconCycle /> },
+  { id: 'miners', l: 'Miners', i: <IconMiner /> },
+  { id: 'derivatives', l: 'Dérivés', i: <IconTrending /> },
+  { id: 'scenarios', l: 'Scénarios', i: <IconSparkles /> },
+  { id: 'connectors', l: 'Connecteurs', i: <IconPlug /> },
+  { id: 'tradingview', l: 'TradingView', i: <IconMonitor /> }
 ];
 
 export default function App() {
