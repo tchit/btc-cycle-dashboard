@@ -1,0 +1,3687 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTC Cycle Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      /* Base */
+      --bg-app: #F4F6F8;
+      --bg-sidebar: #0C1222;
+      --bg-sidebar-hover: #141C30;
+      --bg-card: #FFFFFF;
+      --bg-card-header: #FAFBFC;
+      
+      /* Text */
+      --text-primary: #1A1D21;
+      --text-secondary: #5E6C84;
+      --text-tertiary: #8993A4;
+      --text-sidebar: #8B95A5;
+      --text-sidebar-active: #FFFFFF;
+      
+      /* Brand */
+      --accent: #F97316;
+      --accent-hover: #EA580C;
+      --accent-subtle: rgba(249, 115, 22, 0.08);
+      
+      /* Semantic */
+      --up: #10B981;
+      --up-bg: rgba(16, 185, 129, 0.08);
+      --down: #EF4444;
+      --down-bg: rgba(239, 68, 68, 0.08);
+      --warn: #F59E0B;
+      --warn-bg: rgba(245, 158, 11, 0.08);
+      --blue: #3B82F6;
+      --purple: #8B5CF6;
+      --pink: #EC4899;
+      
+      /* Borders & Shadows */
+      --border: #E4E7EC;
+      --border-light: #F0F2F5;
+      --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+      --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+      --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+      
+      /* Radius */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      
+      /* Typography */
+      --font: 'IBM Plex Sans', -apple-system, sans-serif;
+      --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+      
+      /* Layout */
+      --sidebar-width: 240px;
+      --header-height: 72px;
+    }
+    
+    body {
+      background: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #D0D5DD; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #98A2B3; }
+    
+    /* Layout */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-sidebar);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .sidebar-logo {
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    
+    .sidebar-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent) 0%, #FBBF24 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .sidebar-logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+    
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+    
+    .sidebar-section-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-sidebar);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0 12px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+    
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-sidebar);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-bottom: 2px;
+    }
+    
+    .sidebar-item:hover {
+      background: var(--bg-sidebar-hover);
+      color: var(--text-sidebar-active);
+    }
+    
+    .sidebar-item.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    
+    .sidebar-item-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    
+    .sidebar-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--up);
+    }
+    
+    .sidebar-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--up);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+    }
+    
+    /* Header */
+    .header {
+      height: var(--header-height);
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .header-subtitle {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .header-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--bg-app);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .header-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    
+    /* Content Area */
+    .content {
+      padding: 24px 28px;
+    }
+    
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .card-badge {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--accent-subtle);
+      color: var(--accent);
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    /* Stat Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    
+    .stat-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+    }
+    
+    .stat-card.up::before { background: var(--up); }
+    .stat-card.down::before { background: var(--down); }
+    .stat-card.warn::before { background: var(--warn); }
+    .stat-card.neutral::before { background: var(--blue); }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    
+    .stat-unit {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      margin-left: 2px;
+    }
+    
+    .stat-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    
+    .stat-change.up {
+      background: var(--up-bg);
+      color: var(--up);
+    }
+    
+    .stat-change.down {
+      background: var(--down-bg);
+      color: var(--down);
+    }
+    
+    .stat-detail {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 8px;
+      font-family: var(--font-mono);
+    }
+
+    /* Fetching/Loading indicator */
+    .fake-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 9px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(245, 158, 11, 0.10);
+      color: var(--warn);
+      border: 1px solid rgba(245, 158, 11, 0.20);
+      vertical-align: middle;
+      margin-left: 6px;
+      text-transform: uppercase;
+    }
+
+    .stat-card.is-fake {
+      border-color: rgba(245, 158, 11, 0.25);
+    }
+
+    .signal-card.is-fake {
+      border-color: rgba(245, 158, 11, 0.25);
+    }
+
+    /* Signal Cards Grid */
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    
+    .signal-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      padding: 16px;
+      position: relative;
+    }
+    
+    .signal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    
+    .signal-title {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    
+    .signal-status {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .signal-status.bullish {
+      background: var(--up-bg);
+      color: var(--up);
+    }
+    
+    .signal-status.bearish {
+      background: var(--down-bg);
+      color: var(--down);
+    }
+    
+    .signal-status.neutral {
+      background: var(--warn-bg);
+      color: var(--warn);
+    }
+    
+    .signal-value {
+      font-size: 24px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    
+    .signal-detail {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      margin-top: 6px;
+      font-family: var(--font-mono);
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--bg-app);
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+    }
+    
+    .tab {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: none;
+      background: transparent;
+      white-space: nowrap;
+    }
+    
+    .tab:hover {
+      color: var(--text-primary);
+      background: rgba(0,0,0,0.03);
+    }
+    
+    .tab.active {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    /* Composite Gauge Container */
+    .gauge-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 20px 28px;
+    }
+    
+    .gauge-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--text-tertiary);
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    
+    .gauge-value {
+      font-size: 52px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      line-height: 1;
+      margin-top: -10px;
+    }
+    
+    .gauge-zone {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-top: 6px;
+      opacity: 0.7;
+    }
+    
+    /* Mini Gauges */
+    .mini-gauge-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+      width: 100%;
+    }
+    
+    .mini-gauge {
+      background: var(--bg-app);
+      border-radius: var(--radius-sm);
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .mini-gauge-label {
+      font-size: 9px;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      margin-bottom: 6px;
+      white-space: nowrap;
+    }
+    
+    .mini-gauge-value {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    
+    /* Price Display */
+    .price-display {
+      text-align: center;
+      padding: 28px 20px;
+    }
+    
+    .price-label {
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 8px;
+    }
+    
+    .price-value {
+      font-size: 44px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+      letter-spacing: -2px;
+    }
+    
+    .price-changes {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    
+    .price-change {
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+    
+    .price-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .price-meta-item {
+      text-align: center;
+    }
+    
+    .price-meta-label {
+      font-size: 9px;
+      color: var(--text-tertiary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    
+    .price-meta-value {
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    
+    /* Info Tip */
+    .info-tip {
+      position: relative;
+      display: inline-flex;
+      cursor: pointer;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    
+    .info-tip-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--bg-app);
+      border: 1px solid var(--border);
+      font-size: 9px;
+      color: var(--text-tertiary);
+      font-weight: 600;
+    }
+    
+    .info-tip-content {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 240px;
+      padding: 12px 14px;
+      background: var(--bg-sidebar);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      color: #fff;
+      line-height: 1.5;
+      z-index: 100;
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Loading Indicator */
+    .loading-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      padding: 6px 14px;
+      background: var(--accent-subtle);
+      border-radius: 20px;
+      border: 1px solid rgba(249, 115, 22, 0.15);
+    }
+    
+    .loading-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.2s infinite;
+    }
+    
+    /* Bands Legend */
+    .bands-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    
+    .bands-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .bands-legend-color {
+      width: 12px;
+      height: 3px;
+      border-radius: 2px;
+    }
+    
+    .bands-legend-label {
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+    
+    /* Section Title */
+    .section-title {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-tertiary);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    
+    /* Sources List */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    
+    .source-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+    
+    .source-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    
+    .source-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    
+    .source-name {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      margin-left: auto;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .stat-grid,
+      .signal-grid,
+      .sources-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .mini-gauge-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .content {
+        padding: 16px;
+      }
+      
+      .stat-grid,
+      .signal-grid,
+      .sources-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header {
+        padding: 0 16px;
+      }
+      
+      .price-value {
+        font-size: 36px;
+      }
+      
+      .gauge-value {
+        font-size: 42px;
+      }
+      
+      .stat-value {
+        font-size: 24px;
+      }
+      
+      .tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+    
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: var(--bg-app);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 20px;
+    }
+    
+    @media (max-width: 1024px) {
+      .menu-toggle {
+        display: flex;
+      }
+    }
+    
+    /* Sidebar Overlay */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+    
+    .sidebar-overlay.visible {
+      display: block;
+    }
+
+    /* Loading indicator */
+    .loading-bar-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--border-light);
+      overflow: hidden;
+    }
+    .loading-bar-top > div {
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, var(--accent), #FBBF24);
+      border-radius: 2px;
+      animation: loadSlide 1.2s ease-in-out infinite;
+    }
+    @keyframes loadSlide {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(430%); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script>
+    window.onerror = function(msg, url, line, col, error) {
+      document.getElementById('root').innerHTML = `<div style="color:#ef4444;font-family:monospace;padding:20px;background:#fef2f2;white-space:pre-wrap"><h2>Erreur JS</h2>${msg} (ligne ${line})\n${error?.stack}</div>`;
+      return false;
+    };
+  </script>
+  <script>
+    'use strict';
+    const { useState, useEffect, useRef, useMemo, useCallback } = React;
+
+    // ========== DESIGN SYSTEM ==========
+    const DS = {
+      bg: '#F4F6F8',
+      surface: '#FFFFFF',
+      surface2: '#FAFBFC',
+      border: '#E4E7EC',
+      borderLight: '#F0F2F5',
+      text: '#1A1D21',
+      text2: '#5E6C84',
+      text3: '#8993A4',
+      sidebar: '#0C1222',
+      sidebarHover: '#141C30',
+      accent: '#F97316',
+      up: '#10B981',
+      down: '#EF4444',
+      warn: '#F59E0B',
+      blue: '#3B82F6',
+      purple: '#8B5CF6',
+      pink: '#EC4899',
+      font: "'IBM Plex Sans', -apple-system, sans-serif",
+      mono: "'IBM Plex Mono', 'SF Mono', monospace"
+    };
+
+    // ========== CONSTANTS & DATA ==========
+    const ATH = 126198, ATHDATE = '2025-10-06', HALVING = '2024-04-19';
+    const MC = 58096, RP = 55182, W200 = 57926, CVDD = 45000;
+    const STHRP = 72000, LTHRP = 38000;
+    const MA111 = 90000, MA2Y = 75000;
+    const SUPPLYTOTAL = 19800000;
+
+    const CYCLES = [
+      { name: 'C1 2011-13', halvD: '2012-11-28', peak: 1177, bottom: 152, peakD: 367, botD: 544 },
+      { name: 'C2 2015-17', halvD: '2016-07-09', peak: 19783, bottom: 3122, peakD: 526, botD: 730 },
+      { name: 'C3 2020-22', halvD: '2020-05-11', peak: 69000, bottom: 15476, peakD: 546, botD: 895 },
+      { name: 'C4 Current', halvD: HALVING, peak: ATH, bottom: null, peakD: 535, botD: null }
+    ];
+
+    const OCLEVELS = [
+      { k: 'ma111', l: '111-Day MA', v: MA111, c: DS.down },
+      { k: 'ma2y', l: '2-Year MA', v: MA2Y, c: DS.warn },
+      { k: 'sthrp', l: 'STH Realized Price', v: STHRP, c: DS.accent },
+      { k: 'w200', l: '200-Week MA', v: W200, c: '#60a5fa' },
+      { k: 'rp', l: 'Realized Price', v: RP, c: '#a78bfa' },
+      { k: 'cvdd', l: 'CVDD', v: CVDD, c: '#f472b6' },
+      { k: 'lthrp', l: 'LTH Realized Price', v: LTHRP, c: DS.up }
+    ];
+
+    const EXHAUST = [
+      { n: 1, l: 'Levier', d: 'Liquidations en cascade', dur: 'Jours/sem.', st: 'done', p: 100, icon: '⚡' },
+      { n: 2, l: 'Retail', d: 'Panique retail, capitulation émotionnelle', dur: '1-3 mois', st: 'active', p: 70, icon: '😱' },
+      { n: 3, l: 'Miners', d: 'Vente trésorerie, arrêt machines', dur: 'Mois', st: 'early', p: 25, icon: '⛏' },
+      { n: 4, l: 'ETF Outflows', d: 'Réduction exposition institutionnelle', dur: 'Mois', st: 'early', p: 30, icon: '🏦' },
+      { n: 5, l: 'STH Capitulation', d: 'Derniers vendeurs forcés', dur: 'Final', st: 'pending', p: 5, icon: '🏳' }
+    ];
+
+    const SCENARIOS = [
+      { l: 'Shallow', z: '200W MA tient', r: [58, 65], dd: [-48, -52], p: 20, c: DS.up },
+      { l: 'Modéré', z: 'Sous RP → CVDD', r: [45, 55], dd: [-56, -64], p: 50, c: DS.accent, hl: true },
+      { l: 'Deep', z: 'Touche CVDD', r: [35, 45], dd: [-64, -72], p: 25, c: DS.warn },
+      { l: 'Extrême', z: 'Sous CVDD', r: [25, 35], dd: [-72, -80], p: 5, c: DS.down }
+    ];
+
+    const TIMING = [
+      { m: 'ATH + 383j', calc: '6 oct 25 + 383j', result: '24 oct 2026', conf: 0.7 },
+      { m: 'Halving + 863j', calc: '19 avr 24 + 863j', result: 'Sep 2026', conf: 0.8 },
+      { m: 'Next Halv. - 513j', calc: 'Avr 28 - 513j', result: 'Oct-Nov 2026', conf: 0.75 }
+    ];
+
+    const FALLBACK = {
+      price: 68689, change24h: -0.56, marketCap: 1373e9, dominance: 56.9,
+      fearGreed: 9, fgLabel: 'Extreme Fear', volume24h: 49.8e9,
+      nupl: 0.227, sopr: 0.987, asopr: 0.975, mvrvz: 0.534, mvrvratio: 1.288,
+      realizedPrice: 54563, sthRealizedPrice: 92645, lthRealizedPrice: 44349,
+      supplyProfitPct: 45.29, supplyProfitBtc: 9051976, rhodl: 1.056,
+      rsi: 29.0, sma200: 102083, ema200: 95738, sma50: 86615,
+      fundingRate: -0.005, openInterest: 32e9,
+      etfBtcTotal: 644726, etfFlowBtc: -4968,
+      hashrate: 1028, difficulty: 126e12, puellMultiple: 0.79,
+      hashRibbons: 'Down', hashSma30: 964567, hashSma60: 1010355
+    };
+
+    // Map: source API -> fields it provides
+    const SOURCE_FIELDS = {
+      coingecko: ['price', 'marketCap', 'change24h', 'volume24h'],
+      dominance: ['dominance'],
+      fng: ['fearGreed', 'fgLabel'],
+      binance: ['fundingRate', 'openInterest'],
+      mempool: ['hashrate', 'difficulty'],
+      bgeometrics: ['nupl', 'sopr', 'asopr', 'mvrvz', 'mvrvratio', 'realizedPrice', 'sthRealizedPrice', 'lthRealizedPrice', 'puellMultiple', 'supplyProfitPct', 'supplyProfitBtc', 'rhodl', 'rsi', 'sma200', 'ema200', 'sma50', 'hashRibbons', 'hashSma30', 'hashSma60', 'etfBtcTotal', 'etfFlowBtc']
+    };
+
+    // ========== HOOKS & API DATA ==========
+    function useLiveData() {
+      const [data, setData] = useState({ ...FALLBACK, live: false, loading: true, lastUpdate: null, sources: {}, fakes: new Set(Object.keys(FALLBACK)) });
+
+      const fetchAll = useCallback(async () => {
+        let r = { ...FALLBACK, live: false, loading: false, lastUpdate: new Date(), sources: {} };
+        const fakes = new Set(Object.keys(FALLBACK));
+        const markLive = (sourceKey) => {
+          (SOURCE_FIELDS[sourceKey] || []).forEach(f => fakes.delete(f));
+        };
+
+        // Price: Binance primary (fiable, pas de rate limit), CoinGecko fallback
+        let priceOk = false;
+        try {
+          const res = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+          if (res.ok) {
+            const j = await res.json();
+            r.price = parseFloat(j.lastPrice);
+            r.change24h = parseFloat(j.priceChangePercent);
+            r.volume24h = parseFloat(j.quoteVolume);
+            priceOk = true;
+            r.live = true;
+            fakes.delete('price');
+            fakes.delete('change24h');
+            fakes.delete('volume24h');
+          }
+        } catch (e) {}
+
+        // CoinGecko: marketCap + prix si Binance a échoué
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_market_cap=true&include_24hr_change=true&include_24hr_vol=true');
+          if (res.ok) {
+            const j = await res.json();
+            if (j.bitcoin) {
+              if (!priceOk) {
+                r.price = j.bitcoin.usd;
+                r.change24h = j.bitcoin.usd_24h_change;
+                r.volume24h = j.bitcoin.usd_24h_vol;
+                priceOk = true;
+              }
+              r.marketCap = j.bitcoin.usd_market_cap;
+              r.sources.coingecko = true;
+              r.live = true;
+              markLive('coingecko');
+            }
+          } else {
+            r.sources.coingecko = priceOk ? 'partial' : false;
+          }
+        } catch (e) {
+          r.sources.coingecko = priceOk ? 'partial' : false;
+        }
+
+        // Dominance
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/global');
+          if (res.ok) {
+            const j = await res.json();
+            r.dominance = j.data?.market_cap_percentage?.btc;
+            r.live = true;
+            markLive('dominance');
+          }
+        } catch (e) {}
+
+        // Fear & Greed
+        try {
+          const res = await fetch('https://api.alternative.me/fng/?limit=1');
+          if (res.ok) {
+            const j = await res.json();
+            if (j.data?.[0]) {
+              r.fearGreed = parseInt(j.data[0].value);
+              r.fgLabel = j.data[0].value_classification;
+              r.sources.fng = true;
+              r.live = true;
+              markLive('fng');
+            }
+          }
+        } catch (e) { r.sources.fng = false; }
+
+        // Binance Futures (historical funding rates + OI)
+        try {
+          const [fr, oi] = await Promise.all([
+            fetch('https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=500'),
+            fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT')
+          ]);
+          if (fr.ok) {
+            const j = await fr.json();
+            if (j.length) {
+              r.fundingRate = parseFloat(j[j.length - 1]?.fundingRate) * 100;
+              r.fundingHistory = j.map(entry => ({
+                ts: entry.fundingTime,
+                rate: parseFloat(entry.fundingRate) * 100
+              }));
+              r.sources.binance = true;
+              r.live = true;
+              markLive('binance');
+            }
+          }
+          if (oi.ok) {
+            const j = await oi.json();
+            r.openInterest = parseFloat(j.openInterest) * r.price;
+          }
+        } catch (e) { r.sources.binance = false; }
+
+        // Mempool
+        try {
+          const res = await fetch('https://mempool.space/api/v1/mining/hashrate/1w');
+          if (res.ok) {
+            const j = await res.json();
+            if (j.hashrates?.length) {
+              r.hashrate = j.hashrates[j.hashrates.length - 1].avgHashrate / 1e18;
+              r.sources.mempool = true;
+              r.live = true;
+              markLive('mempool');
+            }
+            if (j.difficulty?.length) {
+              r.difficulty = j.difficulty[j.difficulty.length - 1].difficulty;
+            }
+          }
+        } catch (e) { r.sources.mempool = false; }
+
+        // BGeometrics with cache + rate limiting (max 8 calls/hour)
+        const BGPROXY = 'https://bg-proxy.sv9ch954y9.workers.dev';
+        const CACHEKEY = 'bg_cache', CACHETTL = 8 * 60 * 60 * 1000;
+        const BG_RATE_KEY = 'bg_rate_log', BG_RATE_MAX = 8, BG_RATE_WINDOW = 60 * 60 * 1000;
+        let cached = null, cachedStale = null;
+
+        try {
+          const raw = localStorage.getItem(CACHEKEY);
+          if (raw) {
+            const c = JSON.parse(raw);
+            if (Date.now() - c.ts < CACHETTL) cached = c.data;
+            else cachedStale = c.data;
+          }
+        } catch (e) {}
+
+        const bgCanCall = () => {
+          try {
+            const now = Date.now();
+            let log = JSON.parse(localStorage.getItem(BG_RATE_KEY) || '[]');
+            log = log.filter(ts => now - ts < BG_RATE_WINDOW);
+            localStorage.setItem(BG_RATE_KEY, JSON.stringify(log));
+            return log.length < BG_RATE_MAX;
+          } catch (e) { return false; }
+        };
+        const bgRecordCall = () => {
+          try {
+            const now = Date.now();
+            let log = JSON.parse(localStorage.getItem(BG_RATE_KEY) || '[]');
+            log.push(now);
+            log = log.filter(ts => now - ts < BG_RATE_WINDOW);
+            localStorage.setItem(BG_RATE_KEY, JSON.stringify(log));
+          } catch (e) {}
+        };
+
+        if (cached) {
+          Object.assign(r, cached);
+          r.sources.bgeometrics = 'cache';
+          r.live = true;
+          markLive('bgeometrics');
+        } else if (!bgCanCall()) {
+          if (cachedStale) {
+            Object.assign(r, cachedStale);
+            r.sources.bgeometrics = 'cache';
+            r.live = true;
+            markLive('bgeometrics');
+          } else {
+            r.sources.bgeometrics = false;
+          }
+        } else {
+          try {
+            bgRecordCall();
+            const res = await fetch(`${BGPROXY}/all`);
+            if (res.ok) {
+              const all = await res.json();
+              const get = (path) => all[`/v1/${path}/last`];
+              const bg = {};
+
+              const nupl = get('nupl');
+              if (nupl?.nupl != null) bg.nupl = parseFloat(nupl.nupl);
+
+              const sopr = get('sopr');
+              if (sopr?.sopr != null) bg.sopr = parseFloat(sopr.sopr);
+
+              const asopr = get('asopr');
+              if (asopr?.asopr != null) bg.asopr = parseFloat(asopr.asopr);
+
+              const mvrvz = get('mvrv-zscore');
+              if (mvrvz?.mvrvZscore != null) bg.mvrvz = parseFloat(mvrvz.mvrvZscore);
+
+              const mvrv = get('mvrv');
+              if (mvrv?.mvrv != null) bg.mvrvratio = parseFloat(mvrv.mvrv);
+
+              const rpv = get('realized-price');
+              if (rpv?.realizedPrice != null) bg.realizedPrice = parseFloat(rpv.realizedPrice);
+
+              const sthRp = get('sth-realized-price');
+              if (sthRp?.sthRealizedPrice != null) bg.sthRealizedPrice = parseFloat(sthRp.sthRealizedPrice);
+
+              const lthRp = get('lth-realized-price');
+              if (lthRp?.lthRealizedPrice != null) bg.lthRealizedPrice = parseFloat(lthRp.lthRealizedPrice);
+
+              const puell = get('puell-multiple');
+              if (puell?.puellMultiple != null) bg.puellMultiple = parseFloat(puell.puellMultiple);
+
+              const pl = get('profit-loss');
+              if (pl?.profitLoss != null) bg.supplyProfitPct = parseFloat(pl.profitLoss);
+
+              const sp = get('supply-profit');
+              if (sp?.supplyProfit != null) bg.supplyProfitBtc = parseFloat(sp.supplyProfit);
+
+              const rhodl = get('rhodl-ratio');
+              if (rhodl?.rhodlRatio != null) bg.rhodl = parseFloat(rhodl.rhodlRatio);
+
+              const ti = get('technical-indicators');
+              if (ti) {
+                if (ti.rsi != null) bg.rsi = parseFloat(ti.rsi);
+                if (ti.sma200 != null) bg.sma200 = parseFloat(ti.sma200);
+                if (ti.ema200 != null) bg.ema200 = parseFloat(ti.ema200);
+                if (ti.sma50 != null) bg.sma50 = parseFloat(ti.sma50);
+              }
+
+              const hr = get('hashribbons');
+              if (hr) {
+                bg.hashRibbons = hr.hashribbons || 'Unknown';
+                if (hr.sma30) bg.hashSma30 = parseFloat(hr.sma30);
+                if (hr.sma60) bg.hashSma60 = parseFloat(hr.sma60);
+              }
+
+              const frd = get('funding-rate');
+              if (frd?.fundingRate != null) bg.fundingRateBG = parseFloat(frd.fundingRate);
+
+              const etfTot = get('etf-btc-total');
+              if (etfTot?.etfBtcTotal != null) bg.etfBtcTotal = parseFloat(etfTot.etfBtcTotal);
+
+              const etfFl = get('etf-flow-btc');
+              if (etfFl?.etfFlow != null) bg.etfFlowBtc = parseFloat(etfFl.etfFlow);
+
+              const oiFut = get('open-interest-futures');
+              if (oiFut) {
+                const oiKeys = ['binance', 'bybit', 'okx', 'bitget', 'deribit', 'bitmex', 'huobi', 'bitfinex', 'gateIo', 'kucoin', 'kraken', 'cryptoCom'];
+                const oiSum = oiKeys.reduce((s, k) => s + (parseFloat(oiFut[k]) || 0), 0);
+                if (oiSum > 0) bg.openInterestBG = oiSum;
+              }
+
+              if (Object.keys(bg).length > 0) {
+                Object.assign(r, bg);
+                r.sources.bgeometrics = 'live';
+                r.live = true;
+                markLive('bgeometrics');
+                try {
+                  localStorage.setItem(CACHEKEY, JSON.stringify({ ts: Date.now(), data: bg }));
+                } catch (e) {}
+              }
+            }
+          } catch (e) { r.sources.bgeometrics = false; }
+        }
+
+        r.fakes = fakes;
+        setData(r);
+      }, []);
+
+      useEffect(() => {
+        fetchAll();
+        const iv = setInterval(fetchAll, 60000);
+        return () => clearInterval(iv);
+      }, [fetchAll]);
+
+      return data;
+    }
+
+    function useHistoricalData() {
+      const [hist, setHist] = useState(null);
+
+      useEffect(() => {
+        const CACHEKEY = 'hist_v10', CACHETTL = 6 * 60 * 60 * 1000;
+
+        try {
+          const raw = localStorage.getItem(CACHEKEY);
+          if (raw) {
+            const c = JSON.parse(raw);
+            if (Date.now() - c.ts < CACHETTL) {
+              if (c.data?.prices) c.data.prices = c.data.prices.map(p => ({ ...p, date: new Date(p.date) }));
+              if (c.data?.crosses) c.data.crosses = c.data.crosses.map(cr => ({ ...cr, date: new Date(cr.date) }));
+              setHist(c.data);
+              return;
+            }
+          }
+        } catch (e) {}
+
+        (async () => {
+          try {
+            const [rbRes, piRes] = await Promise.all([
+              fetch('https://charts.bitcoin.com/api/v1/charts/rainbow'),
+              fetch('https://charts.bitcoin.com/api/v1/charts/pi-cycle-top')
+            ]);
+
+            let rawPrices = null;
+            if (rbRes.ok) {
+              const rb = await rbRes.json();
+              if (rb.success && rb.data?.price) rawPrices = rb.data.price;
+            }
+
+            if (!rawPrices || rawPrices.length < 100) {
+              const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=max&precision=2');
+              if (cgRes.ok) {
+                const cg = await cgRes.json();
+                if (cg.prices?.length) {
+                  rawPrices = cg.prices.map(([ts, price]) => ({ timestamp: ts, price }));
+                }
+              }
+            }
+
+            if (!rawPrices?.length) return;
+
+            const ma111Map = new Map(), ma350x2Map = new Map();
+            let apiCrosses = [];
+
+            if (piRes?.ok) {
+              const pi = await piRes.json();
+              if (pi.success && pi.data) {
+                (pi.data.ma111 || []).forEach(p => ma111Map.set(p.timestamp, p.value));
+                (pi.data.ma350x2 || []).forEach(p => ma350x2Map.set(p.timestamp, p.value));
+                apiCrosses = pi.data.crosses || [];
+              }
+            }
+
+            const prices = rawPrices.map(p => ({
+              date: new Date(p.timestamp),
+              price: p.price,
+              ts: p.timestamp,
+              ma111: ma111Map.get(p.timestamp) || null,
+              ma350x2: ma350x2Map.get(p.timestamp) || null,
+              ma200: null
+            }));
+
+            // Calculate MAs if not from API
+            if (ma111Map.size === 0 && prices.length > 350) {
+              for (let i = 110; i < prices.length; i++) {
+                let s = 0;
+                for (let j = i - 110; j <= i; j++) s += prices[j].price;
+                prices[i].ma111 = s / 111;
+              }
+              for (let i = 349; i < prices.length; i++) {
+                let s = 0;
+                for (let j = i - 349; j <= i; j++) s += prices[j].price;
+                prices[i].ma350x2 = (s / 350) * 2;
+              }
+            }
+
+            for (let i = 199; i < prices.length; i++) {
+              let s = 0;
+              for (let j = i - 199; j <= i; j++) s += prices[j].price;
+              prices[i].ma200 = s / 200;
+            }
+
+            const crosses = [];
+            if (apiCrosses.length > 0) {
+              apiCrosses.forEach(c => {
+                crosses.push({ date: new Date(c.timestamp), price: c.price || 0, type: 'top' });
+              });
+            } else {
+              for (let i = 1; i < prices.length; i++) {
+                const prev = prices[i - 1], cur = prices[i];
+                if (prev.ma111 && prev.ma350x2 && cur.ma111 && cur.ma350x2) {
+                  if (prev.ma111 < prev.ma350x2 && cur.ma111 >= cur.ma350x2) {
+                    crosses.push({ date: cur.date, price: cur.price, type: 'top' });
+                  }
+                }
+              }
+            }
+
+            const data = { prices, crosses, fetched: Date.now() };
+            setHist(data);
+            try {
+              localStorage.setItem(CACHEKEY, JSON.stringify({ ts: Date.now(), data }));
+            } catch (e) {}
+          } catch (e) {
+            console.error('Historical fetch failed', e);
+          }
+        })();
+      }, []);
+
+      return hist;
+    }
+
+    function useHashrateHistory() {
+      const [data, setData] = useState(null);
+
+      useEffect(() => {
+        const CACHEKEY = 'hr_hist_v2', CACHETTL = 6 * 60 * 60 * 1000;
+
+        try {
+          const raw = localStorage.getItem(CACHEKEY);
+          if (raw) {
+            const c = JSON.parse(raw);
+            if (Date.now() - c.ts < CACHETTL) { setData(c.data); return; }
+          }
+        } catch (e) {}
+
+        (async () => {
+          try {
+            // Fetch 3y of daily hashrate from mempool.space (enough for all period views + SMA60 warmup)
+            const res = await fetch('https://mempool.space/api/v1/mining/hashrate/3y');
+            if (!res.ok) return;
+            const j = await res.json();
+            if (!j.hashrates?.length) return;
+
+            // Convert to daily EH/s array with timestamps
+            const daily = j.hashrates.map(h => ({
+              ts: h.timestamp * 1000,
+              hr: h.avgHashrate / 1e18
+            }));
+
+            // Compute SMA30 and SMA60
+            const result = [];
+            for (let i = 0; i < daily.length; i++) {
+              const entry = { ts: daily[i].ts, hr: daily[i].hr, sma30: null, sma60: null };
+              if (i >= 29) {
+                let sum = 0;
+                for (let k = i - 29; k <= i; k++) sum += daily[k].hr;
+                entry.sma30 = sum / 30;
+              }
+              if (i >= 59) {
+                let sum = 0;
+                for (let k = i - 59; k <= i; k++) sum += daily[k].hr;
+                entry.sma60 = sum / 60;
+              }
+              result.push(entry);
+            }
+
+            // Find cross points (SMA30 crosses below/above SMA60)
+            const crosses = [];
+            for (let i = 1; i < result.length; i++) {
+              if (result[i].sma30 == null || result[i].sma60 == null) continue;
+              if (result[i - 1].sma30 == null || result[i - 1].sma60 == null) continue;
+              const prevBelow = result[i - 1].sma30 < result[i - 1].sma60;
+              const nowBelow = result[i].sma30 < result[i].sma60;
+              if (prevBelow !== nowBelow) {
+                crosses.push({ ts: result[i].ts, type: nowBelow ? 'down' : 'up', hr: result[i].hr });
+              }
+            }
+
+            // Current capitulation status from real data
+            const last = result[result.length - 1];
+            const capitulation = last.sma30 != null && last.sma60 != null && last.sma30 < last.sma60;
+
+            const out = { daily: result, crosses, capitulation, sma30: last.sma30, sma60: last.sma60 };
+            setData(out);
+            try {
+              localStorage.setItem(CACHEKEY, JSON.stringify({ ts: Date.now(), data: out }));
+            } catch (e) {}
+          } catch (e) {
+            console.error('Hashrate history fetch failed', e);
+          }
+        })();
+      }, []);
+
+      return data;
+    }
+
+    // ========== CALCULATIONS ==========
+    const daysBetween = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
+
+    function useCalc(data) {
+      return useMemo(() => {
+        const now = new Date(), p = data.price;
+        const dATH = daysBetween(ATHDATE, now), dHalv = daysBetween(HALVING, now);
+        const drop = ((ATH - p) / ATH) * 100;
+        const rp = data.realizedPrice || RP;
+        const sthRp = data.sthRealizedPrice || STHRP;
+        const lthRp = data.lthRealizedPrice || LTHRP;
+        const mvrv = data.mvrvratio || (p / rp);
+        const mvrvz = data.mvrvz || ((p - rp) / (p * 0.4));
+        const margin = ((p - MC) / MC) * 100;
+        const bearProg = Math.min(100, (dATH / 383) * 100);
+        const dBot = Math.max(0, daysBetween(now, new Date(new Date(ATHDATE).getTime() + 383 * 86400000)));
+        const dNH = daysBetween(now, new Date('2028-04-15'));
+        const cycleDay = dHalv;
+        const sma200 = data.sma200 || W200 * 1.2;
+        const mayer = p / sma200;
+        const puell = data.puellMultiple || 0.79;
+        const supplyProfit = data.supplyProfitPct || Math.min(100, Math.max(20, ((p - 20000) / (ATH - 20000)) * 100));
+
+        // Composite scores
+        const smvrv = mvrv < 0.8 ? 5 : mvrv < 1.0 ? 15 : mvrv < 1.5 ? 35 : mvrv < 2.5 ? 55 : mvrv < 3.5 ? 80 : 95;
+        const snupl = data.nupl < -0.1 ? 5 : data.nupl < 0.1 ? 15 : data.nupl < 0.4 ? 40 : data.nupl < 0.6 ? 65 : data.nupl < 0.75 ? 85 : 95;
+        const ssopr = data.sopr < 0.9 ? 5 : data.sopr < 0.97 ? 15 : data.sopr < 1.0 ? 30 : data.sopr < 1.05 ? 50 : 75;
+        const ssupply = supplyProfit < 45 ? 5 : supplyProfit < 55 ? 15 : supplyProfit < 70 ? 35 : supplyProfit < 85 ? 60 : supplyProfit < 95 ? 85 : 95;
+        const onChain = Math.round((smvrv + snupl + ssopr + ssupply) / 4);
+
+        const smayer = mayer < 0.6 ? 5 : mayer < 0.8 ? 15 : mayer < 1.0 ? 30 : mayer < 1.5 ? 50 : mayer < 2.4 ? 75 : 95;
+        const sfg = data.fearGreed < 10 ? 5 : data.fearGreed < 25 ? 15 : data.fearGreed < 45 ? 35 : data.fearGreed < 65 ? 50 : data.fearGreed < 80 ? 70 : 90;
+        const sdrop = drop > 70 ? 5 : drop > 50 ? 15 : drop > 30 ? 35 : drop > 15 ? 55 : drop > 5 ? 75 : 90;
+        const ssth = p < sthRp * 0.85 ? 5 : p < sthRp ? 20 : p < sthRp * 1.2 ? 45 : 70;
+        const mktStruct = Math.round((smayer + sfg + sdrop + ssth) / 4);
+
+        const smargin = margin < -10 ? 5 : margin < 0 ? 12 : margin < 15 ? 30 : margin < 40 ? 50 : margin < 80 ? 70 : 90;
+        const spuell = puell < 0.5 ? 5 : puell < 0.7 ? 20 : puell < 1.0 ? 40 : puell < 2.0 ? 60 : puell < 4.0 ? 80 : 95;
+        const miners = Math.round((smargin + spuell) / 2);
+
+        const fr = data.fundingRateBG ?? data.fundingRate;
+        const sfunding = fr < -0.03 ? 5 : fr < -0.01 ? 15 : fr < 0.01 ? 40 : fr < 0.05 ? 60 : fr < 0.1 ? 80 : 95;
+        const oi = data.openInterestBG ?? data.openInterest;
+        const soi = oi > 80e9 ? 90 : oi > 60e9 ? 70 : oi > 40e9 ? 45 : oi > 25e9 ? 25 : 10;
+        const derivs = Math.round((sfunding + soi + sfg) / 3);
+
+        const composite = Math.round((onChain + mktStruct + miners + derivs) / 4);
+        const exhaustPct = Math.round(EXHAUST.reduce((a, e) => a + e.p, 0) / EXHAUST.length);
+
+        // Bottom scores
+        const bscores = [
+          { id: 'supply', l: 'Supply convergence', th: '50/50', cur: `${supplyProfit.toFixed(0)}/${(100 - supplyProfit).toFixed(0)}`, sc: supplyProfit < 52 ? 100 : supplyProfit < 58 ? 60 : supplyProfit < 65 ? 30 : 0, st: supplyProfit < 52 ? 'hit' : supplyProfit < 60 ? 'partial' : 'miss' },
+          { id: 'rsi', l: 'RSI extrême', th: '< 20', cur: (data.rsi || 29).toFixed(0), sc: data.rsi < 20 ? 100 : data.rsi < 30 ? 70 : data.rsi < 40 ? 30 : 0, st: data.rsi < 20 ? 'hit' : data.rsi < 30 ? 'partial' : 'miss' },
+          { id: 'sigma', l: 'Dist. 200d MA', th: '-2σ', cur: sma200 ? ((p / sma200 - 1) * 10).toFixed(1) : '-2.88', sc: p / sma200 < 0.8 ? 100 : p / sma200 < 0.9 ? 60 : p / sma200 < 1 ? 30 : 0, st: p / sma200 < 0.8 ? 'hit' : p / sma200 < 1 ? 'partial' : 'miss' },
+          { id: 'funding', l: 'Funding négatif', th: '> 2 sem.', cur: fr < -0.01 ? 'Négatif' : 'Compressé', sc: fr < -0.02 ? 80 : fr < 0 ? 40 : 15, st: fr < -0.02 ? 'hit' : fr < 0 ? 'partial' : 'miss' },
+          { id: 'leverage', l: 'Levier purgé', th: 'OI -40%', cur: `-${(1 - oi / 90e9) * 100}`.slice(0, 3) + '%', sc: oi < 55e9 ? 90 : oi < 70e9 ? 50 : 15, st: oi < 55e9 ? 'hit' : oi < 70e9 ? 'partial' : 'miss' },
+          { id: 'mvrv', l: 'MVRV < 1', th: '< 1.0', cur: mvrv.toFixed(2), sc: mvrv < 0.8 ? 100 : mvrv < 1.0 ? 70 : mvrv < 1.15 ? 30 : 0, st: mvrv < 1.0 ? 'hit' : mvrv < 1.15 ? 'partial' : 'miss' },
+          { id: 'rpbr', l: 'Prix sous RP', th: `< ${(rp / 1000).toFixed(0)}K`, cur: `${(p / 1000).toFixed(1)}K`, sc: p < rp ? 100 : (p - rp) / rp < 0.1 ? 30 : 0, st: p < rp ? 'hit' : (p - rp) / rp < 0.1 ? 'partial' : 'miss' }
+        ];
+
+        const totalScore = Math.round(bscores.reduce((a, s) => a + s.sc, 0) / bscores.length);
+
+        // Monte Carlo
+        const mc = generateMonteCarlo(p, 365, 200);
+
+        // Dynamic On-Chain levels (live data with hardcoded fallback)
+        const ma111 = data.sma200 ? Math.round(data.sma200 * 0.555 * 2) : MA111; // approximation if no dedicated source
+        const ma2y = data.sma200 ? Math.round(sma200 * 0.74) : MA2Y;
+        const w200 = data.sma200 || W200;
+        const liveLevels = [
+          { k: 'ma111', l: '111-Day MA', v: ma111, c: DS.down },
+          { k: 'ma2y', l: '2-Year MA', v: ma2y, c: DS.warn },
+          { k: 'sthrp', l: 'STH Realized Price', v: sthRp, c: DS.accent },
+          { k: 'w200', l: '200-Week MA', v: w200, c: '#60a5fa' },
+          { k: 'rp', l: 'Realized Price', v: rp, c: '#a78bfa' },
+          { k: 'cvdd', l: 'CVDD', v: CVDD, c: '#f472b6' },
+          { k: 'lthrp', l: 'LTH Realized Price', v: lthRp, c: DS.up }
+        ];
+
+        return {
+          dATH, dHalv, drop, mvrv, mvrvz, margin, bearProg, dBot, dNH, cycleDay,
+          mayer, puell, supplyProfit, composite, onChain, mktStruct, miners, derivs,
+          exhaustPct, bscores, totalScore, mc, rp, sthRp, lthRp, sma200, liveLevels
+        };
+      }, [data]);
+    }
+
+    function generateMonteCarlo(startPrice, days, nSims) {
+      const mu = -0.3 / 365, sigma = 0.65 / Math.sqrt(365);
+      const paths = [];
+      const percentiles = { p5: [], p25: [], p50: [], p75: [], p95: [] };
+
+      for (let s = 0; s < nSims; s++) {
+        const path = [startPrice];
+        for (let d = 1; d <= days; d++) {
+          const z = boxMullerRandom();
+          path.push(path[d - 1] * Math.exp(mu - sigma * sigma / 2 + sigma * z));
+        }
+        paths.push(path);
+      }
+
+      for (let d = 0; d <= days; d += 7) {
+        const vals = paths.map(p => p[d]).sort((a, b) => a - b);
+        percentiles.p5.push(vals[Math.floor(nSims * 0.05)]);
+        percentiles.p25.push(vals[Math.floor(nSims * 0.25)]);
+        percentiles.p50.push(vals[Math.floor(nSims * 0.50)]);
+        percentiles.p75.push(vals[Math.floor(nSims * 0.75)]);
+        percentiles.p95.push(vals[Math.floor(nSims * 0.95)]);
+      }
+
+      return percentiles;
+    }
+
+    function boxMullerRandom() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    // ========== UTILITIES ==========
+    const fP = (v) => Math.round(v).toLocaleString('en-US');
+    const fK = (v) => (v / 1000).toFixed(1) + 'K';
+    const fB = (v) => v >= 1e12 ? (v / 1e12).toFixed(2) + 'T' : (v / 1e9).toFixed(1) + 'B';
+    const fPct = (v) => (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+
+    function useScreen() {
+      const [w, setW] = useState(typeof window !== 'undefined' ? window.innerWidth : 960);
+      useEffect(() => {
+        const h = () => setW(window.innerWidth);
+        window.addEventListener('resize', h);
+        return () => window.removeEventListener('resize', h);
+      }, []);
+      return { w, mob: w < 640, tab: w >= 640 && w < 1024 };
+    }
+
+    // ========== RAINBOW INFO ==========
+    const RAINBOW = ['#2563eb', '#3b82f6', '#06b6d4', '#10b981', '#eab308', '#f97316', '#ef4444', '#dc2626', '#991b1b'];
+    const rainbowAt = (v) => RAINBOW[Math.min(8, Math.max(0, Math.floor(v / 12.5)))];
+
+    const INFO = {
+      mvrv: 'MVRV compare le prix actuel au prix moyen d\'achat de tous les BTC (Realized Price). <1 = marché sous-évalué, signal d\'accumulation historique.',
+      fg: 'Indice de sentiment du marché 0-100. Extreme Fear (<20) = panique, bon moment pour acheter. Extreme Greed (>80) = euphorie, prudence.',
+      mining: 'Marge des mineurs = écart entre le prix BTC et le coût moyen de minage.',
+      funding: 'Taux de financement des positions futures. Négatif = les shorts paient les longs (signal contrarian haussier).',
+      nupl: 'Net Unrealized Profit/Loss. <0 = le réseau est globalement en perte. Zone de capitulation.',
+      supply: 'Pourcentage du supply BTC en profit. ~50% = équilibre historique des bottoms. >95% = top.',
+      asopr: 'Adjusted Spent Output Profit Ratio. <1 = les BTC vendus le sont à perte en moyenne.',
+      puell: 'Revenu quotidien des mineurs vs moyenne 365j. <0.5 = zone d\'achat. >4 = top.',
+      rsi: 'Relative Strength Index sur 14 jours. <30 = survendu. >70 = suracheté.',
+      rhodl: 'Ratio entre les coins récents et anciens. <2 = accumulation. >50 = distribution.',
+      hash: 'Croisement des MAs du hashrate. SMA30 < SMA60 = "Down" = capitulation mineurs (signal d\'achat).',
+      sth: 'Prix moyen d\'achat des holders récents (<155j). Prix sous STH RP = capitulation.',
+      composite: 'Score agrégé combinant On-Chain (25%), Structure marché (25%), Miners (25%) et Dérivés (25%).',
+      picycle: 'Le Pi Cycle Top compare le 111 DMA au 350 DMA×2. Croisement = signal de top historique.',
+      rainbow: 'Régression log du prix BTC depuis 2009. 9 bandes indiquent les zones de sous/survaluation.',
+      etf: 'BTC total dans les ETF Spot US + flux net quotidien. Inflows = bullish. Outflows (-) = bearish.',
+      backtest: 'Simulation : acheter 10K$ quand le score tombe sous le seuil bas, vendre quand il dépasse le seuil haut.'
+    };
+
+    // ========== COMPONENTS ==========
+
+    // Info Tip
+    function InfoTip({ text, mob }) {
+      const [open, setOpen] = useState(false);
+      const ref = useRef(null);
+
+      useEffect(() => {
+        if (!open) return;
+        const close = (e) => {
+          if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+        };
+        document.addEventListener('click', close);
+        return () => document.removeEventListener('click', close);
+      }, [open]);
+
+      return React.createElement('span', { ref, className: 'info-tip', onClick: (e) => { e.stopPropagation(); setOpen(!open); } },
+        React.createElement('span', { className: 'info-tip-icon' }, '?'),
+        open && React.createElement('div', { className: 'info-tip-content' }, text)
+      );
+    }
+
+    // Composite Gauge
+    function CompositeGauge({ value, mob }) {
+      const sz = mob ? 180 : 220;
+      const ref = useRef(null);
+
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv) return;
+        const ctx = cv.getContext('2d');
+        const w = sz, h = sz * 0.58;
+        cv.width = w * 2;
+        cv.height = h * 2;
+        ctx.scale(2, 2);
+        const cx = w / 2, cy = h - 6, r = sz * 0.38, lw = mob ? 16 : 20;
+
+        ctx.lineWidth = lw;
+        ctx.lineCap = 'round';
+
+        // Background arc
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, Math.PI, 2 * Math.PI);
+        ctx.strokeStyle = '#E4E7EC';
+        ctx.stroke();
+
+        // Active arc with gradient
+        const activeEnd = Math.PI + (value / 100) * Math.PI;
+        for (let i = 0; i < 120; i++) {
+          const t = i / 120;
+          const sa = Math.PI + t * Math.PI;
+          const ea = Math.PI + ((i + 1) / 120) * Math.PI;
+          if (sa > activeEnd) break;
+          const end = Math.min(ea, activeEnd);
+          const hue = 210 - t * 210;
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, sa, end + 0.02);
+          ctx.strokeStyle = `hsl(${hue}, 80%, 55%)`;
+          ctx.stroke();
+        }
+
+        // Needle
+        const na = Math.PI + (value / 100) * Math.PI;
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = 0.4;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(na) * (r - lw - 8), cy + Math.sin(na) * (r - lw - 8));
+        ctx.strokeStyle = DS.text;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+
+        // Center dot
+        ctx.beginPath();
+        ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+        ctx.fillStyle = DS.text;
+        ctx.globalAlpha = 0.8;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+
+        // Tick marks
+        ctx.globalAlpha = 0.12;
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 10; i++) {
+          const a = Math.PI + (i / 10) * Math.PI;
+          const len = i % 5 === 0 ? 8 : 4;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(a) * (r + lw / 2 + 2), cy + Math.sin(a) * (r + lw / 2 + 2));
+          ctx.lineTo(cx + Math.cos(a) * (r + lw / 2 + 2 + len), cy + Math.sin(a) * (r + lw / 2 + 2 + len));
+          ctx.strokeStyle = DS.text;
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }, [value, sz, mob]);
+
+      const zoneLabel = value < 15 ? 'CAPITULATION' : value < 30 ? 'FEAR EXTRÊME' : value < 45 ? 'BEAR' : value < 55 ? 'NEUTRE' : value < 70 ? 'OPTIMISME' : value < 85 ? 'EUPHORIE' : 'BULLE';
+      const hue = 210 - (value / 100) * 210;
+      const col = `hsl(${hue}, 80%, 50%)`;
+
+      return React.createElement('div', { className: 'gauge-container' },
+        React.createElement('div', { className: 'gauge-label' }, 'COMPOSITE SCORE'),
+        React.createElement('canvas', { ref, style: { width: sz, height: sz * 0.58 } }),
+        React.createElement('div', { className: 'gauge-value', style: { color: col } }, value),
+        React.createElement('div', { className: 'gauge-zone', style: { color: col } }, zoneLabel)
+      );
+    }
+
+    // Mini Gauge
+    function MiniGauge({ value, label, icon, mob }) {
+      const col = rainbowAt(value);
+      return React.createElement('div', { className: 'mini-gauge' },
+        React.createElement('div', { className: 'mini-gauge-label' }, icon, ' ', label),
+        React.createElement('div', { className: 'mini-gauge-value', style: { color: col } }, value)
+      );
+    }
+
+    // Fetching Badge Component
+    function FakeBadge() {
+      return React.createElement('span', { className: 'fake-badge', title: 'Donn\u00e9e en cours de chargement' }, '\u23F3 Fetching');
+    }
+
+    // Signal Card
+    function SignalCard({ title, value, unit, status, detail, color, mob, info, fake }) {
+      const stClass = status === 'bullish' ? 'bullish' : status === 'bearish' ? 'bearish' : 'neutral';
+      const stLabel = status === 'bullish' ? 'BULL' : status === 'bearish' ? 'BEAR' : '—';
+
+      return React.createElement('div', { className: `signal-card${fake ? ' is-fake' : ''}` },
+        React.createElement('div', { className: 'signal-header' },
+          React.createElement('div', { className: 'signal-title' },
+            title,
+            fake && React.createElement(FakeBadge),
+            info && React.createElement(InfoTip, { text: info, mob })
+          ),
+          React.createElement('span', { className: `signal-status ${stClass}` }, stLabel)
+        ),
+        React.createElement('div', { className: 'signal-value', style: { color: color || DS.text } },
+          value,
+          unit && React.createElement('span', { style: { fontSize: 13, color: DS.text3, fontWeight: 400, marginLeft: 2 } }, unit)
+        ),
+        detail && React.createElement('div', { className: 'signal-detail' }, detail)
+      );
+    }
+
+    // Price Bands Chart
+    function PriceBandsChart({ price, mob, levels }) {
+      const W = mob ? 340 : 560, H = mob ? 150 : 180, PX = 50, PY = 14;
+      const lvls = (levels || OCLEVELS).filter(l => l.v > 20000 && l.v < 130000);
+      const mn = 25000, mx = 135000;
+      const tY = (v) => PY + ((mx - v) / (mx - mn)) * (H - PY * 2);
+
+      const pricePath = [
+        { m: 0, v: 64000 }, { m: 1, v: 58000 }, { m: 2, v: 68000 }, { m: 3, v: 95000 },
+        { m: 4, v: 108000 }, { m: 5, v: 126198 }, { m: 6, v: 110000 }, { m: 7, v: 98000 },
+        { m: 8, v: 88000 }, { m: 9, v: 78000 }, { m: 10, v: 75000 }, { m: 11, v: price }
+      ];
+      const tX = (i) => PX + (i / (pricePath.length - 1)) * (W - PX * 2);
+      const path = pricePath.map((p, i) => `${i ? 'L' : 'M'}${tX(i)},${tY(p.v)}`).join('');
+      const months = ['Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar'];
+
+      return React.createElement('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', height: mob ? 150 : 180 } },
+        React.createElement('defs', null,
+          React.createElement('linearGradient', { id: 'prGrad', x1: 0, y1: 0, x2: 0, y2: 1 },
+            React.createElement('stop', { offset: '0%', stopColor: DS.accent, stopOpacity: 0.15 }),
+            React.createElement('stop', { offset: '100%', stopColor: DS.accent, stopOpacity: 0 })
+          )
+        ),
+        lvls.map(l => React.createElement('g', { key: l.k },
+          React.createElement('line', { x1: PX, y1: tY(l.v), x2: W - PX - 30, y2: tY(l.v), stroke: l.c, strokeWidth: 0.5, strokeDasharray: '4,4', opacity: 0.35 }),
+          React.createElement('text', { x: W - PX - 28, y: tY(l.v) + 3, fill: l.c, fontSize: 8, fontFamily: DS.mono, opacity: 0.6 }, fK(l.v))
+        )),
+        React.createElement('path', { d: `${path} L${tX(11)},${H - PY} L${tX(0)},${H - PY} Z`, fill: 'url(#prGrad)' }),
+        React.createElement('path', { d: path, fill: 'none', stroke: DS.accent, strokeWidth: 2.5, opacity: 0.9 }),
+        React.createElement('circle', { cx: tX(11), cy: tY(price), r: 5, fill: DS.accent }),
+        pricePath.map((_, i) => i % 2 === 0 ? React.createElement('text', { key: i, x: tX(i), y: H - 2, fill: DS.text3, fontSize: 8, textAnchor: 'middle', fontFamily: DS.mono }, months[i]) : null),
+        [30, 50, 70, 90, 110, 130].map(v => React.createElement('text', { key: v, x: PX - 6, y: tY(v * 1000) + 3, fill: DS.text3, fontSize: 8, textAnchor: 'end', fontFamily: DS.mono }, `${v}K`))
+      );
+    }
+
+    // Cycle Overlay
+    function CycleOverlay({ cycleDay, mob }) {
+      const W = mob ? 340 : 560, H = mob ? 140 : 165, PX = 35, PY = 14;
+      const cycleData = [
+        { name: 'C1 2012', c: '#6366f180', pts: [[0, 100], [180, 300], [367, 980], [544, 127]] },
+        { name: 'C2 2016', c: '#fbbf2480', pts: [[0, 100], [200, 170], [526, 2960], [730, 470]] },
+        { name: 'C3 2020', c: '#f472b680', pts: [[0, 100], [200, 180], [546, 690], [895, 155]] },
+        { name: 'C4 Now', c: DS.accent, pts: [[0, 100], [200, 175], [535, 380]] }
+      ];
+      const maxDay = 1000, maxGain = 500;
+      const tX = (d) => PX + (d / maxDay) * (W - PX * 2);
+      const tY = (v) => PY + ((maxGain - Math.min(v, maxGain)) / maxGain) * (H - PY * 2);
+
+      return React.createElement('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', height: mob ? 140 : 165 } },
+        React.createElement('line', { x1: tX(cycleDay), y1: PY, x2: tX(cycleDay), y2: H - PY, stroke: DS.accent, strokeWidth: 1, strokeDasharray: '3,3', opacity: 0.35 }),
+        React.createElement('text', { x: tX(cycleDay), y: PY - 4, fill: DS.accent, fontSize: 8, textAnchor: 'middle', fontFamily: DS.mono, opacity: 0.7 }, `J${cycleDay}`),
+        [0, 200, 400, 600, 800, 1000].map(d => React.createElement('text', { key: d, x: tX(d), y: H - 2, fill: DS.text3, fontSize: 7, textAnchor: 'middle', fontFamily: DS.mono }, `J${d}`)),
+        [100, 200, 300, 400, 500].map(v => React.createElement('g', { key: v },
+          React.createElement('line', { x1: PX, y1: tY(v), x2: W - PX, y2: tY(v), stroke: DS.border, strokeWidth: 0.5 }),
+          React.createElement('text', { x: PX - 4, y: tY(v) + 3, fill: DS.text3, fontSize: 7, textAnchor: 'end', fontFamily: DS.mono }, `${v}%`)
+        )),
+        cycleData.map((c, ci) => {
+          const d = c.pts.map((pt, i) => `${i ? 'L' : 'M'}${tX(pt[0])},${tY(pt[1])}`).join('');
+          return React.createElement('path', { key: ci, d, fill: 'none', stroke: c.c, strokeWidth: ci === 3 ? 2.5 : 1.5, strokeLinecap: 'round' });
+        }),
+        cycleData.map((c, i) => React.createElement('g', { key: `l${i}` },
+          React.createElement('rect', { x: W - PX - 60, y: PY + i * 14, width: 10, height: 2, rx: 1, fill: c.c }),
+          React.createElement('text', { x: W - PX - 46, y: PY + i * 14 + 3, fill: DS.text2, fontSize: 8, fontFamily: DS.mono }, c.name)
+        ))
+      );
+    }
+
+    // Monte Carlo Chart
+    function MonteCarloChart({ mc, price, mob, rp, w200 }) {
+      if (!mc?.p50?.length) return null;
+      const W = mob ? 340 : 700, H = mob ? 200 : 320, PX = 50, PY = 20;
+      const n = mc.p50.length;
+      const allVals = [...mc.p5, ...mc.p95];
+      const mn = Math.min(...allVals) * 0.9, mx = Math.max(...allVals) * 1.05;
+      const tX = (i) => PX + (i / (n - 1)) * (W - PX * 2);
+      const tY = (v) => PY + ((mx - v) / (mx - mn)) * (H - PY * 2);
+
+      const band = (upper, lower, color, opacity) => {
+        const top = upper.map((v, i) => `${i ? 'L' : 'M'}${tX(i)},${tY(v)}`).join('');
+        const bot = [...lower].reverse().map((v, i) => `L${tX(lower.length - 1 - i)},${tY(v)}`).join('');
+        return React.createElement('path', { d: `${top}${bot}Z`, fill: color, opacity });
+      };
+
+      const line = (vals, color, w, dash) => {
+        const d = vals.map((v, i) => `${i ? 'L' : 'M'}${tX(i)},${tY(v)}`).join('');
+        return React.createElement('path', { d, fill: 'none', stroke: color, strokeWidth: w, strokeDasharray: dash || 'none', opacity: 0.7 });
+      };
+
+      const labels = [
+        { v: rp || RP, l: 'RP', c: DS.purple },
+        { v: CVDD, l: 'CVDD', c: DS.pink },
+        { v: w200 || W200, l: '200W', c: DS.blue }
+      ].filter(l => l.v > mn && l.v < mx);
+
+      // Y-axis price ticks
+      const yTicks = [];
+      const step = (mx - mn) / 5;
+      for (let i = 0; i <= 5; i++) {
+        const v = mn + step * i;
+        yTicks.push(v);
+      }
+
+      return React.createElement('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', height: mob ? 200 : 320 } },
+        // Grid lines
+        yTicks.map((v, i) => React.createElement('line', { key: 'g'+i, x1: PX, y1: tY(v), x2: W - PX, y2: tY(v), stroke: DS.borderLight, strokeWidth: 0.5 })),
+        // Y-axis labels
+        yTicks.map((v, i) => React.createElement('text', { key: 'yl'+i, x: PX - 5, y: tY(v) + 3, fill: DS.text3, fontSize: mob ? 8 : 9, textAnchor: 'end', fontFamily: DS.mono }, '$' + Math.round(v/1000) + 'K')),
+        // Bands
+        band(mc.p95, mc.p5, DS.accent, 0.06),
+        band(mc.p75, mc.p25, DS.accent, 0.1),
+        line(mc.p50, DS.accent, 2.5),
+        line(mc.p5, DS.down, 1.5, '4,4'),
+        line(mc.p95, DS.up, 1.5, '4,4'),
+        // Percentile labels on right side with values
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p95[mc.p95.length-1]) - 4, fill: DS.up, fontSize: mob ? 7 : 8, fontFamily: DS.mono, fontWeight: 600 }, 'P95'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p95[mc.p95.length-1]) + 7, fill: DS.up, fontSize: mob ? 7 : 9, fontFamily: DS.mono, opacity: 0.8 }, '$' + Math.round(mc.p95[mc.p95.length-1]/1000) + 'K'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p75[mc.p75.length-1]) - 4, fill: DS.accent, fontSize: mob ? 7 : 8, fontFamily: DS.mono, opacity: 0.7 }, 'P75'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p75[mc.p75.length-1]) + 7, fill: DS.accent, fontSize: mob ? 7 : 9, fontFamily: DS.mono, opacity: 0.7 }, '$' + Math.round(mc.p75[mc.p75.length-1]/1000) + 'K'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p50[mc.p50.length-1]) - 4, fill: DS.accent, fontSize: mob ? 7 : 8, fontFamily: DS.mono, fontWeight: 600 }, 'P50'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p50[mc.p50.length-1]) + 7, fill: DS.accent, fontSize: mob ? 7 : 9, fontFamily: DS.mono, fontWeight: 600 }, '$' + Math.round(mc.p50[mc.p50.length-1]/1000) + 'K'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p25[mc.p25.length-1]) - 4, fill: DS.accent, fontSize: mob ? 7 : 8, fontFamily: DS.mono, opacity: 0.7 }, 'P25'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p25[mc.p25.length-1]) + 7, fill: DS.accent, fontSize: mob ? 7 : 9, fontFamily: DS.mono, opacity: 0.7 }, '$' + Math.round(mc.p25[mc.p25.length-1]/1000) + 'K'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p5[mc.p5.length-1]) - 4, fill: DS.down, fontSize: mob ? 7 : 8, fontFamily: DS.mono, fontWeight: 600 }, 'P5'),
+        React.createElement('text', { x: W - PX + 4, y: tY(mc.p5[mc.p5.length-1]) + 7, fill: DS.down, fontSize: mob ? 7 : 9, fontFamily: DS.mono, opacity: 0.8 }, '$' + Math.round(mc.p5[mc.p5.length-1]/1000) + 'K'),
+        // Support levels
+        labels.map(l => React.createElement('g', { key: l.l },
+          React.createElement('line', { x1: PX, y1: tY(l.v), x2: W - PX, y2: tY(l.v), stroke: l.c, strokeWidth: 0.7, strokeDasharray: '5,4', opacity: 0.4 }),
+          React.createElement('text', { x: PX - 3, y: tY(l.v) + 3, fill: l.c, fontSize: mob ? 8 : 9, textAnchor: 'end', fontFamily: DS.mono, opacity: 0.7 }, l.l)
+        )),
+        // Current price dot
+        React.createElement('circle', { cx: tX(0), cy: tY(price), r: 5, fill: DS.accent, opacity: 0.9 }),
+        React.createElement('text', { x: tX(0) + 8, y: tY(price) + 3, fill: DS.accent, fontSize: mob ? 8 : 9, fontFamily: DS.mono, fontWeight: 600 }, '$' + Math.round(price/1000) + 'K'),
+        // X-axis time labels
+        [0, 13, 26, 39, 52].map(w => React.createElement('text', { key: w, x: tX(w), y: H - 3, fill: DS.text3, fontSize: mob ? 8 : 10, textAnchor: 'middle', fontFamily: DS.mono }, w === 0 ? 'Now' : `${w}w`))
+      );
+    }
+
+    // Bottom Score Card
+    function BottomScoreCard({ scores, total, mob }) {
+      const totalColor = total > 60 ? DS.up : total > 40 ? DS.warn : DS.text3;
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 } },
+          React.createElement('div', { style: { fontSize: mob ? 36 : 44, fontWeight: 800, fontFamily: DS.mono, color: totalColor } }, total),
+          React.createElement('div', null,
+            React.createElement('div', { style: { fontSize: 10, color: DS.text3, letterSpacing: 2 } }, 'BOTTOM SCORE'),
+            React.createElement('div', { style: { fontSize: 12, color: DS.text2 } }, total > 60 ? 'Zone d\'accumulation' : total > 40 ? 'Getting close' : 'Pas encore')
+          )
+        ),
+        scores.map((s, i) => React.createElement('div', { key: i, style: { display: 'grid', gridTemplateColumns: mob ? '1fr 50px 28px' : '1fr 60px 32px', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: `1px solid ${DS.borderLight}` } },
+          React.createElement('div', null,
+            React.createElement('div', { style: { fontSize: 11, color: DS.text2, fontWeight: 500 } }, s.l),
+            React.createElement('div', { style: { fontSize: 10, fontFamily: DS.mono, color: DS.text3 } }, `${s.th} → ${s.cur}`)
+          ),
+          React.createElement('div', { style: { height: 4, borderRadius: 2, background: DS.borderLight, overflow: 'hidden' } },
+            React.createElement('div', { style: { height: '100%', width: `${s.sc}%`, borderRadius: 2, background: s.st === 'hit' ? DS.up : s.st === 'partial' ? DS.warn : DS.down, opacity: 0.7 } })
+          ),
+          React.createElement('div', { style: { fontSize: 10, fontFamily: DS.mono, fontWeight: 600, textAlign: 'right', color: s.st === 'hit' ? DS.up : s.st === 'partial' ? DS.warn : DS.text3 } }, s.st === 'hit' ? '✓' : s.st === 'partial' ? '◐' : '○')
+        ))
+      );
+    }
+
+    // Exhaustion Panel
+    function ExhaustionPanel({ pct, mob }) {
+      return React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 20 } },
+        React.createElement('div', null,
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 } },
+            React.createElement('div', { style: { fontSize: mob ? 36 : 44, fontWeight: 800, fontFamily: DS.mono, color: DS.warn } }, `${pct}%`),
+            React.createElement('div', { style: { fontSize: 11, color: DS.text3, lineHeight: 1.4 } }, 'Exhaustion globale')
+          ),
+          EXHAUST.map((e, i) => React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: `1px solid ${DS.borderLight}` } },
+            React.createElement('div', { style: { fontSize: 18, width: 28, textAlign: 'center' } }, e.icon),
+            React.createElement('div', { style: { flex: 1 } },
+              React.createElement('div', { style: { fontSize: 12, fontWeight: 600, color: DS.text } }, e.l),
+              React.createElement('div', { style: { fontSize: 10, color: DS.text3, marginTop: 2 } }, e.d)
+            ),
+            React.createElement('div', { style: { width: 50, textAlign: 'right' } },
+              React.createElement('div', { style: { fontSize: 14, fontWeight: 700, fontFamily: DS.mono, color: e.p > 70 ? DS.up : e.p > 30 ? DS.warn : DS.text3 } }, `${e.p}%`)
+            )
+          ))
+        ),
+        React.createElement('div', null,
+          React.createElement('div', { style: { fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 12 } }, 'SCÉNARIOS BOTTOM'),
+          SCENARIOS.map((s, i) => React.createElement('div', { key: i, style: { background: s.hl ? `${s.c}08` : DS.surface2, border: `1px solid ${s.hl ? `${s.c}30` : DS.borderLight}`, borderRadius: 10, padding: '12px 14px', marginBottom: 8 } },
+            React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+              React.createElement('div', null,
+                React.createElement('div', { style: { fontSize: 13, fontWeight: s.hl ? 700 : 500, color: s.hl ? DS.text : DS.text2 } }, s.l),
+                React.createElement('div', { style: { fontSize: 10, color: DS.text3, marginTop: 2 } }, `${s.z} → ${s.r[0]}K-${s.r[1]}K`)
+              ),
+              React.createElement('div', { style: { fontSize: 20, fontWeight: 800, fontFamily: DS.mono, color: s.c } }, `${s.p}%`)
+            ),
+            React.createElement('div', { style: { height: 3, borderRadius: 2, background: DS.borderLight, marginTop: 8, overflow: 'hidden' } },
+              React.createElement('div', { style: { height: '100%', width: `${s.p}%`, borderRadius: 2, background: s.c, opacity: 0.5 } })
+            )
+          ))
+        )
+      );
+    }
+
+    // Cycle Position
+    function CyclePosition({ mob }) {
+      const rows = [
+        { m: 'Formation', o: 'V-bottom ponctuel', n: 'U-bottom (mois)' },
+        { m: 'Trigger', o: 'Purge totale vendeurs', n: 'Couche par couche + squeeze' },
+        { m: 'Signal clé', o: 'MVRV wick <0.55', n: 'Supply 50/50 + reserves floor' },
+        { m: 'Mécanisme', o: 'Achat spot organique', n: 'Short squeeze + illiquidité' },
+        { m: 'Durée', o: 'Semaines', n: 'Mois (explosif)' }
+      ];
+
+      return React.createElement('div', null,
+        React.createElement('div', { style: { fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 10 } }, 'ANCIEN vs NOUVEAU RÉGIME'),
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '70px 1fr 1fr' : '100px 1fr 1fr', gap: 0, fontSize: 12, background: DS.surface, border: `1px solid ${DS.borderLight}`, borderRadius: 10, overflow: 'hidden' } },
+          React.createElement('div', { style: { padding: 10, borderBottom: `1px solid ${DS.borderLight}`, background: DS.surface2 } }),
+          React.createElement('div', { style: { padding: 10, borderBottom: `1px solid ${DS.borderLight}`, fontSize: 9, letterSpacing: 2, color: DS.text3, fontWeight: 600, background: DS.surface2 } }, 'ANCIEN'),
+          React.createElement('div', { style: { padding: 10, borderBottom: `1px solid ${DS.borderLight}`, fontSize: 9, letterSpacing: 2, color: DS.accent, fontWeight: 600, background: DS.surface2 } }, 'NOUVEAU'),
+          ...rows.flatMap((r, i) => [
+            React.createElement('div', { key: `${i}m`, style: { padding: 10, borderBottom: `1px solid ${DS.borderLight}`, color: DS.text2, fontWeight: 600, fontSize: 11 } }, r.m),
+            React.createElement('div', { key: `${i}o`, style: { padding: 10, borderBottom: `1px solid ${DS.borderLight}`, color: DS.text3, fontSize: 11 } }, r.o),
+            React.createElement('div', { key: `${i}n`, style: { padding: 10, borderBottom: `1px solid ${DS.borderLight}`, color: DS.text2, fontSize: 11 } }, r.n)
+          ])
+        ),
+        React.createElement('div', { style: { marginTop: 24, fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 10 } }, 'CONVERGENCE TIMING'),
+        ...TIMING.map((t, i) => React.createElement('div', { key: i, style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: `1px solid ${DS.borderLight}` } },
+          React.createElement('div', { style: { fontSize: 12, color: DS.text2, fontWeight: 500 } }, t.m),
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10 } },
+            !mob && React.createElement('span', { style: { fontSize: 10, fontFamily: DS.mono, color: DS.text3 } }, t.calc),
+            React.createElement('span', { style: { fontSize: 14, fontWeight: 700, color: DS.accent, fontFamily: DS.mono } }, t.result)
+          )
+        )),
+        React.createElement('div', { style: { background: `${DS.accent}08`, border: `1px solid ${DS.accent}20`, borderRadius: 10, padding: '14px 16px', marginTop: 14, textAlign: 'center' } },
+          React.createElement('div', null,
+            React.createElement('div', { style: { fontSize: 9, letterSpacing: 3, color: DS.accent, opacity: 0.8, fontWeight: 600 } }, 'CONSENSUS'),
+            React.createElement('div', { style: { fontSize: mob ? 18 : 24, fontWeight: 800, color: DS.accent, fontFamily: DS.mono, marginTop: 4 } }, 'SEP — NOV 2026')
+          )
+        )
+      );
+    }
+
+    // On-Chain Depth
+    function OnChainDepth({ price, mob, levels }) {
+      return React.createElement('div', null,
+        (levels || OCLEVELS).map((l, i) => {
+          const dist = ((price - l.v) / price) * 100;
+          const below = price < l.v;
+          const pct = Math.min(100, Math.max(0, (l.v / ATH) * 100));
+          const pricePct = Math.min(100, Math.max(0, (price / ATH) * 100));
+          
+          return React.createElement('div', { key: l.k, style: { display: 'grid', gridTemplateColumns: mob ? '80px 1fr 60px' : '120px 1fr 80px', alignItems: 'center', gap: 10, marginBottom: 6, opacity: below ? 0.5 : 1 } },
+            React.createElement('div', { style: { textAlign: 'right' } },
+              React.createElement('div', { style: { fontSize: 11, fontWeight: 600, color: l.c } }, l.l)
+            ),
+            React.createElement('div', { style: { position: 'relative', height: 6, background: DS.borderLight, borderRadius: 3, overflow: 'hidden' } },
+              React.createElement('div', { style: { position: 'absolute', left: `${pct}%`, top: 0, bottom: 0, width: 2, background: l.c, opacity: 0.6, borderRadius: 1 } }),
+              i === 0 && React.createElement('div', { style: { position: 'absolute', left: `${pricePct}%`, top: -2, bottom: -2, width: 3, background: DS.text, borderRadius: 2, zIndex: 2 } }),
+              !below && React.createElement('div', { style: { position: 'absolute', left: `${pct}%`, top: 0, bottom: 0, width: `${pricePct - pct}%`, background: `${l.c}20`, borderRadius: 2 } })
+            ),
+            React.createElement('div', { style: { fontFamily: DS.mono, fontSize: 11, textAlign: 'right' } },
+              React.createElement('span', { style: { color: l.c, fontWeight: 600 } }, fK(l.v)),
+              React.createElement('span', { style: { color: DS.text3, fontSize: 9, marginLeft: 4 } }, `${below ? '+' : '-'}${Math.abs(dist).toFixed(0)}%`)
+            )
+          );
+        }),
+        React.createElement('div', { style: { marginTop: 20 } },
+          React.createElement('div', { style: { fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 10 } }, 'CORRECTIONS HISTORIQUES'),
+          [{ l: 'C0', d: 93 }, { l: 'C1', d: 87 }, { l: 'C2', d: 84 }, { l: 'C3', d: 78 }].map((x, i) => (
+            React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 } },
+              React.createElement('div', { style: { width: 50, fontSize: 10, color: DS.text3, fontFamily: DS.mono, textAlign: 'right' } }, x.l),
+              React.createElement('div', { style: { flex: 1, height: 5, background: DS.borderLight, borderRadius: 3, overflow: 'hidden' } },
+                React.createElement('div', { style: { height: '100%', width: `${x.d}%`, background: `${DS.down}40`, borderRadius: 3 } })
+              ),
+              React.createElement('div', { style: { width: 35, fontSize: 11, fontWeight: 600, color: DS.down, fontFamily: DS.mono, textAlign: 'right', opacity: 0.7 } }, `-${x.d}%`)
+            )
+          )),
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 8, marginTop: 6, paddingTop: 6, borderTop: `1px dashed ${DS.borderLight}` } },
+            React.createElement('div', { style: { width: 50, fontSize: 10, color: DS.warn, fontFamily: DS.mono, textAlign: 'right' } }, 'C4 proj.'),
+            React.createElement('div', { style: { flex: 1, height: 5, background: DS.borderLight, borderRadius: 3, overflow: 'hidden' } },
+              React.createElement('div', { style: { height: '100%', width: '60%', background: `${DS.warn}50`, borderRadius: 3 } })
+            ),
+            React.createElement('div', { style: { width: 35, fontSize: 11, fontWeight: 600, color: DS.warn, fontFamily: DS.mono, textAlign: 'right' } }, '-60%')
+          )
+        )
+      );
+    }
+
+    // Rainbow Chart
+    function RainbowChart({ hist, currentPrice, mob }) {
+      const ref = useRef(null);
+      const GENESIS = new Date('2009-01-09').getTime();
+      const A = 2.66167155005961, B = -17.9183761889864;
+      const BAND_LABELS = ['\uD83D\uDD34 Maximum Bubble', '\uD83D\uDFE0 SELL!', '\uD83D\uDFE7 FOMO', '\uD83D\uDFE1 Bulle?', '\uD83D\uDFE2 HODL!', '\uD83D\uDC9A Encore cheap', '\uD83D\uDD35 Accumulate', '\uD83D\uDC99 BUY!', '\uD83D\uDD37 Fire Sale'];
+      const BAND_COLORS = ['#991b1b', '#dc2626', '#f97316', '#eab308', '#84cc16', '#22c55e', '#06b6d4', '#3b82f6', '#1d4ed8'];
+
+      const rainbow = useCallback(days => {
+        if (days <= 0) return null;
+        const base = Math.pow(10, A * Math.log(days) + B);
+        return [5.5, 3.5, 2.2, 1.5, 1.0, 0.7, 0.47, 0.32, 0.21].map(m => base * m);
+      }, []);
+
+      const data = useMemo(() => {
+        if (!hist?.prices) return null;
+        const cutoff = Date.now() - 6 * 365 * 86400000;
+        return hist.prices.filter(p => p.ts >= cutoff);
+      }, [hist]);
+
+      const currentBand = useMemo(() => {
+        if (!currentPrice) return null;
+        const days = (Date.now() - GENESIS) / 86400000;
+        const bands = rainbow(days);
+        if (!bands) return null;
+        for (let i = 0; i < bands.length; i++) {
+          if (currentPrice >= bands[i]) return { index: i, label: BAND_LABELS[i], color: BAND_COLORS[i] };
+        }
+        return { index: 8, label: BAND_LABELS[8], color: BAND_COLORS[8] };
+      }, [currentPrice, rainbow]);
+
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv || !data?.length) return;
+        const ctx = cv.getContext('2d');
+        const W = cv.parentElement.clientWidth, H = mob ? 260 : 340;
+        cv.width = W * 2; cv.height = H * 2;
+        cv.style.width = W + 'px'; cv.style.height = H + 'px';
+        ctx.scale(2, 2);
+        const pad = { t: 20, r: 60, b: 30, l: 10 };
+        const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+        const allPrices = data.map(p => p.price);
+        const allBands = data.flatMap(p => {
+          const bands = rainbow((p.ts - GENESIS) / 86400000);
+          return bands ? [bands[0], bands[8]] : [];
+        });
+        const mnLog = Math.log10(Math.min(...allPrices, ...allBands.filter(b => b > 0)) * 0.8);
+        const mxLog = Math.log10(Math.max(...allPrices, ...allBands) * 1.2);
+        const x = i => pad.l + i / (data.length - 1) * cw;
+        const yLog = v => v > 0 ? pad.t + (1 - (Math.log10(v) - mnLog) / (mxLog - mnLog)) * ch : H;
+
+        ctx.clearRect(0, 0, W, H);
+
+        for (let b = 0; b < 8; b++) {
+          ctx.beginPath();
+          data.forEach((p, i) => {
+            const bands = rainbow((p.ts - GENESIS) / 86400000);
+            if (!bands) return;
+            if (i === 0) ctx.moveTo(x(i), yLog(bands[b]));
+            else ctx.lineTo(x(i), yLog(bands[b]));
+          });
+          for (let i2 = data.length - 1; i2 >= 0; i2--) {
+            const bands = rainbow((data[i2].ts - GENESIS) / 86400000);
+            if (!bands) continue;
+            ctx.lineTo(x(i2), yLog(bands[b + 1]));
+          }
+          ctx.closePath();
+          ctx.fillStyle = BAND_COLORS[b] + '25';
+          ctx.fill();
+        }
+
+        for (let b = 0; b < 9; b++) {
+          ctx.beginPath();
+          data.forEach((p, i) => {
+            const bands = rainbow((p.ts - GENESIS) / 86400000);
+            if (!bands) return;
+            if (i === 0) ctx.moveTo(x(i), yLog(bands[b]));
+            else ctx.lineTo(x(i), yLog(bands[b]));
+          });
+          ctx.strokeStyle = BAND_COLORS[b] + '40';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        data.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), yLog(p.price)) : ctx.lineTo(x(i), yLog(p.price)));
+        ctx.strokeStyle = DS.text;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = DS.text3;
+        ctx.font = '10px ' + DS.mono;
+        ctx.textAlign = 'right';
+        [1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000].forEach(v => {
+          if (Math.log10(v) >= mnLog && Math.log10(v) <= mxLog) {
+            const gy = yLog(v);
+            ctx.fillText(v >= 1000 ? '$' + (v / 1000).toFixed(0) + 'K' : '$' + v, W - pad.r + 45, gy + 4);
+            ctx.strokeStyle = DS.borderLight;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(W - pad.r, gy); ctx.stroke();
+          }
+        });
+
+        ctx.fillStyle = DS.text3;
+        ctx.font = '9px ' + DS.mono;
+        ctx.textAlign = 'center';
+        const step = Math.max(1, Math.floor(data.length / 6));
+        for (let i = 0; i < data.length; i += step) {
+          ctx.fillText((data[i].date.getMonth() + 1) + '/' + (data[i].date.getFullYear() % 100), x(i), H - 8);
+        }
+
+        const lastX = x(data.length - 1), lastY = yLog(data[data.length - 1].price);
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+        ctx.fillStyle = DS.text;
+        ctx.fill();
+      }, [data, mob, rainbow]);
+
+      if (!data) return React.createElement('div', { style: { textAlign: 'center', color: DS.text3, padding: 40 } }, 'Chargement Rainbow Chart...');
+
+      return React.createElement('div', null,
+        React.createElement('canvas', { ref, style: { width: '100%', height: mob ? 260 : 340 } }),
+        currentBand && React.createElement('div', {
+          style: { marginTop: 12, display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', background: DS.surface, border: `1px solid ${currentBand.color}30`, borderRadius: 10 }
+        },
+          React.createElement('div', { style: { fontSize: 28 } }, currentBand.label.slice(0, 2)),
+          React.createElement('div', null,
+            React.createElement('div', { style: { fontSize: 13, fontWeight: 600, color: currentBand.color } }, currentBand.label.slice(3)),
+            React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginTop: 2 } }, 'BTC est dans la bande ' + (currentBand.index + 1) + '/9 du Rainbow Chart')
+          )
+        ),
+        React.createElement('div', { style: { marginTop: 10, fontSize: 11, color: DS.text3, lineHeight: 1.6 } },
+          'R\u00E9gression logarithmique sur l\'historique BTC. Les bandes basses (bleu) = sous-\u00E9valu\u00E9, les bandes hautes (rouge) = bulle. \u00C9chelle logarithmique.'
+        )
+      );
+    }
+
+    // Price History Chart
+    function PriceHistoryChart({ hist, mob }) {
+      const ref = useRef(null);
+      const [period, setPeriod] = useState(365);
+      
+      const filtered = useMemo(() => {
+        if (!hist?.prices) return [];
+        const cutoff = Date.now() - period * 86400000;
+        return hist.prices.filter(p => p.ts > cutoff);
+      }, [hist, period]);
+
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv || !filtered.length) return;
+        const ctx = cv.getContext('2d');
+        const W = cv.parentElement.clientWidth;
+        const H = mob ? 220 : 300;
+        cv.width = W * 2;
+        cv.height = H * 2;
+        cv.style.width = W + 'px';
+        cv.style.height = H + 'px';
+        ctx.scale(2, 2);
+
+        const pad = { t: 20, r: 60, b: 30, l: 10 };
+        const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+
+        const prices = filtered.map(p => p.price);
+        const mn = Math.min(...prices) * 0.98, mx = Math.max(...prices) * 1.02;
+
+        const x = (i) => pad.l + (i / (filtered.length - 1)) * cw;
+        const y = (v) => pad.t + (1 - (v - mn) / (mx - mn)) * ch;
+
+        // Grid
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = DS.borderLight;
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= 5; i++) {
+          const gy = pad.t + (i / 5) * ch;
+          ctx.beginPath();
+          ctx.moveTo(pad.l, gy);
+          ctx.lineTo(W - pad.r, gy);
+          ctx.stroke();
+          const val = mx - (i / 5) * (mx - mn);
+          ctx.fillStyle = DS.text3;
+          ctx.font = '10px "IBM Plex Mono"';
+          ctx.textAlign = 'right';
+          ctx.fillText(fK(val), W - pad.r + 45, gy + 4);
+        }
+
+        // Area Gradient
+        const grad = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+        grad.addColorStop(0, `${DS.accent}20`);
+        grad.addColorStop(1, `${DS.accent}00`);
+
+        ctx.beginPath();
+        ctx.moveTo(x(0), H - pad.b);
+        filtered.forEach((p, i) => ctx.lineTo(x(i), y(p.price)));
+        ctx.lineTo(x(filtered.length - 1), H - pad.b);
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Line
+        ctx.beginPath();
+        filtered.forEach((p, i) => {
+          if (i === 0) ctx.moveTo(x(i), y(p.price));
+          else ctx.lineTo(x(i), y(p.price));
+        });
+        ctx.strokeStyle = DS.accent;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // MA200
+        ctx.beginPath();
+        let started = false;
+        filtered.forEach((p, i) => {
+          if (p.ma200) {
+            if (!started) { ctx.moveTo(x(i), y(p.ma200)); started = true; }
+            else ctx.lineTo(x(i), y(p.ma200));
+          }
+        });
+        ctx.strokeStyle = DS.warn;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Dates
+        ctx.fillStyle = DS.text3;
+        ctx.textAlign = 'center';
+        const step = Math.max(1, Math.floor(filtered.length / 6));
+        for (let i = 0; i < filtered.length; i += step) {
+          const d = filtered[i].date;
+          ctx.fillText(`${d.getDate()}/${d.getMonth() + 1}`, x(i), H - 10);
+        }
+
+        // Current Dot
+        const last = filtered[filtered.length - 1];
+        ctx.beginPath();
+        ctx.arc(x(filtered.length - 1), y(last.price), 4, 0, Math.PI * 2);
+        ctx.fillStyle = DS.surface;
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = DS.accent;
+        ctx.stroke();
+
+      }, [filtered, mob]);
+
+      if (!hist) return React.createElement('div', { style: { textAlign: 'center', color: DS.text3, padding: 40 } }, 'Chargement historique...');
+
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', gap: 6, marginBottom: 12 } },
+          [30, 90, 365, 1460, 2920].map(d => 
+            React.createElement('button', {
+              key: d,
+              onClick: () => setPeriod(d),
+              style: {
+                padding: '6px 14px',
+                borderRadius: 6,
+                fontSize: 11,
+                fontWeight: period === d ? 600 : 400,
+                background: period === d ? DS.text : DS.surface,
+                border: `1px solid ${period === d ? DS.text : DS.border}`,
+                color: period === d ? DS.surface : DS.text2,
+                cursor: 'pointer'
+              }
+            }, d === 365 ? '1A' : d === 1460 ? '4A' : d === 2920 ? '8A' : `${d}J`)
+          ),
+          React.createElement('div', { style: { marginLeft: 'auto', display: 'flex', gap: 12, fontSize: 10, alignItems: 'center' } },
+             React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 4 } },
+                React.createElement('div', { style: { width: 8, height: 2, background: DS.accent } }),
+                React.createElement('span', { style: { color: DS.text2 } }, 'Prix')
+             ),
+             React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 4 } },
+                React.createElement('div', { style: { width: 8, height: 2, background: DS.warn, borderTop: '1px dashed' } }),
+                React.createElement('span', { style: { color: DS.text2 } }, 'MA200')
+             )
+          )
+        ),
+        React.createElement('canvas', { ref, style: { width: '100%', height: mob ? 220 : 300 } })
+      );
+    }
+
+    // Pi Cycle Chart
+    function PiCycleChart({ hist, mob }) {
+      const ref = useRef(null);
+      const PERIODS = [ { l: '2A', d: 730 }, { l: '4A', d: 1460 }, { l: 'MAX', d: 99999 } ];
+      const [period, setPeriod] = useState(2); // default MAX
+
+      const data = useMemo(() => {
+        if (!hist?.prices) return null;
+        const allPrices = hist.prices;
+        const days = PERIODS[period].d;
+        const cutoff = days < 99999 ? Date.now() - days * 86400000 : 0;
+        const prices = allPrices.filter(p => p.ts >= cutoff);
+        return {
+          prices: prices,
+          crosses: (hist.crosses || []).filter(c => c.date.getTime() >= cutoff)
+        };
+      }, [hist, period]);
+
+      useEffect(() => {
+        if (!data || !ref.current) return;
+        const cv = ref.current;
+        const ctx = cv.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const W = cv.parentElement.clientWidth;
+        const H = mob ? 280 : 400;
+        cv.width = W * dpr; cv.height = H * dpr;
+        cv.style.width = W + 'px'; cv.style.height = H + 'px';
+        ctx.scale(dpr, dpr);
+
+        const { prices, crosses } = data;
+        if (prices.length < 2) return;
+
+        const pad = { t: 30, r: 60, b: 35, l: 55 };
+        const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+
+        // Collect all values for Y range (price + MAs)
+        var allVals = [];
+        prices.forEach(function(p) {
+          if (p.price > 0) allVals.push(p.price);
+          if (p.ma111 > 0) allVals.push(p.ma111);
+          if (p.ma350x2 > 0) allVals.push(p.ma350x2);
+        });
+        if (allVals.length < 2) return;
+        var mn = Math.min.apply(null, allVals) * 0.7;
+        var mx = Math.max.apply(null, allVals) * 1.3;
+        var logMn = Math.log10(mn), logMx = Math.log10(mx);
+
+        var xFn = function(i) { return pad.l + (i / (prices.length - 1)) * cw; };
+        var yFn = function(v) { return pad.t + (1 - (Math.log10(v) - logMn) / (logMx - logMn)) * ch; };
+
+        // Background
+        ctx.fillStyle = DS.borderLight; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = DS.surface; ctx.beginPath(); ctx.roundRect(pad.l - 4, pad.t - 4, cw + 8, ch + 8, 6); ctx.fill();
+
+        // Grid lines & Y-axis labels
+        ctx.strokeStyle = DS.border; ctx.lineWidth = 0.5; ctx.setLineDash([3, 3]);
+        var gridPrices = [500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000];
+        gridPrices.forEach(function(gp) {
+          if (gp < mn || gp > mx) return;
+          var gy = yFn(gp);
+          ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(pad.l + cw, gy); ctx.stroke();
+          ctx.fillStyle = DS.text3; ctx.font = '10px ' + DS.mono; ctx.textAlign = 'right';
+          var label = gp >= 1000 ? '$' + (gp / 1000) + 'K' : '$' + gp;
+          ctx.fillText(label, pad.l - 8, gy + 3);
+        });
+        ctx.setLineDash([]);
+
+        // Fill between MAs (green when safe, red when converging)
+        for (var i = 0; i < prices.length - 1; i++) {
+          var p0 = prices[i], p1 = prices[i + 1];
+          if (p0.ma111 > 0 && p0.ma350x2 > 0 && p1.ma111 > 0 && p1.ma350x2 > 0) {
+            var crossed = p0.ma111 >= p0.ma350x2 && p1.ma111 >= p1.ma350x2;
+            ctx.beginPath();
+            ctx.moveTo(xFn(i), yFn(p0.ma111)); ctx.lineTo(xFn(i + 1), yFn(p1.ma111));
+            ctx.lineTo(xFn(i + 1), yFn(p1.ma350x2)); ctx.lineTo(xFn(i), yFn(p0.ma350x2));
+            ctx.closePath();
+            ctx.fillStyle = crossed ? 'rgba(239,68,68,0.12)' : 'rgba(16,185,129,0.08)';
+            ctx.fill();
+          }
+        }
+
+        // Draw price line
+        ctx.beginPath();
+        var started = false;
+        for (var i = 0; i < prices.length; i++) {
+          if (prices[i].price > 0) {
+            if (!started) { ctx.moveTo(xFn(i), yFn(prices[i].price)); started = true; }
+            else ctx.lineTo(xFn(i), yFn(prices[i].price));
+          }
+        }
+        ctx.strokeStyle = DS.text3; ctx.lineWidth = 1; ctx.globalAlpha = 0.4; ctx.stroke(); ctx.globalAlpha = 1;
+
+        // Draw 350 DMA x2 line (green) — draw first so 111 DMA is on top
+        ctx.beginPath();
+        started = false;
+        for (var i = 0; i < prices.length; i++) {
+          if (prices[i].ma350x2 > 0) {
+            if (!started) { ctx.moveTo(xFn(i), yFn(prices[i].ma350x2)); started = true; }
+            else ctx.lineTo(xFn(i), yFn(prices[i].ma350x2));
+          }
+        }
+        ctx.strokeStyle = '#10B981'; ctx.lineWidth = 2; ctx.stroke();
+
+        // Draw 111 DMA line (orange)
+        ctx.beginPath();
+        started = false;
+        for (var i = 0; i < prices.length; i++) {
+          if (prices[i].ma111 > 0) {
+            if (!started) { ctx.moveTo(xFn(i), yFn(prices[i].ma111)); started = true; }
+            else ctx.lineTo(xFn(i), yFn(prices[i].ma111));
+          }
+        }
+        ctx.strokeStyle = '#F59E0B'; ctx.lineWidth = 2; ctx.stroke();
+
+        // Cross markers
+        if (crosses.length > 0) {
+          crosses.forEach(function(cr) {
+            var crTs = cr.date.getTime();
+            var closestIdx = 0, closestDist = Infinity;
+            for (var ci = 0; ci < prices.length; ci++) {
+              var dist = Math.abs(prices[ci].ts - crTs);
+              if (dist < closestDist) { closestDist = dist; closestIdx = ci; }
+            }
+            var crP = prices[closestIdx];
+            if (crP && crP.ma111 > 0) {
+              ctx.beginPath(); ctx.arc(xFn(closestIdx), yFn(crP.ma111), 6, 0, Math.PI * 2);
+              ctx.fillStyle = DS.down; ctx.fill();
+              ctx.strokeStyle = DS.surface; ctx.lineWidth = 2; ctx.stroke();
+              // Label
+              ctx.fillStyle = DS.down; ctx.font = 'bold 10px ' + DS.mono; ctx.textAlign = 'center';
+              ctx.fillText('TOP', xFn(closestIdx), yFn(crP.ma111) - 10);
+            }
+          });
+        }
+
+        // End dots
+        var lastMA111Idx = -1, lastMA350Idx = -1;
+        for (var i = prices.length - 1; i >= 0; i--) {
+          if (lastMA111Idx < 0 && prices[i].ma111 > 0) lastMA111Idx = i;
+          if (lastMA350Idx < 0 && prices[i].ma350x2 > 0) lastMA350Idx = i;
+          if (lastMA111Idx >= 0 && lastMA350Idx >= 0) break;
+        }
+        if (lastMA111Idx >= 0) {
+          ctx.beginPath(); ctx.arc(xFn(lastMA111Idx), yFn(prices[lastMA111Idx].ma111), 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#F59E0B'; ctx.fill();
+        }
+        if (lastMA350Idx >= 0) {
+          ctx.beginPath(); ctx.arc(xFn(lastMA350Idx), yFn(prices[lastMA350Idx].ma350x2), 4, 0, Math.PI * 2);
+          ctx.fillStyle = '#10B981'; ctx.fill();
+        }
+
+        // X axis date labels
+        ctx.fillStyle = DS.text3; ctx.font = '10px ' + DS.mono; ctx.textAlign = 'center';
+        var nLabels = mob ? 4 : 6;
+        for (var li = 0; li <= nLabels; li++) {
+          var idx = Math.round((li / nLabels) * (prices.length - 1));
+          var d = new Date(prices[idx].ts);
+          var dlabel = idx === prices.length - 1 ? 'Auj.' : d.getDate() + '/' + (d.getMonth() + 1) + '/' + String(d.getFullYear()).slice(2);
+          ctx.fillText(dlabel, xFn(idx), H - pad.b + 18);
+        }
+
+        // Legend
+        ctx.font = 'bold 11px ' + DS.font; ctx.textAlign = 'left';
+        ctx.fillStyle = '#F59E0B'; ctx.fillText('111 DMA', pad.l, pad.t - 12);
+        ctx.fillStyle = '#10B981'; ctx.fillText('350 DMA x2', pad.l + 75, pad.t - 12);
+        ctx.fillStyle = DS.text3; ctx.fillText('Prix', pad.l + 170, pad.t - 12);
+        ctx.fillStyle = DS.text3; ctx.font = '10px ' + DS.mono; ctx.textAlign = 'right';
+        ctx.fillText('USD (log)', pad.l - 8, pad.t - 12);
+
+      }, [data, mob]);
+
+      // Period selector
+      var btnStyle = function(active) {
+        return {
+          padding: '4px 12px', borderRadius: 6, fontSize: 11, fontWeight: 600,
+          fontFamily: DS.mono, cursor: 'pointer', border: 'none',
+          background: active ? DS.accent : DS.borderLight,
+          color: active ? '#fff' : DS.text2,
+          transition: 'all 0.15s ease'
+        };
+      };
+
+      if (!hist || !hist.prices) return React.createElement('div', { style: { padding: 24, textAlign: 'center', color: DS.text3, fontSize: 13 } }, 'Chargement des données Pi Cycle...');
+
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', gap: 6, marginBottom: 12, justifyContent: 'flex-end' } },
+          PERIODS.map(function(p, i) { return React.createElement('button', {
+            key: p.l, style: btnStyle(i === period),
+            onClick: function() { setPeriod(i); }
+          }, p.l); })
+        ),
+        React.createElement('canvas', { ref: ref, style: { width: '100%', height: mob ? 280 : 400 } }),
+        React.createElement('div', { style: { fontSize: 12, color: DS.text2, marginBottom: 12 } }, '111 DMA (Orange) vs 350 DMA x2 (Vert)')
+      );
+    }
+
+    // ========== HASH RIBBONS CHART ==========
+    function HashRibbonsChart({ hrHist, mob }) {
+      const ref = useRef(null);
+      const PERIODS = [ { l: '90j', d: 90 }, { l: '180j', d: 180 }, { l: '1an', d: 365 }, { l: '2ans', d: 730 } ];
+      const [period, setPeriod] = useState(1); // default 180j
+      const days = PERIODS[period].d;
+
+      useEffect(() => {
+        const c = ref.current; if (!c || !hrHist?.daily?.length) return;
+        const dpr = window.devicePixelRatio || 1;
+        const W = c.offsetWidth, H = mob ? 220 : 260;
+        c.width = W * dpr; c.height = H * dpr;
+        const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+        const pad = { t: 30, b: 30, l: 55, r: 20 }, cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+
+        // Slice real data to the selected period — only entries with both SMAs
+        const full = hrHist.daily.filter(d => d.sma30 != null && d.sma60 != null);
+        const sliced = full.slice(-days);
+        if (sliced.length < 2) return;
+
+        const s30 = sliced.map(d => d.sma30);
+        const s60 = sliced.map(d => d.sma60);
+        const len = sliced.length;
+
+        const all = [...s30, ...s60], mn = Math.min(...all) * 0.995, mx = Math.max(...all) * 1.005;
+        const x = i => pad.l + (i / (len - 1)) * cw, y = v => pad.t + ((mx - v) / (mx - mn)) * ch;
+
+        // Background
+        ctx.fillStyle = DS.borderLight; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = DS.surface; ctx.beginPath(); ctx.roundRect(pad.l - 4, pad.t - 4, cw + 8, ch + 8, 6); ctx.fill();
+
+        // Grid
+        ctx.strokeStyle = DS.border; ctx.lineWidth = 0.5; ctx.setLineDash([3, 3]);
+        for (let i = 0; i <= 4; i++) {
+          const yy = pad.t + (i / 4) * ch;
+          ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(pad.l + cw, yy); ctx.stroke();
+          ctx.fillStyle = DS.text3; ctx.font = `10px ${DS.mono}`; ctx.textAlign = 'right';
+          ctx.fillText(`${((mx - (i / 4) * (mx - mn))).toFixed(0)}`, pad.l - 8, yy + 3);
+        }
+        ctx.setLineDash([]);
+
+        // Fill between — green when SMA30 < SMA60 (capitulation = buy signal), red otherwise
+        for (let i = 0; i < len - 1; i++) {
+          const below = s30[i] < s60[i] && s30[i + 1] < s60[i + 1];
+          ctx.beginPath();
+          ctx.moveTo(x(i), y(s30[i])); ctx.lineTo(x(i + 1), y(s30[i + 1]));
+          ctx.lineTo(x(i + 1), y(s60[i + 1])); ctx.lineTo(x(i), y(s60[i]));
+          ctx.closePath();
+          ctx.fillStyle = below ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.07)';
+          ctx.fill();
+        }
+
+        // SMA60 line
+        ctx.beginPath();
+        for (let i = 0; i < len; i++) { i === 0 ? ctx.moveTo(x(i), y(s60[i])) : ctx.lineTo(x(i), y(s60[i])); }
+        ctx.strokeStyle = DS.purple; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // SMA30 line
+        ctx.beginPath();
+        for (let i = 0; i < len; i++) { i === 0 ? ctx.moveTo(x(i), y(s30[i])) : ctx.lineTo(x(i), y(s30[i])); }
+        ctx.strokeStyle = DS.accent; ctx.lineWidth = 2; ctx.stroke();
+
+        // Mark cross points
+        for (let i = 1; i < len; i++) {
+          const prevBelow = s30[i - 1] < s60[i - 1];
+          const nowBelow = s30[i] < s60[i];
+          if (prevBelow !== nowBelow) {
+            ctx.beginPath(); ctx.arc(x(i), y(s30[i]), 5, 0, Math.PI * 2);
+            ctx.fillStyle = nowBelow ? DS.up : DS.down; ctx.fill();
+            ctx.strokeStyle = DS.surface; ctx.lineWidth = 2; ctx.stroke();
+          }
+        }
+
+        // End dots
+        ctx.beginPath(); ctx.arc(x(len - 1), y(s30[len - 1]), 4, 0, Math.PI * 2); ctx.fillStyle = DS.accent; ctx.fill();
+        ctx.beginPath(); ctx.arc(x(len - 1), y(s60[len - 1]), 4, 0, Math.PI * 2); ctx.fillStyle = DS.purple; ctx.fill();
+
+        // Legend
+        ctx.font = `bold 11px ${DS.font}`; ctx.textAlign = 'left';
+        ctx.fillStyle = DS.accent; ctx.fillText('SMA 30', pad.l, pad.t - 12);
+        ctx.fillStyle = DS.purple; ctx.fillText('SMA 60', pad.l + 65, pad.t - 12);
+        ctx.fillStyle = DS.text3; ctx.font = `10px ${DS.mono}`; ctx.textAlign = 'right';
+        ctx.fillText('EH/s', pad.l - 8, pad.t - 12);
+
+        // X axis labels with real dates
+        ctx.fillStyle = DS.text3; ctx.font = `10px ${DS.mono}`; ctx.textAlign = 'center';
+        const nLabels = mob ? 4 : 6;
+        for (let i = 0; i <= nLabels; i++) {
+          const idx = Math.round((i / nLabels) * (len - 1));
+          const d = new Date(sliced[idx].ts);
+          const label = idx === len - 1 ? 'Auj.' : `${d.getDate()}/${d.getMonth() + 1}/${String(d.getFullYear()).slice(2)}`;
+          ctx.fillText(label, x(idx), H - pad.b + 18);
+        }
+      }, [hrHist, mob, days]);
+
+      // Period selector buttons
+      const btnStyle = (active) => ({
+        padding: '4px 12px', borderRadius: 6, fontSize: 11, fontWeight: 600,
+        fontFamily: DS.mono, cursor: 'pointer', border: 'none',
+        background: active ? DS.accent : DS.borderLight,
+        color: active ? '#fff' : DS.text2,
+        transition: 'all 0.15s ease'
+      });
+
+      if (!hrHist) return React.createElement('div', { style: { padding: 24, textAlign: 'center', color: DS.text3, fontSize: 13 } }, 'Chargement des données hashrate...');
+
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', gap: 6, marginBottom: 12, justifyContent: 'flex-end' } },
+          PERIODS.map((p, i) => React.createElement('button', {
+            key: p.l, style: btnStyle(i === period),
+            onClick: () => setPeriod(i)
+          }, p.l))
+        ),
+        React.createElement('canvas', { ref, style: { width: '100%', height: mob ? 220 : 260 } })
+      );
+    }
+
+    // ========== MINING MARGIN CHART ==========
+    function MiningMarginChart({ price, mob, rp, sthRp, lthRp, w200 }) {
+      const ref = useRef(null);
+      useEffect(() => {
+        const c = ref.current; if (!c) return;
+        const dpr = window.devicePixelRatio || 1;
+        const W = c.offsetWidth, H = mob ? 160 : 180;
+        c.width = W * dpr; c.height = H * dpr;
+        const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+        const pad = { t: 24, b: 24, l: 60, r: 20 }, cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+        const levels = [ { v: lthRp || LTHRP, l: 'LTH-RP', c: DS.up }, { v: CVDD, l: 'CVDD', c: '#f472b6' }, { v: rp || RP, l: 'RP', c: '#a78bfa' }, { v: w200 || W200, l: '200W', c: '#60a5fa' }, { v: MC, l: 'MC', c: DS.warn }, { v: sthRp || STHRP, l: 'STH-RP', c: DS.accent }, { v: price, l: 'Prix', c: DS.accent } ].sort((a, b) => a.v - b.v);
+        const mn = Math.min(...levels.map(l => l.v)) * 0.9, mx = Math.max(...levels.map(l => l.v)) * 1.08;
+        const y = v => pad.t + ((mx - v) / (mx - mn)) * ch;
+        ctx.fillStyle = DS.surface; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = price > MC ? 'rgba(16,185,129,0.06)' : 'rgba(239,68,68,0.06)';
+        ctx.fillRect(pad.l, Math.min(y(MC), y(price)), cw, Math.abs(y(MC) - y(price)));
+        levels.forEach(l => { const yy = y(l.v), isPr = l.v === price; ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(pad.l + cw, yy); ctx.strokeStyle = l.c; ctx.lineWidth = isPr ? 2.5 : 1; ctx.setLineDash(isPr ? [] : [4, 4]); ctx.globalAlpha = isPr ? 1 : 0.5; ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; ctx.fillStyle = l.c; ctx.font = `${isPr ? 'bold 11' : '10'}px ${DS.mono}`; ctx.textAlign = 'right'; ctx.fillText(`${l.l} $${fK(l.v)}`, pad.l - 6, yy + 3); if (isPr) { ctx.beginPath(); ctx.arc(pad.l + cw, yy, 5, 0, Math.PI * 2); ctx.fillStyle = l.c; ctx.fill(); } });
+        const margin = ((price - MC) / MC * 100);
+        ctx.fillStyle = margin > 0 ? DS.up : DS.down; ctx.font = `bold 13px ${DS.font}`; ctx.textAlign = 'center';
+        ctx.fillText(`Marge: ${margin > 0 ? '+' : ''}${margin.toFixed(1)}%`, pad.l + cw / 2, H - 4);
+      }, [price, mob, rp, sthRp, lthRp, w200]);
+      return React.createElement('canvas', { ref, style: { width: '100%', height: mob ? 160 : 180 } });
+    }
+
+    // ========== FUNDING RATE CHART ==========
+    function FundingRateChart({ fundingRate, fundingHistory, mob }) {
+      const ref = useRef(null);
+      useEffect(() => {
+        const c = ref.current; if (!c) return;
+        const dpr = window.devicePixelRatio || 1;
+        const W = c.offsetWidth, H = mob ? 180 : 210;
+        c.width = W * dpr; c.height = H * dpr;
+        const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+        const pad = { t: 30, b: 30, l: 55, r: 20 }, cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+
+        // Use real historical data if available, otherwise single value
+        const data = fundingHistory && fundingHistory.length > 1
+          ? fundingHistory.map(h => h.rate)
+          : [fundingRate];
+        const n = data.length;
+
+        const mn = Math.min(...data, -0.05), mx = Math.max(...data, 0.05), range = mx - mn;
+        const x = i => pad.l + (i / (n - 1)) * cw;
+        const y = v => pad.t + ((mx - v) / range) * ch;
+        const zeroY = y(0);
+
+        // Background
+        ctx.fillStyle = DS.borderLight; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = DS.surface; ctx.beginPath(); ctx.roundRect(pad.l - 4, pad.t - 4, cw + 8, ch + 8, 6); ctx.fill();
+
+        // Zero line
+        ctx.beginPath(); ctx.moveTo(pad.l, zeroY); ctx.lineTo(pad.l + cw, zeroY);
+        ctx.strokeStyle = DS.text3; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.stroke(); ctx.setLineDash([]);
+
+        // Bars
+        const barW = Math.max(1.5, (cw / n) - 0.5);
+        data.forEach((v, i) => {
+          const bx = x(i) - barW / 2;
+          const top = Math.min(zeroY, y(v));
+          const h = Math.abs(y(v) - zeroY);
+          ctx.fillStyle = v < 0 ? 'rgba(16,185,129,0.6)' : 'rgba(239,68,68,0.5)';
+          ctx.beginPath(); ctx.roundRect(bx, top, barW, Math.max(1, h), 1); ctx.fill();
+        });
+
+        // Current dot
+        ctx.beginPath(); ctx.arc(x(n - 1), y(data[n - 1]), 5, 0, Math.PI * 2);
+        ctx.fillStyle = data[n - 1] < 0 ? DS.up : DS.down; ctx.fill();
+        ctx.strokeStyle = DS.surface; ctx.lineWidth = 2; ctx.stroke();
+
+        // Y-axis labels
+        ctx.fillStyle = DS.text3; ctx.font = `10px ${DS.mono}`; ctx.textAlign = 'right';
+        [mx, mx / 2, 0, mn / 2, mn].forEach(v => ctx.fillText(`${v.toFixed(3)}%`, pad.l - 6, y(v) + 3));
+
+        // X-axis date labels from real timestamps
+        ctx.textAlign = 'center';
+        if (fundingHistory && fundingHistory.length > 1) {
+          const labelCount = 5;
+          for (let i = 0; i < labelCount; i++) {
+            const idx = Math.round(i * (n - 1) / (labelCount - 1));
+            const d = new Date(fundingHistory[idx].ts);
+            const label = i === labelCount - 1 ? 'Auj.' : `${d.getDate()}/${d.getMonth() + 1}`;
+            ctx.fillText(label, x(idx), H - pad.b + 16);
+          }
+        } else {
+          ['60j', '45j', '30j', '15j', 'Auj.'].forEach((l, i) => ctx.fillText(l, pad.l + (i / 4) * cw, H - pad.b + 16));
+        }
+
+        // Title
+        ctx.fillStyle = DS.text; ctx.font = `bold 11px ${DS.font}`; ctx.textAlign = 'left';
+        ctx.fillText(fundingHistory?.length > 1 ? `Funding Rate — ${n} points (live)` : 'Funding Rate', pad.l, pad.t - 12);
+        ctx.fillStyle = fundingRate < 0 ? DS.up : DS.down; ctx.font = `bold 11px ${DS.mono}`; ctx.textAlign = 'right';
+        ctx.fillText(`${fundingRate.toFixed(4)}%`, pad.l + cw, pad.t - 12);
+      }, [fundingRate, fundingHistory, mob]);
+      return React.createElement('canvas', { ref, style: { width: '100%', height: mob ? 180 : 210 } });
+    }
+
+    // ========== SCENARIO ZONE CHART ==========
+    function ScenarioZoneChart({ price, mob, levels }) {
+      const keyLevels = levels ? [
+        ...levels,
+        { k: 'ath', l: 'ATH', v: ATH, c: DS.down }
+      ].sort((a, b) => a.v - b.v) : [
+        { v: LTHRP, l: 'LTH-RP', c: DS.up },
+        { v: CVDD, l: 'CVDD', c: '#f472b6' },
+        { v: RP, l: 'RP', c: '#a78bfa' },
+        { v: W200, l: '200W', c: '#60a5fa' },
+        { v: MC, l: 'MC', c: DS.warn },
+        { v: STHRP, l: 'STH-RP', c: DS.accent },
+        { v: ATH, l: 'ATH', c: DS.down }
+      ].sort((a, b) => a.v - b.v);
+
+      const barRow = (s) => {
+        const lo = s.r[0] * 1000, hi = s.r[1] * 1000;
+        const inRange = price >= lo && price <= hi;
+        // Where is price relative to this scenario's range (clamped 0-100)
+        const pricePctInRow = Math.max(0, Math.min(100, ((price - lo) / (hi - lo)) * 100));
+
+        return React.createElement('div', { key: s.l, style: { padding: '14px 16px', borderRadius: 10, background: DS.surface, border: `1.5px solid ${inRange ? s.c : DS.border}`, position: 'relative' } },
+          // Header: name + proba + range
+          React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 } },
+            React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10 } },
+              React.createElement('div', { style: { width: 10, height: 10, borderRadius: '50%', background: s.c, flexShrink: 0 } }),
+              React.createElement('span', { style: { fontWeight: 700, fontSize: 14, color: s.c } }, s.l),
+              s.hl && React.createElement('span', { style: { fontSize: 9, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: s.c, color: '#fff', marginLeft: 4 } }, 'PROBABLE')
+            ),
+            React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12 } },
+              React.createElement('span', { style: { fontSize: 13, fontFamily: DS.mono, fontWeight: 600, color: DS.text } }, `$${s.r[0]}K — $${s.r[1]}K`),
+              React.createElement('span', { style: { fontSize: 18, fontWeight: 700, fontFamily: DS.mono, color: s.c } }, `${s.p}%`)
+            )
+          ),
+          // Progress bar
+          React.createElement('div', { style: { height: 8, background: DS.borderLight, borderRadius: 4, position: 'relative', overflow: 'hidden' } },
+            React.createElement('div', { style: { position: 'absolute', left: 0, top: 0, bottom: 0, width: `${s.p}%`, background: s.c, opacity: 0.25, borderRadius: 4 } }),
+            inRange && React.createElement('div', { style: { position: 'absolute', left: `${pricePctInRow}%`, top: -2, width: 4, height: 12, background: DS.accent, borderRadius: 2, transform: 'translateX(-2px)' } })
+          ),
+          // Footer: drawdown + status
+          React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 } },
+            React.createElement('div', { style: { fontSize: 12, color: DS.text2 } }, s.z),
+            React.createElement('div', { style: { display: 'flex', gap: 12 } },
+              React.createElement('span', { style: { fontSize: 11, fontFamily: DS.mono, color: DS.down } }, `DD: ${s.dd[0]}% / ${s.dd[1]}%`),
+              inRange && React.createElement('span', { style: { fontSize: 11, fontWeight: 700, color: s.c } }, 'ACTIF')
+            )
+          )
+        );
+      };
+
+      return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 12 } },
+        // Price indicator
+        React.createElement('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '8px 0' } },
+          React.createElement('span', { style: { fontSize: 12, color: DS.text2 } }, 'Prix actuel :'),
+          React.createElement('span', { style: { fontSize: 16, fontWeight: 700, fontFamily: DS.mono, color: DS.accent } }, `$${fP(price)}`)
+        ),
+
+        // Scenario rows
+        SCENARIOS.map(s => barRow(s)),
+
+        // Key levels legend
+        React.createElement('div', { style: { padding: '14px 16px', background: DS.borderLight, borderRadius: 10, marginTop: 4 } },
+          React.createElement('div', { style: { fontSize: 11, fontWeight: 600, color: DS.text2, marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.5 } }, 'Niveaux de support'),
+          React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 8 } },
+            keyLevels.map(l => {
+              const below = price < l.v;
+              return React.createElement('div', { key: l.l, style: { display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.border}` } },
+                React.createElement('div', { style: { width: 8, height: 8, borderRadius: '50%', background: l.c, flexShrink: 0 } }),
+                React.createElement('div', null,
+                  React.createElement('div', { style: { fontSize: 12, fontWeight: 600, color: l.c } }, l.l),
+                  React.createElement('div', { style: { fontSize: 11, fontFamily: DS.mono, color: DS.text2 } }, `$${fP(l.v)}`)
+                ),
+                below && React.createElement('div', { style: { marginLeft: 'auto', fontSize: 10, color: DS.up, fontWeight: 600 } }, 'Dessous')
+              );
+            })
+          )
+        )
+      );
+    }
+
+    // ========== IMPROVED PRICE BANDS CHART ==========
+    function PriceBandsChartV2({ price, mob, levels, histPrices }) {
+      const ref = useRef(null);
+      useEffect(() => {
+        const c = ref.current; if (!c) return;
+        const dpr = window.devicePixelRatio || 1;
+        const W = c.offsetWidth, H = mob ? 280 : 340;
+        c.width = W * dpr; c.height = H * dpr;
+        const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+        const pad = { t: 30, b: 40, l: 60, r: 30 }, cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+
+        // Build pricePath from real historical data (last 12 months, 1 point per month)
+        let pricePath;
+        if (histPrices && histPrices.length > 30) {
+          const now = Date.now();
+          const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+          const monthly = [];
+          for (let m = 11; m >= 0; m--) {
+            const targetTs = now - m * 30.44 * 86400000;
+            let closest = histPrices[0];
+            let minDiff = Math.abs(histPrices[0].ts - targetTs);
+            for (let j = 1; j < histPrices.length; j++) {
+              const diff = Math.abs(histPrices[j].ts - targetTs);
+              if (diff < minDiff) { minDiff = diff; closest = histPrices[j]; }
+            }
+            const d = new Date(closest.ts || closest.date);
+            monthly.push({ m: monthNames[d.getMonth()], v: m === 0 ? price : closest.price });
+          }
+          pricePath = monthly;
+        } else {
+          const monthNames = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
+          const now = new Date();
+          pricePath = [];
+          for (let i = 11; i >= 0; i--) {
+            const d = new Date(now); d.setMonth(d.getMonth() - i);
+            pricePath.push({ m: monthNames[d.getMonth()], v: price });
+          }
+        }
+
+        const lvls = (levels || OCLEVELS).filter(l => l.v > 20000 && l.v < 200000);
+        const allVals = [...pricePath.map(p => p.v), ...lvls.map(l => l.v)];
+        const mn = Math.min(...allVals) * 0.88, mx = Math.max(...allVals) * 1.06;
+        const x = i => pad.l + (i / (pricePath.length - 1)) * cw, y = v => pad.t + ((mx - v) / (mx - mn)) * ch;
+        ctx.fillStyle = DS.surface; ctx.fillRect(0, 0, W, H);
+        ctx.strokeStyle = DS.borderLight; ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) { const yy = pad.t + (i / 5) * ch; ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(pad.l + cw, yy); ctx.stroke(); ctx.fillStyle = DS.text3; ctx.font = `10px ${DS.mono}`; ctx.textAlign = 'right'; ctx.fillText(`$${((mx - (i / 5) * (mx - mn)) / 1000).toFixed(0)}K`, pad.l - 8, yy + 3); }
+        const sortedLvls = [...lvls].sort((a, b) => b.v - a.v);
+        for (let i = 0; i < sortedLvls.length - 1; i++) { ctx.fillStyle = sortedLvls[i].c + '08'; ctx.fillRect(pad.l, y(sortedLvls[i].v), cw, y(sortedLvls[i + 1].v) - y(sortedLvls[i].v)); }
+        lvls.forEach(l => { const yy = y(l.v); ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(pad.l + cw, yy); ctx.strokeStyle = l.c; ctx.lineWidth = 1; ctx.setLineDash([6, 4]); ctx.globalAlpha = 0.5; ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; ctx.fillStyle = l.c; ctx.font = `bold 9px ${DS.mono}`; ctx.textAlign = 'right'; ctx.fillText(`$${(l.v/1000).toFixed(0)}K`, pad.l + cw - 4, yy - 5); });
+        const grad = ctx.createLinearGradient(0, y(mx), 0, y(mn)); grad.addColorStop(0, 'rgba(249,115,22,0.15)'); grad.addColorStop(1, 'rgba(249,115,22,0)');
+        ctx.beginPath(); pricePath.forEach((p, i) => { i === 0 ? ctx.moveTo(x(i), y(p.v)) : ctx.lineTo(x(i), y(p.v)); }); ctx.lineTo(x(pricePath.length - 1), pad.t + ch); ctx.lineTo(x(0), pad.t + ch); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+        ctx.beginPath(); pricePath.forEach((p, i) => { i === 0 ? ctx.moveTo(x(i), y(p.v)) : ctx.lineTo(x(i), y(p.v)); }); ctx.strokeStyle = DS.accent; ctx.lineWidth = 3; ctx.lineJoin = 'round'; ctx.stroke();
+        pricePath.forEach((p, i) => { const isLast = i === pricePath.length - 1; ctx.beginPath(); ctx.arc(x(i), y(p.v), isLast ? 6 : 3, 0, Math.PI * 2); ctx.fillStyle = isLast ? DS.accent : DS.surface; ctx.fill(); if (!isLast) { ctx.strokeStyle = DS.accent; ctx.lineWidth = 1.5; ctx.stroke(); } });
+        const lastX = x(pricePath.length - 1), lastYY = y(price);
+        ctx.fillStyle = DS.accent; ctx.beginPath(); ctx.roundRect(lastX - 32, lastYY - 24, 64, 18, 9); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = `bold 10px ${DS.mono}`; ctx.textAlign = 'center'; ctx.fillText(`$${fK(price)}`, lastX, lastYY - 12);
+        ctx.fillStyle = DS.text3; ctx.font = `10px ${DS.mono}`; ctx.textAlign = 'center';
+        pricePath.forEach((p, i) => { if (i % 2 === 0 || i === pricePath.length - 1) ctx.fillText(p.m, x(i), H - pad.b + 16); });
+        ctx.fillStyle = DS.text; ctx.font = `bold 12px ${DS.font}`; ctx.textAlign = 'left';
+        ctx.fillText(histPrices ? 'Prix vs Niveaux Clés — 12 mois (live)' : 'Prix vs Niveaux Clés — 12 mois', pad.l, pad.t - 12);
+      }, [price, mob, levels, histPrices]);
+      const lvls2 = (levels || OCLEVELS).filter(l => l.v > 20000 && l.v < 200000);
+      return React.createElement('div', null,
+        React.createElement('canvas', { ref, style: { width: '100%', height: mob ? 280 : 340 } }),
+        React.createElement('div', { style: { display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10, padding: '0 4px' } },
+          lvls2.map(l => React.createElement('div', { key: l.k, style: { display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: l.c + '10', fontSize: 11, fontFamily: DS.font, whiteSpace: 'nowrap' } },
+            React.createElement('span', { style: { width: 8, height: 8, borderRadius: '50%', background: l.c, flexShrink: 0 } }),
+            React.createElement('span', { style: { fontWeight: 600, color: l.c } }, l.l),
+            React.createElement('span', { style: { color: DS.text3, fontFamily: DS.mono, fontSize: 10 } }, `$${fK(l.v)}`)
+          ))
+        )
+      );
+    }
+
+    // ========== CONNECTORS VIEW ==========
+    function ConnectorsView({ live, mob }) {
+      const connectors = [
+        {
+          name: 'CoinGecko',
+          key: 'coingecko',
+          url: 'api.coingecko.com',
+          description: 'Prix BTC, Market Cap, Volume 24h, Dominance',
+          endpoints: [
+            '/api/v3/simple/price',
+            '/api/v3/global',
+            '/api/v3/coins/bitcoin/market_chart'
+          ],
+          icon: '🦎'
+        },
+        {
+          name: 'Alternative.me',
+          key: 'fng',
+          url: 'api.alternative.me',
+          description: 'Fear & Greed Index',
+          endpoints: ['/fng/?limit=1'],
+          icon: '😱'
+        },
+        {
+          name: 'Binance Futures',
+          key: 'binance',
+          url: 'fapi.binance.com',
+          description: 'Funding Rate, Open Interest',
+          endpoints: [
+            '/fapi/v1/fundingRate',
+            '/fapi/v1/openInterest'
+          ],
+          icon: '🔶'
+        },
+        {
+          name: 'Mempool.space',
+          key: 'mempool',
+          url: 'mempool.space',
+          description: 'Hashrate, Difficulté',
+          endpoints: ['/api/v1/mining/hashrate/1w'],
+          icon: '⛓'
+        },
+        {
+          name: 'BGeometrics',
+          key: 'bgeometrics',
+          url: 'bg-proxy (Cloudflare Worker)',
+          description: 'NUPL, SOPR, MVRV Z-Score, Realized Price, Puell Multiple, RHODL, RSI, SMA/EMA, Hash Ribbons, Funding Rate, ETF Flows, Open Interest',
+          endpoints: ['/all (proxy agrégé)'],
+          icon: '📐'
+        },
+        {
+          name: 'Bitcoin.com Charts',
+          key: 'bitcoincom',
+          url: 'charts.bitcoin.com',
+          description: 'Rainbow Chart, Pi Cycle Top Indicator',
+          endpoints: [
+            '/api/v1/charts/rainbow',
+            '/api/v1/charts/pi-cycle-top'
+          ],
+          icon: '🌈'
+        }
+      ];
+
+      const getStatus = (key) => {
+        const s = live.sources[key];
+        if (s === true || s === 'live') return { label: 'En ligne', color: DS.up, bg: 'rgba(16,185,129,0.08)' };
+        if (s === 'cache') return { label: 'Cache', color: DS.warn, bg: 'rgba(245,158,11,0.08)' };
+        if (s === 'partial') return { label: 'Partiel', color: DS.warn, bg: 'rgba(245,158,11,0.08)' };
+        if (s === false) return { label: 'Erreur', color: DS.down, bg: 'rgba(239,68,68,0.08)' };
+        return { label: 'En attente', color: DS.text3, bg: 'rgba(137,147,164,0.08)' };
+      };
+
+      // bitcoincom is used in historical data, not tracked in live.sources
+      const getStatusBtcCom = () => {
+        return { label: 'Historique', color: DS.blue, bg: 'rgba(59,130,246,0.08)' };
+      };
+
+      const dotStyle = (color) => ({
+        width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0
+      });
+
+      const badgeStyle = (color, bg) => ({
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        padding: '4px 10px', borderRadius: 20, background: bg,
+        fontSize: 12, fontWeight: 600, color: color, fontFamily: DS.mono
+      });
+
+      const countOnline = connectors.filter(c => {
+        const s = live.sources[c.key];
+        return s === true || s === 'live' || s === 'cache';
+      }).length;
+
+      return React.createElement(React.Fragment, null,
+        // Summary card
+        React.createElement('div', { className: 'card', style: { marginBottom: 24 } },
+          React.createElement('div', { className: 'card-header' },
+            React.createElement('div', { className: 'card-title' }, '🔌 Connecteurs & Sources de Données'),
+            React.createElement('div', { className: 'card-badge' },
+              live.loading ? 'CHARGEMENT...' : `${countOnline}/${connectors.length} ACTIFS`
+            )
+          ),
+          React.createElement('div', { className: 'card-body', style: { padding: '16px 24px' } },
+            React.createElement('div', { style: { fontSize: 13, color: DS.text2, lineHeight: 1.6 } },
+              'Liste des API et sources externes utilisées par le dashboard pour alimenter les indicateurs en temps réel et historiques.'
+            )
+          )
+        ),
+
+        // Connector cards grid
+        React.createElement('div', {
+          style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 }
+        },
+        ...connectors.map(c => {
+          const st = c.key === 'bitcoincom' ? getStatusBtcCom() : getStatus(c.key);
+          return React.createElement('div', {
+            key: c.key,
+            className: 'card'
+          },
+            React.createElement('div', { className: 'card-header', style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+              React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10 } },
+                React.createElement('span', { style: { fontSize: 20 } }, c.icon),
+                React.createElement('div', { className: 'card-title', style: { margin: 0 } }, c.name)
+              ),
+              React.createElement('div', { style: badgeStyle(st.color, st.bg) },
+                React.createElement('div', { style: dotStyle(st.color) }),
+                st.label
+              )
+            ),
+            React.createElement('div', { className: 'card-body', style: { padding: '16px 24px' } },
+              React.createElement('div', { style: { fontSize: 13, color: DS.text2, marginBottom: 12 } }, c.description),
+              React.createElement('div', { style: { fontSize: 11, color: DS.text3, fontFamily: DS.mono, marginBottom: 8 } }, c.url),
+              React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 4 } },
+                ...c.endpoints.map((ep, i) =>
+                  React.createElement('div', {
+                    key: i,
+                    style: {
+                      fontSize: 11, fontFamily: DS.mono, color: DS.text3,
+                      background: DS.bg, padding: '4px 8px', borderRadius: 4
+                    }
+                  }, ep)
+                )
+              )
+            )
+          );
+        }))
+      );
+    }
+
+    // ========== APP ==========
+    function App() {
+      const { w, mob, tab: isTab } = useScreen();
+      const [activeTab, setActiveTab] = useState('dashboard');
+      const [menuOpen, setMenuOpen] = useState(false);
+      
+      const live = useLiveData();
+      const calc = useCalc(live);
+      const hist = useHistoricalData();
+      const hrHist = useHashrateHistory();
+
+      const TABS = [
+        { id: 'dashboard', l: 'Dashboard', i: '📊' },
+        { id: 'onchain', l: 'On-Chain', i: '🔗' },
+        { id: 'price', l: 'Prix', i: '💰' },
+        { id: 'rainbow', l: 'Rainbow', i: '🌈' },
+        { id: 'picycle', l: 'Pi Cycle', i: '🔄' },
+        { id: 'miners', l: 'Miners', i: '⛏' },
+        { id: 'derivatives', l: 'Dérivés', i: '📈' },
+        { id: 'scenarios', l: 'Scénarios', i: '🔮' },
+        { id: 'connectors', l: 'Connecteurs', i: '🔌' }
+      ];
+
+      const renderContent = () => {
+        switch(activeTab) {
+          case 'dashboard': return React.createElement(DashboardView, { live, calc, hist, mob });
+          case 'onchain': return React.createElement(OnChainView, { live, calc, mob });
+          case 'price': return React.createElement(PriceView, { live, calc, hist, mob });
+          case 'rainbow': return React.createElement(RainbowView, { live, calc, hist, mob });
+          case 'picycle': return React.createElement(PiCycleView, { live, calc, hist, mob });
+          case 'miners': return React.createElement(MinersView, { live, calc, mob, hrHist });
+          case 'derivatives': return React.createElement(DerivativesView, { live, calc, mob });
+          case 'scenarios': return React.createElement(ScenariosView, { live, calc, mob });
+          case 'connectors': return React.createElement(ConnectorsView, { live, mob });
+          default: return React.createElement(DashboardView, { live, calc, hist, mob });
+        }
+      };
+
+      const Sidebar = () => React.createElement('aside', { className: `sidebar ${menuOpen ? 'open' : ''}` },
+        React.createElement('div', { className: 'sidebar-logo' },
+          React.createElement('div', { className: 'sidebar-logo-icon' }, '₿'),
+          React.createElement('div', { className: 'sidebar-logo-text' }, 'CYCLE PRO')
+        ),
+        React.createElement('nav', { className: 'sidebar-nav' },
+          React.createElement('div', { className: 'sidebar-section' },
+            React.createElement('div', { className: 'sidebar-section-title' }, 'ANALYSE'),
+            TABS.slice(0, 5).map(t => React.createElement('div', { key: t.id, className: `sidebar-item ${activeTab === t.id ? 'active' : ''}`, onClick: () => { setActiveTab(t.id); setMenuOpen(false); } },
+              React.createElement('span', { className: 'sidebar-item-icon' }, t.i),
+              t.l
+            ))
+          ),
+          React.createElement('div', { className: 'sidebar-section' },
+            React.createElement('div', { className: 'sidebar-section-title' }, 'INDICATEURS'),
+            TABS.slice(5).map(t => React.createElement('div', { key: t.id, className: `sidebar-item ${activeTab === t.id ? 'active' : ''}`, onClick: () => { setActiveTab(t.id); setMenuOpen(false); } },
+              React.createElement('span', { className: 'sidebar-item-icon' }, t.i),
+              t.l
+            ))
+          )
+        ),
+        React.createElement('div', { className: 'sidebar-footer' },
+          React.createElement('div', { className: 'sidebar-status' },
+            React.createElement('div', { className: 'sidebar-status-dot' }),
+            live.live ? 'Système en ligne' : 'Connexion...'
+          )
+        )
+      );
+
+      return React.createElement('div', { className: 'app-layout' },
+        React.createElement(Sidebar),
+        React.createElement('div', { className: `sidebar-overlay ${menuOpen ? 'visible' : ''}`, onClick: () => setMenuOpen(false) }),
+        React.createElement('main', { className: 'main-content' },
+          React.createElement('header', { className: 'header', style: { position: 'relative' } },
+            live.loading && React.createElement('div', { className: 'loading-bar-top' }, React.createElement('div')),
+            React.createElement('div', { className: 'header-left' },
+              React.createElement('button', { className: 'menu-toggle', onClick: () => setMenuOpen(true) }, '☰'),
+              React.createElement('div', null,
+                React.createElement('div', { className: 'header-title' }, 'Bitcoin Cycle Dashboard'),
+                React.createElement('div', { className: 'header-subtitle' },
+                  live.loading ? 'Chargement des données...' : live.lastUpdate ? `MAJ: ${live.lastUpdate.toLocaleTimeString()}` : 'Initialisation...'
+                )
+              )
+            ),
+            React.createElement('div', { className: 'header-right' },
+              live.loading
+                ? React.createElement('div', { style: { fontSize: 12, color: DS.text3, fontStyle: 'italic' } }, 'Loading...')
+                : React.createElement(React.Fragment, null,
+                    !mob && React.createElement('div', { className: 'header-badge' },
+                      React.createElement('div', { className: 'header-badge-dot', style: { background: live.fearGreed < 20 ? DS.up : live.fearGreed > 80 ? DS.down : DS.warn } }),
+                      `F&G: ${live.fearGreed}`,
+                      isFake(live.fakes, 'fearGreed') && React.createElement(FakeBadge)
+                    ),
+                    React.createElement('div', { style: { fontSize: 16, fontWeight: 700, fontFamily: DS.mono } },
+                      `$${fP(live.price)}`,
+                      isFake(live.fakes, 'price') && React.createElement(FakeBadge)
+                    )
+                  )
+            )
+          ),
+          React.createElement('div', { className: 'content' }, renderContent())
+        )
+      );
+    }
+
+    // ========== VIEWS ==========
+
+    // Helper: check if a field (or any of several fields) is using fallback data
+    const isFake = (fakes, ...fields) => fakes && fields.some(f => fakes.has(f));
+
+    function DashboardView({ live, calc, hist, mob }) {
+      return React.createElement(React.Fragment, null,
+        React.createElement('div', { className: 'stat-grid', style: { marginBottom: 24 } },
+          React.createElement(StatCard, { label: 'Prix Actuel', value: `$${fP(live.price)}`, change: live.change24h, neutral: true, fake: isFake(live.fakes, 'price') }),
+          React.createElement(StatCard, { label: 'MVRV Ratio', value: calc.mvrv.toFixed(2), detail: `Z: ${calc.mvrvz.toFixed(2)}`, status: calc.mvrv < 1 ? 'up' : calc.mvrv > 3.5 ? 'down' : 'neutral', fake: isFake(live.fakes, 'mvrvratio', 'mvrvz') }),
+          React.createElement(StatCard, { label: 'Fear & Greed', value: live.fearGreed, detail: live.fgLabel, status: live.fearGreed < 20 ? 'up' : live.fearGreed > 75 ? 'down' : 'neutral', fake: isFake(live.fakes, 'fearGreed') }),
+          React.createElement(StatCard, { label: 'Distance ATH', value: `${calc.drop.toFixed(1)}%`, detail: `${calc.dATH} jours`, status: 'neutral', fake: isFake(live.fakes, 'price') })
+        ),
+        
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '2fr 1fr', gap: 24, marginBottom: 24 } },
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' },
+              React.createElement('div', { className: 'card-title' }, '🔥 Bottom Composite Score'),
+              React.createElement('div', { className: 'card-badge' }, 'LIVE')
+            ),
+            React.createElement('div', { className: 'card-body', style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 32 } },
+              React.createElement(CompositeGauge, { value: calc.composite, mob }),
+              React.createElement(BottomScoreCard, { scores: calc.bscores, total: calc.totalScore, mob })
+            )
+          ),
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' },
+              React.createElement('div', { className: 'card-title' }, '📊 Signaux Clés')
+            ),
+            React.createElement('div', { className: 'card-body' },
+               React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 12 } },
+                 React.createElement(SignalCard, { title: 'NUPL', value: live.nupl?.toFixed(3), status: live.nupl < 0 ? 'bullish' : live.nupl > 0.7 ? 'bearish' : 'neutral', detail: 'Net Unrealized Profit/Loss', info: INFO.nupl, fake: isFake(live.fakes, 'nupl') }),
+                 React.createElement(SignalCard, { title: 'RSI 14D', value: live.rsi?.toFixed(0), status: live.rsi < 30 ? 'bullish' : live.rsi > 70 ? 'bearish' : 'neutral', detail: 'Momentum', info: INFO.rsi, fake: isFake(live.fakes, 'rsi') }),
+                 React.createElement(SignalCard, { title: 'Miner Rev.', value: live.puellMultiple?.toFixed(2), status: live.puellMultiple < 0.5 ? 'bullish' : 'neutral', detail: 'Puell Multiple', info: INFO.puell, fake: isFake(live.fakes, 'puellMultiple') })
+               )
+            )
+          )
+        ),
+
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 } },
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📉 On-Chain Depth')),
+            React.createElement('div', { className: 'card-body' }, React.createElement(OnChainDepth, { price: live.price, mob, levels: calc.liveLevels }))
+          ),
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '⏳ Cycle Position')),
+            React.createElement('div', { className: 'card-body' }, React.createElement(CyclePosition, { mob }))
+          )
+        )
+      );
+    }
+
+    function OnChainView({ live, calc, mob }) {
+        return React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, 'Analyse On-Chain Détaillée')),
+            React.createElement('div', { className: 'card-body' },
+                React.createElement('div', { className: 'signal-grid' },
+                    React.createElement(SignalCard, { title: 'MVRV Ratio', value: calc.mvrv.toFixed(2), status: 'neutral', detail: 'Market vs Realized', info: INFO.mvrv, fake: isFake(live.fakes, 'mvrvratio') }),
+                    React.createElement(SignalCard, { title: 'SOPR', value: live.sopr?.toFixed(3), status: live.sopr < 1 ? 'bullish' : 'neutral', detail: 'Spent Output Profit', info: INFO.asopr, fake: isFake(live.fakes, 'sopr') }),
+                    React.createElement(SignalCard, { title: 'RHODL', value: live.rhodl?.toFixed(0), status: 'neutral', detail: 'HODL Ratio', info: INFO.rhodl, fake: isFake(live.fakes, 'rhodl') }),
+                    React.createElement(SignalCard, { title: 'STH-RP', value: fK(calc.sthRp), status: live.price < calc.sthRp ? 'bullish' : 'neutral', detail: 'Short Term Holder', info: INFO.sth, fake: isFake(live.fakes, 'sthRealizedPrice') })
+                ),
+                React.createElement('div', { style: { marginTop: 24 } },
+                   React.createElement(ExhaustionPanel, { pct: calc.exhaustPct, mob })
+                )
+            )
+        );
+    }
+
+    function PriceView({ live, calc, hist, mob }) {
+        return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+            React.createElement('div', { className: 'card' },
+                React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, 'Bandes de Prix Historiques')),
+                React.createElement('div', { className: 'card-body' },
+                   React.createElement(PriceBandsChartV2, { price: live.price, mob, levels: calc.liveLevels, histPrices: hist?.prices })
+                )
+            ),
+            React.createElement('div', { className: 'card' },
+                React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, 'Historique & MA200')),
+                React.createElement('div', { className: 'card-body' }, 
+                   React.createElement(PriceHistoryChart, { hist, mob })
+                )
+            )
+        );
+    }
+
+    function RainbowView({ live, calc, hist, mob }) {
+        return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+            React.createElement('div', { className: 'card' },
+                React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '\uD83C\uDF08 Rainbow Chart')),
+                React.createElement('div', { className: 'card-body' },
+                    React.createElement(RainbowChart, { hist, currentPrice: live.price, mob })
+                )
+            ),
+            React.createElement('div', { className: 'card' },
+                React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '\uD83C\uDFB2 Monte Carlo Simulation')),
+                React.createElement('div', { className: 'card-body' },
+                    React.createElement(MonteCarloChart, { mc: calc.mc, price: live.price, mob, rp: calc.rp, w200: calc.sma200 }),
+                    React.createElement('div', { style: { marginTop: 20, padding: '16px 18px', background: DS.surface2, borderRadius: 10, border: `1px solid ${DS.borderLight}` } },
+                      React.createElement('div', { style: { fontSize: 13, fontWeight: 700, color: DS.text, marginBottom: 10 } }, 'Comment lire ce graphique ?'),
+                      React.createElement('div', { style: { fontSize: 12, color: DS.text2, lineHeight: 1.7 } },
+                        'La simulation Monte Carlo projette 200 trajectoires de prix possibles sur 365 jours, bas\u00E9es sur la volatilit\u00E9 historique r\u00E9cente du BTC. Chaque trajectoire simule un chemin al\u00E9atoire (mouvement brownien g\u00E9om\u00E9trique) que le prix pourrait suivre.'
+                      ),
+                      React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 12, marginTop: 14 } },
+                        React.createElement('div', { style: { padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` } },
+                          React.createElement('div', { style: { fontSize: 11, fontWeight: 600, color: DS.accent, marginBottom: 4 } }, 'Bande fonc\u00E9e (P25-P75)'),
+                          React.createElement('div', { style: { fontSize: 11, color: DS.text3, lineHeight: 1.5 } }, '50% des simulations tombent dans cette zone. C\'est le sc\u00E9nario le plus probable.')
+                        ),
+                        React.createElement('div', { style: { padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` } },
+                          React.createElement('div', { style: { fontSize: 11, fontWeight: 600, color: DS.accent, marginBottom: 4, opacity: 0.6 } }, 'Bande claire (P5-P95)'),
+                          React.createElement('div', { style: { fontSize: 11, color: DS.text3, lineHeight: 1.5 } }, '90% des simulations. Les extr\u00E9mit\u00E9s repr\u00E9sentent les sc\u00E9narios bull/bear extr\u00EAmes.')
+                        ),
+                        React.createElement('div', { style: { padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` } },
+                          React.createElement('div', { style: { fontSize: 11, fontWeight: 600, color: DS.accent, marginBottom: 4 } }, 'Ligne m\u00E9diane (P50)'),
+                          React.createElement('div', { style: { fontSize: 11, color: DS.text3, lineHeight: 1.5 } }, 'La trajectoire m\u00E9diane : autant de simulations au-dessus qu\'en-dessous.')
+                        ),
+                        React.createElement('div', { style: { padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` } },
+                          React.createElement('div', { style: { fontSize: 11, fontWeight: 600, marginBottom: 4 } },
+                            React.createElement('span', { style: { color: DS.up } }, 'P95'),
+                            ' / ',
+                            React.createElement('span', { style: { color: DS.down } }, 'P5')
+                          ),
+                          React.createElement('div', { style: { fontSize: 11, color: DS.text3, lineHeight: 1.5 } }, 'P95 (vert) = sc\u00E9nario tr\u00E8s haussier. P5 (rouge) = sc\u00E9nario tr\u00E8s baissier.')
+                        )
+                      ),
+                      React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginTop: 12, fontStyle: 'italic', lineHeight: 1.5 } },
+                        '\u26A0\uFE0F Ce n\'est pas une pr\u00E9diction mais une mod\u00E9lisation probabiliste. Le march\u00E9 crypto peut d\u00E9passer les extr\u00EAmes simul\u00E9s lors d\'\u00E9v\u00E9nements impr\u00E9vus (black swan, r\u00E9gulation, adoption massive).'
+                      )
+                    )
+                )
+            )
+        );
+    }
+    
+    function PiCycleView({ live, calc, hist, mob }) {
+        var prices = hist && hist.prices ? hist.prices : [];
+        var lastWithMAs = null;
+        for (var pi = prices.length - 1; pi >= 0; pi--) { if (prices[pi].ma111 && prices[pi].ma350x2) { lastWithMAs = prices[pi]; break; } }
+        var ma111 = lastWithMAs ? lastWithMAs.ma111 : 0;
+        var ma350x2 = lastWithMAs ? lastWithMAs.ma350x2 : 0;
+        var pcPrice = live && live.price ? live.price : (lastWithMAs ? lastWithMAs.price : 0);
+        var crosses = hist && hist.crosses ? hist.crosses : [];
+        var gap = ma350x2 > 0 ? ((ma350x2 - ma111) / ma350x2 * 100) : 0;
+        var gapAbs = ma350x2 - ma111;
+        var isCrossed = ma111 >= ma350x2 && ma111 > 0;
+        var proximity = ma350x2 > 0 ? Math.min(100, (ma111 / ma350x2) * 100) : 0;
+        var stLabel, stColor, stBg, stDesc;
+        if (isCrossed) { stLabel='CROISEMENT ACTIF'; stColor=DS.down; stBg='rgba(239,68,68,0.08)'; stDesc='Le 111 DMA a crois\u00e9 le 350 DMA x2 \u2014 signal de top historique'; }
+        else if (proximity > 90) { stLabel='ZONE CRITIQUE'; stColor=DS.warn; stBg='rgba(245,158,11,0.08)'; stDesc='Les moyennes convergent rapidement \u2014 surveillance requise'; }
+        else if (proximity > 75) { stLabel='CONVERGENCE'; stColor=DS.warn; stBg='rgba(245,158,11,0.06)'; stDesc='Les moyennes se rapprochent \u2014 tendance \u00e0 surveiller'; }
+        else { stLabel='ZONE S\u00dbRE'; stColor=DS.up; stBg='rgba(16,185,129,0.08)'; stDesc='Les moyennes sont bien espac\u00e9es \u2014 pas de signal de top'; }
+        var lastCross = crosses.length > 0 ? crosses[crosses.length - 1] : null;
+        var daysSinceLastCross = lastCross ? Math.floor((Date.now() - lastCross.date.getTime()) / 86400000) : null;
+        var zones = [
+          { label: '< 75%', desc: 'Zone s\u00fbre', c: DS.up, min: 0, max: 75 },
+          { label: '75-90%', desc: 'Convergence', c: DS.warn, min: 75, max: 90 },
+          { label: '90-100%', desc: 'Critique', c: DS.down, min: 90, max: 100 },
+          { label: '\u2265 100%', desc: 'Croisement = TOP', c: DS.down, min: 100, max: Infinity }
+        ];
+        return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+          React.createElement('div', { className: 'stat-grid' },
+            React.createElement(StatCard, { label: '111 DMA', value: '$' + fP(ma111), status: 'neutral' }),
+            React.createElement(StatCard, { label: '350 DMA x2', value: '$' + fP(ma350x2), status: 'neutral' }),
+            React.createElement(StatCard, { label: 'Proximité', value: proximity.toFixed(1) + '%', detail: isCrossed ? 'CROISÉ' : 'Gap: $' + fP(gapAbs), status: isCrossed ? 'down' : proximity > 90 ? 'down' : proximity > 75 ? 'warn' : 'up' }),
+            React.createElement(StatCard, { label: 'Statut', value: stLabel, status: isCrossed ? 'down' : proximity > 90 ? 'down' : proximity > 75 ? 'warn' : 'up' })
+          ),
+
+          // Chart
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📈 Pi Cycle Top')),
+            React.createElement('div', { className: 'card-body' }, React.createElement(PiCycleChart, { hist, mob }))
+          ),
+
+          // Status & Zones
+          React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 } },
+            React.createElement('div', { className: 'card' },
+              React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '🎯 Statut Actuel')),
+              React.createElement('div', { className: 'card-body' },
+                React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+                  React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: stBg, borderRadius: 10, border: '1px solid ' + stColor + '22' } },
+                    React.createElement('div', { style: { width: 10, height: 10, borderRadius: '50%', background: stColor } }),
+                    React.createElement('div', null,
+                      React.createElement('div', { style: { fontWeight: 600, fontSize: 14 } }, stLabel),
+                      React.createElement('div', { style: { fontSize: 12, color: DS.text2, marginTop: 2 } }, stDesc)
+                    )
+                  ),
+                  lastCross && React.createElement('div', { style: { padding: '12px 14px', background: DS.borderLight, borderRadius: 8 } },
+                    React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginBottom: 4 } }, 'Dernier croisement'),
+                    React.createElement('div', { style: { fontSize: 15, fontWeight: 600, fontFamily: DS.mono } }, daysSinceLastCross + ' jours')
+                  ),
+                  React.createElement('div', { style: { fontSize: 12, color: DS.text2, lineHeight: 1.6 } }, INFO.picycle)
+                )
+              )
+            ),
+            React.createElement('div', { className: 'card' },
+              React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📊 Zones de Proximité')),
+              React.createElement('div', { className: 'card-body' },
+                React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
+                  zones.map(function(z, i) {
+                    var active = proximity >= z.min && proximity < z.max;
+                    return React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', background: active ? z.c + '11' : 'transparent', borderRadius: 8, border: active ? '1px solid ' + z.c + '33' : '1px solid transparent' } },
+                      React.createElement('div', { style: { width: 8, height: 8, borderRadius: '50%', background: z.c, opacity: active ? 1 : 0.3 } }),
+                      React.createElement('div', { style: { flex: 1 } },
+                        React.createElement('div', { style: { fontSize: 13, fontWeight: active ? 600 : 400 } }, z.label),
+                        React.createElement('div', { style: { fontSize: 11, color: DS.text3 } }, z.desc)
+                      ),
+                      active && React.createElement('div', { style: { fontSize: 12, fontWeight: 600, color: z.c } }, '◀')
+                    );
+                  })
+                )
+              )
+            )
+          )
+        );
+      }
+
+    // ========== MINERS VIEW ==========
+    function MinersView({ live, calc, mob, hrHist }) {
+      const hr = live.hashrate || 0;
+      const diff = live.difficulty || 0;
+      // Use real computed SMA from mempool.space data when available, fallback to BGeometrics
+      const sma30 = hrHist?.sma30 || live.hashSma30 || 0;
+      const sma60 = hrHist?.sma60 || live.hashSma60 || 0;
+      const ribbonDown = hrHist ? hrHist.capitulation : (live.hashRibbons === 'Down');
+
+      return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+        // Stats
+        React.createElement('div', { className: 'stat-grid' },
+          React.createElement(StatCard, { label: 'Hash Rate', value: `${hr.toFixed(0)} EH/s`, status: 'neutral', fake: isFake(live.fakes, 'hashrate') }),
+          React.createElement(StatCard, { label: 'Puell Multiple', value: calc.puell.toFixed(2), detail: calc.puell < 0.5 ? 'Zone achat' : calc.puell > 4 ? 'Zone top' : 'Neutre', status: calc.puell < 0.5 ? 'up' : calc.puell > 4 ? 'down' : 'neutral', fake: isFake(live.fakes, 'puellMultiple') }),
+          React.createElement(StatCard, { label: 'Mining Margin', value: `${calc.margin.toFixed(1)}%`, detail: `MC: $${fP(MC)}`, status: calc.margin < 0 ? 'down' : calc.margin < 15 ? 'up' : 'neutral', fake: isFake(live.fakes, 'price') }),
+          React.createElement(StatCard, { label: 'Score Miners', value: `${calc.miners}/100`, status: calc.miners < 25 ? 'up' : calc.miners > 70 ? 'down' : 'neutral', fake: isFake(live.fakes, 'puellMultiple', 'price') })
+        ),
+
+        // Charts
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 } },
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' },
+              React.createElement('div', { className: 'card-title' }, '📈 Hash Ribbons Chart'),
+              React.createElement('div', { className: 'card-badge' }, hrHist ? 'MEMPOOL.SPACE' : 'CHARGEMENT...')
+            ),
+            React.createElement('div', { className: 'card-body' }, React.createElement(HashRibbonsChart, { hrHist, mob }))
+          ),
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📊 Niveaux de Prix & Marge')),
+            React.createElement('div', { className: 'card-body' }, React.createElement(MiningMarginChart, { price: live.price, mob, rp: calc.rp, sthRp: calc.sthRp, lthRp: calc.lthRp, w200: calc.sma200 }))
+          )
+        ),
+
+        // Indicators
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 } },
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '⛏ Hash Ribbons')),
+            React.createElement('div', { className: 'card-body' },
+              React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+                React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: ribbonDown ? 'rgba(16,185,129,0.06)' : 'rgba(239,68,68,0.06)', borderRadius: 10, border: `1px solid ${ribbonDown ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)'}` } },
+                  React.createElement('div', { style: { width: 10, height: 10, borderRadius: '50%', background: ribbonDown ? DS.up : DS.down } }),
+                  React.createElement('div', null,
+                    React.createElement('div', { style: { fontWeight: 600, fontSize: 14 } }, ribbonDown ? 'Capitulation Mineurs' : 'Mineurs en expansion'),
+                    React.createElement('div', { style: { fontSize: 12, color: DS.text2, marginTop: 2 } }, ribbonDown ? 'SMA30 < SMA60 — signal d\'achat historique' : 'SMA30 > SMA60 — croissance du hashrate')
+                  )
+                ),
+                React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 } },
+                  React.createElement('div', { style: { padding: '12px 14px', background: DS.borderLight, borderRadius: 8 } },
+                    React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginBottom: 4 } }, 'SMA 30j'),
+                    React.createElement('div', { style: { fontSize: 15, fontWeight: 600, fontFamily: DS.mono } }, `${sma30.toFixed(0)} EH/s`)
+                  ),
+                  React.createElement('div', { style: { padding: '12px 14px', background: DS.borderLight, borderRadius: 8 } },
+                    React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginBottom: 4 } }, 'SMA 60j'),
+                    React.createElement('div', { style: { fontSize: 15, fontWeight: 600, fontFamily: DS.mono } }, `${sma60.toFixed(0)} EH/s`)
+                  )
+                ),
+                React.createElement('div', { style: { fontSize: 12, color: DS.text2, lineHeight: 1.6 } }, INFO.hash)
+              )
+            )
+          ),
+
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '💰 Puell Multiple')),
+            React.createElement('div', { className: 'card-body' },
+              React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+                React.createElement('div', { style: { textAlign: 'center', padding: '20px 0' } },
+                  React.createElement('div', { style: { fontSize: 42, fontWeight: 700, fontFamily: DS.mono, color: calc.puell < 0.5 ? DS.up : calc.puell > 4 ? DS.down : DS.text } }, calc.puell.toFixed(2)),
+                  React.createElement('div', { style: { fontSize: 12, color: DS.text3, marginTop: 4 } }, 'Revenu mineur / Moyenne 365j')
+                ),
+                React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 8 } },
+                  ['< 0.5 — Zone d\'achat (sous-revenue)', '0.5 - 1.0 — Recovery', '1.0 - 2.0 — Neutre', '2.0 - 4.0 — Surprofit', '> 4.0 — Zone de top'].map((t, i) => {
+                    const colors = [DS.up, '#34d399', DS.text2, DS.warn, DS.down];
+                    const thresholds = [0.5, 1.0, 2.0, 4.0, Infinity];
+                    const active = i === 0 ? calc.puell < 0.5 : calc.puell >= [0, 0.5, 1.0, 2.0, 4.0][i] && calc.puell < thresholds[i];
+                    return React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', borderRadius: 6, background: active ? 'rgba(249,115,22,0.06)' : 'transparent', border: active ? '1px solid rgba(249,115,22,0.2)' : '1px solid transparent' } },
+                      React.createElement('div', { style: { width: 8, height: 8, borderRadius: '50%', background: colors[i], opacity: active ? 1 : 0.4 } }),
+                      React.createElement('div', { style: { fontSize: 12, color: active ? DS.text : DS.text3 } }, t)
+                    );
+                  })
+                ),
+                React.createElement('div', { style: { fontSize: 12, color: DS.text2, lineHeight: 1.6, marginTop: 8 } }, INFO.puell)
+              )
+            )
+          )
+        ),
+
+        // Mining details
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📊 Marge & Rentabilité')),
+          React.createElement('div', { className: 'card-body' },
+            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr 1fr', gap: 16 } },
+              [
+                { l: 'Prix BTC', v: `$${fP(live.price)}`, c: DS.text, fk: isFake(live.fakes, 'price') },
+                { l: 'Coût de minage', v: `$${fP(MC)}`, c: DS.warn },
+                { l: 'Marge', v: `${calc.margin.toFixed(1)}%`, c: calc.margin > 0 ? DS.up : DS.down, fk: isFake(live.fakes, 'price') },
+                { l: 'Difficulté', v: `${(diff / 1e12).toFixed(1)}T`, c: DS.text, fk: isFake(live.fakes, 'difficulty') },
+                { l: 'ETF BTC Total', v: live.etfBtcTotal ? `${fP(live.etfBtcTotal)} BTC` : 'N/A', c: DS.blue, fk: isFake(live.fakes, 'etfBtcTotal') },
+                { l: 'ETF Flow', v: live.etfFlowBtc ? `${live.etfFlowBtc > 0 ? '+' : ''}${fP(live.etfFlowBtc)} BTC` : 'N/A', c: live.etfFlowBtc > 0 ? DS.up : DS.down, fk: isFake(live.fakes, 'etfFlowBtc') }
+              ].map((item, i) => React.createElement('div', { key: i, style: { padding: '14px 16px', background: DS.borderLight, borderRadius: 10, border: item.fk ? '1px solid rgba(239,68,68,0.25)' : 'none' } },
+                React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.5 } }, item.l, item.fk && React.createElement(FakeBadge)),
+                React.createElement('div', { style: { fontSize: 18, fontWeight: 600, fontFamily: DS.mono, color: item.c } }, item.v)
+              ))
+            )
+          )
+        )
+      );
+    }
+
+    // ========== DERIVATIVES VIEW ==========
+    function DerivativesView({ live, calc, mob }) {
+      const fr = live.fundingRateBG ?? live.fundingRate;
+      const oi = live.openInterestBG ?? live.openInterest;
+
+      return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+        // Stats
+        React.createElement('div', { className: 'stat-grid' },
+          React.createElement(StatCard, { label: 'Funding Rate', value: `${fr.toFixed(4)}%`, status: fr < -0.01 ? 'up' : fr > 0.05 ? 'down' : 'neutral', fake: isFake(live.fakes, 'fundingRate') }),
+          React.createElement(StatCard, { label: 'Open Interest', value: fB(oi), status: oi > 60e9 ? 'down' : oi < 30e9 ? 'up' : 'neutral', fake: isFake(live.fakes, 'openInterest') }),
+          React.createElement(StatCard, { label: 'Fear & Greed', value: live.fearGreed, detail: live.fgLabel, status: live.fearGreed < 20 ? 'up' : live.fearGreed > 75 ? 'down' : 'neutral', fake: isFake(live.fakes, 'fearGreed') }),
+          React.createElement(StatCard, { label: 'Score Dérivés', value: `${calc.derivs}/100`, status: calc.derivs < 25 ? 'up' : calc.derivs > 70 ? 'down' : 'neutral', fake: isFake(live.fakes, 'fundingRate', 'openInterest', 'fearGreed') })
+        ),
+
+        // Funding Rate Chart
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📈 Funding Rate — 60 jours')),
+          React.createElement('div', { className: 'card-body' }, React.createElement(FundingRateChart, { fundingRate: fr, fundingHistory: live.fundingHistory, mob }))
+        ),
+
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 } },
+          // Funding Rate card
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📈 Funding Rate')),
+            React.createElement('div', { className: 'card-body' },
+              React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+                React.createElement('div', { style: { textAlign: 'center', padding: '20px 0' } },
+                  React.createElement('div', { style: { fontSize: 42, fontWeight: 700, fontFamily: DS.mono, color: fr < 0 ? DS.up : fr > 0.05 ? DS.down : DS.text } }, `${fr.toFixed(4)}%`),
+                  React.createElement('div', { style: { fontSize: 13, color: DS.text2, marginTop: 6 } }, fr < -0.01 ? 'Shorts paient les longs — Bullish' : fr > 0.05 ? 'Longs paient les shorts — Bearish' : 'Neutre')
+                ),
+                React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 6 } },
+                  [
+                    { l: '< -0.03%', d: 'Capitulation shorts', c: DS.up },
+                    { l: '-0.03% ~ -0.01%', d: 'Shorts dominants', c: '#34d399' },
+                    { l: '-0.01% ~ 0.01%', d: 'Equilibre', c: DS.text2 },
+                    { l: '0.01% ~ 0.05%', d: 'Longs dominants', c: DS.warn },
+                    { l: '> 0.05%', d: 'Surlévéragé long', c: DS.down }
+                  ].map((z, i) => {
+                    const ranges = [-0.03, -0.01, 0.01, 0.05, Infinity];
+                    const active = i === 0 ? fr < -0.03 : fr >= [-Infinity, -0.03, -0.01, 0.01, 0.05][i] && fr < ranges[i];
+                    return React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', borderRadius: 6, background: active ? 'rgba(249,115,22,0.06)' : 'transparent', border: active ? '1px solid rgba(249,115,22,0.2)' : '1px solid transparent' } },
+                      React.createElement('div', { style: { width: 8, height: 8, borderRadius: '50%', background: z.c, opacity: active ? 1 : 0.4 } }),
+                      React.createElement('div', { style: { fontSize: 12 } },
+                        React.createElement('span', { style: { fontFamily: DS.mono, fontWeight: 500, color: active ? DS.text : DS.text3 } }, z.l),
+                        React.createElement('span', { style: { color: DS.text3, marginLeft: 8 } }, z.d)
+                      )
+                    );
+                  })
+                ),
+                React.createElement('div', { style: { fontSize: 12, color: DS.text2, lineHeight: 1.6, marginTop: 8 } }, INFO.funding)
+              )
+            )
+          ),
+
+          // Open Interest card
+          React.createElement('div', { className: 'card' },
+            React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '📊 Open Interest')),
+            React.createElement('div', { className: 'card-body' },
+              React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+                React.createElement('div', { style: { textAlign: 'center', padding: '20px 0' } },
+                  React.createElement('div', { style: { fontSize: 42, fontWeight: 700, fontFamily: DS.mono } }, fB(oi)),
+                  React.createElement('div', { style: { fontSize: 13, color: DS.text2, marginTop: 6 } }, 'Valeur totale des positions futures ouvertes')
+                ),
+                // OI gauge bar
+                React.createElement('div', { style: { padding: '12px 14px', background: DS.borderLight, borderRadius: 10 } },
+                  React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: 11, color: DS.text3, marginBottom: 6 } },
+                    React.createElement('span', null, 'Purgé'),
+                    React.createElement('span', null, 'Surlévéragé')
+                  ),
+                  React.createElement('div', { style: { height: 8, background: DS.border, borderRadius: 4, overflow: 'hidden', position: 'relative' } },
+                    React.createElement('div', { style: { height: '100%', width: `${Math.min(100, (oi / 90e9) * 100)}%`, background: `linear-gradient(90deg, ${DS.up}, ${DS.warn}, ${DS.down})`, borderRadius: 4, transition: 'width 0.5s ease' } })
+                  ),
+                  React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: 11, color: DS.text3, marginTop: 6 } },
+                    React.createElement('span', null, '$0'),
+                    React.createElement('span', null, '$90B')
+                  )
+                ),
+                // Leverage purge score
+                React.createElement('div', { style: { padding: '12px 14px', background: DS.borderLight, borderRadius: 10, marginTop: 4 } },
+                  React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginBottom: 4 } }, 'Levier purgé vs pic'),
+                  React.createElement('div', { style: { fontSize: 18, fontWeight: 600, fontFamily: DS.mono } }, `${Math.max(0, (1 - oi / 90e9) * 100).toFixed(1)}%`),
+                  React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginTop: 2 } }, 'Cible: -40% (OI < $54B)')
+                )
+              )
+            )
+          )
+        ),
+
+        // Bottom detection signals related to derivatives
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '🎯 Signaux Bottom — Dérivés')),
+          React.createElement('div', { className: 'card-body' },
+            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 12 } },
+              calc.bscores.filter(s => s.id === 'funding' || s.id === 'leverage').map(s =>
+                React.createElement('div', { key: s.id, style: { padding: '14px 16px', background: DS.borderLight, borderRadius: 10, border: `1px solid ${s.st === 'hit' ? 'rgba(16,185,129,0.2)' : s.st === 'partial' ? 'rgba(249,115,22,0.2)' : DS.border}` } },
+                  React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 } },
+                    React.createElement('div', { style: { fontWeight: 600, fontSize: 13 } }, s.l),
+                    React.createElement('div', { style: { fontSize: 11, padding: '2px 8px', borderRadius: 10, fontWeight: 600, background: s.st === 'hit' ? 'rgba(16,185,129,0.1)' : s.st === 'partial' ? 'rgba(249,115,22,0.1)' : 'rgba(239,68,68,0.1)', color: s.st === 'hit' ? DS.up : s.st === 'partial' ? DS.accent : DS.down } }, s.st === 'hit' ? 'Atteint' : s.st === 'partial' ? 'Partiel' : 'Non atteint')
+                  ),
+                  React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', fontSize: 12, color: DS.text2 } },
+                    React.createElement('span', null, `Cible: ${s.th}`),
+                    React.createElement('span', { style: { fontFamily: DS.mono, fontWeight: 600, color: DS.text } }, s.cur)
+                  ),
+                  React.createElement('div', { style: { height: 4, background: DS.border, borderRadius: 2, marginTop: 8, overflow: 'hidden' } },
+                    React.createElement('div', { style: { height: '100%', width: `${s.sc}%`, background: s.st === 'hit' ? DS.up : s.st === 'partial' ? DS.accent : DS.down, borderRadius: 2 } })
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+
+    // ========== SCENARIOS VIEW ==========
+    function ScenariosView({ live, calc, mob }) {
+      return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+        // Stats
+        React.createElement('div', { className: 'stat-grid' },
+          React.createElement(StatCard, { label: 'Distance ATH', value: `${calc.drop.toFixed(1)}%`, detail: `${calc.dATH} jours`, status: 'neutral', fake: isFake(live.fakes, 'price') }),
+          React.createElement(StatCard, { label: 'Bear Progress', value: `${calc.bearProg.toFixed(0)}%`, detail: `J${calc.dATH}/383`, status: calc.bearProg > 80 ? 'up' : 'neutral' }),
+          React.createElement(StatCard, { label: 'Bottom estim.', value: `J-${calc.dBot}`, detail: 'ATH + 383j', status: calc.dBot < 60 ? 'up' : 'neutral' }),
+          React.createElement(StatCard, { label: 'Next Halving', value: `J-${calc.dNH}`, detail: '~Avr 2028', status: 'neutral' })
+        ),
+
+        // Zone chart
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '🗺 Carte des Zones de Prix')),
+          React.createElement('div', { className: 'card-body' }, React.createElement(ScenarioZoneChart, { price: live.price, mob, levels: calc.liveLevels }))
+        ),
+
+        // Scenarios
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { className: 'card-header' },
+            React.createElement('div', { className: 'card-title' }, '🔮 Scénarios de Bottom'),
+            React.createElement('div', { className: 'card-badge' }, `Prix: $${fP(live.price)}`)
+          ),
+          React.createElement('div', { className: 'card-body' },
+            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 16 } },
+              SCENARIOS.map((s, i) => {
+                const inRange = live.price >= s.r[0] * 1000 && live.price <= s.r[1] * 1000;
+                return React.createElement('div', { key: i, style: { padding: '18px 20px', borderRadius: 12, border: `1.5px solid ${s.hl ? s.c : DS.border}`, background: s.hl ? 'rgba(249,115,22,0.04)' : DS.surface, position: 'relative', overflow: 'hidden' } },
+                  s.hl && React.createElement('div', { style: { position: 'absolute', top: 0, right: 0, padding: '3px 10px', fontSize: 10, fontWeight: 700, background: s.c, color: '#fff', borderRadius: '0 0 0 8px' } }, 'PROBABLE'),
+                  React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 } },
+                    React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10 } },
+                      React.createElement('div', { style: { width: 10, height: 10, borderRadius: '50%', background: s.c } }),
+                      React.createElement('div', { style: { fontWeight: 700, fontSize: 15 } }, s.l)
+                    ),
+                    React.createElement('div', { style: { fontSize: 20, fontWeight: 700, fontFamily: DS.mono, color: s.c } }, `${s.p}%`)
+                  ),
+                  React.createElement('div', { style: { fontSize: 12, color: DS.text2, marginBottom: 12 } }, s.z),
+                  React.createElement('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 } },
+                    React.createElement('div', { style: { padding: '8px 10px', background: DS.borderLight, borderRadius: 8 } },
+                      React.createElement('div', { style: { fontSize: 10, color: DS.text3, marginBottom: 2 } }, 'RANGE'),
+                      React.createElement('div', { style: { fontSize: 14, fontWeight: 600, fontFamily: DS.mono } }, `$${s.r[0]}K - $${s.r[1]}K`)
+                    ),
+                    React.createElement('div', { style: { padding: '8px 10px', background: DS.borderLight, borderRadius: 8 } },
+                      React.createElement('div', { style: { fontSize: 10, color: DS.text3, marginBottom: 2 } }, 'DRAWDOWN'),
+                      React.createElement('div', { style: { fontSize: 14, fontWeight: 600, fontFamily: DS.mono, color: DS.down } }, `${s.dd[0]}% / ${s.dd[1]}%`)
+                    )
+                  ),
+                  inRange && React.createElement('div', { style: { marginTop: 10, padding: '4px 10px', background: 'rgba(16,185,129,0.08)', borderRadius: 6, fontSize: 11, color: DS.up, fontWeight: 600, textAlign: 'center' } }, 'Prix actuel dans cette zone')
+                );
+              })
+            )
+          )
+        ),
+
+        // Timing convergence
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { className: 'card-header' }, React.createElement('div', { className: 'card-title' }, '⏱ Convergence Temporelle')),
+          React.createElement('div', { className: 'card-body' },
+            React.createElement('div', { style: { display: 'flex', flexDirection: 'column', gap: 12 } },
+              TIMING.map((t, i) =>
+                React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 16, padding: '14px 16px', background: DS.borderLight, borderRadius: 10 } },
+                  React.createElement('div', { style: { width: 40, height: 40, borderRadius: 10, background: `rgba(249,115,22,${0.06 + t.conf * 0.1})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, fontFamily: DS.mono, color: DS.accent, flexShrink: 0 } }, `${i + 1}`),
+                  React.createElement('div', { style: { flex: 1 } },
+                    React.createElement('div', { style: { fontWeight: 600, fontSize: 13, marginBottom: 2 } }, t.m),
+                    React.createElement('div', { style: { fontSize: 12, color: DS.text2 } }, t.calc)
+                  ),
+                  React.createElement('div', { style: { textAlign: 'right' } },
+                    React.createElement('div', { style: { fontWeight: 700, fontSize: 14, fontFamily: DS.mono, color: DS.accent } }, t.result),
+                    React.createElement('div', { style: { fontSize: 11, color: DS.text3 } }, `${(t.conf * 100).toFixed(0)}% confiance`)
+                  )
+                )
+              ),
+              React.createElement('div', { style: { marginTop: 8, padding: '12px 16px', background: 'rgba(249,115,22,0.04)', borderRadius: 10, border: '1px solid rgba(249,115,22,0.12)' } },
+                React.createElement('div', { style: { fontSize: 13, fontWeight: 600, color: DS.accent, marginBottom: 4 } }, 'Convergence: Sep - Nov 2026'),
+                React.createElement('div', { style: { fontSize: 12, color: DS.text2, lineHeight: 1.5 } }, 'Les 3 méthodes de calcul convergent vers une fenêtre de bottom potentiel entre septembre et novembre 2026.')
+              )
+            )
+          )
+        ),
+
+        // Exhaustion phases
+        React.createElement('div', { className: 'card' },
+          React.createElement('div', { className: 'card-header' },
+            React.createElement('div', { className: 'card-title' }, '🔥 Phases d\'Exhaustion'),
+            React.createElement('div', { className: 'card-badge' }, `${calc.exhaustPct}%`)
+          ),
+          React.createElement('div', { className: 'card-body' },
+            React.createElement(ExhaustionPanel, { pct: calc.exhaustPct, mob })
+          )
+        )
+      );
+    }
+
+    function StatCard({ label, value, detail, change, status, neutral, fake }) {
+      const s = status === 'up' ? 'up' : status === 'down' ? 'down' : status === 'warn' ? 'warn' : 'neutral';
+      return React.createElement('div', { className: `stat-card ${s}${fake ? ' is-fake' : ''}` },
+        React.createElement('div', { className: 'stat-label' }, label, fake && React.createElement(FakeBadge)),
+        React.createElement('div', { className: 'stat-value' }, value),
+        (detail || change) && React.createElement('div', { className: 'stat-detail' },
+           change ? React.createElement('span', { className: `stat-change ${change > 0 ? 'up' : 'down'}` }, fPct(change)) : null,
+           detail ? React.createElement('span', { style: { marginLeft: 8 } }, detail) : null
+        )
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>

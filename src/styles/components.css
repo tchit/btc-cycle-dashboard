@@ -1,0 +1,508 @@
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-badge {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Stat Cards */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+}
+
+.stat-card.up::before { background: var(--up); }
+.stat-card.down::before { background: var(--down); }
+.stat-card.warn::before { background: var(--warn); }
+.stat-card.neutral::before { background: var(--blue); }
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.stat-unit {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-left: 2px;
+}
+
+.stat-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.stat-change.up {
+  background: var(--up-bg);
+  color: var(--up);
+}
+
+.stat-change.down {
+  background: var(--down-bg);
+  color: var(--down);
+}
+
+.stat-detail {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+  font-family: var(--font-mono);
+}
+
+/* Fetching/Loading indicator */
+.fake-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.10);
+  color: var(--warn);
+  border: 1px solid rgba(245, 158, 11, 0.20);
+  vertical-align: middle;
+  margin-left: 6px;
+  text-transform: uppercase;
+}
+
+.stat-card.is-fake {
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+.signal-card.is-fake {
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+/* Signal Cards Grid */
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.signal-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  padding: 16px;
+  position: relative;
+}
+
+.signal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.signal-title {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.signal-status {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.signal-status.bullish {
+  background: var(--up-bg);
+  color: var(--up);
+}
+
+.signal-status.bearish {
+  background: var(--down-bg);
+  color: var(--down);
+}
+
+.signal-status.neutral {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+
+.signal-value {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.signal-detail {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 6px;
+  font-family: var(--font-mono);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-app);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--text-primary);
+  background: rgba(0,0,0,0.03);
+}
+
+.tab.active {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Composite Gauge Container */
+.gauge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 20px 28px;
+}
+
+.gauge-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.gauge-value {
+  font-size: 52px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  line-height: 1;
+  margin-top: -10px;
+}
+
+.gauge-zone {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  margin-top: 6px;
+  opacity: 0.7;
+}
+
+/* Mini Gauges */
+.mini-gauge-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.mini-gauge {
+  background: var(--bg-app);
+  border-radius: var(--radius-sm);
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.mini-gauge-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+
+.mini-gauge-value {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+/* Price Display */
+.price-display {
+  text-align: center;
+  padding: 28px 20px;
+}
+
+.price-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  opacity: 0.6;
+  margin-bottom: 8px;
+}
+
+.price-value {
+  font-size: 44px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  letter-spacing: -2px;
+}
+
+.price-changes {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.price-change {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.price-meta {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.price-meta-item {
+  text-align: center;
+}
+
+.price-meta-label {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.price-meta-value {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Info Tip */
+.info-tip {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+.info-tip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-app);
+  border: 1px solid var(--border);
+  font-size: 9px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+.info-tip-content {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  padding: 12px 14px;
+  background: var(--bg-sidebar);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  color: #fff;
+  line-height: 1.5;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Loading Indicator */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  padding: 6px 14px;
+  background: var(--accent-subtle);
+  border-radius: 20px;
+  border: 1px solid rgba(249, 115, 22, 0.15);
+}
+
+.loading-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.2s infinite;
+}
+
+/* Bands Legend */
+.bands-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.bands-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bands-legend-color {
+  width: 12px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.bands-legend-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+/* Section Title */
+.section-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* Sources List */
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.source-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.source-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.source-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.source-name {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  margin-left: auto;
+}

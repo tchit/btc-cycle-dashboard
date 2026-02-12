@@ -1,0 +1,3921 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTC Cycle Dashboard v10</title>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; } body { background: #06080f; }</style>
+</head>
+<body>
+<div id="root"><div style="color:#38bdf8;font-family:monospace;padding:40px;background:#06080f">Loading...</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>
+window.onerror = function(msg, url, line, col, error) {
+  document.getElementById("root").innerHTML = 
+    "<div style=\"color:red;font-family:monospace;padding:20px;background:#111;white-space:pre-wrap\">" +
+    "<h2>JS Error:</h2>" + msg + "\nLine: " + line + ", Col: " + col +
+    (error && error.stack ? "\nStack: " + error.stack : "") + "</div>";
+  return false;
+};
+</script>
+<script>
+"use strict";
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var _React = React,
+  useState = _React.useState,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef,
+  useMemo = _React.useMemo,
+  useCallback = _React.useCallback;
+var DS = {
+  bg: "#06080f",
+  glass: "rgba(255,255,255,0.03)",
+  glass2: "rgba(255,255,255,0.06)",
+  glassBorder: "rgba(255,255,255,0.08)",
+  glassBorder2: "rgba(255,255,255,0.12)",
+  text: "#f0f2f7",
+  text2: "#8892a8",
+  text3: "#4a5268",
+  cyan: "#38bdf8",
+  green: "#34d399",
+  red: "#f87171",
+  amber: "#fbbf24",
+  purple: "#a78bfa",
+  blue: "#60a5fa",
+  pink: "#f472b6",
+  font: "'DM Sans', sans-serif",
+  mono: "'JetBrains Mono', monospace"
+};
+var RAINBOW = ["#2563eb", "#3b82f6", "#06b6d4", "#10b981", "#eab308", "#f97316", "#ef4444", "#dc2626", "#991b1b"];
+var rainbowAt = function rainbowAt(v) {
+  return RAINBOW[Math.min(8, Math.max(0, Math.floor(v / 12.5)))];
+};
+function useScreen() {
+  var _useState = useState(typeof window !== "undefined" ? window.innerWidth : 960),
+    _useState2 = _slicedToArray(_useState, 2),
+    w = _useState2[0],
+    setW = _useState2[1];
+  useEffect(function () {
+    var h = function h() {
+      return setW(window.innerWidth);
+    };
+    window.addEventListener("resize", h);
+    return function () {
+      return window.removeEventListener("resize", h);
+    };
+  }, []);
+  return {
+    w: w,
+    mob: w < 640,
+    tab: w >= 640 && w < 1024
+  };
+}
+var ATH = 126198,
+  ATH_DATE = "2025-10-06",
+  HALVING = "2024-04-19";
+var MC = 58096,
+  RP = 55182,
+  W200 = 57926,
+  CVDD = 45000;
+var STH_RP = 72000,
+  LTH_RP = 38000;
+var MA111 = 90000,
+  MA2Y = 75000;
+var SUPPLY_TOTAL = 19800000;
+var CYCLES = [{
+  name: "C1 2011-13",
+  halvD: "2012-11-28",
+  peak: 1177,
+  bottom: 152,
+  peakD: 367,
+  botD: 544
+}, {
+  name: "C2 2015-17",
+  halvD: "2016-07-09",
+  peak: 19783,
+  bottom: 3122,
+  peakD: 526,
+  botD: 730
+}, {
+  name: "C3 2020-22",
+  halvD: "2020-05-11",
+  peak: 69000,
+  bottom: 15476,
+  peakD: 546,
+  botD: 895
+}, {
+  name: "C4 Current",
+  halvD: HALVING,
+  peak: ATH,
+  bottom: null,
+  peakD: 535,
+  botD: null
+}];
+var OC_LEVELS = [{
+  k: "ma111",
+  l: "111-Day MA",
+  v: MA111,
+  c: DS.red
+}, {
+  k: "ma2y",
+  l: "2-Year MA",
+  v: MA2Y,
+  c: DS.amber
+}, {
+  k: "sth_rp",
+  l: "STH Real. Price",
+  v: STH_RP,
+  c: DS.cyan
+}, {
+  k: "w200",
+  l: "200-Week MA",
+  v: W200,
+  c: DS.blue
+}, {
+  k: "rp",
+  l: "Realized Price",
+  v: RP,
+  c: DS.purple
+}, {
+  k: "cvdd",
+  l: "CVDD",
+  v: CVDD,
+  c: DS.pink
+}, {
+  k: "lth_rp",
+  l: "LTH Real. Price",
+  v: LTH_RP,
+  c: DS.green
+}];
+var EXHAUST = [{
+  n: 1,
+  l: "Levier",
+  d: "Liquidations leverag\xE9es \u2014 cascade de d\xE9bouclage",
+  dur: "Jours/sem.",
+  st: "done",
+  p: 100,
+  icon: "\u26A1"
+}, {
+  n: 2,
+  l: "Retail",
+  d: "Panique retail, vente \xE0 perte, capitulation \xE9motionnelle",
+  dur: "1-3 mois",
+  st: "active",
+  p: 70,
+  icon: "\uD83D\uDC65"
+}, {
+  n: 3,
+  l: "Miners",
+  d: "Vente tr\xE9sorerie, arr\xEAt machines non-rentables",
+  dur: "Mois",
+  st: "early",
+  p: 25,
+  icon: "\u26CF"
+}, {
+  n: 4,
+  l: "ETF Outflows",
+  d: "R\xE9duction exposition institutionnelle, -24K BTC net Q4",
+  dur: "Mois",
+  st: "early",
+  p: 30,
+  icon: "\uD83C\uDFE6"
+}, {
+  n: 5,
+  l: "STH Capitulation",
+  d: "Derniers vendeurs forc\xE9s \u2014 supply verrouill\xE9",
+  dur: "Dernier",
+  st: "pending",
+  p: 5,
+  icon: "\uD83D\uDD12"
+}];
+var SCENARIOS = [{
+  l: "Shallow",
+  z: "200W MA tient",
+  r: [58, 65],
+  dd: [-48, -52],
+  p: 20,
+  c: DS.green
+}, {
+  l: "Mod\xE9r\xE9",
+  z: "Sous RP, > CVDD",
+  r: [45, 55],
+  dd: [-56, -64],
+  p: 50,
+  c: DS.cyan,
+  hl: true
+}, {
+  l: "Deep",
+  z: "Touche CVDD",
+  r: [35, 45],
+  dd: [-64, -72],
+  p: 25,
+  c: DS.amber
+}, {
+  l: "Extr\xEAme",
+  z: "Sous CVDD",
+  r: [25, 35],
+  dd: [-72, -80],
+  p: 5,
+  c: DS.red
+}];
+var TIMING = [{
+  m: "ATH + 383j",
+  calc: "6 oct 25 + 383j",
+  result: "24 oct 2026",
+  conf: 0.7
+}, {
+  m: "Halving + 863j",
+  calc: "19 avr 24 + 863j",
+  result: "Sep 2026",
+  conf: 0.8
+}, {
+  m: "Next Halv. - 513j",
+  calc: "Avr 28 - 513j",
+  result: "Oct-Nov 2026",
+  conf: 0.75
+}];
+var FALLBACK = {
+  price: 68689,
+  change24h: -0.56,
+  marketCap: 1373e9,
+  dominance: 56.9,
+  fearGreed: 9,
+  fgLabel: "Extreme Fear",
+  volume24h: 49.8e9,
+  nupl: 0.227,
+  sopr: 0.987,
+  asopr: 0.975,
+  mvrv_z: 0.534,
+  mvrv_ratio: 1.288,
+  realizedPrice: 54563,
+  sthRealizedPrice: 92645,
+  lthRealizedPrice: 44349,
+  supplyProfitPct: 45.29,
+  supplyProfitBtc: 9051976,
+  rhodl: 1.056,
+  rsi: 29.0,
+  sma200: 102083,
+  ema200: 95738,
+  sma50: 86615,
+  fundingRate: -0.005,
+  openInterest: 32e9,
+  etfBtcTotal: 644726,
+  etfFlowBtc: 4968,
+  hashrate: 1028,
+  difficulty: 126e12,
+  puellMultiple: 0.79,
+  hashRibbons: "Down",
+  hashSma30: 964567,
+  hashSma60: 1010355
+};
+
+// ======== MULTI-SOURCE API HOOK ========
+function useLiveData() {
+  var _useState3 = useState(_objectSpread(_objectSpread({}, FALLBACK), {}, {
+      live: false,
+      loading: true,
+      lastUpdate: null,
+      sources: {}
+    })),
+    _useState4 = _slicedToArray(_useState3, 2),
+    data = _useState4[0],
+    setData = _useState4[1];
+  var fetchAll = useCallback(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+    var r, res, j, _res, _j$data, _j, _res2, _j2$data, _j2, _yield$Promise$all, _yield$Promise$all2, fr, oi, _j3$, _j3, _j4, _res3, _j5$hashrates, _j5$difficulty, _j5, BG_PROXY, CACHE_KEY, CACHE_TTL, cached, raw, c, _res4, all, bg, get, nupl, sopr, asopr, mvrvz, mvrv, rpv, sthRp, lthRp, puell, pl, sp, rhodl, ti, hr, frd, etfTot, etfFl, oiFut, oiKeys, oiSum, _t, _t2, _t3, _t4, _t5, _t6;
+    return _regenerator().w(function (_context) {
+      while (1) switch (_context.p = _context.n) {
+        case 0:
+          r = _objectSpread(_objectSpread({}, FALLBACK), {}, {
+            live: false,
+            loading: false,
+            lastUpdate: new Date(),
+            sources: {}
+          });
+          _context.p = 1;
+          _context.n = 2;
+          return fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_market_cap=true&include_24hr_change=true&include_24hr_vol=true");
+        case 2:
+          res = _context.v;
+          if (!res.ok) {
+            _context.n = 4;
+            break;
+          }
+          _context.n = 3;
+          return res.json();
+        case 3:
+          j = _context.v;
+          if (j.bitcoin) {
+            r.price = j.bitcoin.usd;
+            r.marketCap = j.bitcoin.usd_market_cap;
+            r.change24h = j.bitcoin.usd_24h_change;
+            r.volume24h = j.bitcoin.usd_24h_vol;
+            r.sources.coingecko = true;
+            r.live = true;
+          }
+        case 4:
+          _context.n = 6;
+          break;
+        case 5:
+          _context.p = 5;
+          _t = _context.v;
+          r.sources.coingecko = false;
+        case 6:
+          _context.p = 6;
+          _context.n = 7;
+          return fetch("https://api.coingecko.com/api/v3/global");
+        case 7:
+          _res = _context.v;
+          if (!_res.ok) {
+            _context.n = 9;
+            break;
+          }
+          _context.n = 8;
+          return _res.json();
+        case 8:
+          _j = _context.v;
+          r.dominance = ((_j$data = _j.data) === null || _j$data === void 0 || (_j$data = _j$data.market_cap_percentage) === null || _j$data === void 0 ? void 0 : _j$data.btc) || r.dominance;
+          r.live = true;
+        case 9:
+          _context.n = 11;
+          break;
+        case 10:
+          _context.p = 10;
+          _t2 = _context.v;
+        case 11:
+          _context.p = 11;
+          _context.n = 12;
+          return fetch("https://api.alternative.me/fng/?limit=1");
+        case 12:
+          _res2 = _context.v;
+          if (!_res2.ok) {
+            _context.n = 14;
+            break;
+          }
+          _context.n = 13;
+          return _res2.json();
+        case 13:
+          _j2 = _context.v;
+          if ((_j2$data = _j2.data) !== null && _j2$data !== void 0 && _j2$data[0]) {
+            r.fearGreed = parseInt(_j2.data[0].value);
+            r.fgLabel = _j2.data[0].value_classification;
+            r.sources.fng = true;
+            r.live = true;
+          }
+        case 14:
+          _context.n = 16;
+          break;
+        case 15:
+          _context.p = 15;
+          _t3 = _context.v;
+          r.sources.fng = false;
+        case 16:
+          _context.p = 16;
+          _context.n = 17;
+          return Promise.all([fetch("https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1"), fetch("https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT")]);
+        case 17:
+          _yield$Promise$all = _context.v;
+          _yield$Promise$all2 = _slicedToArray(_yield$Promise$all, 2);
+          fr = _yield$Promise$all2[0];
+          oi = _yield$Promise$all2[1];
+          if (!fr.ok) {
+            _context.n = 19;
+            break;
+          }
+          _context.n = 18;
+          return fr.json();
+        case 18:
+          _j3 = _context.v;
+          r.fundingRate = parseFloat((_j3$ = _j3[0]) === null || _j3$ === void 0 ? void 0 : _j3$.fundingRate) * 100 || r.fundingRate;
+          r.sources.binance = true;
+          r.live = true;
+        case 19:
+          if (!oi.ok) {
+            _context.n = 21;
+            break;
+          }
+          _context.n = 20;
+          return oi.json();
+        case 20:
+          _j4 = _context.v;
+          r.openInterest = parseFloat(_j4.openInterest) * r.price || r.openInterest;
+        case 21:
+          _context.n = 23;
+          break;
+        case 22:
+          _context.p = 22;
+          _t4 = _context.v;
+          r.sources.binance = false;
+        case 23:
+          _context.p = 23;
+          _context.n = 24;
+          return fetch("https://mempool.space/api/v1/mining/hashrate/1w");
+        case 24:
+          _res3 = _context.v;
+          if (!_res3.ok) {
+            _context.n = 26;
+            break;
+          }
+          _context.n = 25;
+          return _res3.json();
+        case 25:
+          _j5 = _context.v;
+          if ((_j5$hashrates = _j5.hashrates) !== null && _j5$hashrates !== void 0 && _j5$hashrates.length) {
+            r.hashrate = _j5.hashrates[_j5.hashrates.length - 1].avgHashrate / 1e18;
+            r.sources.mempool = true;
+            r.live = true;
+          }
+          if ((_j5$difficulty = _j5.difficulty) !== null && _j5$difficulty !== void 0 && _j5$difficulty.length) r.difficulty = _j5.difficulty[_j5.difficulty.length - 1].difficulty;
+        case 26:
+          _context.n = 28;
+          break;
+        case 27:
+          _context.p = 27;
+          _t5 = _context.v;
+          r.sources.mempool = false;
+        case 28:
+          BG_PROXY = "https://bg-proxy.sv9ch954y9.workers.dev";
+          _context.p = 29;
+          CACHE_KEY = "bg_cache", CACHE_TTL = 24 * 60 * 60 * 1000;
+          cached = null;
+          try {
+            raw = localStorage.getItem(CACHE_KEY);
+            if (raw) {
+              c = JSON.parse(raw);
+              if (Date.now() - c.ts < CACHE_TTL) cached = c.data;
+            }
+          } catch (e) {}
+          if (!cached) {
+            _context.n = 30;
+            break;
+          }
+          Object.assign(r, cached);
+          r.sources.bgeometrics = "cache";
+          r.live = true;
+          _context.n = 33;
+          break;
+        case 30:
+          _context.n = 31;
+          return fetch("".concat(BG_PROXY, "/all"));
+        case 31:
+          _res4 = _context.v;
+          if (!_res4.ok) {
+            _context.n = 33;
+            break;
+          }
+          _context.n = 32;
+          return _res4.json();
+        case 32:
+          all = _context.v;
+          bg = {};
+          get = function get(path) {
+            return all["/v1/".concat(path, "/last")];
+          };
+          nupl = get("nupl");
+          if ((nupl === null || nupl === void 0 ? void 0 : nupl.nupl) != null) bg.nupl = parseFloat(nupl.nupl);
+          sopr = get("sopr");
+          if ((sopr === null || sopr === void 0 ? void 0 : sopr.sopr) != null) bg.sopr = parseFloat(sopr.sopr);
+          asopr = get("asopr");
+          if ((asopr === null || asopr === void 0 ? void 0 : asopr.asopr) != null) bg.asopr = parseFloat(asopr.asopr);
+          mvrvz = get("mvrv-zscore");
+          if ((mvrvz === null || mvrvz === void 0 ? void 0 : mvrvz.mvrvZscore) != null) bg.mvrv_z = parseFloat(mvrvz.mvrvZscore);
+          mvrv = get("mvrv");
+          if ((mvrv === null || mvrv === void 0 ? void 0 : mvrv.mvrv) != null) bg.mvrv_ratio = parseFloat(mvrv.mvrv);
+          rpv = get("realized-price");
+          if ((rpv === null || rpv === void 0 ? void 0 : rpv.realizedPrice) != null) bg.realizedPrice = parseFloat(rpv.realizedPrice);
+          sthRp = get("sth-realized-price");
+          if ((sthRp === null || sthRp === void 0 ? void 0 : sthRp.sthRealizedPrice) != null) bg.sthRealizedPrice = parseFloat(sthRp.sthRealizedPrice);
+          lthRp = get("lth-realized-price");
+          if ((lthRp === null || lthRp === void 0 ? void 0 : lthRp.lthRealizedPrice) != null) bg.lthRealizedPrice = parseFloat(lthRp.lthRealizedPrice);
+          puell = get("puell-multiple");
+          if ((puell === null || puell === void 0 ? void 0 : puell.puellMultiple) != null) bg.puellMultiple = parseFloat(puell.puellMultiple);
+          pl = get("profit-loss");
+          if ((pl === null || pl === void 0 ? void 0 : pl.profitLoss) != null) bg.supplyProfitPct = parseFloat(pl.profitLoss);
+          sp = get("supply-profit");
+          if ((sp === null || sp === void 0 ? void 0 : sp.supplyProfit) != null) bg.supplyProfitBtc = parseFloat(sp.supplyProfit);
+          rhodl = get("rhodl-ratio");
+          if ((rhodl === null || rhodl === void 0 ? void 0 : rhodl.rhodlRatio) != null) bg.rhodl = parseFloat(rhodl.rhodlRatio);
+          ti = get("technical-indicators");
+          if (ti) {
+            if (ti.rsi != null) bg.rsi = parseFloat(ti.rsi);
+            if (ti.sma200 != null) bg.sma200 = parseFloat(ti.sma200);
+            if (ti.ema200 != null) bg.ema200 = parseFloat(ti.ema200);
+            if (ti.sma50 != null) bg.sma50 = parseFloat(ti.sma50);
+          }
+          hr = get("hashribbons");
+          if (hr) {
+            bg.hashRibbons = hr.hashribbons || "Unknown";
+            if (hr.sma_30) bg.hashSma30 = parseFloat(hr.sma_30);
+            if (hr.sma_60) bg.hashSma60 = parseFloat(hr.sma_60);
+          }
+          frd = get("funding-rate");
+          if ((frd === null || frd === void 0 ? void 0 : frd.fundingRate) != null) bg.fundingRateBG = parseFloat(frd.fundingRate);
+          etfTot = get("etf-btc-total");
+          if ((etfTot === null || etfTot === void 0 ? void 0 : etfTot.etfBtcTotal) != null) bg.etfBtcTotal = parseFloat(etfTot.etfBtcTotal);
+          etfFl = get("etf-flow-btc");
+          if ((etfFl === null || etfFl === void 0 ? void 0 : etfFl.etfFlow) != null) bg.etfFlowBtc = parseFloat(etfFl.etfFlow);
+          oiFut = get("open-interest-futures");
+          if (oiFut) {
+            oiKeys = ["binance", "bybit", "okx", "bitget", "deribit", "bitmex", "huobi", "bitfinex", "gateIo", "kucoin", "kraken", "cryptoCom"];
+            oiSum = oiKeys.reduce(function (s, k) {
+              return s + (parseFloat(oiFut[k]) || 0);
+            }, 0);
+            if (oiSum > 0) bg.openInterestBG = oiSum;
+          }
+          if (Object.keys(bg).length > 0) {
+            Object.assign(r, bg);
+            r.sources.bgeometrics = "live";
+            r.live = true;
+            try {
+              localStorage.setItem(CACHE_KEY, JSON.stringify({
+                ts: Date.now(),
+                data: bg
+              }));
+            } catch (e) {}
+          }
+        case 33:
+          _context.n = 35;
+          break;
+        case 34:
+          _context.p = 34;
+          _t6 = _context.v;
+          r.sources.bgeometrics = false;
+        case 35:
+          setData(r);
+        case 36:
+          return _context.a(2);
+      }
+    }, _callee, null, [[29, 34], [23, 27], [16, 22], [11, 15], [6, 10], [1, 5]]);
+  })), []);
+  useEffect(function () {
+    fetchAll();
+    var iv = setInterval(fetchAll, 60000);
+    return function () {
+      return clearInterval(iv);
+    };
+  }, [fetchAll]);
+  return data;
+}
+
+// ======== HISTORICAL DATA \u2014 Bitcoin.com Charts (3000 pts, 8 years) ========
+function useHistoricalData() {
+  var _useState5 = useState(null),
+    _useState6 = _slicedToArray(_useState5, 2),
+    hist = _useState6[0],
+    setHist = _useState6[1];
+  useEffect(function () {
+    var CACHE_KEY = "hist_v10",
+      CACHE_TTL = 6 * 60 * 60 * 1000;
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (raw) {
+        var c = JSON.parse(raw);
+        if (Date.now() - c.ts < CACHE_TTL) {
+          var _c$data, _c$data2;
+          if ((_c$data = c.data) !== null && _c$data !== void 0 && _c$data.prices) c.data.prices = c.data.prices.map(function (p) {
+            return _objectSpread(_objectSpread({}, p), {}, {
+              date: new Date(p.date)
+            });
+          });
+          if ((_c$data2 = c.data) !== null && _c$data2 !== void 0 && _c$data2.crosses) c.data.crosses = c.data.crosses.map(function (cr) {
+            return _objectSpread(_objectSpread({}, cr), {}, {
+              date: new Date(cr.date)
+            });
+          });
+          setHist(c.data);
+          return;
+        }
+      }
+    } catch (e) {}
+    _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+      var _yield$Promise$all3, _yield$Promise$all4, rbRes, piRes, rawPrices, _rb$data, rb, cgRes, _cg$prices, cg, ma111Map, ma350x2Map, apiCrosses, pi, prices, i, s, j, _i, _s, _j6, _i2, _s2, _j7, crosses, _i3, prev, cur, data, _t7;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
+          case 0:
+            _context2.p = 0;
+            _context2.n = 1;
+            return Promise.all([fetch("https://charts.bitcoin.com/api/v1/charts/rainbow"), fetch("https://charts.bitcoin.com/api/v1/charts/pi-cycle-top")]);
+          case 1:
+            _yield$Promise$all3 = _context2.v;
+            _yield$Promise$all4 = _slicedToArray(_yield$Promise$all3, 2);
+            rbRes = _yield$Promise$all4[0];
+            piRes = _yield$Promise$all4[1];
+            rawPrices = [];
+            if (!rbRes.ok) {
+              _context2.n = 3;
+              break;
+            }
+            _context2.n = 2;
+            return rbRes.json();
+          case 2:
+            rb = _context2.v;
+            if (rb.success && (_rb$data = rb.data) !== null && _rb$data !== void 0 && _rb$data.price) rawPrices = rb.data.price;
+          case 3:
+            if (!(rawPrices.length < 100)) {
+              _context2.n = 6;
+              break;
+            }
+            _context2.n = 4;
+            return fetch("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365&precision=2");
+          case 4:
+            cgRes = _context2.v;
+            if (!cgRes.ok) {
+              _context2.n = 6;
+              break;
+            }
+            _context2.n = 5;
+            return cgRes.json();
+          case 5:
+            cg = _context2.v;
+            if ((_cg$prices = cg.prices) !== null && _cg$prices !== void 0 && _cg$prices.length) rawPrices = cg.prices.map(function (_ref3) {
+              var _ref4 = _slicedToArray(_ref3, 2),
+                ts = _ref4[0],
+                price = _ref4[1];
+              return {
+                timestamp: ts,
+                price: price
+              };
+            });
+          case 6:
+            if (rawPrices.length) {
+              _context2.n = 7;
+              break;
+            }
+            return _context2.a(2);
+          case 7:
+            ma111Map = new Map(), ma350x2Map = new Map();
+            apiCrosses = [];
+            if (!(piRes && piRes.ok)) {
+              _context2.n = 9;
+              break;
+            }
+            _context2.n = 8;
+            return piRes.json();
+          case 8:
+            pi = _context2.v;
+            if (pi.success && pi.data) {
+              (pi.data.ma111 || []).forEach(function (p) {
+                return ma111Map.set(p.timestamp, p.value);
+              });
+              (pi.data.ma350x2 || []).forEach(function (p) {
+                return ma350x2Map.set(p.timestamp, p.value);
+              });
+              apiCrosses = pi.data.crosses || [];
+            }
+          case 9:
+            prices = rawPrices.map(function (p) {
+              return {
+                date: new Date(p.timestamp),
+                price: p.price,
+                ts: p.timestamp,
+                ma111: ma111Map.get(p.timestamp) || null,
+                ma350x2: ma350x2Map.get(p.timestamp) || null,
+                ma200: null
+              };
+            });
+            if (ma111Map.size === 0 && prices.length > 350) {
+              for (i = 110; i < prices.length; i++) {
+                s = 0;
+                for (j = i - 110; j <= i; j++) s += prices[j].price;
+                prices[i].ma111 = s / 111;
+              }
+              for (_i = 349; _i < prices.length; _i++) {
+                _s = 0;
+                for (_j6 = _i - 349; _j6 <= _i; _j6++) _s += prices[_j6].price;
+                prices[_i].ma350x2 = _s / 350 * 2;
+              }
+            }
+            for (_i2 = 199; _i2 < prices.length; _i2++) {
+              _s2 = 0;
+              for (_j7 = _i2 - 199; _j7 <= _i2; _j7++) _s2 += prices[_j7].price;
+              prices[_i2].ma200 = _s2 / 200;
+            }
+            crosses = [];
+            if (apiCrosses.length > 0) {
+              apiCrosses.forEach(function (c) {
+                return crosses.push({
+                  date: new Date(c.timestamp),
+                  price: c.price || 0,
+                  type: "top"
+                });
+              });
+            } else {
+              for (_i3 = 1; _i3 < prices.length; _i3++) {
+                prev = prices[_i3 - 1], cur = prices[_i3];
+                if (prev.ma111 && prev.ma350x2 && cur.ma111 && cur.ma350x2) {
+                  if (prev.ma111 < prev.ma350x2 && cur.ma111 >= cur.ma350x2) crosses.push({
+                    date: cur.date,
+                    price: cur.price,
+                    type: "top"
+                  });
+                }
+              }
+            }
+            data = {
+              prices: prices,
+              crosses: crosses,
+              fetched: Date.now()
+            };
+            setHist(data);
+            try {
+              localStorage.setItem(CACHE_KEY, JSON.stringify({
+                ts: Date.now(),
+                data: data
+              }));
+            } catch (e) {}
+            _context2.n = 11;
+            break;
+          case 10:
+            _context2.p = 10;
+            _t7 = _context2.v;
+            console.error("Historical fetch failed:", _t7);
+          case 11:
+            return _context2.a(2);
+        }
+      }, _callee2, null, [[0, 10]]);
+    }))();
+  }, []);
+  return hist;
+}
+
+// ======== CALCULATIONS ENGINE ========
+var daysBetween = function daysBetween(a, b) {
+  return Math.round((new Date(b) - new Date(a)) / 86400000);
+};
+function useCalc(data) {
+  return useMemo(function () {
+    var _data$fundingRateBG, _data$openInterestBG;
+    var now = new Date(),
+      p = data.price;
+    var dATH = daysBetween(ATH_DATE, now),
+      dHalv = daysBetween(HALVING, now);
+    var drop = (ATH - p) / ATH * 100;
+    var rp = data.realizedPrice || RP,
+      sthRp = data.sthRealizedPrice || STH_RP,
+      lthRp = data.lthRealizedPrice || LTH_RP;
+    var mvrv = data.mvrv_ratio || p / rp,
+      mvrv_z = data.mvrv_z || (p - rp) / (p * 0.4);
+    var margin = (p - MC) / MC * 100;
+    var bearProg = Math.min(100, dATH / 383 * 100);
+    var dBot = Math.max(0, daysBetween(now, new Date(new Date(ATH_DATE).getTime() + 383 * 86400000)));
+    var dNH = daysBetween(now, new Date("2028-04-15")),
+      cycleDay = dHalv;
+    var sma200 = data.sma200 || W200 * 1.2,
+      mayer = p / sma200;
+    var puell = data.puellMultiple || 0.79;
+    var supplyProfit = data.supplyProfitPct || Math.min(100, Math.max(20, (p - 20000) / (ATH - 20000) * 100));
+    var s_mvrv = mvrv < 0.8 ? 5 : mvrv < 1.0 ? 15 : mvrv < 1.5 ? 35 : mvrv < 2.5 ? 55 : mvrv < 3.5 ? 80 : 95;
+    var s_nupl = data.nupl < -0.1 ? 5 : data.nupl < 0.1 ? 15 : data.nupl < 0.4 ? 40 : data.nupl < 0.6 ? 65 : data.nupl < 0.75 ? 85 : 95;
+    var s_sopr = data.sopr < 0.9 ? 5 : data.sopr < 0.97 ? 15 : data.sopr < 1.0 ? 30 : data.sopr < 1.05 ? 50 : 75;
+    var s_supply = supplyProfit < 45 ? 5 : supplyProfit < 55 ? 15 : supplyProfit < 70 ? 35 : supplyProfit < 85 ? 60 : supplyProfit < 95 ? 85 : 95;
+    var onChain = Math.round((s_mvrv + s_nupl + s_sopr + s_supply) / 4);
+    var s_mayer = mayer < 0.6 ? 5 : mayer < 0.8 ? 15 : mayer < 1.0 ? 30 : mayer < 1.5 ? 50 : mayer < 2.4 ? 75 : 95;
+    var s_fg = data.fearGreed < 10 ? 5 : data.fearGreed < 25 ? 15 : data.fearGreed < 45 ? 35 : data.fearGreed < 65 ? 50 : data.fearGreed < 80 ? 70 : 90;
+    var s_drop = drop > 70 ? 5 : drop > 50 ? 15 : drop > 30 ? 35 : drop > 15 ? 55 : drop > 5 ? 75 : 90;
+    var s_sth = p < sthRp * 0.85 ? 5 : p < sthRp ? 20 : p < sthRp * 1.2 ? 45 : 70;
+    var mktStruct = Math.round((s_mayer + s_fg + s_drop + s_sth) / 4);
+    var s_margin = margin < -10 ? 5 : margin < 0 ? 12 : margin < 15 ? 30 : margin < 40 ? 50 : margin < 80 ? 70 : 90;
+    var s_puell = puell < 0.5 ? 5 : puell < 0.7 ? 20 : puell < 1.0 ? 40 : puell < 2.0 ? 60 : puell < 4.0 ? 80 : 95;
+    var miners = Math.round((s_margin + s_puell) / 2);
+    var fr = (_data$fundingRateBG = data.fundingRateBG) !== null && _data$fundingRateBG !== void 0 ? _data$fundingRateBG : data.fundingRate;
+    var s_funding = fr < -0.03 ? 5 : fr < -0.01 ? 15 : fr < 0.01 ? 40 : fr < 0.05 ? 60 : fr < 0.1 ? 80 : 95;
+    var oi = (_data$openInterestBG = data.openInterestBG) !== null && _data$openInterestBG !== void 0 ? _data$openInterestBG : data.openInterest;
+    var s_oi = oi > 80e9 ? 90 : oi > 60e9 ? 70 : oi > 40e9 ? 45 : oi > 25e9 ? 25 : 10;
+    var derivs = Math.round((s_funding + s_oi + s_fg) / 3);
+    var composite = Math.round((onChain + mktStruct + miners + derivs) / 4);
+    var exhaustPct = Math.round(EXHAUST.reduce(function (a, e) {
+      return a + e.p;
+    }, 0) / EXHAUST.length);
+    var bscores = [{
+      id: "supply",
+      l: "Supply convergence",
+      th: "~50/50",
+      cur: "".concat(supplyProfit.toFixed(0), "/").concat((100 - supplyProfit).toFixed(0)),
+      sc: supplyProfit < 52 ? 100 : supplyProfit < 58 ? 60 : supplyProfit < 65 ? 30 : 0,
+      st: supplyProfit < 52 ? "hit" : supplyProfit < 60 ? "partial" : "miss"
+    }, {
+      id: "rsi",
+      l: "RSI extr\xEAme",
+      th: "<20",
+      cur: (data.rsi || 29).toFixed(0),
+      sc: data.rsi < 20 ? 100 : data.rsi < 30 ? 70 : data.rsi < 40 ? 30 : 0,
+      st: data.rsi < 20 ? "hit" : data.rsi < 30 ? "partial" : "miss"
+    }, {
+      id: "sigma",
+      l: "Dist. 200d MA",
+      th: "<-2\u03C3",
+      cur: sma200 ? "".concat(((p / sma200 - 1) * 10).toFixed(1), "\u03C3") : "-2.88\u03C3",
+      sc: p < sma200 * 0.8 ? 100 : p < sma200 * 0.9 ? 60 : p < sma200 ? 30 : 0,
+      st: p < sma200 * 0.8 ? "hit" : p < sma200 ? "partial" : "miss"
+    }, {
+      id: "funding",
+      l: "Funding n\xE9gatif",
+      th: ">2 sem.",
+      cur: fr < -0.01 ? "N\xE9gatif" : "Compress\xE9",
+      sc: fr < -0.02 ? 80 : fr < 0 ? 40 : 15,
+      st: fr < -0.02 ? "hit" : fr < 0 ? "partial" : "miss"
+    }, {
+      id: "squeeze",
+      l: "Short squeeze",
+      th: "OI short > long",
+      cur: "Deleverage",
+      sc: 20,
+      st: "miss"
+    }, {
+      id: "leverage",
+      l: "Levier purg\xE9",
+      th: "OI -40%",
+      cur: "-".concat(((1 - oi / 90e9) * 100).toFixed(0), "%"),
+      sc: oi < 55e9 ? 90 : oi < 70e9 ? 50 : 15,
+      st: oi < 55e9 ? "hit" : oi < 70e9 ? "partial" : "miss"
+    }, {
+      id: "mvrv",
+      l: "MVRV < 1",
+      th: "<1.0",
+      cur: mvrv.toFixed(2),
+      sc: mvrv < 0.8 ? 100 : mvrv < 1.0 ? 70 : mvrv < 1.15 ? 30 : 0,
+      st: mvrv < 1.0 ? "hit" : mvrv < 1.15 ? "partial" : "miss"
+    }, {
+      id: "rp_br",
+      l: "Prix sous RP",
+      th: "<$".concat((rp / 1000).toFixed(0), "K"),
+      cur: "$".concat((p / 1000).toFixed(1), "K"),
+      sc: p < rp ? 100 : (p - rp) / rp < 0.1 ? 30 : 0,
+      st: p < rp ? "hit" : (p - rp) / rp < 0.1 ? "partial" : "miss"
+    }, {
+      id: "vel",
+      l: "Crash velocity",
+      th: ">5\u03C3",
+      cur: "-6.05\u03C3",
+      sc: 100,
+      st: "hit"
+    }];
+    var totalScore = Math.round(bscores.reduce(function (a, s) {
+      return a + s.sc;
+    }, 0) / bscores.length);
+    var mc = generateMonteCarlo(p, 365, 200);
+    return {
+      dATH: dATH,
+      dHalv: dHalv,
+      drop: drop,
+      mvrv: mvrv,
+      mvrv_z: mvrv_z,
+      margin: margin,
+      bearProg: bearProg,
+      dBot: dBot,
+      dNH: dNH,
+      cycleDay: cycleDay,
+      mayer: mayer,
+      puell: puell,
+      supplyProfit: supplyProfit,
+      composite: composite,
+      onChain: onChain,
+      mktStruct: mktStruct,
+      miners: miners,
+      derivs: derivs,
+      exhaustPct: exhaustPct,
+      bscores: bscores,
+      totalScore: totalScore,
+      mc: mc,
+      rp: rp,
+      sthRp: sthRp,
+      lthRp: lthRp,
+      sma200: sma200
+    };
+  }, [data]);
+}
+function generateMonteCarlo(startPrice, days, nSims) {
+  var mu = -0.3 / 365,
+    sigma = 0.65 / Math.sqrt(365);
+  var paths = [];
+  var percentiles = {
+    p5: [],
+    p25: [],
+    p50: [],
+    p75: [],
+    p95: []
+  };
+  for (var s = 0; s < nSims; s++) {
+    var path = [startPrice];
+    for (var d = 1; d <= days; d++) {
+      var z = boxMullerRandom();
+      path.push(path[d - 1] * Math.exp(mu - sigma * sigma / 2 + sigma * z));
+    }
+    paths.push(path);
+  }
+  var _loop = function _loop(_d) {
+    var vals = paths.map(function (p) {
+      return p[_d];
+    }).sort(function (a, b) {
+      return a - b;
+    });
+    percentiles.p5.push(vals[Math.floor(nSims * 0.05)]);
+    percentiles.p25.push(vals[Math.floor(nSims * 0.25)]);
+    percentiles.p50.push(vals[Math.floor(nSims * 0.50)]);
+    percentiles.p75.push(vals[Math.floor(nSims * 0.75)]);
+    percentiles.p95.push(vals[Math.floor(nSims * 0.95)]);
+  };
+  for (var _d = 0; _d <= days; _d += 7) {
+    _loop(_d);
+  }
+  return percentiles;
+}
+function boxMullerRandom() {
+  var u = 0,
+    v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+var fP = function fP(v) {
+  return "$".concat(Math.round(v).toLocaleString("en-US"));
+};
+var fK = function fK(v) {
+  return "$".concat((v / 1000).toFixed(1), "K");
+};
+var fB = function fB(v) {
+  return v >= 1e12 ? "$".concat((v / 1e12).toFixed(2), "T") : "$".concat((v / 1e9).toFixed(1), "B");
+};
+var fPct = function fPct(v) {
+  return "".concat(v >= 0 ? "+" : "").concat(v.toFixed(1), "%");
+};
+var glassStyle = function glassStyle() {
+  var extra = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return _objectSpread({
+    background: DS.glass,
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    border: "1px solid ".concat(DS.glassBorder),
+    borderRadius: 16
+  }, extra);
+};
+function InfoTip(_ref5) {
+  var text = _ref5.text,
+    mob = _ref5.mob;
+  var _useState7 = useState(false),
+    _useState8 = _slicedToArray(_useState7, 2),
+    open = _useState8[0],
+    setOpen = _useState8[1];
+  var ref = useRef(null);
+  useEffect(function () {
+    if (!open) return;
+    var close = function close(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("click", close);
+    return function () {
+      return document.removeEventListener("click", close);
+    };
+  }, [open]);
+  return /*#__PURE__*/React.createElement("span", {
+    ref: ref,
+    style: {
+      position: "relative",
+      display: "inline-flex",
+      cursor: "pointer",
+      marginLeft: 4,
+      verticalAlign: "middle"
+    },
+    onClick: function onClick(e) {
+      e.stopPropagation();
+      setOpen(!open);
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: _objectSpread({
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 15,
+      height: 15,
+      borderRadius: "50%",
+      background: "rgba(255,255,255,0.06)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      fontSize: 9,
+      color: DS.text3,
+      fontWeight: 600,
+      fontFamily: DS.font,
+      lineHeight: 1,
+      transition: "all 0.2s"
+    }, open ? {
+      background: "".concat(DS.cyan, "15"),
+      borderColor: "".concat(DS.cyan, "30"),
+      color: DS.cyan
+    } : {})
+  }, "?"), open && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      bottom: "calc(100% + 8px)",
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: mob ? 220 : 260,
+      padding: "12px 14px",
+      background: "rgba(15,18,30,0.95)",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
+      border: "1px solid ".concat(DS.glassBorder2),
+      borderRadius: 12,
+      fontSize: 11,
+      color: DS.text2,
+      lineHeight: 1.5,
+      zIndex: 100,
+      boxShadow: "0 8px 32px rgba(0,0,0,0.5)"
+    }
+  }, text, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      bottom: -5,
+      left: "50%",
+      transform: "translateX(-50%) rotate(45deg)",
+      width: 10,
+      height: 10,
+      background: "rgba(15,18,30,0.95)",
+      borderRight: "1px solid ".concat(DS.glassBorder2),
+      borderBottom: "1px solid ".concat(DS.glassBorder2)
+    }
+  })));
+}
+var INFO = {
+  mvrv: "MVRV compare le prix actuel au prix moyen d'achat de tous les BTC (Realized Price). <1 = march\xE9 sous-\xE9valu\xE9, signal d'accumulation historique.",
+  fg: "Indice de sentiment du march\xE9 (0-100). Extreme Fear (<20) = panique, bon moment pour acheter. Extreme Greed (>80) = euphorie, prudence.",
+  mining: "Marge des mineurs : \xE9cart entre le prix BTC et le co\xFBt moyen de minage.",
+  funding: "Taux de financement des positions futures. N\xE9gatif = les shorts paient les longs = signal contrarian haussier.",
+  nupl: "Net Unrealized Profit/Loss. <0 = le r\xE9seau est globalement en perte. Zone de capitulation.",
+  supply: "Pourcentage du supply BTC en profit. ~50% = \xE9quilibre historique des bottoms. >95% = top.",
+  asopr: "Adjusted Spent Output Profit Ratio. <1 = les BTC vendus le sont \xE0 perte en moyenne.",
+  puell: "Revenu quotidien des mineurs vs moyenne 365j. <0.5 = zone d'achat. >4 = top.",
+  rsi: "Relative Strength Index sur 14 jours. <30 = survendu. >70 = surachet\xE9.",
+  rhodl: "Ratio entre les coins r\xE9cents et anciens. <2 = accumulation. >50 = distribution.",
+  hash: "Croisement des MAs du hashrate. SMA30 < SMA60 (Down) = capitulation mineurs = signal d'achat.",
+  sth: "Prix moyen d'achat des holders r\xE9cents (<155j). Prix sous STH RP = capitulation.",
+  composite: "Score agr\xE9g\xE9 combinant On-Chain (25%), Structure march\xE9 (25%), Miners (25%) et D\xE9riv\xE9s (25%).",
+  picycle: "Le Pi Cycle Top compare le 111 DMA au 350 DMA \xD7 2. Croisement = signal de top historique.",
+  rainbow: "R\xE9gression log du prix BTC depuis 2009. 9 bandes indiquent les zones de sous/sur\xE9valuation.",
+  etf: "BTC total dans les ETF Spot US + flux net quotidien. Inflows (+) = bullish. Outflows (-) = bearish.",
+  backtest: "Simulation : acheter $10K quand le score tombe sous le seuil bas, vendre quand il d\xE9passe le seuil haut."
+};
+
+// ======== COMPOSITE GAUGE ========
+function CompositeGauge(_ref6) {
+  var value = _ref6.value,
+    mob = _ref6.mob;
+  var sz = mob ? 180 : 220;
+  var ref = useRef(null);
+  useEffect(function () {
+    var cv = ref.current;
+    if (!cv) return;
+    var ctx = cv.getContext("2d");
+    var w = sz,
+      h = sz * 0.58;
+    cv.width = w * 2;
+    cv.height = h * 2;
+    ctx.scale(2, 2);
+    var cx = w / 2,
+      cy = h - 6,
+      r = sz * 0.38,
+      lw = mob ? 16 : 20;
+    ctx.lineWidth = lw;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, Math.PI, 2 * Math.PI);
+    ctx.strokeStyle = "rgba(255,255,255,0.04)";
+    ctx.stroke();
+    var steps = 120;
+    var activeEnd = Math.PI + value / 100 * Math.PI;
+    ctx.lineWidth = lw;
+    ctx.lineCap = "round";
+    for (var i = 0; i < steps; i++) {
+      var t = i / steps;
+      var sa = Math.PI + t * Math.PI;
+      var ea = Math.PI + (i + 1) / steps * Math.PI;
+      if (sa >= activeEnd) break;
+      var end = Math.min(ea, activeEnd);
+      var _hue = 210 - t * 210;
+      var sat = 75 + t * 15;
+      var lig = 55 + Math.sin(t * Math.PI) * 10;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, sa, end + 0.02);
+      ctx.strokeStyle = "hsl(".concat(_hue, ", ").concat(sat, "%, ").concat(lig, "%)");
+      ctx.stroke();
+    }
+    var tipAngle = activeEnd;
+    var tipX = cx + Math.cos(tipAngle) * r;
+    var tipY = cy + Math.sin(tipAngle) * r;
+    var glowGrad = ctx.createRadialGradient(tipX, tipY, 0, tipX, tipY, lw * 1.5);
+    var tipHue = 210 - value / 100 * 210;
+    glowGrad.addColorStop(0, "hsla(".concat(tipHue, ", 85%, 60%, 0.4)"));
+    glowGrad.addColorStop(1, "hsla(".concat(tipHue, ", 85%, 60%, 0)"));
+    ctx.beginPath();
+    ctx.arc(tipX, tipY, lw * 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = glowGrad;
+    ctx.fill();
+    var na = Math.PI + value / 100 * Math.PI;
+    ctx.lineWidth = 1.5;
+    ctx.globalAlpha = 0.4;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(na) * (r - lw - 8), cy + Math.sin(na) * (r - lw - 8));
+    ctx.strokeStyle = "#fff";
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    var dotGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 8);
+    dotGrad.addColorStop(0, "hsla(".concat(tipHue, ", 80%, 60%, 0.8)"));
+    dotGrad.addColorStop(0.5, "hsla(".concat(tipHue, ", 80%, 60%, 0.2)"));
+    dotGrad.addColorStop(1, "hsla(".concat(tipHue, ", 80%, 60%, 0)"));
+    ctx.beginPath();
+    ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+    ctx.fillStyle = dotGrad;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+    ctx.fillStyle = "#fff";
+    ctx.globalAlpha = 0.8;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.globalAlpha = 0.12;
+    ctx.lineWidth = 1;
+    for (var _i4 = 0; _i4 <= 10; _i4++) {
+      var a = Math.PI + _i4 / 10 * Math.PI;
+      var len = _i4 % 5 === 0 ? 8 : 4;
+      ctx.beginPath();
+      ctx.moveTo(cx + Math.cos(a) * (r + lw / 2 + 2), cy + Math.sin(a) * (r + lw / 2 + 2));
+      ctx.lineTo(cx + Math.cos(a) * (r + lw / 2 + 2 + len), cy + Math.sin(a) * (r + lw / 2 + 2 + len));
+      ctx.strokeStyle = "#fff";
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }, [value, sz, mob]);
+  var zoneLabel = value < 15 ? "CAPITULATION" : value < 30 ? "FEAR EXTR\xCAME" : value < 45 ? "BEAR" : value < 55 ? "NEUTRE" : value < 70 ? "OPTIMISME" : value < 85 ? "EUPHORIE" : "BULLE";
+  var hue = 210 - value / 100 * 210;
+  var col = "hsl(".concat(hue, ", 80%, 58%)");
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center"
+    }
+  }, /*#__PURE__*/React.createElement("canvas", {
+    ref: ref,
+    style: {
+      width: sz,
+      height: sz * 0.58
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: mob ? 44 : 58,
+      fontWeight: 800,
+      color: col,
+      fontFamily: DS.mono,
+      lineHeight: 1,
+      marginTop: -14,
+      textShadow: "0 0 30px ".concat(col, "40")
+    }
+  }, value), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 600,
+      color: col,
+      letterSpacing: 5,
+      marginTop: 6,
+      opacity: 0.7
+    }
+  }, zoneLabel));
+}
+function MiniGauge(_ref7) {
+  var value = _ref7.value,
+    label = _ref7.label,
+    icon = _ref7.icon,
+    mob = _ref7.mob;
+  var col = rainbowAt(value);
+  var pct = value / 100;
+  return /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, glassStyle()), {}, {
+      padding: mob ? "10px 6px" : "14px 10px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      flex: 1,
+      minWidth: 0
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: DS.text2,
+      fontWeight: 500,
+      marginBottom: 6,
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      width: "100%",
+      textAlign: "center"
+    }
+  }, icon, " ", label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      width: mob ? 48 : 56,
+      height: mob ? 48 : 56
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 36 36",
+    style: {
+      width: "100%",
+      height: "100%",
+      transform: "rotate(-90deg)"
+    }
+  }, /*#__PURE__*/React.createElement("circle", {
+    cx: "18",
+    cy: "18",
+    r: "14",
+    fill: "none",
+    stroke: "rgba(255,255,255,0.06)",
+    strokeWidth: "3"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "18",
+    cy: "18",
+    r: "14",
+    fill: "none",
+    stroke: col,
+    strokeWidth: "3",
+    strokeDasharray: "".concat(pct * 88, " ").concat(88 - pct * 88),
+    strokeLinecap: "round",
+    opacity: "0.8"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: mob ? 14 : 16,
+      fontWeight: 700,
+      color: col,
+      fontFamily: DS.mono
+    }
+  }, value)));
+}
+function SignalCard(_ref8) {
+  var title = _ref8.title,
+    value = _ref8.value,
+    unit = _ref8.unit,
+    status = _ref8.status,
+    detail = _ref8.detail,
+    color = _ref8.color,
+    mob = _ref8.mob,
+    info = _ref8.info;
+  var stCol = status === "bullish" ? DS.green : status === "bearish" ? DS.red : DS.amber;
+  return /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, glassStyle()), {}, {
+      padding: mob ? "14px 12px" : "18px 20px",
+      position: "relative",
+      overflow: "visible",
+      transition: "all 0.3s"
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 1,
+      background: "linear-gradient(90deg, transparent, ".concat(stCol, "40, transparent)")
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: mob ? 11 : 12,
+      color: DS.text2,
+      fontWeight: 500,
+      display: "flex",
+      alignItems: "center"
+    }
+  }, title, info && /*#__PURE__*/React.createElement(InfoTip, {
+    text: info,
+    mob: mob
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 9,
+      padding: "3px 8px",
+      borderRadius: 20,
+      background: "".concat(stCol, "12"),
+      color: stCol,
+      fontWeight: 600,
+      letterSpacing: 1
+    }
+  }, status === "bullish" ? "BULL" : status === "bearish" ? "BEAR" : "\u2014")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: mob ? 26 : 32,
+      fontWeight: 700,
+      fontFamily: DS.mono,
+      color: color || DS.text,
+      lineHeight: 1
+    }
+  }, value, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: DS.text3,
+      fontWeight: 400,
+      marginLeft: 3
+    }
+  }, unit)), detail && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: DS.text3,
+      marginTop: 6,
+      lineHeight: 1.4
+    }
+  }, detail));
+}
+
+// ======== PRICE BANDS CHART ========
+function PriceBandsChart(_ref9) {
+  var price = _ref9.price,
+    mob = _ref9.mob,
+    lvls = _ref9.levels;
+  var W = mob ? 340 : 560,
+    H = mob ? 150 : 180,
+    PX = 50,
+    PY = 14;
+  var levels = (lvls || OC_LEVELS).filter(function (l) {
+    return l.v > 20000 && l.v < 130000;
+  });
+  var mn = 25000,
+    mx = 135000;
+  var tY = function tY(v) {
+    return PY + (mx - v) / (mx - mn) * (H - PY * 2);
+  };
+  var pricePath = [{
+    m: 0,
+    v: 64000
+  }, {
+    m: 1,
+    v: 58000
+  }, {
+    m: 2,
+    v: 68000
+  }, {
+    m: 3,
+    v: 95000
+  }, {
+    m: 4,
+    v: 108000
+  }, {
+    m: 5,
+    v: 126198
+  }, {
+    m: 6,
+    v: 110000
+  }, {
+    m: 7,
+    v: 98000
+  }, {
+    m: 8,
+    v: 88000
+  }, {
+    m: 9,
+    v: 78000
+  }, {
+    m: 10,
+    v: 75000
+  }, {
+    m: 11,
+    v: price
+  }];
+  var tX = function tX(i) {
+    return PX + i / (pricePath.length - 1) * (W - PX * 2);
+  };
+  var path = pricePath.map(function (p, i) {
+    return "".concat(i ? "L" : "M").concat(tX(i), ",").concat(tY(p.v));
+  }).join(" ");
+  var months = ["Avr", "Mai", "Jun", "Jul", "Ao\xFB", "Sep", "Oct", "Nov", "D\xE9c", "Jan", "F\xE9v", "Mar"];
+  return /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 ".concat(W, " ").concat(H),
+    style: {
+      width: "100%",
+      height: mob ? 150 : 180
+    }
+  }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("linearGradient", {
+    id: "prGrad",
+    x1: "0",
+    y1: "0",
+    x2: "0",
+    y2: "1"
+  }, /*#__PURE__*/React.createElement("stop", {
+    offset: "0%",
+    stopColor: DS.cyan,
+    stopOpacity: "0.12"
+  }), /*#__PURE__*/React.createElement("stop", {
+    offset: "100%",
+    stopColor: DS.cyan,
+    stopOpacity: "0"
+  }))), levels.map(function (l) {
+    return /*#__PURE__*/React.createElement("g", {
+      key: l.k
+    }, /*#__PURE__*/React.createElement("line", {
+      x1: PX,
+      y1: tY(l.v),
+      x2: W - PX + 30,
+      y2: tY(l.v),
+      stroke: l.c,
+      strokeWidth: 0.5,
+      strokeDasharray: "4,4",
+      opacity: 0.25
+    }), /*#__PURE__*/React.createElement("text", {
+      x: W - PX + 32,
+      y: tY(l.v) + 3,
+      fill: l.c,
+      fontSize: 8,
+      fontFamily: DS.mono,
+      opacity: 0.5
+    }, fK(l.v)));
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "".concat(path, " L").concat(tX(11), ",").concat(H - PY, " L").concat(tX(0), ",").concat(H - PY, " Z"),
+    fill: "url(#prGrad)"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: path,
+    fill: "none",
+    stroke: DS.cyan,
+    strokeWidth: 2,
+    opacity: "0.8"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: tX(11),
+    cy: tY(price),
+    r: 4,
+    fill: DS.cyan,
+    opacity: "0.9"
+  }, /*#__PURE__*/React.createElement("animate", {
+    attributeName: "r",
+    values: "3;5;3",
+    dur: "2s",
+    repeatCount: "indefinite"
+  }), /*#__PURE__*/React.createElement("animate", {
+    attributeName: "opacity",
+    values: "0.9;0.5;0.9",
+    dur: "2s",
+    repeatCount: "indefinite"
+  })), pricePath.map(function (_, i) {
+    return i % 2 === 0 ? /*#__PURE__*/React.createElement("text", {
+      key: i,
+      x: tX(i),
+      y: H - 2,
+      fill: DS.text3,
+      fontSize: 8,
+      textAnchor: "middle",
+      fontFamily: DS.mono
+    }, months[i]) : null;
+  }), [30, 50, 70, 90, 110, 130].map(function (v) {
+    return /*#__PURE__*/React.createElement("text", {
+      key: v,
+      x: PX - 6,
+      y: tY(v * 1000) + 3,
+      fill: DS.text3,
+      fontSize: 8,
+      textAnchor: "end",
+      fontFamily: DS.mono
+    }, "$", v, "K");
+  }));
+}
+
+// ======== CYCLE OVERLAY ========
+function CycleOverlay(_ref0) {
+  var cycleDay = _ref0.cycleDay,
+    mob = _ref0.mob;
+  var W = mob ? 340 : 560,
+    H = mob ? 140 : 165,
+    PX = 35,
+    PY = 14;
+  var cycleData = [{
+    name: "C1 2012",
+    c: "#6366f180",
+    pts: [[0, 100], [180, 300], [367, 1177 / 12 * 100 / 100], [544, 152 / 12 * 100 / 100]]
+  }, {
+    name: "C2 2016",
+    c: "#fbbf2480",
+    pts: [[0, 100], [200, 170], [526, 2960], [730, 470]]
+  }, {
+    name: "C3 2020",
+    c: "#f472b680",
+    pts: [[0, 100], [200, 180], [546, 690], [895, 155]]
+  }, {
+    name: "C4 Now",
+    c: DS.cyan,
+    pts: [[0, 100], [200, 175], [535, 380]]
+  }];
+  var maxDay = 1000,
+    maxGain = 500;
+  var tX = function tX(d) {
+    return PX + d / maxDay * (W - PX * 2);
+  };
+  var tY = function tY(v) {
+    return PY + (maxGain - Math.min(v, maxGain)) / maxGain * (H - PY * 2);
+  };
+  return /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 ".concat(W, " ").concat(H),
+    style: {
+      width: "100%",
+      height: mob ? 140 : 165
+    }
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: tX(cycleDay),
+    y1: PY,
+    x2: tX(cycleDay),
+    y2: H - PY,
+    stroke: DS.cyan,
+    strokeWidth: 1,
+    strokeDasharray: "3,3",
+    opacity: 0.25
+  }), /*#__PURE__*/React.createElement("text", {
+    x: tX(cycleDay),
+    y: PY - 4,
+    fill: DS.cyan,
+    fontSize: 8,
+    textAnchor: "middle",
+    fontFamily: DS.mono,
+    opacity: "0.7"
+  }, "J", cycleDay), [0, 200, 400, 600, 800, 1000].map(function (d) {
+    return /*#__PURE__*/React.createElement("text", {
+      key: d,
+      x: tX(d),
+      y: H - 2,
+      fill: DS.text3,
+      fontSize: 7,
+      textAnchor: "middle",
+      fontFamily: DS.mono
+    }, "J", d);
+  }), [100, 200, 300, 400, 500].map(function (v) {
+    return /*#__PURE__*/React.createElement("g", {
+      key: v
+    }, /*#__PURE__*/React.createElement("line", {
+      x1: PX,
+      y1: tY(v),
+      x2: W - PX,
+      y2: tY(v),
+      stroke: "rgba(255,255,255,0.04)",
+      strokeWidth: 0.5
+    }), /*#__PURE__*/React.createElement("text", {
+      x: PX - 4,
+      y: tY(v) + 3,
+      fill: DS.text3,
+      fontSize: 7,
+      textAnchor: "end",
+      fontFamily: DS.mono
+    }, v, "%"));
+  }), cycleData.map(function (c, ci) {
+    var d = c.pts.map(function (pt, i) {
+      return "".concat(i ? "L" : "M").concat(tX(pt[0]), ",").concat(tY(pt[1]));
+    }).join(" ");
+    return /*#__PURE__*/React.createElement("path", {
+      key: ci,
+      d: d,
+      fill: "none",
+      stroke: c.c,
+      strokeWidth: ci === 3 ? 2.5 : 1.5,
+      strokeLinecap: "round"
+    });
+  }), cycleData.map(function (c, i) {
+    return /*#__PURE__*/React.createElement("g", {
+      key: i
+    }, /*#__PURE__*/React.createElement("rect", {
+      x: W - PX - 60,
+      y: PY + i * 14,
+      width: 10,
+      height: 2,
+      rx: 1,
+      fill: c.c
+    }), /*#__PURE__*/React.createElement("text", {
+      x: W - PX - 46,
+      y: PY + i * 14 + 3,
+      fill: DS.text2,
+      fontSize: 8,
+      fontFamily: DS.mono
+    }, c.name));
+  }));
+}
+
+// ======== MONTE CARLO ========
+function MonteCarloChart(_ref1) {
+  var _mc$p;
+  var mc = _ref1.mc,
+    price = _ref1.price,
+    mob = _ref1.mob;
+  if (!mc || !((_mc$p = mc.p50) !== null && _mc$p !== void 0 && _mc$p.length)) return null;
+  var W = mob ? 340 : 560,
+    H = mob ? 150 : 180,
+    PX = 40,
+    PY = 14;
+  var n = mc.p50.length;
+  var allVals = [].concat(_toConsumableArray(mc.p5), _toConsumableArray(mc.p95));
+  var mn = Math.min.apply(Math, _toConsumableArray(allVals)) * 0.9,
+    mx = Math.max.apply(Math, _toConsumableArray(allVals)) * 1.05;
+  var tX = function tX(i) {
+    return PX + i / (n - 1) * (W - PX * 2);
+  };
+  var tY = function tY(v) {
+    return PY + (mx - v) / (mx - mn) * (H - PY * 2);
+  };
+  var band = function band(upper, lower, color, opacity) {
+    var top = upper.map(function (v, i) {
+      return "".concat(i ? "L" : "M").concat(tX(i), ",").concat(tY(v));
+    }).join(" ");
+    var bot = _toConsumableArray(lower).reverse().map(function (v, i) {
+      return "L".concat(tX(lower.length - 1 - i), ",").concat(tY(v));
+    }).join(" ");
+    return /*#__PURE__*/React.createElement("path", {
+      d: "".concat(top).concat(bot, "Z"),
+      fill: color,
+      opacity: opacity
+    });
+  };
+  var line = function line(vals, color, w, dash) {
+    var d = vals.map(function (v, i) {
+      return "".concat(i ? "L" : "M").concat(tX(i), ",").concat(tY(v));
+    }).join(" ");
+    return /*#__PURE__*/React.createElement("path", {
+      d: d,
+      fill: "none",
+      stroke: color,
+      strokeWidth: w,
+      strokeDasharray: dash || "none",
+      opacity: "0.7"
+    });
+  };
+  var labels = [{
+    v: RP,
+    l: "RP",
+    c: DS.purple
+  }, {
+    v: CVDD,
+    l: "CVDD",
+    c: DS.pink
+  }, {
+    v: W200,
+    l: "200W",
+    c: DS.blue
+  }].filter(function (l) {
+    return l.v >= mn && l.v <= mx;
+  });
+  return /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 ".concat(W, " ").concat(H),
+    style: {
+      width: "100%",
+      height: mob ? 150 : 180
+    }
+  }, band(mc.p95, mc.p5, DS.cyan, 0.04), band(mc.p75, mc.p25, DS.cyan, 0.07), line(mc.p50, DS.cyan, 2), line(mc.p5, DS.red, 1, "3,3"), line(mc.p95, DS.green, 1, "3,3"), labels.map(function (l) {
+    return /*#__PURE__*/React.createElement("g", {
+      key: l.l
+    }, /*#__PURE__*/React.createElement("line", {
+      x1: PX,
+      y1: tY(l.v),
+      x2: W - PX,
+      y2: tY(l.v),
+      stroke: l.c,
+      strokeWidth: 0.5,
+      strokeDasharray: "4,3",
+      opacity: 0.3
+    }), /*#__PURE__*/React.createElement("text", {
+      x: PX - 3,
+      y: tY(l.v) + 3,
+      fill: l.c,
+      fontSize: 7,
+      textAnchor: "end",
+      fontFamily: DS.mono,
+      opacity: 0.5
+    }, l.l));
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: tX(0),
+    cy: tY(price),
+    r: 4,
+    fill: DS.cyan,
+    opacity: "0.8"
+  }), [0, 13, 26, 39, 52].map(function (w) {
+    return /*#__PURE__*/React.createElement("text", {
+      key: w,
+      x: tX(w),
+      y: H - 2,
+      fill: DS.text3,
+      fontSize: 7,
+      textAnchor: "middle",
+      fontFamily: DS.mono
+    }, w === 0 ? "Now" : "".concat(w, "w"));
+  }));
+}
+
+// ======== BOTTOM SCORE CARD ========
+function BottomScoreCard(_ref10) {
+  var scores = _ref10.scores,
+    total = _ref10.total,
+    mob = _ref10.mob;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: mob ? 36 : 44,
+      fontWeight: 800,
+      fontFamily: DS.mono,
+      color: total > 60 ? DS.green : total > 40 ? DS.amber : DS.text2
+    }
+  }, total), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: DS.text3,
+      letterSpacing: 2
+    }
+  }, "BOTTOM SCORE"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: DS.text2
+    }
+  }, total > 60 ? "Zone d'accumulation" : total > 40 ? "Getting close" : "Pas encore"))), scores.map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "grid",
+        gridTemplateColumns: mob ? "1fr 50px 28px" : "1fr 60px 32px",
+        alignItems: "center",
+        gap: 8,
+        padding: "6px 0",
+        borderBottom: "1px solid rgba(255,255,255,0.04)"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: DS.text2,
+        fontWeight: 500
+      }
+    }, s.l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontFamily: DS.mono,
+        color: DS.text3
+      }
+    }, s.th, " \u2192 ", s.cur)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 4,
+        borderRadius: 2,
+        background: "rgba(255,255,255,0.04)",
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: "100%",
+        width: "".concat(s.sc, "%"),
+        borderRadius: 2,
+        background: s.st === "hit" ? DS.green : s.st === "partial" ? DS.amber : DS.red,
+        opacity: 0.7
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontFamily: DS.mono,
+        fontWeight: 600,
+        textAlign: "right",
+        color: s.st === "hit" ? DS.green : s.st === "partial" ? DS.amber : DS.text3
+      }
+    }, s.st === "hit" ? "\u2713" : s.st === "partial" ? "~" : "\u2717"));
+  }));
+}
+
+// ======== EXHAUSTION PANEL ========
+function ExhaustionPanel(_ref11) {
+  var pct = _ref11.pct,
+    mob = _ref11.mob;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr" : "1fr 1fr",
+      gap: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: mob ? 36 : 44,
+      fontWeight: 800,
+      fontFamily: DS.mono,
+      color: DS.amber
+    }
+  }, pct, "%"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: DS.text3,
+      lineHeight: 1.4
+    }
+  }, "Exhaustion", /*#__PURE__*/React.createElement("br", null), "globale")), EXHAUST.map(function (e, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "8px 0",
+        borderBottom: "1px solid rgba(255,255,255,0.04)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 18,
+        width: 28,
+        textAlign: "center"
+      }
+    }, e.icon), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        fontWeight: 600,
+        color: DS.text
+      }
+    }, e.l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: DS.text3,
+        marginTop: 2
+      }
+    }, e.d)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 50,
+        textAlign: "right"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 700,
+        fontFamily: DS.mono,
+        color: e.p > 70 ? DS.green : e.p > 30 ? DS.amber : DS.text3
+      }
+    }, e.p, "%")));
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      letterSpacing: 2,
+      color: DS.text3,
+      fontWeight: 600,
+      marginBottom: 12
+    }
+  }, "SC\u00C9NARIOS BOTTOM"), SCENARIOS.map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: _objectSpread({}, glassStyle({
+        padding: "12px 14px",
+        marginBottom: 8,
+        borderColor: s.hl ? "".concat(s.c, "30") : DS.glassBorder
+      }))
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: s.hl ? 700 : 500,
+        color: s.hl ? DS.text : DS.text2
+      }
+    }, s.l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: DS.text3,
+        marginTop: 2
+      }
+    }, s.z, " \u2014 $", s.r[0], "K-$", s.r[1], "K")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 20,
+        fontWeight: 800,
+        fontFamily: DS.mono,
+        color: s.c
+      }
+    }, s.p, "%")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: 3,
+        borderRadius: 2,
+        background: "rgba(255,255,255,0.04)",
+        marginTop: 8,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: "100%",
+        width: "".concat(s.p, "%"),
+        borderRadius: 2,
+        background: s.c,
+        opacity: 0.5
+      }
+    })));
+  })));
+}
+
+// ======== REGIME + TIMING ========
+function CyclePosition(_ref12) {
+  var mob = _ref12.mob;
+  var rows = [{
+    m: "Formation",
+    o: "V-bottom ponctuel",
+    n: "U-bottom (mois)"
+  }, {
+    m: "Trigger",
+    o: "Purge totale vendeurs",
+    n: "Couche par couche + squeeze"
+  }, {
+    m: "Signal cl\xE9",
+    o: "MVRV wick 0.55",
+    n: "Supply 50/50 + reserves floor"
+  }, {
+    m: "M\xE9canisme",
+    o: "Achat spot organique",
+    n: "Short squeeze + illiquidit\xE9"
+  }, {
+    m: "Dur\xE9e",
+    o: "Semaines",
+    n: "Mois \u2192 explosif"
+  }];
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      letterSpacing: 2,
+      color: DS.text3,
+      fontWeight: 600,
+      marginBottom: 10
+    }
+  }, "ANCIEN vs NOUVEAU R\u00C9GIME"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: mob ? "70px 1fr 1fr" : "100px 1fr 1fr",
+      gap: 0,
+      fontSize: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "8px 8px",
+      borderBottom: "1px solid rgba(255,255,255,0.06)"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "8px 8px",
+      borderBottom: "1px solid rgba(255,255,255,0.06)",
+      fontSize: 9,
+      letterSpacing: 2,
+      color: DS.text3,
+      fontWeight: 600
+    }
+  }, "ANCIEN"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "8px 8px",
+      borderBottom: "1px solid rgba(255,255,255,0.06)",
+      fontSize: 9,
+      letterSpacing: 2,
+      color: DS.cyan,
+      fontWeight: 600
+    }
+  }, "NOUVEAU"), rows.map(function (r, i) {
+    return [/*#__PURE__*/React.createElement("div", {
+      key: "".concat(i, "m"),
+      style: {
+        padding: "8px 8px",
+        borderBottom: "1px solid rgba(255,255,255,0.03)",
+        color: DS.text2,
+        fontWeight: 600,
+        fontSize: 11
+      }
+    }, r.m), /*#__PURE__*/React.createElement("div", {
+      key: "".concat(i, "o"),
+      style: {
+        padding: "8px 8px",
+        borderBottom: "1px solid rgba(255,255,255,0.03)",
+        color: DS.text3,
+        fontSize: 11
+      }
+    }, r.o), /*#__PURE__*/React.createElement("div", {
+      key: "".concat(i, "n"),
+      style: {
+        padding: "8px 8px",
+        borderBottom: "1px solid rgba(255,255,255,0.03)",
+        color: DS.text2,
+        fontSize: 11
+      }
+    }, r.n)];
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 24,
+      fontSize: 10,
+      letterSpacing: 2,
+      color: DS.text3,
+      fontWeight: 600,
+      marginBottom: 10
+    }
+  }, "CONVERGENCE TIMING"), TIMING.map(function (t, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "8px 0",
+        borderBottom: "1px solid rgba(255,255,255,0.03)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: DS.text2,
+        fontWeight: 500
+      }
+    }, t.m), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10
+      }
+    }, !mob && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontFamily: DS.mono,
+        color: DS.text3
+      }
+    }, t.calc), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 14,
+        fontWeight: 700,
+        color: DS.cyan,
+        fontFamily: DS.mono
+      }
+    }, t.result)));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread({}, glassStyle({
+      padding: "14px 16px",
+      marginTop: 14,
+      textAlign: "center",
+      borderColor: "".concat(DS.cyan, "20")
+    }))
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      letterSpacing: 3,
+      color: DS.cyan,
+      opacity: 0.5
+    }
+  }, "CONSENSUS"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: mob ? 18 : 24,
+      fontWeight: 800,
+      color: DS.cyan,
+      fontFamily: DS.mono,
+      marginTop: 4
+    }
+  }, "SEP \u2014 NOV 2026")));
+}
+
+// ======== ON-CHAIN DEPTH ========
+function OnChainDepth(_ref13) {
+  var price = _ref13.price,
+    mob = _ref13.mob,
+    levels = _ref13.levels;
+  return /*#__PURE__*/React.createElement("div", null, (levels || OC_LEVELS).map(function (l, i) {
+    var dist = (price - l.v) / price * 100;
+    var below = price < l.v;
+    var pct = Math.min(100, Math.max(0, l.v / ATH * 100));
+    var pricePct = Math.min(100, Math.max(0, price / ATH * 100));
+    return /*#__PURE__*/React.createElement("div", {
+      key: l.k,
+      style: {
+        display: "grid",
+        gridTemplateColumns: mob ? "80px 1fr 60px" : "120px 1fr 80px",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: 6,
+        opacity: below ? 0.4 : 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        fontWeight: 600,
+        color: l.c
+      }
+    }, l.l)), /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "relative",
+        height: 6,
+        background: "rgba(255,255,255,0.04)",
+        borderRadius: 3,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        left: "".concat(pct, "%"),
+        top: 0,
+        bottom: 0,
+        width: 2,
+        background: l.c,
+        opacity: 0.4,
+        borderRadius: 1
+      }
+    }), i === 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        left: "".concat(pricePct, "%"),
+        top: -2,
+        bottom: -2,
+        width: 3,
+        background: DS.cyan,
+        boxShadow: "0 0 8px ".concat(DS.cyan, "50"),
+        borderRadius: 2
+      }
+    }), !below && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        left: "".concat(pct, "%"),
+        top: 0,
+        bottom: 0,
+        width: "".concat(pricePct - pct, "%"),
+        background: "".concat(l.c, "10"),
+        borderRadius: 2
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: DS.mono,
+        fontSize: 11
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: l.c
+      }
+    }, fK(l.v)), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: DS.text3,
+        fontSize: 9,
+        marginLeft: 4
+      }
+    }, below ? "+" : "-", Math.abs(dist).toFixed(0), "%")));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 16
+    }
+  }, [{
+    l: "C0 '11",
+    d: 93
+  }, {
+    l: "C1 '15",
+    d: 87
+  }, {
+    l: "C2 '18",
+    d: 84
+  }, {
+    l: "C3 '22",
+    d: 78
+  }].map(function (x, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: 5
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 50,
+        fontSize: 10,
+        color: DS.text3,
+        fontFamily: DS.mono,
+        textAlign: "right"
+      }
+    }, x.l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        height: 5,
+        background: "rgba(255,255,255,0.04)",
+        borderRadius: 3,
+        overflow: "hidden"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        height: "100%",
+        width: "".concat(x.d, "%"),
+        background: "".concat(DS.red, "25"),
+        borderRadius: 3
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 35,
+        fontSize: 11,
+        fontWeight: 600,
+        color: DS.red,
+        fontFamily: DS.mono,
+        textAlign: "right",
+        opacity: 0.7
+      }
+    }, "-", x.d, "%"));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      marginTop: 6,
+      paddingTop: 6,
+      borderTop: "1px dashed rgba(255,255,255,0.06)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 50,
+      fontSize: 10,
+      color: DS.amber,
+      fontFamily: DS.mono,
+      textAlign: "right"
+    }
+  }, "C4 proj."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      height: 5,
+      background: "rgba(255,255,255,0.04)",
+      borderRadius: 3,
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: "100%",
+      width: "60%",
+      background: "".concat(DS.amber, "30"),
+      borderRadius: 3
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 35,
+      fontSize: 11,
+      fontWeight: 600,
+      color: DS.amber,
+      fontFamily: DS.mono,
+      textAlign: "right"
+    }
+  }, "-60%"))));
+}
+
+// ======== PRICE HISTORY CHART ========
+function PriceHistoryChart(_ref14) {
+  var hist = _ref14.hist,
+    mob = _ref14.mob;
+  var ref = useRef(null);
+  var _useState9 = useState(365),
+    _useState0 = _slicedToArray(_useState9, 2),
+    period = _useState0[0],
+    setPeriod = _useState0[1];
+  var filtered = useMemo(function () {
+    if (!(hist !== null && hist !== void 0 && hist.prices)) return [];
+    var cutoff = Date.now() - period * 86400000;
+    return hist.prices.filter(function (p) {
+      return p.ts >= cutoff;
+    });
+  }, [hist, period]);
+  useEffect(function () {
+    var cv = ref.current;
+    if (!cv || !filtered.length) return;
+    var ctx = cv.getContext("2d");
+    var W = cv.parentElement.clientWidth,
+      H = mob ? 220 : 300;
+    cv.width = W * 2;
+    cv.height = H * 2;
+    cv.style.width = W + "px";
+    cv.style.height = H + "px";
+    ctx.scale(2, 2);
+    var pad = {
+      t: 20,
+      r: 60,
+      b: 30,
+      l: 10
+    };
+    var cw = W - pad.l - pad.r,
+      ch = H - pad.t - pad.b;
+    var prices = filtered.map(function (p) {
+      return p.price;
+    });
+    var mn = Math.min.apply(Math, _toConsumableArray(prices)) * 0.98,
+      mx = Math.max.apply(Math, _toConsumableArray(prices)) * 1.02;
+    var x = function x(i) {
+      return pad.l + i / (filtered.length - 1) * cw;
+    };
+    var y = function y(v) {
+      return pad.t + (1 - (v - mn) / (mx - mn)) * ch;
+    };
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = "rgba(255,255,255,0.04)";
+    ctx.lineWidth = 0.5;
+    for (var i = 0; i < 5; i++) {
+      var gy = pad.t + i / 4 * ch;
+      ctx.beginPath();
+      ctx.moveTo(pad.l, gy);
+      ctx.lineTo(W - pad.r, gy);
+      ctx.stroke();
+      var val = mx - i / 4 * (mx - mn);
+      ctx.fillStyle = "rgba(255,255,255,0.2)";
+      ctx.font = "10px JetBrains Mono, monospace";
+      ctx.textAlign = "right";
+      ctx.fillText("$".concat((val / 1000).toFixed(0), "K"), W - pad.r + 45, gy + 4);
+    }
+    var grad = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+    grad.addColorStop(0, "rgba(56,189,248,0.15)");
+    grad.addColorStop(1, "rgba(56,189,248,0)");
+    ctx.beginPath();
+    ctx.moveTo(x(0), H - pad.b);
+    filtered.forEach(function (p, i) {
+      return ctx.lineTo(x(i), y(p.price));
+    });
+    ctx.lineTo(x(filtered.length - 1), H - pad.b);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.beginPath();
+    filtered.forEach(function (p, i) {
+      return i === 0 ? ctx.moveTo(x(i), y(p.price)) : ctx.lineTo(x(i), y(p.price));
+    });
+    ctx.strokeStyle = DS.cyan;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.beginPath();
+    var started = false;
+    filtered.forEach(function (p, i) {
+      if (p.ma200) {
+        if (!started) {
+          ctx.moveTo(x(i), y(p.ma200));
+          started = true;
+        } else ctx.lineTo(x(i), y(p.ma200));
+      }
+    });
+    ctx.strokeStyle = "rgba(251,191,36,0.5)";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(255,255,255,0.15)";
+    ctx.font = "9px JetBrains Mono, monospace";
+    ctx.textAlign = "center";
+    var step = Math.max(1, Math.floor(filtered.length / 6));
+    for (var _i5 = 0; _i5 < filtered.length; _i5 += step) {
+      var d = filtered[_i5].date;
+      ctx.fillText("".concat(d.getDate(), "/").concat(d.getMonth() + 1), x(_i5), H - 8);
+    }
+    var last = filtered[filtered.length - 1];
+    ctx.beginPath();
+    ctx.arc(x(filtered.length - 1), y(last.price), 4, 0, Math.PI * 2);
+    ctx.fillStyle = DS.cyan;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x(filtered.length - 1), y(last.price), 8, 0, Math.PI * 2);
+    ctx.fillStyle = "".concat(DS.cyan, "30");
+    ctx.fill();
+  }, [filtered, mob]);
+  if (!hist) return React.createElement("div", {
+    style: {
+      textAlign: "center",
+      color: DS.text3,
+      padding: 40
+    }
+  }, "Chargement historique...");
+  return React.createElement("div", null, React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      marginBottom: 12
+    }
+  }, [30, 90, 365, 1460, 2920].map(function (d) {
+    return React.createElement("button", {
+      key: d,
+      onClick: function onClick() {
+        return setPeriod(d);
+      },
+      style: {
+        padding: "6px 14px",
+        borderRadius: 8,
+        fontSize: 11,
+        fontWeight: period === d ? 600 : 400,
+        background: period === d ? "".concat(DS.cyan, "15") : DS.glass,
+        border: "1px solid ".concat(period === d ? "".concat(DS.cyan, "30") : DS.glassBorder),
+        color: period === d ? DS.cyan : DS.text3,
+        transition: "all 0.2s"
+      }
+    }, d < 365 ? "".concat(d, "j") : d === 365 ? "1an" : d === 1460 ? "4ans" : "8ans");
+  })), React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      marginBottom: 8,
+      fontSize: 10,
+      color: DS.text3
+    }
+  }, React.createElement("span", null, "\u2501 ", React.createElement("span", {
+    style: {
+      color: DS.cyan
+    }
+  }, "Prix")), React.createElement("span", null, "\u2564 ", React.createElement("span", {
+    style: {
+      color: DS.amber
+    }
+  }, "MA200"))), React.createElement("canvas", {
+    ref: ref
+  }));
+}
+
+// ======== PI CYCLE TOP INDICATOR ========
+function PiCycleChart(_ref15) {
+  var _hist$crosses;
+  var hist = _ref15.hist,
+    mob = _ref15.mob;
+  var ref = useRef(null);
+  var data = useMemo(function () {
+    if (!(hist !== null && hist !== void 0 && hist.prices)) return null;
+    var cutoff = Date.now() - 4 * 365 * 86400000;
+    return hist.prices.filter(function (p) {
+      return p.ts >= cutoff && p.ma111 && p.ma350x2;
+    });
+  }, [hist]);
+  useEffect(function () {
+    var cv = ref.current;
+    if (!cv || !(data !== null && data !== void 0 && data.length)) return;
+    var ctx = cv.getContext("2d");
+    var W = cv.parentElement.clientWidth,
+      H = mob ? 220 : 300;
+    cv.width = W * 2;
+    cv.height = H * 2;
+    cv.style.width = W + "px";
+    cv.style.height = H + "px";
+    ctx.scale(2, 2);
+    var pad = {
+      t: 20,
+      r: 60,
+      b: 30,
+      l: 10
+    };
+    var cw = W - pad.l - pad.r,
+      ch = H - pad.t - pad.b;
+    var all = data.flatMap(function (p) {
+      return [p.price, p.ma111, p.ma350x2];
+    });
+    var mn = Math.min.apply(Math, _toConsumableArray(all)) * 0.95,
+      mx = Math.max.apply(Math, _toConsumableArray(all)) * 1.05;
+    var x = function x(i) {
+      return pad.l + i / (data.length - 1) * cw;
+    };
+    var y = function y(v) {
+      return pad.t + (1 - (v - mn) / (mx - mn)) * ch;
+    };
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = "rgba(255,255,255,0.04)";
+    ctx.lineWidth = 0.5;
+    for (var i = 0; i < 5; i++) {
+      var gy = pad.t + i / 4 * ch;
+      ctx.beginPath();
+      ctx.moveTo(pad.l, gy);
+      ctx.lineTo(W - pad.r, gy);
+      ctx.stroke();
+      var val = mx - i / 4 * (mx - mn);
+      ctx.fillStyle = "rgba(255,255,255,0.2)";
+      ctx.font = "10px JetBrains Mono, monospace";
+      ctx.textAlign = "right";
+      ctx.fillText("$".concat((val / 1000).toFixed(0), "K"), W - pad.r + 45, gy + 4);
+    }
+    ctx.beginPath();
+    data.forEach(function (p, i) {
+      return i === 0 ? ctx.moveTo(x(i), y(p.price)) : ctx.lineTo(x(i), y(p.price));
+    });
+    ctx.strokeStyle = "rgba(255,255,255,0.15)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.beginPath();
+    data.forEach(function (p, i) {
+      return i === 0 ? ctx.moveTo(x(i), y(p.ma111)) : ctx.lineTo(x(i), y(p.ma111));
+    });
+    ctx.strokeStyle = DS.green;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.beginPath();
+    data.forEach(function (p, i) {
+      return i === 0 ? ctx.moveTo(x(i), y(p.ma350x2)) : ctx.lineTo(x(i), y(p.ma350x2));
+    });
+    ctx.strokeStyle = DS.red;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    if (hist !== null && hist !== void 0 && hist.crosses) {
+      hist.crosses.forEach(function (cr) {
+        var idx = data.findIndex(function (p) {
+          var _cr$date$getTime, _cr$date;
+          return Math.abs(p.ts - (((_cr$date$getTime = (_cr$date = cr.date).getTime) === null || _cr$date$getTime === void 0 ? void 0 : _cr$date$getTime.call(_cr$date)) || cr.date)) < 86400000 * 2;
+        });
+        if (idx >= 0) {
+          ctx.beginPath();
+          ctx.arc(x(idx), y(data[idx].price), 6, 0, Math.PI * 2);
+          ctx.fillStyle = "".concat(DS.red, "50");
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(x(idx), y(data[idx].price), 3, 0, Math.PI * 2);
+          ctx.fillStyle = DS.red;
+          ctx.fill();
+          ctx.fillStyle = DS.red;
+          ctx.font = "bold 9px DM Sans, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("TOP", x(idx), y(data[idx].price) - 12);
+        }
+      });
+    }
+    ctx.fillStyle = "rgba(255,255,255,0.15)";
+    ctx.font = "9px JetBrains Mono, monospace";
+    ctx.textAlign = "center";
+    var step = Math.max(1, Math.floor(data.length / 6));
+    for (var _i6 = 0; _i6 < data.length; _i6 += step) {
+      ctx.fillText("".concat(data[_i6].date.getMonth() + 1, "/").concat(data[_i6].date.getFullYear() % 100), x(_i6), H - 8);
+    }
+  }, [data, hist, mob]);
+  if (!data) return React.createElement("div", {
+    style: {
+      textAlign: "center",
+      color: DS.text3,
+      padding: 40
+    }
+  }, "Chargement Pi Cycle...");
+  var last = data[data.length - 1];
+  var gap = last ? (last.ma350x2 - last.ma111) / last.ma350x2 * 100 : 0;
+  var nearCross = gap < 10;
+  return React.createElement("div", null, React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      marginBottom: 12,
+      fontSize: 10,
+      color: DS.text3
+    }
+  }, React.createElement("span", null, "\u2501 ", React.createElement("span", {
+    style: {
+      color: DS.green
+    }
+  }, "111 DMA")), React.createElement("span", null, "\u2501 ", React.createElement("span", {
+    style: {
+      color: DS.red
+    }
+  }, "350 DMA \xD7 2")), React.createElement("span", null, "\u25AC ", React.createElement("span", {
+    style: {
+      color: "rgba(255,255,255,0.15)"
+    }
+  }, "Prix"))), React.createElement("canvas", {
+    ref: ref
+  }), React.createElement("div", {
+    style: {
+      marginTop: 12,
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr" : "1fr 1fr 1fr",
+      gap: 10
+    }
+  }, [{
+    l: "111 DMA",
+    v: last ? fP(Math.round(last.ma111)) : "\u2014",
+    c: DS.green
+  }, {
+    l: "350 DMA \xD7 2",
+    v: last ? fP(Math.round(last.ma350x2)) : "\u2014",
+    c: DS.red
+  }, {
+    l: "\xC9cart",
+    v: "".concat(gap.toFixed(1), "%"),
+    c: nearCross ? DS.red : DS.green
+  }].map(function (d) {
+    return React.createElement("div", {
+      key: d.l,
+      style: _objectSpread({}, glassStyle({
+        padding: "10px 14px",
+        textAlign: "center",
+        borderColor: "".concat(d.c, "15")
+      }))
+    }, React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: DS.text3,
+        letterSpacing: 2
+      }
+    }, d.l.toUpperCase()), React.createElement("div", {
+      style: {
+        fontSize: 20,
+        fontWeight: 700,
+        fontFamily: DS.mono,
+        color: d.c,
+        marginTop: 4
+      }
+    }, d.v));
+  })), React.createElement("div", {
+    style: {
+      marginTop: 10,
+      fontSize: 11,
+      color: DS.text3,
+      lineHeight: 1.6
+    }
+  }, nearCross ? "\u26A0\uFE0F Les deux moyennes convergent \u2014 signal de top potentiel !" : "Le 111 DMA est ".concat(gap.toFixed(0), "% sous le 350 DMA\xD72. Quand ils se croisent = signal de top historique (pr\xE9cision 3/4 cycles)."), hist !== null && hist !== void 0 && (_hist$crosses = hist.crosses) !== null && _hist$crosses !== void 0 && _hist$crosses.length ? " Derniers croisements d\xE9tect\xE9s: ".concat(hist.crosses.length) : ""));
+}
+
+// ======== RAINBOW CHART ========
+function RainbowChart(_ref16) {
+  var hist = _ref16.hist,
+    currentPrice = _ref16.currentPrice,
+    mob = _ref16.mob;
+  var ref = useRef(null);
+  var GENESIS = new Date("2009-01-09").getTime();
+  var A = 2.66167155005961,
+    B = -17.9183761889864;
+  var BAND_LABELS = ["\uD83D\uDD34 Maximum Bubble", "\uD83D\uDFE0 SELL!", "\uD83D\uDFE7 FOMO", "\uD83D\uDFE1 Bulle?", "\uD83D\uDFE2 HODL!", "\uD83D\uDC9A Encore cheap", "\uD83D\uDD35 Accumulate", "\uD83D\uDC99 BUY!", "\uD83D\uDD37 Fire Sale"];
+  var BAND_COLORS = ["#991b1b", "#dc2626", "#f97316", "#eab308", "#84cc16", "#22c55e", "#06b6d4", "#3b82f6", "#1d4ed8"];
+  var rainbow = useCallback(function (days) {
+    if (days <= 0) return null;
+    var base = Math.pow(10, A * Math.log(days) + B);
+    return [5.5, 3.5, 2.2, 1.5, 1.0, 0.7, 0.47, 0.32, 0.21].map(function (m) {
+      return base * m;
+    });
+  }, []);
+  var data = useMemo(function () {
+    if (!(hist !== null && hist !== void 0 && hist.prices)) return null;
+    var cutoff = Date.now() - 6 * 365 * 86400000;
+    return hist.prices.filter(function (p) {
+      return p.ts >= cutoff;
+    });
+  }, [hist]);
+  var currentBand = useMemo(function () {
+    if (!currentPrice) return null;
+    var days = (Date.now() - GENESIS) / 86400000;
+    var bands = rainbow(days);
+    if (!bands) return null;
+    for (var i = 0; i < bands.length; i++) {
+      if (currentPrice >= bands[i]) return {
+        index: i,
+        label: BAND_LABELS[i],
+        color: BAND_COLORS[i]
+      };
+    }
+    return {
+      index: 8,
+      label: BAND_LABELS[8],
+      color: BAND_COLORS[8]
+    };
+  }, [currentPrice, rainbow]);
+  useEffect(function () {
+    var cv = ref.current;
+    if (!cv || !(data !== null && data !== void 0 && data.length)) return;
+    var ctx = cv.getContext("2d");
+    var W = cv.parentElement.clientWidth,
+      H = mob ? 260 : 340;
+    cv.width = W * 2;
+    cv.height = H * 2;
+    cv.style.width = W + "px";
+    cv.style.height = H + "px";
+    ctx.scale(2, 2);
+    var pad = {
+      t: 20,
+      r: 60,
+      b: 30,
+      l: 10
+    };
+    var cw = W - pad.l - pad.r,
+      ch = H - pad.t - pad.b;
+    var allPrices = data.map(function (p) {
+      return p.price;
+    });
+    var allBands = data.flatMap(function (p) {
+      var bands = rainbow((p.ts - GENESIS) / 86400000);
+      return bands ? [bands[0], bands[8]] : [];
+    });
+    var mnLog = Math.log10(Math.min.apply(Math, _toConsumableArray(allPrices).concat(_toConsumableArray(allBands.filter(function (b) {
+      return b > 0;
+    })))) * 0.8);
+    var mxLog = Math.log10(Math.max.apply(Math, _toConsumableArray(allPrices).concat(_toConsumableArray(allBands))) * 1.2);
+    var x = function x(i) {
+      return pad.l + i / (data.length - 1) * cw;
+    };
+    var yLog = function yLog(v) {
+      return v > 0 ? pad.t + (1 - (Math.log10(v) - mnLog) / (mxLog - mnLog)) * ch : H;
+    };
+    ctx.clearRect(0, 0, W, H);
+    var _loop2 = function _loop2(b) {
+      ctx.beginPath();
+      data.forEach(function (p, i) {
+        var bands = rainbow((p.ts - GENESIS) / 86400000);
+        if (!bands) return;
+        if (i === 0) ctx.moveTo(x(i), yLog(bands[b]));else ctx.lineTo(x(i), yLog(bands[b]));
+      });
+      for (var _i7 = data.length - 1; _i7 >= 0; _i7--) {
+        var bands = rainbow((data[_i7].ts - GENESIS) / 86400000);
+        if (!bands) continue;
+        ctx.lineTo(x(_i7), yLog(bands[b + 1]));
+      }
+      ctx.closePath();
+      ctx.fillStyle = BAND_COLORS[b] + "25";
+      ctx.fill();
+    };
+    for (var b = 0; b < 8; b++) {
+      _loop2(b);
+    }
+    var _loop3 = function _loop3(_b) {
+      ctx.beginPath();
+      data.forEach(function (p, i) {
+        var bands = rainbow((p.ts - GENESIS) / 86400000);
+        if (!bands) return;
+        if (i === 0) ctx.moveTo(x(i), yLog(bands[_b]));else ctx.lineTo(x(i), yLog(bands[_b]));
+      });
+      ctx.strokeStyle = BAND_COLORS[_b] + "40";
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+    };
+    for (var _b = 0; _b < 9; _b++) {
+      _loop3(_b);
+    }
+    ctx.beginPath();
+    data.forEach(function (p, i) {
+      return i === 0 ? ctx.moveTo(x(i), yLog(p.price)) : ctx.lineTo(x(i), yLog(p.price));
+    });
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = "rgba(255,255,255,0.2)";
+    ctx.font = "10px JetBrains Mono, monospace";
+    ctx.textAlign = "right";
+    [1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000].forEach(function (v) {
+      if (Math.log10(v) >= mnLog && Math.log10(v) <= mxLog) {
+        var gy = yLog(v);
+        ctx.fillText(v >= 1000 ? "$".concat((v / 1000).toFixed(0), "K") : "$".concat(v), W - pad.r + 45, gy + 4);
+        ctx.strokeStyle = "rgba(255,255,255,0.03)";
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(pad.l, gy);
+        ctx.lineTo(W - pad.r, gy);
+        ctx.stroke();
+      }
+    });
+    ctx.fillStyle = "rgba(255,255,255,0.15)";
+    ctx.font = "9px JetBrains Mono, monospace";
+    ctx.textAlign = "center";
+    var step = Math.max(1, Math.floor(data.length / 6));
+    for (var i = 0; i < data.length; i += step) {
+      ctx.fillText("".concat(data[i].date.getMonth() + 1, "/").concat(data[i].date.getFullYear() % 100), x(i), H - 8);
+    }
+    var lastX = x(data.length - 1),
+      lastY = yLog(data[data.length - 1].price);
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+  }, [data, mob, rainbow]);
+  if (!data) return React.createElement("div", {
+    style: {
+      textAlign: "center",
+      color: DS.text3,
+      padding: 40
+    }
+  }, "Chargement Rainbow Chart...");
+  return React.createElement("div", null, React.createElement("canvas", {
+    ref: ref
+  }), currentBand && React.createElement("div", {
+    style: _objectSpread({
+      marginTop: 12,
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      padding: "14px 18px"
+    }, glassStyle({
+      borderColor: currentBand.color + "30"
+    }))
+  }, React.createElement("div", {
+    style: {
+      fontSize: 28
+    }
+  }, currentBand.label.slice(0, 2)), React.createElement("div", null, React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: currentBand.color
+    }
+  }, currentBand.label.slice(3)), React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: DS.text3,
+      marginTop: 2
+    }
+  }, "BTC est dans la bande ".concat(currentBand.index + 1, "/9 du Rainbow Chart")))), React.createElement("div", {
+    style: {
+      marginTop: 10,
+      fontSize: 11,
+      color: DS.text3,
+      lineHeight: 1.6
+    }
+  }, "R\xE9gression logarithmique sur l'historique BTC. Les bandes basses (bleu) = sous-\xE9valu\xE9, les bandes hautes (rouge) = bulle. \xC9chelle logarithmique."));
+}
+
+// ======== BACKTEST ========
+function BacktestPanel(_ref17) {
+  var hist = _ref17.hist,
+    mob = _ref17.mob;
+  var ref = useRef(null);
+  var _useState1 = useState(20),
+    _useState10 = _slicedToArray(_useState1, 2),
+    buyTh = _useState10[0],
+    setBuyTh = _useState10[1];
+  var _useState11 = useState(80),
+    _useState12 = _slicedToArray(_useState11, 2),
+    sellTh = _useState12[0],
+    setSellTh = _useState12[1];
+  var bt = useMemo(function () {
+    if (!(hist !== null && hist !== void 0 && hist.prices)) return null;
+    var prices = hist.prices.filter(function (p) {
+      return p.ma200;
+    });
+    if (prices.length < 100) return null;
+    var trades = [];
+    var holding = false,
+      buyPrice = 0,
+      invested = 0,
+      btcHeld = 0;
+    var scores = prices.map(function (p, i) {
+      var mayer = p.ma200 ? p.price / p.ma200 : 1;
+      var s_mayer = mayer < 0.6 ? 5 : mayer < 0.8 ? 15 : mayer < 1.0 ? 30 : mayer < 1.5 ? 50 : mayer < 2.4 ? 75 : 95;
+      var lookback = prices.slice(Math.max(0, i - 365), i + 1);
+      var localATH = Math.max.apply(Math, _toConsumableArray(lookback.map(function (x) {
+        return x.price;
+      })));
+      var dd = (localATH - p.price) / localATH * 100;
+      var s_dd = dd > 70 ? 5 : dd > 50 ? 15 : dd > 30 ? 35 : dd > 15 ? 55 : dd > 5 ? 75 : 90;
+      var dist200 = (p.price / p.ma200 - 1) * 100;
+      var s_dist = dist200 < -40 ? 5 : dist200 < -20 ? 15 : dist200 < 0 ? 30 : dist200 < 30 ? 50 : dist200 < 60 ? 75 : 95;
+      var p30 = i >= 30 ? prices[i - 30].price : p.price;
+      var mom = (p.price / p30 - 1) * 100;
+      var s_mom = mom < -30 ? 5 : mom < -15 ? 15 : mom < -5 ? 30 : mom < 10 ? 50 : mom < 30 ? 70 : 90;
+      var score = Math.round((s_mayer + s_dd + s_dist + s_mom) / 4);
+      if (!holding && score <= buyTh) {
+        holding = true;
+        buyPrice = p.price;
+        invested += 10000;
+        btcHeld += 10000 / p.price;
+        trades.push({
+          type: "BUY",
+          date: p.date,
+          price: p.price,
+          score: score
+        });
+      } else if (holding && score >= sellTh) {
+        var value = btcHeld * p.price;
+        trades.push({
+          type: "SELL",
+          date: p.date,
+          price: p.price,
+          score: score,
+          profit: (value / invested - 1) * 100
+        });
+        holding = false;
+      }
+      return _objectSpread(_objectSpread({}, p), {}, {
+        score: score
+      });
+    });
+    var finalValue = holding ? btcHeld * prices[prices.length - 1].price : invested * (trades.length > 0 ? 1 + trades.filter(function (t) {
+      return t.profit;
+    }).reduce(function (s, t) {
+      return s + t.profit / 100;
+    }, 0) : 1);
+    var hodlReturn = (prices[prices.length - 1].price / prices[0].price - 1) * 100;
+    var stratReturn = invested > 0 ? (finalValue / invested - 1) * 100 : 0;
+    return {
+      scores: scores,
+      trades: trades,
+      invested: invested,
+      finalValue: finalValue,
+      hodlReturn: hodlReturn,
+      stratReturn: stratReturn,
+      holding: holding,
+      btcHeld: btcHeld
+    };
+  }, [hist, buyTh, sellTh]);
+  useEffect(function () {
+    var _bt$scores;
+    var cv = ref.current;
+    if (!cv || !(bt !== null && bt !== void 0 && (_bt$scores = bt.scores) !== null && _bt$scores !== void 0 && _bt$scores.length)) return;
+    var ctx = cv.getContext("2d");
+    var W = cv.parentElement.clientWidth,
+      H = mob ? 200 : 260;
+    cv.width = W * 2;
+    cv.height = H * 2;
+    cv.style.width = W + "px";
+    cv.style.height = H + "px";
+    ctx.scale(2, 2);
+    var pad = {
+      t: 20,
+      r: 40,
+      b: 30,
+      l: 10
+    };
+    var cw = W - pad.l - pad.r,
+      ch = H - pad.t - pad.b;
+    var x = function x(i) {
+      return pad.l + i / (bt.scores.length - 1) * cw;
+    };
+    var y = function y(v) {
+      return pad.t + (1 - v / 100) * ch;
+    };
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = "".concat(DS.green, "08");
+    ctx.fillRect(pad.l, y(buyTh), cw, ch - (ch - (y(buyTh) - pad.t)));
+    ctx.fillStyle = "".concat(DS.red, "08");
+    ctx.fillRect(pad.l, pad.t, cw, y(sellTh) - pad.t);
+    ctx.setLineDash([4, 3]);
+    ctx.strokeStyle = "".concat(DS.green, "40");
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y(buyTh));
+    ctx.lineTo(W - pad.r, y(buyTh));
+    ctx.stroke();
+    ctx.strokeStyle = "".concat(DS.red, "40");
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y(sellTh));
+    ctx.lineTo(W - pad.r, y(sellTh));
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    bt.scores.forEach(function (p, i) {
+      return i === 0 ? ctx.moveTo(x(i), y(p.score)) : ctx.lineTo(x(i), y(p.score));
+    });
+    ctx.strokeStyle = DS.purple;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    bt.trades.forEach(function (t) {
+      var idx = bt.scores.findIndex(function (s) {
+        var _t$date$getTime, _t$date;
+        return Math.abs(s.ts - (((_t$date$getTime = (_t$date = t.date).getTime) === null || _t$date$getTime === void 0 ? void 0 : _t$date$getTime.call(_t$date)) || t.date)) < 86400000 * 2;
+      });
+      if (idx < 0) return;
+      ctx.beginPath();
+      ctx.arc(x(idx), y(t.score), 4, 0, Math.PI * 2);
+      ctx.fillStyle = t.type === "BUY" ? DS.green : DS.red;
+      ctx.fill();
+    });
+    ctx.fillStyle = "rgba(255,255,255,0.2)";
+    ctx.font = "10px JetBrains Mono, monospace";
+    ctx.textAlign = "right";
+    [0, 25, 50, 75, 100].forEach(function (v) {
+      ctx.fillText(v, W - pad.r + 25, y(v) + 4);
+      ctx.strokeStyle = "rgba(255,255,255,0.04)";
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(pad.l, y(v));
+      ctx.lineTo(W - pad.r, y(v));
+      ctx.stroke();
+    });
+    ctx.font = "bold 9px DM Sans";
+    ctx.fillStyle = DS.green;
+    ctx.textAlign = "left";
+    ctx.fillText("BUY \u2264 ".concat(buyTh), pad.l + 4, y(buyTh) + 14);
+    ctx.fillStyle = DS.red;
+    ctx.fillText("SELL \u2265 ".concat(sellTh), pad.l + 4, y(sellTh) - 6);
+  }, [bt, buyTh, sellTh, mob]);
+  if (!bt) return React.createElement("div", {
+    style: {
+      textAlign: "center",
+      color: DS.text3,
+      padding: 40
+    }
+  }, "Chargement backtest...");
+  return React.createElement("div", null, React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 16,
+      marginBottom: 14,
+      flexWrap: "wrap",
+      alignItems: "center"
+    }
+  }, React.createElement("label", {
+    style: {
+      fontSize: 11,
+      color: DS.text2,
+      display: "flex",
+      alignItems: "center",
+      gap: 6
+    }
+  }, "Achat \u2264", React.createElement("input", {
+    type: "range",
+    min: 5,
+    max: 40,
+    value: buyTh,
+    onChange: function onChange(e) {
+      return setBuyTh(+e.target.value);
+    },
+    style: {
+      width: 80,
+      accentColor: DS.green
+    }
+  }), React.createElement("span", {
+    style: {
+      fontFamily: DS.mono,
+      color: DS.green,
+      fontWeight: 700,
+      width: 24
+    }
+  }, buyTh)), React.createElement("label", {
+    style: {
+      fontSize: 11,
+      color: DS.text2,
+      display: "flex",
+      alignItems: "center",
+      gap: 6
+    }
+  }, "Vente \u2265", React.createElement("input", {
+    type: "range",
+    min: 60,
+    max: 95,
+    value: sellTh,
+    onChange: function onChange(e) {
+      return setSellTh(+e.target.value);
+    },
+    style: {
+      width: 80,
+      accentColor: DS.red
+    }
+  }), React.createElement("span", {
+    style: {
+      fontFamily: DS.mono,
+      color: DS.red,
+      fontWeight: 700,
+      width: 24
+    }
+  }, sellTh))), React.createElement("canvas", {
+    ref: ref
+  }), React.createElement("div", {
+    style: {
+      marginTop: 14,
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr 1fr" : "repeat(4, 1fr)",
+      gap: 10
+    }
+  }, [{
+    l: "Trades",
+    v: bt.trades.length,
+    c: DS.purple
+  }, {
+    l: "Rendement Strat.",
+    v: "".concat(bt.stratReturn >= 0 ? "+" : "").concat(bt.stratReturn.toFixed(0), "%"),
+    c: bt.stratReturn > 0 ? DS.green : DS.red
+  }, {
+    l: "HODL Return",
+    v: "+".concat(bt.hodlReturn.toFixed(0), "%"),
+    c: DS.cyan
+  }, {
+    l: "Status",
+    v: bt.holding ? "In (".concat(bt.btcHeld.toFixed(3), " BTC)") : "Cash",
+    c: bt.holding ? DS.green : DS.text2
+  }].map(function (d) {
+    return React.createElement("div", {
+      key: d.l,
+      style: _objectSpread({}, glassStyle({
+        padding: "10px 14px",
+        textAlign: "center",
+        borderColor: "".concat(d.c, "15")
+      }))
+    }, React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: DS.text3,
+        letterSpacing: 2
+      }
+    }, d.l.toUpperCase()), React.createElement("div", {
+      style: {
+        fontSize: 20,
+        fontWeight: 700,
+        fontFamily: DS.mono,
+        color: d.c,
+        marginTop: 4
+      }
+    }, d.v));
+  })), React.createElement("div", {
+    style: {
+      marginTop: 10,
+      fontSize: 11,
+      color: DS.text3,
+      lineHeight: 1.6
+    }
+  }, "Score approx. (price-only: Mayer, drawdown, dist. MA200, momentum 30j). ".concat(bt.trades.length, " trades. "), bt.stratReturn > bt.hodlReturn ? "La strat\xE9gie bat le HODL ! \uD83C\uDFAF" : "Le HODL simple reste sup\xE9rieur sur cette p\xE9riode.", " Ajuste les seuils. \u26A0\uFE0F Not financial advice."));
+}
+
+// ======== MAIN DASHBOARD ========
+function Dashboard() {
+  var _calc$mc, _calc$mc2, _calc$mc3, _calc$mc4, _data$sources, _data$sources2, _data$sources3, _data$sources4, _data$sources5, _data$sources6, _data$sources7, _data$sources8;
+  var _useScreen = useScreen(),
+    mob = _useScreen.mob;
+  var data = useLiveData();
+  var calc = useCalc(data);
+  var hist = useHistoricalData();
+  var _useState13 = useState("onchain"),
+    _useState14 = _slicedToArray(_useState13, 2),
+    tab = _useState14[0],
+    setTab = _useState14[1];
+  var _useState15 = useState(false),
+    _useState16 = _slicedToArray(_useState15, 2),
+    ready = _useState16[0],
+    setReady = _useState16[1];
+  useEffect(function () {
+    setTimeout(function () {
+      return setReady(true);
+    }, 100);
+  }, []);
+  var ocLevels = useMemo(function () {
+    return [{
+      k: "ma111",
+      l: "111-Day MA",
+      v: MA111,
+      c: DS.red
+    }, {
+      k: "ma2y",
+      l: "2-Year MA",
+      v: MA2Y,
+      c: DS.amber
+    }, {
+      k: "sth_rp",
+      l: "STH Real. Price",
+      v: calc.sthRp,
+      c: DS.cyan
+    }, {
+      k: "w200",
+      l: "200-Week MA",
+      v: W200,
+      c: DS.blue
+    }, {
+      k: "rp",
+      l: "Realized Price",
+      v: calc.rp,
+      c: DS.purple
+    }, {
+      k: "cvdd",
+      l: "CVDD",
+      v: CVDD,
+      c: DS.pink
+    }, {
+      k: "lth_rp",
+      l: "LTH Real. Price",
+      v: calc.lthRp,
+      c: DS.green
+    }];
+  }, [calc.rp, calc.sthRp, calc.lthRp]);
+  var g = mob ? 8 : 12;
+  var section = function section(t) {
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        letterSpacing: 3,
+        color: DS.text3,
+        fontWeight: 600,
+        marginBottom: 14,
+        textTransform: "uppercase"
+      }
+    }, t);
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: DS.bg,
+      color: DS.text,
+      fontFamily: DS.font,
+      padding: mob ? "16px 10px" : "24px 20px",
+      maxWidth: 1000,
+      margin: "0 auto",
+      opacity: ready ? 1 : 0,
+      transition: "opacity 0.6s ease-out"
+    }
+  }, /*#__PURE__*/React.createElement("style", null, "\n        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');\n        * { box-sizing: border-box; margin: 0; padding: 0; }\n        ::-webkit-scrollbar { width: 4px; height: 4px; }\n        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }\n        button { font-family: ".concat(DS.font, "; cursor: pointer; border: none; outline: none; }\n        body { background: ").concat(DS.bg, "; }\n        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }\n      ")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      pointerEvents: "none",
+      zIndex: 0,
+      overflow: "hidden"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: "-20%",
+      right: "-10%",
+      width: "50vw",
+      height: "50vw",
+      borderRadius: "50%",
+      background: "radial-gradient(circle, rgba(56,189,248,0.04) 0%, transparent 70%)"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      bottom: "-20%",
+      left: "-10%",
+      width: "40vw",
+      height: "40vw",
+      borderRadius: "50%",
+      background: "radial-gradient(circle, rgba(168,85,247,0.03) 0%, transparent 70%)"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      zIndex: 1
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: mob ? 20 : 28,
+      padding: "0 2px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: mob ? 10 : 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      letterSpacing: 5,
+      color: DS.text3,
+      fontWeight: 700
+    }
+  }, "BTC CYCLE"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 7,
+      height: 7,
+      borderRadius: "50%",
+      background: data.loading ? DS.amber : data.live ? DS.green : DS.red,
+      boxShadow: data.live ? "0 0 8px ".concat(DS.green, "40") : "none"
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10,
+      color: DS.text3,
+      letterSpacing: 1,
+      fontWeight: 500
+    }
+  }, data.loading ? "LOADING" : data.live ? "LIVE" : "OFFLINE"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: mob ? 12 : 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "right"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text3,
+      letterSpacing: 2
+    }
+  }, "CYCLE DAY"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 700,
+      fontFamily: DS.mono,
+      color: DS.text
+    }
+  }, calc.cycleDay, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      color: DS.text3
+    }
+  }, "/~1400"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "right"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      color: DS.text3,
+      letterSpacing: 2
+    }
+  }, "BEAR PROG."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 18,
+      fontWeight: 700,
+      fontFamily: DS.mono,
+      color: DS.red
+    }
+  }, calc.bearProg.toFixed(0), "%")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr" : "1fr 1fr",
+      gap: g,
+      marginBottom: g
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, glassStyle({
+      padding: mob ? "24px 16px" : "32px 28px"
+    })), {}, {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center"
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      letterSpacing: 5,
+      color: DS.cyan,
+      opacity: 0.4,
+      marginBottom: 8
+    }
+  }, "BITCOIN"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: mob ? 40 : 52,
+      fontWeight: 800,
+      fontFamily: DS.mono,
+      color: DS.text,
+      letterSpacing: -2
+    }
+  }, fP(data.price)), data.loading && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: DS.cyan,
+      fontFamily: DS.mono,
+      marginTop: 6,
+      padding: "5px 14px",
+      background: "".concat(DS.cyan, "08"),
+      borderRadius: 20,
+      border: "1px solid ".concat(DS.cyan, "12"),
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: "inline-block",
+      width: 6,
+      height: 6,
+      borderRadius: "50%",
+      background: DS.cyan,
+      animation: "pulse 1.2s infinite"
+    }
+  }), "Chargement des donn\u00E9es live..."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 16,
+      marginTop: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      fontWeight: 600,
+      color: DS.red,
+      fontFamily: DS.mono
+    }
+  }, "-", calc.drop.toFixed(1), "% ATH"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      fontWeight: 600,
+      color: data.change24h >= 0 ? DS.green : DS.red,
+      fontFamily: DS.mono
+    }
+  }, fPct(data.change24h), " 24h")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: mob ? 14 : 28,
+      marginTop: 16,
+      flexWrap: "wrap",
+      justifyContent: "center"
+    }
+  }, [{
+    l: "MCap",
+    v: fB(data.marketCap)
+  }, {
+    l: "Dom.",
+    v: "".concat(data.dominance.toFixed(1), "%")
+  }, {
+    l: "Vol 24h",
+    v: fB(data.volume24h)
+  }, {
+    l: "To Bottom",
+    v: "".concat(calc.dBot, "d"),
+    c: DS.red
+  }].map(function (d) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: d.l,
+      style: {
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: DS.text3,
+        letterSpacing: 2
+      }
+    }, d.l.toUpperCase()), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 14,
+        fontWeight: 600,
+        fontFamily: DS.mono,
+        color: d.c || DS.text2,
+        marginTop: 2
+      }
+    }, d.v));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, glassStyle({
+      padding: mob ? "20px 12px" : "24px 20px"
+    })), {}, {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center"
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 9,
+      letterSpacing: 4,
+      color: DS.text3,
+      marginBottom: 4,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }, "COMPOSITE SCORE", /*#__PURE__*/React.createElement(InfoTip, {
+    text: INFO.composite,
+    mob: mob
+  })), /*#__PURE__*/React.createElement(CompositeGauge, {
+    value: calc.composite,
+    mob: mob
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr 1fr 1fr",
+      gap: mob ? 6 : 8,
+      width: "100%",
+      marginTop: 12
+    }
+  }, /*#__PURE__*/React.createElement(MiniGauge, {
+    value: calc.onChain,
+    label: "On-Chain",
+    icon: "\u26D3",
+    mob: mob
+  }), /*#__PURE__*/React.createElement(MiniGauge, {
+    value: calc.mktStruct,
+    label: "March\u00E9",
+    icon: "\uD83D\uDCCA",
+    mob: mob
+  }), /*#__PURE__*/React.createElement(MiniGauge, {
+    value: calc.miners,
+    label: "Miners",
+    icon: "\u26CF",
+    mob: mob
+  }), /*#__PURE__*/React.createElement(MiniGauge, {
+    value: calc.derivs,
+    label: "D\u00E9riv\u00E9s",
+    icon: "\uD83D\uDCC8",
+    mob: mob
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr" : "repeat(3, 1fr)",
+      gap: g,
+      marginBottom: g
+    }
+  }, /*#__PURE__*/React.createElement(SignalCard, {
+    title: "MVRV Ratio",
+    value: calc.mvrv.toFixed(2),
+    status: calc.mvrv < 1 ? "bullish" : calc.mvrv < 1.5 ? "bearish" : "neutral",
+    detail: "RP: ".concat(fP(calc.rp), " \xB7 Z-Score: ").concat(calc.mvrv_z.toFixed(2)),
+    color: calc.mvrv < 1 ? DS.green : DS.amber,
+    mob: mob,
+    info: INFO.mvrv
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "Fear & Greed",
+    value: data.fearGreed,
+    status: data.fearGreed < 20 ? "bullish" : data.fearGreed > 70 ? "bearish" : "neutral",
+    detail: data.fgLabel,
+    color: data.fearGreed < 25 ? DS.green : data.fearGreed < 50 ? DS.amber : DS.red,
+    mob: mob,
+    info: INFO.fg
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "Mining Margin",
+    value: "".concat(calc.margin >= 0 ? "+" : "").concat(calc.margin.toFixed(1)),
+    unit: "%",
+    status: calc.margin < 5 ? "bullish" : calc.margin > 40 ? "bearish" : "neutral",
+    detail: "Cost: ".concat(fP(MC), " \xB7 ").concat(calc.margin < 10 ? "Capitulation proche" : "Profitable"),
+    color: calc.margin > 15 ? DS.green : calc.margin > 0 ? DS.amber : DS.red,
+    mob: mob,
+    info: INFO.mining
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "Funding Rate",
+    value: data.fundingRate.toFixed(3),
+    unit: "%",
+    status: data.fundingRate < -0.01 ? "bullish" : data.fundingRate > 0.05 ? "bearish" : "neutral",
+    detail: "OI: ".concat(fB(data.openInterest)),
+    color: data.fundingRate < 0 ? DS.green : DS.amber,
+    mob: mob,
+    info: INFO.funding
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "NUPL",
+    value: data.nupl.toFixed(3),
+    status: data.nupl < 0 ? "bullish" : data.nupl > 0.6 ? "bearish" : "neutral",
+    detail: data.nupl < 0 ? "Capitulation zone" : "Holders en profit",
+    color: data.nupl < 0 ? DS.green : data.nupl < 0.4 ? DS.amber : DS.red,
+    mob: mob,
+    info: INFO.nupl
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "Supply in Profit",
+    value: "".concat(calc.supplyProfit.toFixed(0)),
+    unit: "%",
+    status: calc.supplyProfit < 50 ? "bullish" : calc.supplyProfit > 90 ? "bearish" : "neutral",
+    detail: "".concat((data.supplyProfitBtc / 1e6).toFixed(1), "M BTC \xB7 >95% = top"),
+    color: calc.supplyProfit < 55 ? DS.green : calc.supplyProfit < 80 ? DS.amber : DS.red,
+    mob: mob,
+    info: INFO.supply
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "aSOPR",
+    value: (data.asopr || data.sopr).toFixed(3),
+    status: data.asopr < 1 ? "bullish" : "neutral",
+    detail: "SOPR: ".concat(data.sopr.toFixed(3), " \xB7 <1 = perte nette"),
+    color: data.asopr < 1 ? DS.green : DS.amber,
+    mob: mob,
+    info: INFO.asopr
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "Puell Multiple",
+    value: calc.puell.toFixed(2),
+    status: calc.puell < 0.5 ? "bullish" : calc.puell > 4 ? "bearish" : "neutral",
+    detail: "<0.5 = zone achat \xB7 >4 = top",
+    color: calc.puell < 0.7 ? DS.green : calc.puell < 1.5 ? DS.amber : DS.red,
+    mob: mob,
+    info: INFO.puell
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "RSI (14d)",
+    value: (data.rsi || 29).toFixed(0),
+    status: data.rsi < 30 ? "bullish" : data.rsi > 70 ? "bearish" : "neutral",
+    detail: "Mayer: ".concat(calc.mayer.toFixed(2), " \xB7 SMA200: ").concat(fP(calc.sma200)),
+    color: data.rsi < 30 ? DS.green : data.rsi < 50 ? DS.amber : DS.red,
+    mob: mob,
+    info: INFO.rsi
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "RHODL Ratio",
+    value: (data.rhodl || 1.06).toFixed(2),
+    status: data.rhodl < 2 ? "bullish" : data.rhodl > 50 ? "bearish" : "neutral",
+    detail: "<2 = accumulation \xB7 >50 = top",
+    color: data.rhodl < 5 ? DS.green : data.rhodl < 20 ? DS.amber : DS.red,
+    mob: mob,
+    info: INFO.rhodl
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "Hash Ribbons",
+    value: data.hashRibbons || "Down",
+    status: data.hashRibbons === "Down" ? "bullish" : "neutral",
+    detail: "SMA30: ".concat(((data.hashSma30 || 0) / 1e6).toFixed(0), "M \xB7 SMA60: ").concat(((data.hashSma60 || 0) / 1e6).toFixed(0), "M"),
+    color: data.hashRibbons === "Down" ? DS.green : DS.amber,
+    mob: mob,
+    info: INFO.hash
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "ETF Flows",
+    value: "".concat((data.etfFlowBtc || 0) > 0 ? "+" : "").concat(Math.round(data.etfFlowBtc || 0)),
+    unit: "BTC/j",
+    status: (data.etfFlowBtc || 0) > 0 ? "bullish" : "bearish",
+    detail: "Total: ".concat(((data.etfBtcTotal || 0) / 1000).toFixed(0), "K BTC"),
+    color: (data.etfFlowBtc || 0) > 0 ? DS.green : DS.red,
+    mob: mob,
+    info: INFO.etf
+  }), /*#__PURE__*/React.createElement(SignalCard, {
+    title: "STH Real. Price",
+    value: fP(calc.sthRp),
+    status: data.price < calc.sthRp ? "bullish" : "neutral",
+    detail: "LTH: ".concat(fP(calc.lthRp), " \xB7 Dist: ").concat(((data.price / calc.sthRp - 1) * 100).toFixed(0), "%"),
+    color: data.price < calc.sthRp ? DS.green : DS.amber,
+    mob: mob,
+    info: INFO.sth
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, glassStyle({
+      padding: mob ? "16px 12px" : "24px 24px"
+    })), {}, {
+      marginBottom: g
+    })
+  }, section("Prix + Bandes On-Chain"), /*#__PURE__*/React.createElement(PriceBandsChart, {
+    price: data.price,
+    mob: mob,
+    levels: ocLevels
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: mob ? 8 : 14,
+      justifyContent: "center",
+      marginTop: 10
+    }
+  }, ocLevels.slice(0, 5).map(function (l) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: l.k,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 5
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 10,
+        height: 2,
+        background: l.c,
+        borderRadius: 1,
+        opacity: 0.7
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        color: DS.text3
+      }
+    }, l.l));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      marginBottom: g,
+      overflowX: "auto",
+      WebkitOverflowScrolling: "touch",
+      paddingBottom: 2
+    }
+  }, [{
+    k: "onchain",
+    l: "\u26D3 On-Chain"
+  }, {
+    k: "price",
+    l: "\uD83D\uDCC8 Prix"
+  }, {
+    k: "rainbow",
+    l: "\uD83C\uDF08 Rainbow"
+  }, {
+    k: "picycle",
+    l: "\u03C0 Cycle"
+  }, {
+    k: "backtest",
+    l: "\uD83C\uDFAF Backtest"
+  }, {
+    k: "exhaust",
+    l: "\uD83D\uDD25 Exhaustion"
+  }, {
+    k: "cycle",
+    l: "\uD83D\uDD04 R\xE9gime"
+  }, {
+    k: "mc",
+    l: "\uD83C\uDFB2 Monte Carlo"
+  }, {
+    k: "overlay",
+    l: "\uD83D\uDCCA Cycles"
+  }].map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.k,
+      onClick: function onClick() {
+        return setTab(t.k);
+      },
+      style: _objectSpread(_objectSpread({
+        flex: mob ? "none" : 1,
+        padding: mob ? "12px 16px" : "12px 14px",
+        whiteSpace: "nowrap"
+      }, glassStyle({
+        background: tab === t.k ? "".concat(DS.cyan, "10") : DS.glass,
+        borderColor: tab === t.k ? "".concat(DS.cyan, "25") : DS.glassBorder,
+        borderRadius: 12
+      })), {}, {
+        fontSize: 12,
+        fontWeight: tab === t.k ? 600 : 400,
+        color: tab === t.k ? DS.cyan : DS.text3,
+        letterSpacing: 0.5,
+        transition: "all 0.2s"
+      })
+    }, t.l);
+  })), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, glassStyle({
+      padding: mob ? "20px 14px" : "28px 28px"
+    })), {}, {
+      marginBottom: g,
+      minHeight: mob ? 200 : 260
+    })
+  }, tab === "onchain" && /*#__PURE__*/React.createElement(React.Fragment, null, section("On-Chain Depth + Bottom Score"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr" : "1fr 1fr",
+      gap: 24
+    }
+  }, /*#__PURE__*/React.createElement(OnChainDepth, {
+    price: data.price,
+    mob: mob,
+    levels: ocLevels
+  }), /*#__PURE__*/React.createElement(BottomScoreCard, {
+    scores: calc.bscores,
+    total: calc.totalScore,
+    mob: mob
+  }))), tab === "price" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Prix Historique BTC \u2014 Bitcoin.com + CoinGecko"), /*#__PURE__*/React.createElement(PriceHistoryChart, {
+    hist: hist,
+    mob: mob
+  })), tab === "rainbow" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Rainbow Chart \u2014 R\xE9gression Logarithmique"), /*#__PURE__*/React.createElement(RainbowChart, {
+    hist: hist,
+    currentPrice: data.price,
+    mob: mob
+  })), tab === "picycle" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Pi Cycle Top Indicator \u2014 111 DMA vs 350 DMA \xD7 2"), /*#__PURE__*/React.createElement(PiCycleChart, {
+    hist: hist,
+    mob: mob
+  })), tab === "backtest" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Backtest Composite Score \u2014 Buy Low / Sell High"), /*#__PURE__*/React.createElement(BacktestPanel, {
+    hist: hist,
+    mob: mob
+  })), tab === "exhaust" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Seller Exhaustion \u2014 5 Couches + Sc\xE9narios"), /*#__PURE__*/React.createElement(ExhaustionPanel, {
+    pct: calc.exhaustPct,
+    mob: mob
+  })), tab === "cycle" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Cycle Position \u2014 R\xE9gime + Timing"), /*#__PURE__*/React.createElement(CyclePosition, {
+    mob: mob
+  })), tab === "mc" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Monte Carlo \u2014 200 simulations GBM, 1 an"), /*#__PURE__*/React.createElement(MonteCarloChart, {
+    mc: calc.mc,
+    price: data.price,
+    mob: mob
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 14,
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr 1fr" : "repeat(4, 1fr)",
+      gap: 10
+    }
+  }, [{
+    l: "M\xE9diane (P50)",
+    v: (_calc$mc = calc.mc) !== null && _calc$mc !== void 0 && _calc$mc.p50 ? fK(calc.mc.p50[calc.mc.p50.length - 1]) : "\u2014",
+    c: DS.cyan
+  }, {
+    l: "Pessimiste (P25)",
+    v: (_calc$mc2 = calc.mc) !== null && _calc$mc2 !== void 0 && _calc$mc2.p25 ? fK(calc.mc.p25[calc.mc.p25.length - 1]) : "\u2014",
+    c: DS.amber
+  }, {
+    l: "Optimiste (P75)",
+    v: (_calc$mc3 = calc.mc) !== null && _calc$mc3 !== void 0 && _calc$mc3.p75 ? fK(calc.mc.p75[calc.mc.p75.length - 1]) : "\u2014",
+    c: DS.green
+  }, {
+    l: "Extr\xEAme (P5)",
+    v: (_calc$mc4 = calc.mc) !== null && _calc$mc4 !== void 0 && _calc$mc4.p5 ? fK(calc.mc.p5[calc.mc.p5.length - 1]) : "\u2014",
+    c: DS.red
+  }].map(function (d) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: d.l,
+      style: _objectSpread({}, glassStyle({
+        padding: "12px 14px",
+        textAlign: "center",
+        borderColor: "".concat(d.c, "15")
+      }))
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: DS.text3,
+        letterSpacing: 2
+      }
+    }, d.l.toUpperCase()), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 22,
+        fontWeight: 700,
+        fontFamily: DS.mono,
+        color: d.c,
+        marginTop: 4
+      }
+    }, d.v));
+  }))), tab === "overlay" && /*#__PURE__*/React.createElement(React.Fragment, null, section("Cycle Comparison \u2014 Align\xE9 sur Halving"), /*#__PURE__*/React.createElement(CycleOverlay, {
+    cycleDay: calc.cycleDay,
+    mob: mob
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 14,
+      fontSize: 12,
+      color: DS.text3,
+      lineHeight: 1.6
+    }
+  }, "Chaque cycle index\u00E9 \u00E0 100 au prix du halving. Le cycle actuel (cyan) suit un sch\u00E9ma similaire au C2 et C3. Les bottoms historiques se forment entre J700-900."))), /*#__PURE__*/React.createElement("div", {
+    style: _objectSpread(_objectSpread({}, glassStyle({
+      padding: mob ? "14px 12px" : "18px 20px",
+      background: "rgba(255,255,255,0.015)"
+    })), {}, {
+      marginBottom: g
+    })
+  }, section("Sources de donn\xE9es"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: mob ? "1fr" : "1fr 1fr",
+      gap: 6
+    }
+  }, [{
+    l: "Prix, MCap, Vol, Dom.",
+    src: "CoinGecko",
+    live: (_data$sources = data.sources) === null || _data$sources === void 0 ? void 0 : _data$sources.coingecko
+  }, {
+    l: "Prix 8ans + Pi Cycle + Rainbow",
+    src: "Bitcoin.com Charts",
+    live: !!hist
+  }, {
+    l: "Fear & Greed",
+    src: "Alternative.me",
+    live: (_data$sources2 = data.sources) === null || _data$sources2 === void 0 ? void 0 : _data$sources2.fng
+  }, {
+    l: "Funding Rate + OI",
+    src: "Binance Futures",
+    live: (_data$sources3 = data.sources) === null || _data$sources3 === void 0 ? void 0 : _data$sources3.binance
+  }, {
+    l: "Hashrate, Difficult\xE9",
+    src: "Mempool.space",
+    live: (_data$sources4 = data.sources) === null || _data$sources4 === void 0 ? void 0 : _data$sources4.mempool
+  }, {
+    l: "NUPL, SOPR, MVRV, Supply%, Puell",
+    src: "BGeometrics ".concat(((_data$sources5 = data.sources) === null || _data$sources5 === void 0 ? void 0 : _data$sources5.bgeometrics) === "cache" ? "(cache)" : "(live)"),
+    live: !!((_data$sources6 = data.sources) !== null && _data$sources6 !== void 0 && _data$sources6.bgeometrics)
+  }, {
+    l: "RSI, SMA, Mayer, Hash Ribbons, RP",
+    src: "BGeometrics",
+    live: !!((_data$sources7 = data.sources) !== null && _data$sources7 !== void 0 && _data$sources7.bgeometrics)
+  }, {
+    l: "ETF + OI Futures",
+    src: "BGeometrics (proxy)",
+    live: !!((_data$sources8 = data.sources) !== null && _data$sources8 !== void 0 && _data$sources8.bgeometrics)
+  }].map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "3px 0"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 6,
+        height: 6,
+        borderRadius: "50%",
+        background: s.live ? DS.green : DS.text3,
+        opacity: s.live ? 0.8 : 0.3,
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: DS.text2
+      }
+    }, s.l), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: DS.text3,
+        marginLeft: "auto",
+        fontFamily: DS.mono,
+        fontSize: 10
+      }
+    }, s.src));
+  })), data.lastUpdate && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: DS.text3,
+      marginTop: 10,
+      fontFamily: DS.mono,
+      textAlign: "center",
+      opacity: 0.5
+    }
+  }, data.lastUpdate.toLocaleTimeString(), " \u2014 Prix: 60s \u00B7 On-chain: cache 24h")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      fontSize: 10,
+      color: DS.text3,
+      padding: "12px 0",
+      fontFamily: DS.mono,
+      opacity: 0.3
+    }
+  }, "BTC Cycle Dashboard v10 \u2014 cryptoquant.fr \u2014 9 APIs Live + ETF + Backtest \u2014 Not financial advice")));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(Dashboard, null));
+
+</script>
+</body>
+</html>

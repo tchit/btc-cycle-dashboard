@@ -1,0 +1,52 @@
+import React from 'react';
+import { DS } from '../config/design';
+import RainbowChart from '../components/RainbowChart';
+import MonteCarloChart from '../components/MonteCarloChart';
+
+export default function RainbowView({ live, calc, hist, mob }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div className="card">
+        <div className="card-header"><div className="card-title">Rainbow Chart</div></div>
+        <div className="card-body">
+          <RainbowChart hist={hist} currentPrice={live.price} mob={mob} />
+        </div>
+      </div>
+      <div className="card">
+        <div className="card-header"><div className="card-title">Monte Carlo Simulation</div></div>
+        <div className="card-body">
+          <MonteCarloChart mc={calc.mc} price={live.price} mob={mob} rp={calc.rp} w200={calc.sma200} />
+          <div style={{ marginTop: 20, padding: '16px 18px', background: DS.surface2, borderRadius: 10, border: `1px solid ${DS.borderLight}` }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: DS.text, marginBottom: 10 }}>Comment lire ce graphique ?</div>
+            <div style={{ fontSize: 12, color: DS.text2, lineHeight: 1.7 }}>
+              La simulation Monte Carlo projette 200 trajectoires de prix possibles sur 365 jours, basees sur la volatilite historique recente du BTC. Chaque trajectoire simule un chemin aleatoire (mouvement brownien geometrique) que le prix pourrait suivre.
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 12, marginTop: 14 }}>
+              <div style={{ padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: DS.accent, marginBottom: 4 }}>Bande foncee (P25-P75)</div>
+                <div style={{ fontSize: 11, color: DS.text3, lineHeight: 1.5 }}>50% des simulations tombent dans cette zone. C'est le scenario le plus probable.</div>
+              </div>
+              <div style={{ padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: DS.accent, marginBottom: 4, opacity: 0.6 }}>Bande claire (P5-P95)</div>
+                <div style={{ fontSize: 11, color: DS.text3, lineHeight: 1.5 }}>90% des simulations. Les extremites representent les scenarios bull/bear extremes.</div>
+              </div>
+              <div style={{ padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: DS.accent, marginBottom: 4 }}>Ligne mediane (P50)</div>
+                <div style={{ fontSize: 11, color: DS.text3, lineHeight: 1.5 }}>La trajectoire mediane : autant de simulations au-dessus qu'en-dessous.</div>
+              </div>
+              <div style={{ padding: '10px 12px', background: DS.surface, borderRadius: 8, border: `1px solid ${DS.borderLight}` }}>
+                <div style={{ fontSize: 11, fontWeight: 600, marginBottom: 4 }}>
+                  <span style={{ color: DS.up }}>P95</span> / <span style={{ color: DS.down }}>P5</span>
+                </div>
+                <div style={{ fontSize: 11, color: DS.text3, lineHeight: 1.5 }}>P95 (vert) = scenario tres haussier. P5 (rouge) = scenario tres baissier.</div>
+              </div>
+            </div>
+            <div style={{ fontSize: 11, color: DS.text3, marginTop: 12, fontStyle: 'italic', lineHeight: 1.5 }}>
+              Ce n'est pas une prediction mais une modelisation probabiliste. Le marche crypto peut depasser les extremes simules lors d'evenements imprevus (black swan, regulation, adoption massive).
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

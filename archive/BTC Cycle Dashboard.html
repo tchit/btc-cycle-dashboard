@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<!-- saved from url=(1569)https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/52636084/66163009-f88b-42f3-9c33-7092c728ecb6/index.html?AWSAccessKeyId=ASIA2F3EMEYES76UGSJB&Signature=AePJyfyHkN%2BUTdTWHEqzYfQRpmw%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEPb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCID7gE5BDz8JykKpAF6BJbnvAYGCgMaHenEPLW4hnhY8gAiAGum5HP3Gu5mbdoTEa1Bgak8jMoeX6rtDq71W87yi4DCr8BAi%2B%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAEaDDY5OTc1MzMwOTcwNSIMatYawqxb25842iBQKtAEUTiKEO8yhzs85zWvqhJtOC3IX4dPtHzEvckWK3zdtMd5Ke2JKj5ZCPMcEfPm6lNEMhL8UTQk8aRLQS2fc91EwCJOy75%2BO%2F6XNGSadfVRuSt4E0mlutKamtcgntTPRVC0BiJdf36tp6OFy1pMeCflqq5rxoPmt6NWFvwHHSECRi8sOOaP3LLNmtKuMiwojBX9krTi%2Bx9qteXtOeQzE%2BZ%2FCLEEjVCkXl2OEpUlZwkgpsW6Vgf7znxXiaL%2FKRg%2B8e79nQGgT%2FmWvtUfuLXbNbYyJ7sB%2BY8cV%2BeNZew%2BRF8GVHjhkUofYz5lVlGv5UxcFWgOEgdJd7RIIPCnnIJ%2FCGN5wAVZVo4NCV7AnVoJKoZoz04LGPmpSEWzTeGLu6WOYVmIMRpQmONm5eJTS9bG9B9JxhnMB3WE0xBZ6hw%2BnTi4ACtzjeMNagd9FvTqW9pT77FgZmWbJXylZLJd5IxnZP7VPcIdehVducJI%2BSZkNqxspj3PR9k5bh9groiJlnepjEzVHrGTG7ROCpjA2tg%2BsqZ9MVuV9CETebyZ7QKSR7POTX56tRvfwCk1jWQmdkJ%2F25oZCCa0xq17kyFw0lqvAzL1vu2j6jOSx2TX558oyN%2BI8VKxn6RwzwVOs7AIjR0oY3WQgox6%2BpSxp9dbsWHtpxt%2FlkA8HgaFQtcXbsX6hTO0rUiXGoXT1SOUoJeRdK8ciwCo%2B3rWYOYpgQKGEpPhn2HRaN4UO53XBAzkPZ9vgeD0wIu5yMNA5oDuTATLoA0LeIXgTJLRH4Sl%2BOWi8WFAK3JRyzDBgrLMBjqZARVvfOXb4pczA%2F8YRTXfr8x%2FMcblBPn4aJgcELYtN%2F44QdmUPS6qlomL477mxRB8vK%2FbpQ0Jl%2BJ%2F2CFEzJBB2JId%2B%2FeuRCJFMr%2FUHBXY2Uw2HHj7G0IKwUkuO4h0rgJOwGL3SOvSwPJdTP3h2cgiDTps83X2mdRdtrJkIMHONktp%2Bayh4vWSvQyakMFl76Rgc9dUPWo1bMTdrA%3D%3D&Expires=1770817965 -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTC Cycle Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-app: #101014;
+      --bg-panel: #1e1e24;
+      --bg-panel-header: #2b2b36;
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --accent-blue: #3b82f6;
+      --accent-orange: #f59e0b;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --border: #2b2b36;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+    }
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.4;
+      font-size: 13px;
+    }
+    #root { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+  
+    /* Grafana Panel Styles */
+    .panel {
+      background: var(--bg-panel);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .panel-body {
+      padding: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"><div style="min-height: 100vh; background: rgb(16, 16, 20); color: rgb(255, 255, 255); font-family: var(--font); padding: 24px 20px; max-width: 1000px; margin: 0px auto; opacity: 1; transition: opacity 0.6s ease-out;"><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; padding: 0px 2px;"><div style="display: flex; align-items: center; gap: 16px;"><div style="font-size: 13px; letter-spacing: 5px; color: rgb(107, 114, 128); font-weight: 700;">BTC CYCLE</div><div style="display: inline-flex; align-items: center; gap: 6px;"><div style="width: 7px; height: 7px; border-radius: 50%; background: rgb(16, 185, 129);"></div><span style="font-size: 10px; color: rgb(107, 114, 128); letter-spacing: 1px; font-weight: 500;">LIVE</span></div></div><div style="display: flex; align-items: center; gap: 24px;"><div style="text-align: right;"><div style="font-size: 9px; color: rgb(107, 114, 128); letter-spacing: 2px;">CYCLE DAY</div><div style="font-size: 18px; font-weight: 700; font-family: var(--font-mono); color: rgb(255, 255, 255);">664<span style="font-size: 11px; color: rgb(107, 114, 128);">/~1400</span></div></div><div style="text-align: right;"><div style="font-size: 9px; color: rgb(107, 114, 128); letter-spacing: 2px;">BEAR PROG.</div><div style="font-size: 18px; font-weight: 700; font-family: var(--font-mono); color: rgb(239, 68, 68);">34%</div></div></div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;"><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; padding: 32px 28px; display: flex; flex-direction: column; align-items: center; justify-content: center;"><div style="font-size: 11px; letter-spacing: 5px; color: rgb(59, 130, 246); opacity: 0.4; margin-bottom: 8px;">BITCOIN</div><div style="font-size: 52px; font-weight: 800; font-family: var(--font-mono); color: rgb(255, 255, 255); letter-spacing: -2px;">$67,143</div><div style="display: flex; gap: 16px; margin-top: 8px;"><span style="font-size: 14px; font-weight: 600; color: rgb(239, 68, 68); font-family: var(--font-mono);">-46.8% ATH</span><span style="font-size: 14px; font-weight: 600; color: rgb(239, 68, 68); font-family: var(--font-mono);">-2.6% 24h</span></div><div style="display: flex; gap: 28px; margin-top: 16px; flex-wrap: wrap; justify-content: center;"><div style="text-align: center;"><div style="font-size: 9px; color: rgb(107, 114, 128); letter-spacing: 2px;">MCAP</div><div style="font-size: 14px; font-weight: 600; font-family: var(--font-mono); color: rgb(156, 163, 175); margin-top: 2px;">1.34T</div></div><div style="text-align: center;"><div style="font-size: 9px; color: rgb(107, 114, 128); letter-spacing: 2px;">DOM.</div><div style="font-size: 14px; font-weight: 600; font-family: var(--font-mono); color: rgb(156, 163, 175); margin-top: 2px;">56.8%</div></div><div style="text-align: center;"><div style="font-size: 9px; color: rgb(107, 114, 128); letter-spacing: 2px;">VOL 24H</div><div style="font-size: 14px; font-weight: 600; font-family: var(--font-mono); color: rgb(156, 163, 175); margin-top: 2px;">47.4B</div></div><div style="text-align: center;"><div style="font-size: 9px; color: rgb(107, 114, 128); letter-spacing: 2px;">TO BOTTOM</div><div style="font-size: 14px; font-weight: 600; font-family: var(--font-mono); color: rgb(239, 68, 68); margin-top: 2px;">254d</div></div></div></div><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; padding: 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;"><div style="font-size: 9px; letter-spacing: 4px; color: rgb(107, 114, 128); margin-bottom: 4px; display: flex; align-items: center; justify-content: center;">COMPOSITE SCORE<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><div style="display: flex; flex-direction: column; align-items: center;"><canvas style="width: 220px; height: 127.6px;" width="440" height="255"></canvas><div style="font-size: 58px; font-weight: 800; color: rgb(62, 234, 145); font-family: var(--font-mono); line-height: 1; margin-top: -14px;">29</div><div style="font-size: 11px; font-weight: 600; color: rgb(62, 234, 145); letter-spacing: 5px; margin-top: 6px; opacity: 0.7;">FEAR EXTRÃŠME</div></div><div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; width: 100%; margin-top: 12px;"><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); padding: 14px 10px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; flex: 1 1 0%; min-width: 0px;"><div style="font-size: 10px; color: rgb(156, 163, 175); font-weight: 500; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-align: center;">⛓ On-Chain</div><div style="position: relative; width: 56px; height: 56px;"><svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);"><circle cx="18" cy="18" r="14" fill="none" stroke="#2b2b36" stroke-width="3"></circle><circle cx="18" cy="18" r="14" fill="none" stroke="#06b6d4" stroke-width="3" stroke-dasharray="26.4 61.6" stroke-linecap="round" opacity="0.8"></circle></svg><div style="position: absolute; inset: 0px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: rgb(6, 182, 212); font-family: var(--font-mono);">30</div></div></div><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); padding: 14px 10px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; flex: 1 1 0%; min-width: 0px;"><div style="font-size: 10px; color: rgb(156, 163, 175); font-weight: 500; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-align: center;">📊 Marché</div><div style="position: relative; width: 56px; height: 56px;"><svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);"><circle cx="18" cy="18" r="14" fill="none" stroke="#2b2b36" stroke-width="3"></circle><circle cx="18" cy="18" r="14" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="15.84 72.16" stroke-linecap="round" opacity="0.8"></circle></svg><div style="position: absolute; inset: 0px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: rgb(59, 130, 246); font-family: var(--font-mono);">18</div></div></div><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); padding: 14px 10px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; flex: 1 1 0%; min-width: 0px;"><div style="font-size: 10px; color: rgb(156, 163, 175); font-weight: 500; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-align: center;">⛏ Miners</div><div style="position: relative; width: 56px; height: 56px;"><svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);"><circle cx="18" cy="18" r="14" fill="none" stroke="#2b2b36" stroke-width="3"></circle><circle cx="18" cy="18" r="14" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="39.6 48.4" stroke-linecap="round" opacity="0.8"></circle></svg><div style="position: absolute; inset: 0px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: rgb(16, 185, 129); font-family: var(--font-mono);">45</div></div></div><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); padding: 14px 10px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; flex: 1 1 0%; min-width: 0px;"><div style="font-size: 10px; color: rgb(156, 163, 175); font-weight: 500; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; text-align: center;">📈 Dérivés</div><div style="position: relative; width: 56px; height: 56px;"><svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);"><circle cx="18" cy="18" r="14" fill="none" stroke="#2b2b36" stroke-width="3"></circle><circle cx="18" cy="18" r="14" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="19.36 68.64" stroke-linecap="round" opacity="0.8"></circle></svg><div style="position: absolute; inset: 0px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: rgb(59, 130, 246); font-family: var(--font-mono);">22</div></div></div></div></div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px;"><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(239, 68, 68); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">MVRV Ratio<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(239, 68, 68, 0.07); color: rgb(239, 68, 68); font-weight: 600; letter-spacing: 1px;">BEAR</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(245, 158, 11); line-height: 1;">1.29<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">RP: $54,563 · Z-Score: 0.53</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">Fear &amp; Greed<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">11<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">Extreme Fear</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(245, 158, 11); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">Mining Margin<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(245, 158, 11, 0.07); color: rgb(245, 158, 11); font-weight: 600; letter-spacing: 1px;">â€”</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">+15.6<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;">%</span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">Cost: $58,096 · Profitable</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(245, 158, 11); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">Funding Rate<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(245, 158, 11, 0.07); color: rgb(245, 158, 11); font-weight: 600; letter-spacing: 1px;">â€”</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">-0.008<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;">%</span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">OI: 5.5B</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(245, 158, 11); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">NUPL<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(245, 158, 11, 0.07); color: rgb(245, 158, 11); font-weight: 600; letter-spacing: 1px;">â€”</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(245, 158, 11); line-height: 1;">0.227<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">Holders en profit</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">Supply in Profit<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">45<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;">%</span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">9.1M BTC · &gt;95% = top</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">aSOPR<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">0.975<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">SOPR: 0.987 · &lt;1 = perte nette</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(245, 158, 11); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">Puell Multiple<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(245, 158, 11, 0.07); color: rgb(245, 158, 11); font-weight: 600; letter-spacing: 1px;">â€”</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(245, 158, 11); line-height: 1;">0.79<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">&lt;0.5 = zone achat · &gt;4 = top</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">RSI (14d)<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">29<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">Mayer: 0.66 · SMA200: $102,083</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">RHODL Ratio<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">1.06<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">&lt;2 = accumulation · &gt;50 = top</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">Hash Ribbons<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">Down<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">SMA30: 1M · SMA60: 1M</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">ETF Flows<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">+4968<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;">BTC/j</span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">Total: 645K BTC</div></div><div style="background: rgb(30, 30, 36); border-width: 1px 1px 1px 3px; border-style: solid; border-color: rgb(43, 43, 54) rgb(43, 43, 54) rgb(43, 43, 54) rgb(16, 185, 129); border-image: initial; padding: 18px 20px; border-radius: 6px;"><div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;"><div style="font-size: 12px; color: rgb(156, 163, 175); font-weight: 500; display: flex; align-items: center;">STH Real. Price<span style="position: relative; display: inline-flex; cursor: pointer; margin-left: 4px; vertical-align: middle;"><span style="display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; background: rgb(43, 43, 54); border: 1px solid rgb(43, 43, 54); font-size: 9px; color: rgb(107, 114, 128); font-weight: 600; line-height: 1;">?</span></span></div><span style="font-size: 9px; padding: 3px 8px; border-radius: 20px; background: rgba(16, 185, 129, 0.07); color: rgb(16, 185, 129); font-weight: 600; letter-spacing: 1px;">BULL</span></div><div style="font-size: 32px; font-weight: 700; font-family: var(--font-mono); color: rgb(16, 185, 129); line-height: 1;">$92,645<span style="font-size: 13px; color: rgb(107, 114, 128); font-weight: 400; margin-left: 3px;"></span></div><div style="font-size: 11px; color: rgb(107, 114, 128); margin-top: 6px; line-height: 1.4;">LTH: $44,349 · Dist: -28%</div></div></div><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; padding: 24px; margin-bottom: 12px;"><div style="font-size: 10px; letter-spacing: 3px; color: rgb(107, 114, 128); font-weight: 600; margin-bottom: 14px; text-transform: uppercase;">Prix + Bandes On-Chain</div><svg viewBox="0 0 560 180" style="width: 100%; height: 180px;"><defs><lineargradient id="prGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.12"></stop><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"></stop></lineargradient></defs><g><line x1="50" y1="76.18181818181819" x2="540" y2="76.18181818181819" stroke="#ef4444" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"></line><text x="542" y="79.18181818181819" fill="#ef4444" font-size="8" font-family="var(--font-mono)" opacity="0.5">90.0K</text></g><g><line x1="50" y1="96.9090909090909" x2="540" y2="96.9090909090909" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"></line><text x="542" y="99.9090909090909" fill="#f59e0b" font-size="8" font-family="var(--font-mono)" opacity="0.5">75.0K</text></g><g><line x1="50" y1="72.52690909090909" x2="540" y2="72.52690909090909" stroke="#3b82f6" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"></line><text x="542" y="75.52690909090909" fill="#3b82f6" font-size="8" font-family="var(--font-mono)" opacity="0.5">92.6K</text></g><g><line x1="50" y1="120.50225454545453" x2="540" y2="120.50225454545453" stroke="#6366f1" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"></line><text x="542" y="123.50225454545453" fill="#6366f1" font-size="8" font-family="var(--font-mono)" opacity="0.5">57.9K</text></g><g><line x1="50" y1="125.14930909090909" x2="540" y2="125.14930909090909" stroke="#8b5cf6" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"></line><text x="542" y="128.14930909090907" fill="#8b5cf6" font-size="8" font-family="var(--font-mono)" opacity="0.5">54.6K</text></g><g><line x1="50" y1="138.36363636363637" x2="540" y2="138.36363636363637" stroke="#ec4899" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"></line><text x="542" y="141.36363636363637" fill="#ec4899" font-size="8" font-family="var(--font-mono)" opacity="0.5">45.0K</text></g><g><line x1="50" y1="139.2632" x2="540" y2="139.2632" stroke="#10b981" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.25"></line><text x="542" y="142.2632" fill="#10b981" font-size="8" font-family="var(--font-mono)" opacity="0.5">44.3K</text></g><path d="M50,112.10909090909092 L91.81818181818181,120.39999999999999 L133.63636363636363,106.58181818181819 L175.45454545454544,69.27272727272728 L217.27272727272728,51.30909090909091 L259.0909090909091,26.162763636363636 L300.9090909090909,48.54545454545455 L342.72727272727275,65.12727272727273 L384.54545454545456,78.94545454545454 L426.3636363636364,92.76363636363637 L468.1818181818182,96.9090909090909 L510,107.76603636363636 L510,166 L50,166 Z" fill="url(#prGrad)"></path><path d="M50,112.10909090909092 L91.81818181818181,120.39999999999999 L133.63636363636363,106.58181818181819 L175.45454545454544,69.27272727272728 L217.27272727272728,51.30909090909091 L259.0909090909091,26.162763636363636 L300.9090909090909,48.54545454545455 L342.72727272727275,65.12727272727273 L384.54545454545456,78.94545454545454 L426.3636363636364,92.76363636363637 L468.1818181818182,96.9090909090909 L510,107.76603636363636" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.8"></path><circle cx="510" cy="107.76603636363636" r="4" fill="#3b82f6" opacity="0.9"></circle><text x="50" y="178" fill="#6b7280" font-size="8" text-anchor="middle" font-family="var(--font-mono)">Avr</text><text x="133.63636363636363" y="178" fill="#6b7280" font-size="8" text-anchor="middle" font-family="var(--font-mono)">Jun</text><text x="217.27272727272728" y="178" fill="#6b7280" font-size="8" text-anchor="middle" font-family="var(--font-mono)">AoÃ»</text><text x="300.9090909090909" y="178" fill="#6b7280" font-size="8" text-anchor="middle" font-family="var(--font-mono)">Oct</text><text x="384.54545454545456" y="178" fill="#6b7280" font-size="8" text-anchor="middle" font-family="var(--font-mono)">DÃ©c</text><text x="468.1818181818182" y="178" fill="#6b7280" font-size="8" text-anchor="middle" font-family="var(--font-mono)">FÃ©v</text><text x="44" y="162.0909090909091" fill="#6b7280" font-size="8" text-anchor="end" font-family="var(--font-mono)">$30K</text><text x="44" y="134.45454545454544" fill="#6b7280" font-size="8" text-anchor="end" font-family="var(--font-mono)">$50K</text><text x="44" y="106.81818181818183" fill="#6b7280" font-size="8" text-anchor="end" font-family="var(--font-mono)">$70K</text><text x="44" y="79.18181818181819" fill="#6b7280" font-size="8" text-anchor="end" font-family="var(--font-mono)">$90K</text><text x="44" y="51.54545454545455" fill="#6b7280" font-size="8" text-anchor="end" font-family="var(--font-mono)">$110K</text><text x="44" y="23.90909090909091" fill="#6b7280" font-size="8" text-anchor="end" font-family="var(--font-mono)">$130K</text></svg><div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 10px;"><div style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 2px; background: rgb(239, 68, 68); border-radius: 1px; opacity: 0.7;"></div><span style="font-size: 10px; color: rgb(107, 114, 128);">111-Day MA</span></div><div style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 2px; background: rgb(245, 158, 11); border-radius: 1px; opacity: 0.7;"></div><span style="font-size: 10px; color: rgb(107, 114, 128);">2-Year MA</span></div><div style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 2px; background: rgb(59, 130, 246); border-radius: 1px; opacity: 0.7;"></div><span style="font-size: 10px; color: rgb(107, 114, 128);">STH Real. Price</span></div><div style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 2px; background: rgb(99, 102, 241); border-radius: 1px; opacity: 0.7;"></div><span style="font-size: 10px; color: rgb(107, 114, 128);">200-Week MA</span></div><div style="display: flex; align-items: center; gap: 5px;"><div style="width: 10px; height: 2px; background: rgb(139, 92, 246); border-radius: 1px; opacity: 0.7;"></div><span style="font-size: 10px; color: rgb(107, 114, 128);">Realized Price</span></div></div></div><div style="display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px;"><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgba(59, 130, 246, 0.063); border: 1px solid rgba(59, 130, 246, 0.145); border-radius: 6px; font-size: 12px; font-weight: 600; color: rgb(59, 130, 246); letter-spacing: 0.5px; transition: 0.2s;">⛓ On-Chain</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">📈 Prix</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">🌈 Rainbow</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">π Cycle</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">🎯 Backtest</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">🔥 Exhaustion</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">🔄 Régime</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">🎲 Monte Carlo</button><button style="flex: 1 1 0%; padding: 12px 14px; white-space: nowrap; background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; font-size: 12px; font-weight: 400; color: rgb(107, 114, 128); letter-spacing: 0.5px; transition: 0.2s;">📊 Cycles</button></div><div style="background: rgb(30, 30, 36); border: 1px solid rgb(43, 43, 54); border-radius: 6px; padding: 28px; margin-bottom: 12px; min-height: 260px;"><div style="font-size: 10px; letter-spacing: 3px; color: rgb(107, 114, 128); font-weight: 600; margin-bottom: 14px; text-transform: uppercase;">On-Chain Depth + Bottom Score</div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;"><div><div style="display: grid; grid-template-columns: 120px 1fr 80px; align-items: center; gap: 10px; margin-bottom: 6px; opacity: 0.4;"><div style="text-align: right;"><div style="font-size: 11px; font-weight: 600; color: rgb(239, 68, 68);">111-Day MA</div></div><div style="position: relative; height: 6px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="position: absolute; left: 71.3165%; top: 0px; bottom: 0px; width: 2px; background: rgb(239, 68, 68); opacity: 0.4; border-radius: 1px;"></div><div style="position: absolute; left: 53.2045%; top: -2px; bottom: -2px; width: 3px; background: rgb(59, 130, 246); border-radius: 2px;"></div></div><div style="font-family: var(--font-mono); font-size: 11px;"><span style="color: rgb(239, 68, 68);">90.0K</span><span style="color: rgb(107, 114, 128); font-size: 9px; margin-left: 4px;">+34%</span></div></div><div style="display: grid; grid-template-columns: 120px 1fr 80px; align-items: center; gap: 10px; margin-bottom: 6px; opacity: 0.4;"><div style="text-align: right;"><div style="font-size: 11px; font-weight: 600; color: rgb(245, 158, 11);">2-Year MA</div></div><div style="position: relative; height: 6px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="position: absolute; left: 59.4304%; top: 0px; bottom: 0px; width: 2px; background: rgb(245, 158, 11); opacity: 0.4; border-radius: 1px;"></div></div><div style="font-family: var(--font-mono); font-size: 11px;"><span style="color: rgb(245, 158, 11);">75.0K</span><span style="color: rgb(107, 114, 128); font-size: 9px; margin-left: 4px;">+12%</span></div></div><div style="display: grid; grid-template-columns: 120px 1fr 80px; align-items: center; gap: 10px; margin-bottom: 6px; opacity: 0.4;"><div style="text-align: right;"><div style="font-size: 11px; font-weight: 600; color: rgb(59, 130, 246);">STH Real. Price</div></div><div style="position: relative; height: 6px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="position: absolute; left: 73.4124%; top: 0px; bottom: 0px; width: 2px; background: rgb(59, 130, 246); opacity: 0.4; border-radius: 1px;"></div></div><div style="font-family: var(--font-mono); font-size: 11px;"><span style="color: rgb(59, 130, 246);">92.6K</span><span style="color: rgb(107, 114, 128); font-size: 9px; margin-left: 4px;">+38%</span></div></div><div style="display: grid; grid-template-columns: 120px 1fr 80px; align-items: center; gap: 10px; margin-bottom: 6px; opacity: 1;"><div style="text-align: right;"><div style="font-size: 11px; font-weight: 600; color: rgb(99, 102, 241);">200-Week MA</div></div><div style="position: relative; height: 6px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="position: absolute; left: 45.9009%; top: 0px; bottom: 0px; width: 2px; background: rgb(99, 102, 241); opacity: 0.4; border-radius: 1px;"></div><div style="position: absolute; left: 45.9009%; top: 0px; bottom: 0px; width: 7.3036%; background: rgba(99, 102, 241, 0.063); border-radius: 2px;"></div></div><div style="font-family: var(--font-mono); font-size: 11px;"><span style="color: rgb(99, 102, 241);">57.9K</span><span style="color: rgb(107, 114, 128); font-size: 9px; margin-left: 4px;">-14%</span></div></div><div style="display: grid; grid-template-columns: 120px 1fr 80px; align-items: center; gap: 10px; margin-bottom: 6px; opacity: 1;"><div style="text-align: right;"><div style="font-size: 11px; font-weight: 600; color: rgb(139, 92, 246);">Realized Price</div></div><div style="position: relative; height: 6px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="position: absolute; left: 43.236%; top: 0px; bottom: 0px; width: 2px; background: rgb(139, 92, 246); opacity: 0.4; border-radius: 1px;"></div><div style="position: absolute; left: 43.236%; top: 0px; bottom: 0px; width: 9.96846%; background: rgba(139, 92, 246, 0.063); border-radius: 2px;"></div></div><div style="font-family: var(--font-mono); font-size: 11px;"><span style="color: rgb(139, 92, 246);">54.6K</span><span style="color: rgb(107, 114, 128); font-size: 9px; margin-left: 4px;">-19%</span></div></div><div style="display: grid; grid-template-columns: 120px 1fr 80px; align-items: center; gap: 10px; margin-bottom: 6px; opacity: 1;"><div style="text-align: right;"><div style="font-size: 11px; font-weight: 600; color: rgb(236, 72, 153);">CVDD</div></div><div style="position: relative; height: 6px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="position: absolute; left: 35.6583%; top: 0px; bottom: 0px; width: 2px; background: rgb(236, 72, 153); opacity: 0.4; border-radius: 1px;"></div><div style="position: absolute; left: 35.6583%; top: 0px; bottom: 0px; width: 17.5462%; background: rgba(236, 72, 153, 0.063); border-radius: 2px;"></div></div><div style="font-family: var(--font-mono); font-size: 11px;"><span style="color: rgb(236, 72, 153);">45.0K</span><span style="color: rgb(107, 114, 128); font-size: 9px; margin-left: 4px;">-33%</span></div></div><div style="display: grid; grid-template-columns: 120px 1fr 80px; align-items: center; gap: 10px; margin-bottom: 6px; opacity: 1;"><div style="text-align: right;"><div style="font-size: 11px; font-weight: 600; color: rgb(16, 185, 129);">LTH Real. Price</div></div><div style="position: relative; height: 6px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="position: absolute; left: 35.1424%; top: 0px; bottom: 0px; width: 2px; background: rgb(16, 185, 129); opacity: 0.4; border-radius: 1px;"></div><div style="position: absolute; left: 35.1424%; top: 0px; bottom: 0px; width: 18.0621%; background: rgba(16, 185, 129, 0.063); border-radius: 2px;"></div></div><div style="font-family: var(--font-mono); font-size: 11px;"><span style="color: rgb(16, 185, 129);">44.3K</span><span style="color: rgb(107, 114, 128); font-size: 9px; margin-left: 4px;">-34%</span></div></div><div style="margin-top: 16px;"><div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;"><div style="width: 50px; font-size: 10px; color: rgb(107, 114, 128); font-family: var(--font-mono); text-align: right;">C0 '11</div><div style="flex: 1 1 0%; height: 5px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 93%; background: rgba(239, 68, 68, 0.145); border-radius: 3px;"></div></div><div style="width: 35px; font-size: 11px; font-weight: 600; color: rgb(239, 68, 68); font-family: var(--font-mono); text-align: right; opacity: 0.7;">-93%</div></div><div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;"><div style="width: 50px; font-size: 10px; color: rgb(107, 114, 128); font-family: var(--font-mono); text-align: right;">C1 '15</div><div style="flex: 1 1 0%; height: 5px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 87%; background: rgba(239, 68, 68, 0.145); border-radius: 3px;"></div></div><div style="width: 35px; font-size: 11px; font-weight: 600; color: rgb(239, 68, 68); font-family: var(--font-mono); text-align: right; opacity: 0.7;">-87%</div></div><div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;"><div style="width: 50px; font-size: 10px; color: rgb(107, 114, 128); font-family: var(--font-mono); text-align: right;">C2 '18</div><div style="flex: 1 1 0%; height: 5px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 84%; background: rgba(239, 68, 68, 0.145); border-radius: 3px;"></div></div><div style="width: 35px; font-size: 11px; font-weight: 600; color: rgb(239, 68, 68); font-family: var(--font-mono); text-align: right; opacity: 0.7;">-84%</div></div><div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;"><div style="width: 50px; font-size: 10px; color: rgb(107, 114, 128); font-family: var(--font-mono); text-align: right;">C3 '22</div><div style="flex: 1 1 0%; height: 5px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 78%; background: rgba(239, 68, 68, 0.145); border-radius: 3px;"></div></div><div style="width: 35px; font-size: 11px; font-weight: 600; color: rgb(239, 68, 68); font-family: var(--font-mono); text-align: right; opacity: 0.7;">-78%</div></div><div style="display: flex; align-items: center; gap: 8px; margin-top: 6px; padding-top: 6px; border-top: 1px dashed rgb(43, 43, 54);"><div style="width: 50px; font-size: 10px; color: rgb(245, 158, 11); font-family: var(--font-mono); text-align: right;">C4 proj.</div><div style="flex: 1 1 0%; height: 5px; background: rgb(43, 43, 54); border-radius: 3px; overflow: hidden;"><div style="height: 100%; width: 60%; background: rgba(245, 158, 11, 0.19); border-radius: 3px;"></div></div><div style="width: 35px; font-size: 11px; font-weight: 600; color: rgb(245, 158, 11); font-family: var(--font-mono); text-align: right;">-60%</div></div></div></div><div><div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;"><div style="font-size: 44px; font-weight: 800; font-family: var(--font-mono); color: rgb(245, 158, 11);">57</div><div><div style="font-size: 10px; color: rgb(107, 114, 128); letter-spacing: 2px;">BOTTOM SCORE</div><div style="font-size: 12px; color: rgb(156, 163, 175);">Getting close</div></div></div><div style="display: grid; grid-template-columns: 1fr 60px 32px; align-items: center; gap: 8px; padding: 6px 0px; border-bottom: 1px solid rgb(43, 43, 54);"><div><div style="font-size: 11px; color: rgb(156, 163, 175); font-weight: 500;">Supply convergence</div><div style="font-size: 10px; font-family: var(--font-mono); color: rgb(107, 114, 128);">50/50 â†’ 45/55</div></div><div style="height: 4px; border-radius: 2px; background: rgb(43, 43, 54); overflow: hidden;"><div style="height: 100%; width: 100%; border-radius: 2px; background: rgb(16, 185, 129); opacity: 0.7;"></div></div><div style="font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; color: rgb(16, 185, 129);">âœ“</div></div><div style="display: grid; grid-template-columns: 1fr 60px 32px; align-items: center; gap: 8px; padding: 6px 0px; border-bottom: 1px solid rgb(43, 43, 54);"><div><div style="font-size: 11px; color: rgb(156, 163, 175); font-weight: 500;">RSI extrême</div><div style="font-size: 10px; font-family: var(--font-mono); color: rgb(107, 114, 128);">&lt;20 â†’ 29</div></div><div style="height: 4px; border-radius: 2px; background: rgb(43, 43, 54); overflow: hidden;"><div style="height: 100%; width: 70%; border-radius: 2px; background: rgb(245, 158, 11); opacity: 0.7;"></div></div><div style="font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; color: rgb(245, 158, 11);">~</div></div><div style="display: grid; grid-template-columns: 1fr 60px 32px; align-items: center; gap: 8px; padding: 6px 0px; border-bottom: 1px solid rgb(43, 43, 54);"><div><div style="font-size: 11px; color: rgb(156, 163, 175); font-weight: 500;">Dist. 200d MA</div><div style="font-size: 10px; font-family: var(--font-mono); color: rgb(107, 114, 128);">&lt;-2σ â†’ -3.4σ</div></div><div style="height: 4px; border-radius: 2px; background: rgb(43, 43, 54); overflow: hidden;"><div style="height: 100%; width: 100%; border-radius: 2px; background: rgb(16, 185, 129); opacity: 0.7;"></div></div><div style="font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; color: rgb(16, 185, 129);">âœ“</div></div><div style="display: grid; grid-template-columns: 1fr 60px 32px; align-items: center; gap: 8px; padding: 6px 0px; border-bottom: 1px solid rgb(43, 43, 54);"><div><div style="font-size: 11px; color: rgb(156, 163, 175); font-weight: 500;">Funding négatif</div><div style="font-size: 10px; font-family: var(--font-mono); color: rgb(107, 114, 128);">&gt;2 sem. â†’ Compressé</div></div><div style="height: 4px; border-radius: 2px; background: rgb(43, 43, 54); overflow: hidden;"><div style="height: 100%; width: 40%; border-radius: 2px; background: rgb(245, 158, 11); opacity: 0.7;"></div></div><div style="font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; color: rgb(245, 158, 11);">~</div></div><div style="display: grid; grid-template-columns: 1fr 60px 32px; align-items: center; gap: 8px; padding: 6px 0px; border-bottom: 1px solid rgb(43, 43, 54);"><div><div style="font-size: 11px; color: rgb(156, 163, 175); font-weight: 500;">Levier purgé</div><div style="font-size: 10px; font-family: var(--font-mono); color: rgb(107, 114, 128);">OI -40% â†’ -93%</div></div><div style="height: 4px; border-radius: 2px; background: rgb(43, 43, 54); overflow: hidden;"><div style="height: 100%; width: 90%; border-radius: 2px; background: rgb(16, 185, 129); opacity: 0.7;"></div></div><div style="font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; color: rgb(16, 185, 129);">âœ“</div></div><div style="display: grid; grid-template-columns: 1fr 60px 32px; align-items: center; gap: 8px; padding: 6px 0px; border-bottom: 1px solid rgb(43, 43, 54);"><div><div style="font-size: 11px; color: rgb(156, 163, 175); font-weight: 500;">MVRV &lt; 1</div><div style="font-size: 10px; font-family: var(--font-mono); color: rgb(107, 114, 128);">&lt;1.0 â†’ 1.29</div></div><div style="height: 4px; border-radius: 2px; background: rgb(43, 43, 54); overflow: hidden;"><div style="height: 100%; width: 0%; border-radius: 2px; background: rgb(239, 68, 68); opacity: 0.7;"></div></div><div style="font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; color: rgb(107, 114, 128);">âœ—</div></div><div style="display: grid; grid-template-columns: 1fr 60px 32px; align-items: center; gap: 8px; padding: 6px 0px; border-bottom: 1px solid rgb(43, 43, 54);"><div><div style="font-size: 11px; color: rgb(156, 163, 175); font-weight: 500;">Prix sous RP</div><div style="font-size: 10px; font-family: var(--font-mono); color: rgb(107, 114, 128);">&lt;55K â†’ 67.1K</div></div><div style="height: 4px; border-radius: 2px; background: rgb(43, 43, 54); overflow: hidden;"><div style="height: 100%; width: 0%; border-radius: 2px; background: rgb(239, 68, 68); opacity: 0.7;"></div></div><div style="font-size: 10px; font-family: var(--font-mono); font-weight: 600; text-align: right; color: rgb(107, 114, 128);">âœ—</div></div></div></div></div><div style="background: rgba(255, 255, 255, 0.016); border: 1px solid rgb(43, 43, 54); border-radius: 6px; padding: 18px 20px; margin-bottom: 12px;"><div style="font-size: 10px; letter-spacing: 3px; color: rgb(107, 114, 128); font-weight: 600; margin-bottom: 14px; text-transform: uppercase;">Sources de données</div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;"><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(16, 185, 129); opacity: 0.8; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">Prix, MCap, Vol, Dom.</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">CoinGecko</span></div><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(16, 185, 129); opacity: 0.8; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">Prix 8ans + Pi Cycle + Rainbow</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">Bitcoin.com Charts</span></div><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(16, 185, 129); opacity: 0.8; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">Fear &amp; Greed</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">Alternative.me</span></div><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(16, 185, 129); opacity: 0.8; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">Funding Rate + OI</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">Binance Futures</span></div><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(16, 185, 129); opacity: 0.8; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">Hashrate, Difficulté</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">Mempool.space</span></div><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(107, 114, 128); opacity: 0.3; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">NUPL, SOPR, MVRV, Supply%, Puell</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">BGeometrics (live)</span></div><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(107, 114, 128); opacity: 0.3; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">RSI, SMA, Mayer, Hash Ribbons, RP</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">BGeometrics</span></div><div style="display: flex; align-items: center; gap: 8px; padding: 3px 0px;"><div style="width: 6px; height: 6px; border-radius: 50%; background: rgb(107, 114, 128); opacity: 0.3; flex-shrink: 0;"></div><span style="font-size: 11px; color: rgb(156, 163, 175);">ETF + OI Futures</span><span style="color: rgb(107, 114, 128); margin-left: auto; font-family: var(--font-mono); font-size: 10px;">BGeometrics (proxy)</span></div></div><div style="font-size: 10px; color: rgb(107, 114, 128); margin-top: 10px; font-family: var(--font-mono); text-align: center; opacity: 0.5;">17:52:20 — Prix: 60s · On-chain: cache 24h</div></div><div style="text-align: center; font-size: 10px; color: rgb(107, 114, 128); padding: 12px 0px; font-family: var(--font-mono); opacity: 0.3;">BTC Cycle Dashboard v10 — cryptoquant.fr — 9 APIs Live + ETF + Backtest — Not financial advice</div></div></div>
+  
+  <script src="./BTC Cycle Dashboard_files/react.production.min.js.téléchargement"></script>
+  <script src="./BTC Cycle Dashboard_files/react-dom.production.min.js.téléchargement"></script>
+  
+  <script>
+    window.onerror = function(msg, url, line, col, error) {
+      document.getElementById('root').innerHTML = `<div style="color:#ef4444;font-family:monospace;padding:20px;background:#18181b;white-space:pre-wrap"><h2>Erreur JS</h2>${msg} (ligne ${line})\n${error?.stack||''}</div>`;
+      return false;
+    };
+  </script>
+  
+  <script>
+    'use strict';
+    const { useState, useEffect, useRef, useMemo, useCallback } = React;
+
+    // ═══════════════════════════════════════════════════════════════
+    // DESIGN SYSTEM
+    // ═══════════════════════════════════════════════════════════════
+    const DS = {
+      bg: '#101014',
+      surface: '#1e1e24',
+      surface2: '#2b2b36',
+      border: '#2b2b36',
+      text: '#ffffff',
+      text2: '#9ca3af',
+      text3: '#6b7280',
+      accent: '#3b82f6',
+      up: '#10b981',
+      down: '#ef4444',
+      warn: '#f59e0b',
+      purple: '#8b5cf6',
+      blue: '#6366f1',
+      pink: '#ec4899',
+      font: "var(--font)",
+      mono: "var(--font-mono)"
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // CONSTANTS & DATA
+    // ═══════════════════════════════════════════════════════════════
+    const ATH = 126198, ATHDATE = '2025-10-06', HALVING = '2024-04-19';
+    const MC = 58096, RP = 55182, W200 = 57926, CVDD = 45000;
+    const STHRP = 72000, LTHRP = 38000;
+    const MA111 = 90000, MA2Y = 75000;
+    const SUPPLYTOTAL = 19800000;
+
+    const CYCLES = [
+      { name: 'C1 2011-13', halvD: '2012-11-28', peak: 1177, bottom: 152, peakD: 367, botD: 544 },
+      { name: 'C2 2015-17', halvD: '2016-07-09', peak: 19783, bottom: 3122, peakD: 526, botD: 730 },
+      { name: 'C3 2020-22', halvD: '2020-05-11', peak: 69000, bottom: 15476, peakD: 546, botD: 895 },
+      { name: 'C4 Current', halvD: HALVING, peak: ATH, bottom: null, peakD: 535, botD: null }
+    ];
+
+    const OCLEVELS = [
+      { k: 'ma111', l: '111-Day MA', v: MA111, c: DS.down },
+      { k: 'ma2y', l: '2-Year MA', v: MA2Y, c: DS.warn },
+      { k: 'sthrp', l: 'STH Realized Price', v: STHRP, c: DS.accent },
+      { k: 'w200', l: '200-Week MA', v: W200, c: '#60a5fa' },
+      { k: 'rp', l: 'Realized Price', v: RP, c: '#a78bfa' },
+      { k: 'cvdd', l: 'CVDD', v: CVDD, c: '#f472b6' },
+      { k: 'lthrp', l: 'LTH Realized Price', v: LTHRP, c: DS.up }
+    ];
+
+    const EXHAUST = [
+      { n: 1, l: 'Levier', d: 'Liquidations en cascade', dur: 'Jours/sem.', st: 'done', p: 100, icon: '⚡' },
+      { n: 2, l: 'Retail', d: 'Panique retail, capitulation émotionnelle', dur: '1-3 mois', st: 'active', p: 70, icon: '🏃' },
+      { n: 3, l: 'Miners', d: 'Vente trésorerie, arrêt machines', dur: 'Mois', st: 'early', p: 25, icon: '⛏' },
+      { n: 4, l: 'ETF Outflows', d: 'Réduction exposition institutionnelle', dur: 'Mois', st: 'early', p: 30, icon: '🏦' },
+      { n: 5, l: 'STH Capitulation', d: 'Derniers vendeurs forcés', dur: 'Final', st: 'pending', p: 5, icon: '🏳' }
+    ];
+
+    const SCENARIOS = [
+      { l: 'Shallow', z: '200W MA tient', r: [58, 65], dd: [-48, -52], p: 20, c: DS.up },
+      { l: 'Modéré', z: 'Sous RP & CVDD', r: [45, 55], dd: [-56, -64], p: 50, c: DS.accent, hl: true },
+      { l: 'Deep', z: 'Touche CVDD', r: [35, 45], dd: [-64, -72], p: 25, c: DS.warn },
+      { l: 'Extrême', z: 'Sous CVDD', r: [25, 35], dd: [-72, -80], p: 5, c: DS.down }
+    ];
+
+    const TIMING = [
+      { m: 'ATH + 383j', calc: '6 oct 25 + 383j', result: '24 oct 2026', conf: 0.7 },
+      { m: 'Halving + 863j', calc: '19 avr 24 + 863j', result: 'Sep 2026', conf: 0.8 },
+      { m: 'Next Halv. - 513j', calc: 'Avr 28 - 513j', result: 'Oct-Nov 2026', conf: 0.75 }
+    ];
+
+    const FALLBACK = {
+      price: 68689, change24h: -0.56, marketCap: 1373e9, dominance: 56.9,
+      fearGreed: 9, fgLabel: 'Extreme Fear', volume24h: 49.8e9,
+      nupl: 0.227, sopr: 0.987, asopr: 0.975, mvrvz: 0.534, mvrvratio: 1.288,
+      realizedPrice: 54563, sthRealizedPrice: 92645, lthRealizedPrice: 44349,
+      supplyProfitPct: 45.29, supplyProfitBtc: 9051976, rhodl: 1.056,
+      rsi: 29.0, sma200: 102083, ema200: 95738, sma50: 86615,
+      fundingRate: -0.005, openInterest: 32e9,
+      etfBtcTotal: 644726, etfFlowBtc: 4968,
+      hashrate: 1028, difficulty: 126e12, puellMultiple: 0.79,
+      hashRibbons: 'Down', hashSma30: 964567, hashSma60: 1010355
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // HOOKS: API DATA
+    // ═══════════════════════════════════════════════════════════════
+    function useLiveData() {
+      const [data, setData] = useState({ ...FALLBACK, live: false, loading: true, lastUpdate: null, sources: {} });
+
+      const fetchAll = useCallback(async () => {
+        let r = { ...FALLBACK, live: false, loading: false, lastUpdate: new Date(), sources: {} };
+
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_market_cap=true&include_24hr_change=true&include_24hr_vol=true');
+          if (res.ok) {
+            const j = await res.json();
+            if (j.bitcoin) {
+              r.price = j.bitcoin.usd;
+              r.marketCap = j.bitcoin.usd_market_cap;
+              r.change24h = j.bitcoin.usd_24h_change;
+              r.volume24h = j.bitcoin.usd_24h_vol;
+              r.sources.coingecko = true;
+              r.live = true;
+            }
+          }
+        } catch (e) { r.sources.coingecko = false; }
+
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/global');
+          if (res.ok) {
+            const j = await res.json();
+            r.dominance = j.data?.market_cap_percentage?.btc;
+            r.live = true;
+          }
+        } catch (e) {}
+
+        try {
+          const res = await fetch('https://api.alternative.me/fng/?limit=1');
+          if (res.ok) {
+            const j = await res.json();
+            if (j.data?.[0]) {
+              r.fearGreed = parseInt(j.data[0].value);
+              r.fgLabel = j.data[0].value_classification;
+              r.sources.fng = true;
+              r.live = true;
+            }
+          }
+        } catch (e) { r.sources.fng = false; }
+
+        try {
+          const [fr, oi] = await Promise.all([
+            fetch('https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1'),
+            fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT')
+          ]);
+          if (fr.ok) {
+            const j = await fr.json();
+            r.fundingRate = parseFloat(j[0]?.fundingRate) * 100;
+            r.sources.binance = true;
+            r.live = true;
+          }
+          if (oi.ok) {
+            const j = await oi.json();
+            r.openInterest = parseFloat(j.openInterest) * r.price;
+          }
+        } catch (e) { r.sources.binance = false; }
+
+        try {
+          const res = await fetch('https://mempool.space/api/v1/mining/hashrate/1w');
+          if (res.ok) {
+            const j = await res.json();
+            if (j.hashrates?.length) {
+              r.hashrate = j.hashrates[j.hashrates.length - 1].avgHashrate / 1e18;
+              r.sources.mempool = true;
+              r.live = true;
+            }
+            if (j.difficulty?.length) {
+              r.difficulty = j.difficulty[j.difficulty.length - 1].difficulty;
+            }
+          }
+        } catch (e) { r.sources.mempool = false; }
+
+        // BGProxy / bgeometrics avec cache
+        const BGPROXY = 'https://bg-proxy.sv9ch954y9.workers.dev/';
+        const CACHEKEY = 'bgcache', CACHETTL = 24 * 60 * 60 * 1000;
+        let cached = null;
+        try {
+          const raw = localStorage.getItem(CACHEKEY);
+          if (raw) {
+            const c = JSON.parse(raw);
+            if (Date.now() - c.ts < CACHETTL) cached = c.data;
+          }
+        } catch (e) {}
+
+        if (cached) {
+          Object.assign(r, cached);
+          r.sources.bgeometrics = 'cache';
+          r.live = true;
+        } else {
+          try {
+            const res = await fetch(`${BGPROXY}all`);
+            if (res.ok) {
+              const all = await res.json();
+              const get = (path) => all[`v1/${path}/last`];
+              const bg = {};
+
+              const nupl = get('nupl'); if (nupl?.nupl != null) bg.nupl = parseFloat(nupl.nupl);
+              const sopr = get('sopr'); if (sopr?.sopr != null) bg.sopr = parseFloat(sopr.sopr);
+              const asopr = get('asopr'); if (asopr?.asopr != null) bg.asopr = parseFloat(asopr.asopr);
+              const mvrvz = get('mvrv-zscore'); if (mvrvz?.mvrvZscore != null) bg.mvrvz = parseFloat(mvrvz.mvrvZscore);
+              const mvrv = get('mvrv'); if (mvrv?.mvrv != null) bg.mvrvratio = parseFloat(mvrv.mvrv);
+              const rpv = get('realized-price'); if (rpv?.realizedPrice != null) bg.realizedPrice = parseFloat(rpv.realizedPrice);
+              const sthRp = get('sth-realized-price'); if (sthRp?.sthRealizedPrice != null) bg.sthRealizedPrice = parseFloat(sthRp.sthRealizedPrice);
+              const lthRp = get('lth-realized-price'); if (lthRp?.lthRealizedPrice != null) bg.lthRealizedPrice = parseFloat(lthRp.lthRealizedPrice);
+              const puell = get('puell-multiple'); if (puell?.puellMultiple != null) bg.puellMultiple = parseFloat(puell.puellMultiple);
+              const pl = get('profit-loss'); if (pl?.profitLoss != null) bg.supplyProfitPct = parseFloat(pl.profitLoss);
+              const sp = get('supply-profit'); if (sp?.supplyProfit != null) bg.supplyProfitBtc = parseFloat(sp.supplyProfit);
+              const rhodl = get('rhodl-ratio'); if (rhodl?.rhodlRatio != null) bg.rhodl = parseFloat(rhodl.rhodlRatio);
+              const ti = get('technical-indicators');
+              if (ti) {
+                if (ti.rsi != null) bg.rsi = parseFloat(ti.rsi);
+                if (ti.sma200 != null) bg.sma200 = parseFloat(ti.sma200);
+                if (ti.ema200 != null) bg.ema200 = parseFloat(ti.ema200);
+                if (ti.sma50 != null) bg.sma50 = parseFloat(ti.sma50);
+              }
+              const hr = get('hashribbons');
+              if (hr) {
+                bg.hashRibbons = hr.hashribbons || 'Unknown';
+                if (hr.sma30) bg.hashSma30 = parseFloat(hr.sma30);
+                if (hr.sma60) bg.hashSma60 = parseFloat(hr.sma60);
+              }
+              const frd = get('funding-rate'); if (frd?.fundingRate != null) bg.fundingRateBG = parseFloat(frd.fundingRate);
+              const etfTot = get('etf-btc-total'); if (etfTot?.etfBtcTotal != null) bg.etfBtcTotal = parseFloat(etfTot.etfBtcTotal);
+              const etfFl = get('etf-flow-btc'); if (etfFl?.etfFlow != null) bg.etfFlowBtc = parseFloat(etfFl.etfFlow);
+              const oiFut = get('open-interest-futures');
+              if (oiFut) {
+                const oiKeys = ['binance', 'bybit', 'okx', 'bitget', 'deribit', 'bitmex', 'huobi', 'bitfinex', 'gateIo', 'kucoin', 'kraken', 'cryptoCom'];
+                const oiSum = oiKeys.reduce((s, k) => s + (parseFloat(oiFut[k]) || 0), 0);
+                if (oiSum > 0) bg.openInterestBG = oiSum;
+              }
+
+              if (Object.keys(bg).length > 0) {
+                Object.assign(r, bg);
+                r.sources.bgeometrics = 'live';
+                r.live = true;
+                try {
+                  localStorage.setItem(CACHEKEY, JSON.stringify({ ts: Date.now(), data: bg }));
+                } catch (e) {}
+              }
+            }
+          } catch (e) { r.sources.bgeometrics = false; }
+        }
+
+        setData(r);
+      }, []);
+
+      useEffect(() => {
+        fetchAll();
+        const iv = setInterval(fetchAll, 60000);
+        return () => clearInterval(iv);
+      }, [fetchAll]);
+
+      return data;
+    }
+
+    function useHistoricalData() {
+      const [hist, setHist] = useState(null);
+
+      useEffect(() => {
+        const CACHEKEY = 'hist_v10', CACHETTL = 6 * 60 * 60 * 1000;
+        try {
+          const raw = localStorage.getItem(CACHEKEY);
+          if (raw) {
+            const c = JSON.parse(raw);
+            if (Date.now() - c.ts < CACHETTL) {
+              if (c.data?.prices) c.data.prices = c.data.prices.map(p => ({ ...p, date: new Date(p.date) }));
+              if (c.data?.crosses) c.data.crosses = c.data.crosses.map(cr => ({ ...cr, date: new Date(cr.date) }));
+              setHist(c.data);
+              return;
+            }
+          }
+        } catch (e) {}
+
+        (async () => {
+          try {
+            const [rbRes, piRes] = await Promise.all([
+              fetch('https://charts.bitcoin.com/api/v1/charts/rainbow'),
+              fetch('https://charts.bitcoin.com/api/v1/charts/pi-cycle-top')
+            ]);
+
+            let rawPrices = [];
+            if (rbRes.ok) {
+              const rb = await rbRes.json();
+              if (rb.success && rb.data?.price) rawPrices = rb.data.price;
+            }
+
+            if (rawPrices.length < 100) {
+              const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=365&precision=2');
+              if (cgRes.ok) {
+                const cg = await cgRes.json();
+                if (cg.prices?.length) rawPrices = cg.prices.map(([ts, price]) => ({ timestamp: ts, price }));
+              }
+            }
+
+            if (!rawPrices.length) return;
+
+            const ma111Map = new Map(), ma350x2Map = new Map();
+            let apiCrosses = [];
+            if (piRes?.ok) {
+              const pi = await piRes.json();
+              if (pi.success && pi.data) {
+                (pi.data.ma111 || []).forEach(p => ma111Map.set(p.timestamp, p.value));
+                (pi.data.ma350x2 || []).forEach(p => ma350x2Map.set(p.timestamp, p.value));
+                apiCrosses = pi.data.crosses || [];
+              }
+            }
+
+            const prices = rawPrices.map(p => ({
+              date: new Date(p.timestamp),
+              price: p.price,
+              ts: p.timestamp,
+              ma111: ma111Map.get(p.timestamp) || null,
+              ma350x2: ma350x2Map.get(p.timestamp) || null,
+              ma200: null
+            }));
+
+            if (ma111Map.size === 0 && prices.length > 350) {
+              for (let i = 110; i < prices.length; i++) {
+                let s = 0; for (let j = i - 110; j < i; j++) s += prices[j].price;
+                prices[i].ma111 = s / 111;
+              }
+              for (let i = 349; i < prices.length; i++) {
+                let s = 0; for (let j = i - 349; j < i; j++) s += prices[j].price;
+                prices[i].ma350x2 = (s / 350) * 2;
+              }
+            }
+
+            for (let i = 199; i < prices.length; i++) {
+              let s = 0; for (let j = i - 199; j < i; j++) s += prices[j].price;
+              prices[i].ma200 = s / 200;
+            }
+
+            const crosses = [];
+            if (apiCrosses.length > 0) {
+              apiCrosses.forEach(c => crosses.push({ date: new Date(c.timestamp), price: c.price || 0, type: 'top' }));
+            } else {
+              for (let i = 1; i < prices.length; i++) {
+                const prev = prices[i - 1], cur = prices[i];
+                if (prev.ma111 && prev.ma350x2 && cur.ma111 && cur.ma350x2) {
+                  if (prev.ma111 < prev.ma350x2 && cur.ma111 >= cur.ma350x2) {
+                    crosses.push({ date: cur.date, price: cur.price, type: 'top' });
+                  }
+                }
+              }
+            }
+
+            const data = { prices, crosses, fetched: Date.now() };
+            setHist(data);
+            try {
+              localStorage.setItem(CACHEKEY, JSON.stringify({ ts: Date.now(), data }));
+            } catch (e) {}
+          } catch (e) {
+            console.error('Historical fetch failed', e);
+          }
+        })();
+      }, []);
+
+      return hist;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // CALCULATIONS
+    // ═══════════════════════════════════════════════════════════════
+    const daysBetween = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
+
+    function useCalc(data) {
+      return useMemo(() => {
+        const now = new Date(), p = data.price;
+        const dATH = daysBetween(ATHDATE, now), dHalv = daysBetween(HALVING, now);
+        const drop = ((ATH - p) / ATH) * 100;
+        const rp = data.realizedPrice || RP;
+        const sthRp = data.sthRealizedPrice || STHRP;
+        const lthRp = data.lthRealizedPrice || LTHRP;
+        const mvrv = data.mvrvratio || (p / rp);
+        const mvrvz = data.mvrvz || ((p - rp) / (p * 0.4));
+        const margin = ((p - MC) / MC) * 100;
+        const bearProg = Math.min(100, (dATH / 383) * 100);
+        const dBot = Math.max(0, daysBetween(now, new Date(new Date(ATHDATE).getTime() + 383 * 86400000)));
+        const dNH = daysBetween(now, new Date('2028-04-15'));
+        const cycleDay = dHalv;
+        const sma200 = data.sma200 || (W200 * 1.2);
+        const mayer = p / sma200;
+        const puell = data.puellMultiple || 0.79;
+        const supplyProfit = data.supplyProfitPct || Math.min(100, Math.max(20, ((p - 20000) / (ATH - 20000)) * 100));
+
+        // Scores composites
+        const smvrv = mvrv < 0.8 ? 5 : mvrv < 1.0 ? 15 : mvrv < 1.5 ? 35 : mvrv < 2.5 ? 55 : mvrv < 3.5 ? 80 : 95;
+        const snupl = data.nupl < -0.1 ? 5 : data.nupl < 0.1 ? 15 : data.nupl < 0.4 ? 40 : data.nupl < 0.6 ? 65 : data.nupl < 0.75 ? 85 : 95;
+        const ssopr = data.sopr < 0.9 ? 5 : data.sopr < 0.97 ? 15 : data.sopr < 1.0 ? 30 : data.sopr < 1.05 ? 50 : 75;
+        const ssupply = supplyProfit < 45 ? 5 : supplyProfit < 55 ? 15 : supplyProfit < 70 ? 35 : supplyProfit < 85 ? 60 : supplyProfit < 95 ? 85 : 95;
+        const onChain = Math.round((smvrv + snupl + ssopr + ssupply) / 4);
+
+        const smayer = mayer < 0.6 ? 5 : mayer < 0.8 ? 15 : mayer < 1.0 ? 30 : mayer < 1.5 ? 50 : mayer < 2.4 ? 75 : 95;
+        const sfg = data.fearGreed < 10 ? 5 : data.fearGreed < 25 ? 15 : data.fearGreed < 45 ? 35 : data.fearGreed < 65 ? 50 : data.fearGreed < 80 ? 70 : 90;
+        const sdrop = drop > 70 ? 5 : drop > 50 ? 15 : drop > 30 ? 35 : drop > 15 ? 55 : drop > 5 ? 75 : 90;
+        const ssth = p < sthRp * 0.85 ? 5 : p < sthRp ? 20 : p < sthRp * 1.2 ? 45 : 70;
+        const mktStruct = Math.round((smayer + sfg + sdrop + ssth) / 4);
+
+        const smargin = margin < -10 ? 5 : margin < 0 ? 12 : margin < 15 ? 30 : margin < 40 ? 50 : margin < 80 ? 70 : 90;
+        const spuell = puell < 0.5 ? 5 : puell < 0.7 ? 20 : puell < 1.0 ? 40 : puell < 2.0 ? 60 : puell < 4.0 ? 80 : 95;
+        const miners = Math.round((smargin + spuell) / 2);
+
+        const fr = data.fundingRateBG ?? data.fundingRate;
+        const sfunding = fr < -0.03 ? 5 : fr < -0.01 ? 15 : fr < 0.01 ? 40 : fr < 0.05 ? 60 : fr < 0.1 ? 80 : 95;
+        const oi = data.openInterestBG ?? data.openInterest;
+        const soi = oi > 80e9 ? 90 : oi > 60e9 ? 70 : oi > 40e9 ? 45 : oi > 25e9 ? 25 : 10;
+        const derivs = Math.round((sfunding + soi + sfg) / 3);
+
+        const composite = Math.round((onChain + mktStruct + miners + derivs) / 4);
+        const exhaustPct = Math.round(EXHAUST.reduce((a, e) => a + e.p, 0) / EXHAUST.length);
+
+        // Bottom scores
+        const bscores = [
+          { id: 'supply', l: 'Supply convergence', th: '50/50', cur: `${supplyProfit.toFixed(0)}/${(100 - supplyProfit).toFixed(0)}`, sc: supplyProfit < 52 ? 100 : supplyProfit < 58 ? 60 : supplyProfit < 65 ? 30 : 0, st: supplyProfit < 52 ? 'hit' : supplyProfit < 60 ? 'partial' : 'miss' },
+          { id: 'rsi', l: 'RSI extrême', th: '<20', cur: (data.rsi || 29).toFixed(0), sc: data.rsi < 20 ? 100 : data.rsi < 30 ? 70 : data.rsi < 40 ? 30 : 0, st: data.rsi < 20 ? 'hit' : data.rsi < 30 ? 'partial' : 'miss' },
+          { id: 'sigma', l: 'Dist. 200d MA', th: '<-2σ', cur: sma200 ? `${((p / sma200 - 1) * 10).toFixed(1)}σ` : '-2.88σ', sc: p / sma200 < 0.8 ? 100 : p / sma200 < 0.9 ? 60 : p / sma200 < 1 ? 30 : 0, st: p / sma200 < 0.8 ? 'hit' : p / sma200 < 1 ? 'partial' : 'miss' },
+          { id: 'funding', l: 'Funding négatif', th: '>2 sem.', cur: fr < -0.01 ? 'Négatif' : 'Compressé', sc: fr < -0.02 ? 80 : fr < 0 ? 40 : 15, st: fr < -0.02 ? 'hit' : fr < 0 ? 'partial' : 'miss' },
+          { id: 'leverage', l: 'Levier purgé', th: 'OI -40%', cur: `-${(1 - oi / 90e9) * 100}`.slice(0, 3) + '%', sc: oi < 55e9 ? 90 : oi < 70e9 ? 50 : 15, st: oi < 55e9 ? 'hit' : oi < 70e9 ? 'partial' : 'miss' },
+          { id: 'mvrv', l: 'MVRV < 1', th: '<1.0', cur: mvrv.toFixed(2), sc: mvrv < 0.8 ? 100 : mvrv < 1.0 ? 70 : mvrv < 1.15 ? 30 : 0, st: mvrv < 1.0 ? 'hit' : mvrv < 1.15 ? 'partial' : 'miss' },
+          { id: 'rpbr', l: 'Prix sous RP', th: `<${(rp / 1000).toFixed(0)}K`, cur: `${(p / 1000).toFixed(1)}K`, sc: p < rp ? 100 : (p - rp) / rp < 0.1 ? 30 : 0, st: p < rp ? 'hit' : (p - rp) / rp < 0.1 ? 'partial' : 'miss' }
+        ];
+        const totalScore = Math.round(bscores.reduce((a, s) => a + s.sc, 0) / bscores.length);
+
+        // Monte Carlo
+        const mc = generateMonteCarlo(p, 365, 200);
+
+        return {
+          dATH, dHalv, drop, mvrv, mvrvz, margin, bearProg, dBot, dNH, cycleDay,
+          mayer, puell, supplyProfit, composite, onChain, mktStruct, miners, derivs,
+          exhaustPct, bscores, totalScore, mc, rp, sthRp, lthRp, sma200
+        };
+      }, [data]);
+    }
+
+    function generateMonteCarlo(startPrice, days, nSims) {
+      const mu = -0.3 / 365, sigma = 0.65 / Math.sqrt(365);
+      const paths = [];
+      const percentiles = { p5: [], p25: [], p50: [], p75: [], p95: [] };
+
+      for (let s = 0; s < nSims; s++) {
+        const path = [startPrice];
+        for (let d = 1; d < days; d++) {
+          const z = boxMullerRandom();
+          path.push(path[d - 1] * Math.exp((mu - sigma * sigma / 2) + sigma * z));
+        }
+        paths.push(path);
+      }
+
+      for (let d = 0; d < days; d += 7) {
+        const vals = paths.map(p => p[d]).sort((a, b) => a - b);
+        percentiles.p5.push(vals[Math.floor(nSims * 0.05)]);
+        percentiles.p25.push(vals[Math.floor(nSims * 0.25)]);
+        percentiles.p50.push(vals[Math.floor(nSims * 0.50)]);
+        percentiles.p75.push(vals[Math.floor(nSims * 0.75)]);
+        percentiles.p95.push(vals[Math.floor(nSims * 0.95)]);
+      }
+
+      return percentiles;
+    }
+
+    function boxMullerRandom() {
+      let u = 0, v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // UTILITIES
+    // ═══════════════════════════════════════════════════════════════
+    const fP = (v) => `$${Math.round(v).toLocaleString('en-US')}`;
+    const fK = (v) => `${(v / 1000).toFixed(1)}K`;
+    const fB = (v) => v >= 1e12 ? `${(v / 1e12).toFixed(2)}T` : `${(v / 1e9).toFixed(1)}B`;
+    const fPct = (v) => `${v > 0 ? '+' : ''}${v.toFixed(1)}%`;
+
+    function useScreen() {
+      const [w, setW] = useState(typeof window !== 'undefined' ? window.innerWidth : 960);
+      useEffect(() => {
+        const h = () => setW(window.innerWidth);
+        window.addEventListener('resize', h);
+        return () => window.removeEventListener('resize', h);
+      }, []);
+      return { w, mob: w < 640, tab: w >= 640 && w < 1024 };
+    }
+
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    // RAINBOW + INFO
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    const RAINBOW = ['#2563eb','#3b82f6','#06b6d4','#10b981','#eab308','#f97316','#ef4444','#dc2626','#991b1b'];
+    const rainbowAt = (v) => RAINBOW[Math.min(8, Math.max(0, Math.floor(v / 12.5)))];
+
+    const INFO = {
+      mvrv: "MVRV compare le prix actuel au prix moyen d'achat de tous les BTC (Realized Price). <1 = marchÃ© sous-Ã©valuÃ©, signal d'accumulation historique.",
+      fg: "Indice de sentiment du marchÃ© (0-100). Extreme Fear (<20) = panique, bon moment pour acheter. Extreme Greed (>80) = euphorie, prudence.",
+      mining: "Marge des mineurs : Ã©cart entre le prix BTC et le coÃ»t moyen de minage.",
+      funding: "Taux de financement des positions futures. NÃ©gatif = les shorts paient les longs = signal contrarian haussier.",
+      nupl: "Net Unrealized Profit/Loss. <0 = le rÃ©seau est globalement en perte. Zone de capitulation.",
+      supply: "Pourcentage du supply BTC en profit. ~50% = Ã©quilibre historique des bottoms. >95% = top.",
+      asopr: "Adjusted Spent Output Profit Ratio. <1 = les BTC vendus le sont Ã  perte en moyenne.",
+      puell: "Revenu quotidien des mineurs vs moyenne 365j. <0.5 = zone d'achat. >4 = top.",
+      rsi: "Relative Strength Index sur 14 jours. <30 = survendu. >70 = surachetÃ©.",
+      rhodl: "Ratio entre les coins rÃ©cents et anciens. <2 = accumulation. >50 = distribution.",
+      hash: "Croisement des MAs du hashrate. SMA30 < SMA60 (Down) = capitulation mineurs = signal d'achat.",
+      sth: "Prix moyen d'achat des holders rÃ©cents (<155j). Prix sous STH RP = capitulation.",
+      composite: "Score agrÃ©gÃ© combinant On-Chain (25%), Structure marchÃ© (25%), Miners (25%) et DÃ©rivÃ©s (25%).",
+      picycle: "Le Pi Cycle Top compare le 111 DMA au 350 DMA Ã— 2. Croisement = signal de top historique.",
+      rainbow: "RÃ©gression log du prix BTC depuis 2009. 9 bandes indiquent les zones de sous/surÃ©valuation.",
+      etf: "BTC total dans les ETF Spot US + flux net quotidien. Inflows (+) = bullish. Outflows (-) = bearish.",
+      backtest: "Simulation : acheter $10K quand le score tombe sous le seuil bas, vendre quand il dÃ©passe le seuil haut."
+    };
+
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    // COMPONENTS
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+    function InfoTip({ text, mob }) {
+      const [open, setOpen] = useState(false);
+      const ref = useRef(null);
+      useEffect(() => {
+        if (!open) return;
+        const close = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+        document.addEventListener('click', close);
+        return () => document.removeEventListener('click', close);
+      }, [open]);
+      return React.createElement('span', {
+        ref, style: { position: 'relative', display: 'inline-flex', cursor: 'pointer', marginLeft: 4, verticalAlign: 'middle' },
+        onClick: (e) => { e.stopPropagation(); setOpen(!open); }
+      },
+        React.createElement('span', {
+          style: {
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 15, height: 15, borderRadius: '50%',
+            background: open ? `${DS.accent}15` : DS.surface2,
+            border: `1px solid ${open ? `${DS.accent}30` : DS.border}`,
+            fontSize: 9, color: open ? DS.accent : DS.text3, fontWeight: 600, lineHeight: 1
+          }
+        }, '?'),
+        open && React.createElement('div', {
+          style: {
+            position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)',
+            width: mob ? 220 : 260, padding: '12px 14px',
+            background: DS.surface, border: `1px solid ${DS.border}`, borderRadius: 8,
+            fontSize: 11, color: DS.text2, lineHeight: 1.5, zIndex: 100
+          }
+        }, text)
+      );
+    }
+
+    function CompositeGauge({ value, mob }) {
+      const sz = mob ? 180 : 220;
+      const ref = useRef(null);
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv) return;
+        const ctx = cv.getContext('2d');
+        const w = sz, h = sz * 0.58;
+        cv.width = w * 2; cv.height = h * 2;
+        ctx.scale(2, 2);
+        const cx = w / 2, cy = h - 6, r = sz * 0.38, lw = mob ? 16 : 20;
+        ctx.lineWidth = lw; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.arc(cx, cy, r, Math.PI, 2 * Math.PI);
+        ctx.strokeStyle = DS.surface2; ctx.stroke();
+        const activeEnd = Math.PI + (value / 100) * Math.PI;
+        for (let i = 0; i < 120; i++) {
+          const t = i / 120;
+          const sa = Math.PI + t * Math.PI;
+          const ea = Math.PI + (i + 1) / 120 * Math.PI;
+          if (sa >= activeEnd) break;
+          const end = Math.min(ea, activeEnd);
+          const hue = 210 - t * 210;
+          ctx.beginPath(); ctx.arc(cx, cy, r, sa, end + 0.02);
+          ctx.strokeStyle = `hsl(${hue}, 80%, 55%)`; ctx.stroke();
+        }
+        const na = Math.PI + (value / 100) * Math.PI;
+        ctx.lineWidth = 1.5; ctx.globalAlpha = 0.4;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(na) * (r - lw - 8), cy + Math.sin(na) * (r - lw - 8));
+        ctx.strokeStyle = '#fff'; ctx.stroke();
+        ctx.globalAlpha = 1;
+        ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.8; ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.globalAlpha = 0.12; ctx.lineWidth = 1;
+        for (let i = 0; i <= 10; i++) {
+          const a = Math.PI + (i / 10) * Math.PI;
+          const len = i % 5 === 0 ? 8 : 4;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(a) * (r + lw / 2 + 2), cy + Math.sin(a) * (r + lw / 2 + 2));
+          ctx.lineTo(cx + Math.cos(a) * (r + lw / 2 + 2 + len), cy + Math.sin(a) * (r + lw / 2 + 2 + len));
+          ctx.strokeStyle = '#fff'; ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }, [value, sz, mob]);
+      const zoneLabel = value < 15 ? 'CAPITULATION' : value < 30 ? 'FEAR EXTRÃŠME' : value < 45 ? 'BEAR' : value < 55 ? 'NEUTRE' : value < 70 ? 'OPTIMISME' : value < 85 ? 'EUPHORIE' : 'BULLE';
+      const hue = 210 - (value / 100) * 210;
+      const col = `hsl(${hue}, 80%, 58%)`;
+      return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center' } },
+        React.createElement('canvas', { ref, style: { width: sz, height: sz * 0.58 } }),
+        React.createElement('div', { style: { fontSize: mob ? 44 : 58, fontWeight: 800, color: col, fontFamily: DS.mono, lineHeight: 1, marginTop: -14 } }, value),
+        React.createElement('div', { style: { fontSize: 11, fontWeight: 600, color: col, letterSpacing: 5, marginTop: 6, opacity: 0.7 } }, zoneLabel)
+      );
+    }
+
+    function MiniGauge({ value, label, icon, mob }) {
+      const col = rainbowAt(value);
+      const pct = value / 100;
+      return React.createElement('div', {
+        style: { background: DS.surface, border: `1px solid ${DS.border}`, padding: mob ? '10px 6px' : '14px 10px', borderRadius: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, minWidth: 0 }
+      },
+        React.createElement('div', { style: { fontSize: 10, color: DS.text2, fontWeight: 500, marginBottom: 6, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%', textAlign: 'center' } }, icon, ' ', label),
+        React.createElement('div', { style: { position: 'relative', width: mob ? 48 : 56, height: mob ? 48 : 56 } },
+          React.createElement('svg', { viewBox: '0 0 36 36', style: { width: '100%', height: '100%', transform: 'rotate(-90deg)' } },
+            React.createElement('circle', { cx: 18, cy: 18, r: 14, fill: 'none', stroke: DS.surface2, strokeWidth: 3 }),
+            React.createElement('circle', { cx: 18, cy: 18, r: 14, fill: 'none', stroke: col, strokeWidth: 3, strokeDasharray: `${pct * 88} ${88 - pct * 88}`, strokeLinecap: 'round', opacity: 0.8 })
+          ),
+          React.createElement('div', { style: { position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: mob ? 14 : 16, fontWeight: 700, color: col, fontFamily: DS.mono } }, value)
+        )
+      );
+    }
+
+    function SignalCard({ title, value, unit, status, detail, color, mob, info }) {
+      const stCol = status === 'bullish' ? DS.up : status === 'bearish' ? DS.down : DS.warn;
+      const stLabel = status === 'bullish' ? 'BULL' : status === 'bearish' ? 'BEAR' : 'â€”';
+      return React.createElement('div', {
+        style: { background: DS.surface, border: `1px solid ${DS.border}`, padding: mob ? '14px 12px' : '18px 20px', borderRadius: 6, borderLeft: `3px solid ${stCol}` }
+      },
+        React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 } },
+          React.createElement('div', { style: { fontSize: mob ? 11 : 12, color: DS.text2, fontWeight: 500, display: 'flex', alignItems: 'center' } },
+            title, info && React.createElement(InfoTip, { text: info, mob })
+          ),
+          React.createElement('span', { style: { fontSize: 9, padding: '3px 8px', borderRadius: 20, background: `${stCol}12`, color: stCol, fontWeight: 600, letterSpacing: 1 } }, stLabel)
+        ),
+        React.createElement('div', { style: { fontSize: mob ? 26 : 32, fontWeight: 700, fontFamily: DS.mono, color: color || DS.text, lineHeight: 1 } },
+          value, React.createElement('span', { style: { fontSize: 13, color: DS.text3, fontWeight: 400, marginLeft: 3 } }, unit)
+        ),
+        detail && React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginTop: 6, lineHeight: 1.4 } }, detail)
+      );
+    }
+
+    function PriceBandsChart({ price, mob, levels }) {
+      const W = mob ? 340 : 560, H = mob ? 150 : 180, PX = 50, PY = 14;
+      const lvls = (levels || OCLEVELS).filter(l => l.v > 20000 && l.v < 130000);
+      const mn = 25000, mx = 135000;
+      const tY = (v) => PY + ((mx - v) / (mx - mn)) * (H - PY * 2);
+      const pricePath = [
+        { m: 0, v: 64000 }, { m: 1, v: 58000 }, { m: 2, v: 68000 }, { m: 3, v: 95000 },
+        { m: 4, v: 108000 }, { m: 5, v: 126198 }, { m: 6, v: 110000 }, { m: 7, v: 98000 },
+        { m: 8, v: 88000 }, { m: 9, v: 78000 }, { m: 10, v: 75000 }, { m: 11, v: price }
+      ];
+      const tX = (i) => PX + (i / (pricePath.length - 1)) * (W - PX * 2);
+      const path = pricePath.map((p, i) => `${i ? 'L' : 'M'}${tX(i)},${tY(p.v)}`).join(' ');
+      const months = ['Avr','Mai','Jun','Jul','AoÃ»','Sep','Oct','Nov','DÃ©c','Jan','FÃ©v','Mar'];
+      return React.createElement('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', height: mob ? 150 : 180 } },
+        React.createElement('defs', null,
+          React.createElement('linearGradient', { id: 'prGrad', x1: 0, y1: 0, x2: 0, y2: 1 },
+            React.createElement('stop', { offset: '0%', stopColor: DS.accent, stopOpacity: 0.12 }),
+            React.createElement('stop', { offset: '100%', stopColor: DS.accent, stopOpacity: 0 })
+          )
+        ),
+        lvls.map(l => React.createElement('g', { key: l.k },
+          React.createElement('line', { x1: PX, y1: tY(l.v), x2: W - PX + 30, y2: tY(l.v), stroke: l.c, strokeWidth: 0.5, strokeDasharray: '4,4', opacity: 0.25 }),
+          React.createElement('text', { x: W - PX + 32, y: tY(l.v) + 3, fill: l.c, fontSize: 8, fontFamily: DS.mono, opacity: 0.5 }, fK(l.v))
+        )),
+        React.createElement('path', { d: `${path} L${tX(11)},${H - PY} L${tX(0)},${H - PY} Z`, fill: 'url(#prGrad)' }),
+        React.createElement('path', { d: path, fill: 'none', stroke: DS.accent, strokeWidth: 2, opacity: 0.8 }),
+        React.createElement('circle', { cx: tX(11), cy: tY(price), r: 4, fill: DS.accent, opacity: 0.9 }),
+        pricePath.map((_, i) => i % 2 === 0 ? React.createElement('text', { key: i, x: tX(i), y: H - 2, fill: DS.text3, fontSize: 8, textAnchor: 'middle', fontFamily: DS.mono }, months[i]) : null),
+        [30, 50, 70, 90, 110, 130].map(v => React.createElement('text', { key: v, x: PX - 6, y: tY(v * 1000) + 3, fill: DS.text3, fontSize: 8, textAnchor: 'end', fontFamily: DS.mono }, `$${v}K`))
+      );
+    }
+
+    function CycleOverlay({ cycleDay, mob }) {
+      const W = mob ? 340 : 560, H = mob ? 140 : 165, PX = 35, PY = 14;
+      const cycleData = [
+        { name: 'C1 2012', c: '#6366f180', pts: [[0,100],[180,300],[367,980],[544,127]] },
+        { name: 'C2 2016', c: '#fbbf2480', pts: [[0,100],[200,170],[526,2960],[730,470]] },
+        { name: 'C3 2020', c: '#f472b680', pts: [[0,100],[200,180],[546,690],[895,155]] },
+        { name: 'C4 Now', c: DS.accent, pts: [[0,100],[200,175],[535,380]] }
+      ];
+      const maxDay = 1000, maxGain = 500;
+      const tX = (d) => PX + (d / maxDay) * (W - PX * 2);
+      const tY = (v) => PY + ((maxGain - Math.min(v, maxGain)) / maxGain) * (H - PY * 2);
+      return React.createElement('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', height: mob ? 140 : 165 } },
+        React.createElement('line', { x1: tX(cycleDay), y1: PY, x2: tX(cycleDay), y2: H - PY, stroke: DS.accent, strokeWidth: 1, strokeDasharray: '3,3', opacity: 0.25 }),
+        React.createElement('text', { x: tX(cycleDay), y: PY - 4, fill: DS.accent, fontSize: 8, textAnchor: 'middle', fontFamily: DS.mono, opacity: 0.7 }, `J${cycleDay}`),
+        [0,200,400,600,800,1000].map(d => React.createElement('text', { key: d, x: tX(d), y: H - 2, fill: DS.text3, fontSize: 7, textAnchor: 'middle', fontFamily: DS.mono }, `J${d}`)),
+        [100,200,300,400,500].map(v => React.createElement('g', { key: v },
+          React.createElement('line', { x1: PX, y1: tY(v), x2: W - PX, y2: tY(v), stroke: DS.surface2, strokeWidth: 0.5 }),
+          React.createElement('text', { x: PX - 4, y: tY(v) + 3, fill: DS.text3, fontSize: 7, textAnchor: 'end', fontFamily: DS.mono }, `${v}%`)
+        )),
+        cycleData.map((c, ci) => {
+          const d = c.pts.map((pt, i) => `${i ? 'L' : 'M'}${tX(pt[0])},${tY(pt[1])}`).join(' ');
+          return React.createElement('path', { key: ci, d, fill: 'none', stroke: c.c, strokeWidth: ci === 3 ? 2.5 : 1.5, strokeLinecap: 'round' });
+        }),
+        cycleData.map((c, i) => React.createElement('g', { key: `l${i}` },
+          React.createElement('rect', { x: W - PX - 60, y: PY + i * 14, width: 10, height: 2, rx: 1, fill: c.c }),
+          React.createElement('text', { x: W - PX - 46, y: PY + i * 14 + 3, fill: DS.text2, fontSize: 8, fontFamily: DS.mono }, c.name)
+        ))
+      );
+    }
+
+    function MonteCarloChart({ mc, price, mob }) {
+      if (!mc?.p50?.length) return null;
+      const W = mob ? 340 : 560, H = mob ? 150 : 180, PX = 40, PY = 14;
+      const n = mc.p50.length;
+      const allVals = [...mc.p5, ...mc.p95];
+      const mn = Math.min(...allVals) * 0.9, mx = Math.max(...allVals) * 1.05;
+      const tX = (i) => PX + (i / (n - 1)) * (W - PX * 2);
+      const tY = (v) => PY + ((mx - v) / (mx - mn)) * (H - PY * 2);
+      const band = (upper, lower, color, opacity) => {
+        const top = upper.map((v, i) => `${i ? 'L' : 'M'}${tX(i)},${tY(v)}`).join(' ');
+        const bot = [...lower].reverse().map((v, i) => `L${tX(lower.length - 1 - i)},${tY(v)}`).join(' ');
+        return React.createElement('path', { d: `${top}${bot}Z`, fill: color, opacity });
+      };
+      const line = (vals, color, w, dash) => {
+        const d = vals.map((v, i) => `${i ? 'L' : 'M'}${tX(i)},${tY(v)}`).join(' ');
+        return React.createElement('path', { d, fill: 'none', stroke: color, strokeWidth: w, strokeDasharray: dash || 'none', opacity: 0.7 });
+      };
+      const labels = [{ v: RP, l: 'RP', c: DS.purple }, { v: CVDD, l: 'CVDD', c: DS.pink }, { v: W200, l: '200W', c: DS.blue }].filter(l => l.v >= mn && l.v <= mx);
+      return React.createElement('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', height: mob ? 150 : 180 } },
+        band(mc.p95, mc.p5, DS.accent, 0.04),
+        band(mc.p75, mc.p25, DS.accent, 0.07),
+        line(mc.p50, DS.accent, 2),
+        line(mc.p5, DS.down, 1, '3,3'),
+        line(mc.p95, DS.up, 1, '3,3'),
+        labels.map(l => React.createElement('g', { key: l.l },
+          React.createElement('line', { x1: PX, y1: tY(l.v), x2: W - PX, y2: tY(l.v), stroke: l.c, strokeWidth: 0.5, strokeDasharray: '4,3', opacity: 0.3 }),
+          React.createElement('text', { x: PX - 3, y: tY(l.v) + 3, fill: l.c, fontSize: 7, textAnchor: 'end', fontFamily: DS.mono, opacity: 0.5 }, l.l)
+        )),
+        React.createElement('circle', { cx: tX(0), cy: tY(price), r: 4, fill: DS.accent, opacity: 0.8 }),
+        [0, 13, 26, 39, 52].map(w => React.createElement('text', { key: w, x: tX(w), y: H - 2, fill: DS.text3, fontSize: 7, textAnchor: 'middle', fontFamily: DS.mono }, w === 0 ? 'Now' : `${w}w`))
+      );
+    }
+
+    function BottomScoreCard({ scores, total, mob }) {
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 } },
+          React.createElement('div', { style: { fontSize: mob ? 36 : 44, fontWeight: 800, fontFamily: DS.mono, color: total > 60 ? DS.up : total > 40 ? DS.warn : DS.text2 } }, total),
+          React.createElement('div', null,
+            React.createElement('div', { style: { fontSize: 10, color: DS.text3, letterSpacing: 2 } }, 'BOTTOM SCORE'),
+            React.createElement('div', { style: { fontSize: 12, color: DS.text2 } }, total > 60 ? "Zone d'accumulation" : total > 40 ? 'Getting close' : 'Pas encore')
+          )
+        ),
+        scores.map((s, i) => React.createElement('div', {
+          key: i, style: { display: 'grid', gridTemplateColumns: mob ? '1fr 50px 28px' : '1fr 60px 32px', alignItems: 'center', gap: 8, padding: '6px 0', borderBottom: `1px solid ${DS.surface2}` }
+        },
+          React.createElement('div', null,
+            React.createElement('div', { style: { fontSize: 11, color: DS.text2, fontWeight: 500 } }, s.l),
+            React.createElement('div', { style: { fontSize: 10, fontFamily: DS.mono, color: DS.text3 } }, `${s.th} â†’ ${s.cur}`)
+          ),
+          React.createElement('div', { style: { height: 4, borderRadius: 2, background: DS.surface2, overflow: 'hidden' } },
+            React.createElement('div', { style: { height: '100%', width: `${s.sc}%`, borderRadius: 2, background: s.st === 'hit' ? DS.up : s.st === 'partial' ? DS.warn : DS.down, opacity: 0.7 } })
+          ),
+          React.createElement('div', { style: { fontSize: 10, fontFamily: DS.mono, fontWeight: 600, textAlign: 'right', color: s.st === 'hit' ? DS.up : s.st === 'partial' ? DS.warn : DS.text3 } },
+            s.st === 'hit' ? 'âœ“' : s.st === 'partial' ? '~' : 'âœ—'
+          )
+        ))
+      );
+    }
+
+    function ExhaustionPanel({ pct, mob }) {
+      return React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 20 } },
+        React.createElement('div', null,
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 } },
+            React.createElement('div', { style: { fontSize: mob ? 36 : 44, fontWeight: 800, fontFamily: DS.mono, color: DS.warn } }, `${pct}%`),
+            React.createElement('div', { style: { fontSize: 11, color: DS.text3, lineHeight: 1.4 } }, 'Exhaustion globale')
+          ),
+          EXHAUST.map((e, i) => React.createElement('div', {
+            key: i, style: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: `1px solid ${DS.surface2}` }
+          },
+            React.createElement('div', { style: { fontSize: 18, width: 28, textAlign: 'center' } }, e.icon),
+            React.createElement('div', { style: { flex: 1 } },
+              React.createElement('div', { style: { fontSize: 12, fontWeight: 600, color: DS.text } }, e.l),
+              React.createElement('div', { style: { fontSize: 10, color: DS.text3, marginTop: 2 } }, e.d)
+            ),
+            React.createElement('div', { style: { width: 50, textAlign: 'right' } },
+              React.createElement('div', { style: { fontSize: 14, fontWeight: 700, fontFamily: DS.mono, color: e.p > 70 ? DS.up : e.p > 30 ? DS.warn : DS.text3 } }, `${e.p}%`)
+            )
+          ))
+        ),
+        React.createElement('div', null,
+          React.createElement('div', { style: { fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 12 } }, 'SCÃ‰NARIOS BOTTOM'),
+          SCENARIOS.map((s, i) => React.createElement('div', {
+            key: i, style: { background: DS.surface, border: `1px solid ${s.hl ? `${s.c}30` : DS.border}`, borderRadius: 6, padding: '12px 14px', marginBottom: 8 }
+          },
+            React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+              React.createElement('div', null,
+                React.createElement('div', { style: { fontSize: 13, fontWeight: s.hl ? 700 : 500, color: s.hl ? DS.text : DS.text2 } }, s.l),
+                React.createElement('div', { style: { fontSize: 10, color: DS.text3, marginTop: 2 } }, `${s.z} â€” $${s.r[0]}K-$${s.r[1]}K`)
+              ),
+              React.createElement('div', { style: { fontSize: 20, fontWeight: 800, fontFamily: DS.mono, color: s.c } }, `${s.p}%`)
+            ),
+            React.createElement('div', { style: { height: 3, borderRadius: 2, background: DS.surface2, marginTop: 8, overflow: 'hidden' } },
+              React.createElement('div', { style: { height: '100%', width: `${s.p}%`, borderRadius: 2, background: s.c, opacity: 0.5 } })
+            )
+          ))
+        )
+      );
+    }
+
+    function CyclePosition({ mob }) {
+      const rows = [
+        { m: 'Formation', o: 'V-bottom ponctuel', n: 'U-bottom (mois)' },
+        { m: 'Trigger', o: 'Purge totale vendeurs', n: 'Couche par couche + squeeze' },
+        { m: 'Signal clÃ©', o: 'MVRV wick 0.55', n: 'Supply 50/50 + reserves floor' },
+        { m: 'MÃ©canisme', o: 'Achat spot organique', n: 'Short squeeze + illiquiditÃ©' },
+        { m: 'DurÃ©e', o: 'Semaines', n: 'Mois â†’ explosif' }
+      ];
+      return React.createElement('div', null,
+        React.createElement('div', { style: { fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 10 } }, 'ANCIEN vs NOUVEAU RÃ‰GIME'),
+        React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '70px 1fr 1fr' : '100px 1fr 1fr', gap: 0, fontSize: 12 } },
+          React.createElement('div', { style: { padding: '8px', borderBottom: `1px solid ${DS.surface2}` } }),
+          React.createElement('div', { style: { padding: '8px', borderBottom: `1px solid ${DS.surface2}`, fontSize: 9, letterSpacing: 2, color: DS.text3, fontWeight: 600 } }, 'ANCIEN'),
+          React.createElement('div', { style: { padding: '8px', borderBottom: `1px solid ${DS.surface2}`, fontSize: 9, letterSpacing: 2, color: DS.accent, fontWeight: 600 } }, 'NOUVEAU'),
+          ...rows.flatMap((r, i) => [
+            React.createElement('div', { key: `${i}m`, style: { padding: '8px', borderBottom: `1px solid ${DS.surface2}`, color: DS.text2, fontWeight: 600, fontSize: 11 } }, r.m),
+            React.createElement('div', { key: `${i}o`, style: { padding: '8px', borderBottom: `1px solid ${DS.surface2}`, color: DS.text3, fontSize: 11 } }, r.o),
+            React.createElement('div', { key: `${i}n`, style: { padding: '8px', borderBottom: `1px solid ${DS.surface2}`, color: DS.text2, fontSize: 11 } }, r.n)
+          ])
+        ),
+        React.createElement('div', { style: { marginTop: 24, fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 10 } }, 'CONVERGENCE TIMING'),
+        ...TIMING.map((t, i) => React.createElement('div', {
+          key: i, style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: `1px solid ${DS.surface2}` }
+        },
+          React.createElement('div', { style: { fontSize: 12, color: DS.text2, fontWeight: 500 } }, t.m),
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 10 } },
+            !mob && React.createElement('span', { style: { fontSize: 10, fontFamily: DS.mono, color: DS.text3 } }, t.calc),
+            React.createElement('span', { style: { fontSize: 14, fontWeight: 700, color: DS.accent, fontFamily: DS.mono } }, t.result)
+          )
+        )),
+        React.createElement('div', {
+          style: { background: DS.surface, border: `1px solid ${DS.accent}20`, borderRadius: 6, padding: '14px 16px', marginTop: 14, textAlign: 'center' }
+        },
+          React.createElement('div', { style: { fontSize: 9, letterSpacing: 3, color: DS.accent, opacity: 0.5 } }, 'CONSENSUS'),
+          React.createElement('div', { style: { fontSize: mob ? 18 : 24, fontWeight: 800, color: DS.accent, fontFamily: DS.mono, marginTop: 4 } }, 'SEP â€” NOV 2026')
+        )
+      );
+    }
+
+    function OnChainDepth({ price, mob, levels }) {
+      return React.createElement('div', null,
+        (levels || OCLEVELS).map((l, i) => {
+          const dist = ((price - l.v) / price) * 100;
+          const below = price < l.v;
+          const pct = Math.min(100, Math.max(0, (l.v / ATH) * 100));
+          const pricePct = Math.min(100, Math.max(0, (price / ATH) * 100));
+          return React.createElement('div', {
+            key: l.k, style: { display: 'grid', gridTemplateColumns: mob ? '80px 1fr 60px' : '120px 1fr 80px', alignItems: 'center', gap: 10, marginBottom: 6, opacity: below ? 0.4 : 1 }
+          },
+            React.createElement('div', { style: { textAlign: 'right' } },
+              React.createElement('div', { style: { fontSize: 11, fontWeight: 600, color: l.c } }, l.l)
+            ),
+            React.createElement('div', { style: { position: 'relative', height: 6, background: DS.surface2, borderRadius: 3, overflow: 'hidden' } },
+              React.createElement('div', { style: { position: 'absolute', left: `${pct}%`, top: 0, bottom: 0, width: 2, background: l.c, opacity: 0.4, borderRadius: 1 } }),
+              i === 0 && React.createElement('div', { style: { position: 'absolute', left: `${pricePct}%`, top: -2, bottom: -2, width: 3, background: DS.accent, borderRadius: 2 } }),
+              !below && React.createElement('div', { style: { position: 'absolute', left: `${pct}%`, top: 0, bottom: 0, width: `${pricePct - pct}%`, background: `${l.c}10`, borderRadius: 2 } })
+            ),
+            React.createElement('div', { style: { fontFamily: DS.mono, fontSize: 11 } },
+              React.createElement('span', { style: { color: l.c } }, fK(l.v)),
+              React.createElement('span', { style: { color: DS.text3, fontSize: 9, marginLeft: 4 } }, `${below ? '+' : '-'}${Math.abs(dist).toFixed(0)}%`)
+            )
+          );
+        }),
+        React.createElement('div', { style: { marginTop: 16 } },
+          [{ l: "C0 '11", d: 93 }, { l: "C1 '15", d: 87 }, { l: "C2 '18", d: 84 }, { l: "C3 '22", d: 78 }].map((x, i) =>
+            React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 } },
+              React.createElement('div', { style: { width: 50, fontSize: 10, color: DS.text3, fontFamily: DS.mono, textAlign: 'right' } }, x.l),
+              React.createElement('div', { style: { flex: 1, height: 5, background: DS.surface2, borderRadius: 3, overflow: 'hidden' } },
+                React.createElement('div', { style: { height: '100%', width: `${x.d}%`, background: `${DS.down}25`, borderRadius: 3 } })
+              ),
+              React.createElement('div', { style: { width: 35, fontSize: 11, fontWeight: 600, color: DS.down, fontFamily: DS.mono, textAlign: 'right', opacity: 0.7 } }, `-${x.d}%`)
+            )
+          ),
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 8, marginTop: 6, paddingTop: 6, borderTop: `1px dashed ${DS.surface2}` } },
+            React.createElement('div', { style: { width: 50, fontSize: 10, color: DS.warn, fontFamily: DS.mono, textAlign: 'right' } }, 'C4 proj.'),
+            React.createElement('div', { style: { flex: 1, height: 5, background: DS.surface2, borderRadius: 3, overflow: 'hidden' } },
+              React.createElement('div', { style: { height: '100%', width: '60%', background: `${DS.warn}30`, borderRadius: 3 } })
+            ),
+            React.createElement('div', { style: { width: 35, fontSize: 11, fontWeight: 600, color: DS.warn, fontFamily: DS.mono, textAlign: 'right' } }, '-60%')
+          )
+        )
+      );
+    }
+
+
+    // ======== PRICE HISTORY CHART (canvas) ========
+    function PriceHistoryChart({ hist, mob }) {
+      const ref = useRef(null);
+      const [period, setPeriod] = useState(365);
+
+      const filtered = useMemo(() => {
+        if (!hist?.prices) return [];
+        const cutoff = Date.now() - period * 86400000;
+        return hist.prices.filter(p => p.ts >= cutoff);
+      }, [hist, period]);
+
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv || !filtered.length) return;
+        const ctx = cv.getContext('2d');
+        const W = cv.parentElement.clientWidth, H = mob ? 220 : 300;
+        cv.width = W * 2; cv.height = H * 2;
+        cv.style.width = W + 'px'; cv.style.height = H + 'px';
+        ctx.scale(2, 2);
+        const pad = { t: 20, r: 60, b: 30, l: 10 };
+        const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+        const prices = filtered.map(p => p.price);
+        const mn = Math.min(...prices) * 0.98, mx = Math.max(...prices) * 1.02;
+        const x = i => pad.l + i / (filtered.length - 1) * cw;
+        const y = v => pad.t + (1 - (v - mn) / (mx - mn)) * ch;
+
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < 5; i++) {
+          const gy = pad.t + i / 4 * ch;
+          ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(W - pad.r, gy); ctx.stroke();
+          const val = mx - i / 4 * (mx - mn);
+          ctx.fillStyle = 'rgba(255,255,255,0.2)';
+          ctx.font = '10px ' + DS.mono;
+          ctx.textAlign = 'right';
+          ctx.fillText('$' + (val / 1000).toFixed(0) + 'K', W - pad.r + 45, gy + 4);
+        }
+
+        const grad = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+        grad.addColorStop(0, DS.accent + '25');
+        grad.addColorStop(1, DS.accent + '00');
+        ctx.beginPath();
+        ctx.moveTo(x(0), H - pad.b);
+        filtered.forEach((p, i) => ctx.lineTo(x(i), y(p.price)));
+        ctx.lineTo(x(filtered.length - 1), H - pad.b);
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        ctx.beginPath();
+        filtered.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), y(p.price)) : ctx.lineTo(x(i), y(p.price)));
+        ctx.strokeStyle = DS.accent;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.beginPath();
+        let started = false;
+        filtered.forEach((p, i) => {
+          if (p.ma200) {
+            if (!started) { ctx.moveTo(x(i), y(p.ma200)); started = true; }
+            else ctx.lineTo(x(i), y(p.ma200));
+          }
+        });
+        ctx.strokeStyle = DS.warn + '80';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 3]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.font = '9px ' + DS.mono;
+        ctx.textAlign = 'center';
+        const step = Math.max(1, Math.floor(filtered.length / 6));
+        for (let i = 0; i < filtered.length; i += step) {
+          const d = filtered[i].date;
+          ctx.fillText(d.getDate() + '/' + (d.getMonth() + 1), x(i), H - 8);
+        }
+
+        const last = filtered[filtered.length - 1];
+        ctx.beginPath();
+        ctx.arc(x(filtered.length - 1), y(last.price), 4, 0, Math.PI * 2);
+        ctx.fillStyle = DS.accent;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(x(filtered.length - 1), y(last.price), 8, 0, Math.PI * 2);
+        ctx.fillStyle = DS.accent + '30';
+        ctx.fill();
+      }, [filtered, mob]);
+
+      if (!hist) return React.createElement('div', { style: { textAlign: 'center', color: DS.text3, padding: 40 } }, 'Chargement historique...');
+
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', gap: 6, marginBottom: 12 } },
+          [30, 90, 365, 1460, 2920].map(d =>
+            React.createElement('button', {
+              key: d,
+              onClick: () => setPeriod(d),
+              style: {
+                padding: '6px 14px', borderRadius: 6, fontSize: 11,
+                fontWeight: period === d ? 600 : 400,
+                background: period === d ? DS.accent + '15' : DS.surface,
+                border: '1px solid ' + (period === d ? DS.accent + '30' : DS.border),
+                color: period === d ? DS.accent : DS.text3,
+                transition: 'all 0.2s'
+              }
+            }, d < 365 ? d + 'j' : d === 365 ? '1an' : d === 1460 ? '4ans' : '8ans')
+          )
+        ),
+        React.createElement('div', { style: { display: 'flex', gap: 12, marginBottom: 8, fontSize: 10, color: DS.text3 } },
+          React.createElement('span', null, '\u2501 ', React.createElement('span', { style: { color: DS.accent } }, 'Prix')),
+          React.createElement('span', null, '\u2564 ', React.createElement('span', { style: { color: DS.warn } }, 'MA200'))
+        ),
+        React.createElement('canvas', { ref })
+      );
+    }
+
+    // ======== PI CYCLE TOP INDICATOR (canvas) ========
+    function PiCycleChart({ hist, mob }) {
+      const ref = useRef(null);
+      const data = useMemo(() => {
+        if (!hist?.prices) return null;
+        const cutoff = Date.now() - 4 * 365 * 86400000;
+        return hist.prices.filter(p => p.ts >= cutoff && p.ma111 && p.ma350x2);
+      }, [hist]);
+
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv || !data?.length) return;
+        const ctx = cv.getContext('2d');
+        const W = cv.parentElement.clientWidth, H = mob ? 220 : 300;
+        cv.width = W * 2; cv.height = H * 2;
+        cv.style.width = W + 'px'; cv.style.height = H + 'px';
+        ctx.scale(2, 2);
+        const pad = { t: 20, r: 60, b: 30, l: 10 };
+        const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+        const all = data.flatMap(p => [p.price, p.ma111, p.ma350x2]);
+        const mn = Math.min(...all) * 0.95, mx = Math.max(...all) * 1.05;
+        const x = i => pad.l + i / (data.length - 1) * cw;
+        const y = v => pad.t + (1 - (v - mn) / (mx - mn)) * ch;
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < 5; i++) {
+          const gy = pad.t + i / 4 * ch;
+          ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(W - pad.r, gy); ctx.stroke();
+          const val = mx - i / 4 * (mx - mn);
+          ctx.fillStyle = 'rgba(255,255,255,0.2)';
+          ctx.font = '10px ' + DS.mono;
+          ctx.textAlign = 'right';
+          ctx.fillText('$' + (val / 1000).toFixed(0) + 'K', W - pad.r + 45, gy + 4);
+        }
+
+        // Price line (faint)
+        ctx.beginPath();
+        data.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), y(p.price)) : ctx.lineTo(x(i), y(p.price)));
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // 111 DMA
+        ctx.beginPath();
+        data.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), y(p.ma111)) : ctx.lineTo(x(i), y(p.ma111)));
+        ctx.strokeStyle = DS.up;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // 350 DMA x2
+        ctx.beginPath();
+        data.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), y(p.ma350x2)) : ctx.lineTo(x(i), y(p.ma350x2)));
+        ctx.strokeStyle = DS.down;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Cross markers
+        if (hist?.crosses) {
+          hist.crosses.forEach(cr => {
+            const idx = data.findIndex(p => Math.abs(p.ts - (cr.date?.getTime?.() || cr.date)) < 86400000 * 2);
+            if (idx >= 0) {
+              ctx.beginPath();
+              ctx.arc(x(idx), y(data[idx].price), 6, 0, Math.PI * 2);
+              ctx.fillStyle = DS.down + '50';
+              ctx.fill();
+              ctx.beginPath();
+              ctx.arc(x(idx), y(data[idx].price), 3, 0, Math.PI * 2);
+              ctx.fillStyle = DS.down;
+              ctx.fill();
+              ctx.fillStyle = DS.down;
+              ctx.font = 'bold 9px ' + DS.font;
+              ctx.textAlign = 'center';
+              ctx.fillText('TOP', x(idx), y(data[idx].price) - 12);
+            }
+          });
+        }
+
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.font = '9px ' + DS.mono;
+        ctx.textAlign = 'center';
+        const step = Math.max(1, Math.floor(data.length / 6));
+        for (let i = 0; i < data.length; i += step) {
+          ctx.fillText((data[i].date.getMonth() + 1) + '/' + (data[i].date.getFullYear() % 100), x(i), H - 8);
+        }
+      }, [data, hist, mob]);
+
+      if (!data) return React.createElement('div', { style: { textAlign: 'center', color: DS.text3, padding: 40 } }, 'Chargement Pi Cycle...');
+
+      const last = data[data.length - 1];
+      const gap = last ? (last.ma350x2 - last.ma111) / last.ma350x2 * 100 : 0;
+      const nearCross = gap < 10;
+
+      const cardS = { background: DS.surface, border: '1px solid ' + DS.border, borderRadius: 6 };
+
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', gap: 12, marginBottom: 12, fontSize: 10, color: DS.text3 } },
+          React.createElement('span', null, '\u2501 ', React.createElement('span', { style: { color: DS.up } }, '111 DMA')),
+          React.createElement('span', null, '\u2501 ', React.createElement('span', { style: { color: DS.down } }, '350 DMA \u00D7 2')),
+          React.createElement('span', null, '\u25AC ', React.createElement('span', { style: { color: 'rgba(255,255,255,0.15)' } }, 'Prix'))
+        ),
+        React.createElement('canvas', { ref }),
+        React.createElement('div', { style: { marginTop: 12, display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr 1fr', gap: 10 } },
+          [
+            { l: '111 DMA', v: last ? fP(Math.round(last.ma111)) : '\u2014', c: DS.up },
+            { l: '350 DMA \u00D7 2', v: last ? fP(Math.round(last.ma350x2)) : '\u2014', c: DS.down },
+            { l: '\u00C9cart', v: gap.toFixed(1) + '%', c: nearCross ? DS.down : DS.up }
+          ].map(d =>
+            React.createElement('div', {
+              key: d.l,
+              style: { ...cardS, padding: '10px 14px', textAlign: 'center', borderColor: d.c + '15' }
+            },
+              React.createElement('div', { style: { fontSize: 9, color: DS.text3, letterSpacing: 2 } }, d.l.toUpperCase()),
+              React.createElement('div', { style: { fontSize: 20, fontWeight: 700, fontFamily: DS.mono, color: d.c, marginTop: 4 } }, d.v)
+            )
+          )
+        ),
+        React.createElement('div', { style: { marginTop: 10, fontSize: 11, color: DS.text3, lineHeight: 1.6 } },
+          nearCross
+            ? '\u26A0\uFE0F Les deux moyennes convergent \u2014 signal de top potentiel !'
+            : 'Le 111 DMA est ' + gap.toFixed(0) + '% sous le 350 DMA\u00D72. Quand ils se croisent = signal de top historique (pr\u00E9cision 3/4 cycles).',
+          hist?.crosses?.length ? ' Derniers croisements d\u00E9tect\u00E9s: ' + hist.crosses.length : ''
+        )
+      );
+    }
+
+    // ======== RAINBOW CHART (canvas) ========
+    function RainbowChart({ hist, currentPrice, mob }) {
+      const ref = useRef(null);
+      const GENESIS = new Date('2009-01-09').getTime();
+      const A = 2.66167155005961, B = -17.9183761889864;
+      const BAND_LABELS = ['\uD83D\uDD34 Maximum Bubble', '\uD83D\uDFE0 SELL!', '\uD83D\uDFE7 FOMO', '\uD83D\uDFE1 Bulle?', '\uD83D\uDFE2 HODL!', '\uD83D\uDC9A Encore cheap', '\uD83D\uDD35 Accumulate', '\uD83D\uDC99 BUY!', '\uD83D\uDD37 Fire Sale'];
+      const BAND_COLORS = ['#991b1b', '#dc2626', '#f97316', '#eab308', '#84cc16', '#22c55e', '#06b6d4', '#3b82f6', '#1d4ed8'];
+
+      const rainbow = useCallback(days => {
+        if (days <= 0) return null;
+        const base = Math.pow(10, A * Math.log(days) + B);
+        return [5.5, 3.5, 2.2, 1.5, 1.0, 0.7, 0.47, 0.32, 0.21].map(m => base * m);
+      }, []);
+
+      const data = useMemo(() => {
+        if (!hist?.prices) return null;
+        const cutoff = Date.now() - 6 * 365 * 86400000;
+        return hist.prices.filter(p => p.ts >= cutoff);
+      }, [hist]);
+
+      const currentBand = useMemo(() => {
+        if (!currentPrice) return null;
+        const days = (Date.now() - GENESIS) / 86400000;
+        const bands = rainbow(days);
+        if (!bands) return null;
+        for (let i = 0; i < bands.length; i++) {
+          if (currentPrice >= bands[i]) return { index: i, label: BAND_LABELS[i], color: BAND_COLORS[i] };
+        }
+        return { index: 8, label: BAND_LABELS[8], color: BAND_COLORS[8] };
+      }, [currentPrice, rainbow]);
+
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv || !data?.length) return;
+        const ctx = cv.getContext('2d');
+        const W = cv.parentElement.clientWidth, H = mob ? 260 : 340;
+        cv.width = W * 2; cv.height = H * 2;
+        cv.style.width = W + 'px'; cv.style.height = H + 'px';
+        ctx.scale(2, 2);
+        const pad = { t: 20, r: 60, b: 30, l: 10 };
+        const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+        const allPrices = data.map(p => p.price);
+        const allBands = data.flatMap(p => {
+          const bands = rainbow((p.ts - GENESIS) / 86400000);
+          return bands ? [bands[0], bands[8]] : [];
+        });
+        const mnLog = Math.log10(Math.min(...allPrices, ...allBands.filter(b => b > 0)) * 0.8);
+        const mxLog = Math.log10(Math.max(...allPrices, ...allBands) * 1.2);
+        const x = i => pad.l + i / (data.length - 1) * cw;
+        const yLog = v => v > 0 ? pad.t + (1 - (Math.log10(v) - mnLog) / (mxLog - mnLog)) * ch : H;
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Band fills
+        for (let b = 0; b < 8; b++) {
+          ctx.beginPath();
+          data.forEach((p, i) => {
+            const bands = rainbow((p.ts - GENESIS) / 86400000);
+            if (!bands) return;
+            if (i === 0) ctx.moveTo(x(i), yLog(bands[b]));
+            else ctx.lineTo(x(i), yLog(bands[b]));
+          });
+          for (let i2 = data.length - 1; i2 >= 0; i2--) {
+            const bands = rainbow((data[i2].ts - GENESIS) / 86400000);
+            if (!bands) continue;
+            ctx.lineTo(x(i2), yLog(bands[b + 1]));
+          }
+          ctx.closePath();
+          ctx.fillStyle = BAND_COLORS[b] + '25';
+          ctx.fill();
+        }
+
+        // Band lines
+        for (let b = 0; b < 9; b++) {
+          ctx.beginPath();
+          data.forEach((p, i) => {
+            const bands = rainbow((p.ts - GENESIS) / 86400000);
+            if (!bands) return;
+            if (i === 0) ctx.moveTo(x(i), yLog(bands[b]));
+            else ctx.lineTo(x(i), yLog(bands[b]));
+          });
+          ctx.strokeStyle = BAND_COLORS[b] + '40';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+
+        // Price line
+        ctx.beginPath();
+        data.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), yLog(p.price)) : ctx.lineTo(x(i), yLog(p.price)));
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Y axis labels
+        ctx.fillStyle = 'rgba(255,255,255,0.2)';
+        ctx.font = '10px ' + DS.mono;
+        ctx.textAlign = 'right';
+        [1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000].forEach(v => {
+          if (Math.log10(v) >= mnLog && Math.log10(v) <= mxLog) {
+            const gy = yLog(v);
+            ctx.fillText(v >= 1000 ? '$' + (v / 1000).toFixed(0) + 'K' : '$' + v, W - pad.r + 45, gy + 4);
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 0.5;
+            ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(W - pad.r, gy); ctx.stroke();
+          }
+        });
+
+        // X axis dates
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.font = '9px ' + DS.mono;
+        ctx.textAlign = 'center';
+        const step = Math.max(1, Math.floor(data.length / 6));
+        for (let i = 0; i < data.length; i += step) {
+          ctx.fillText((data[i].date.getMonth() + 1) + '/' + (data[i].date.getFullYear() % 100), x(i), H - 8);
+        }
+
+        // Current dot
+        const lastX = x(data.length - 1), lastY = yLog(data[data.length - 1].price);
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+      }, [data, mob, rainbow]);
+
+      if (!data) return React.createElement('div', { style: { textAlign: 'center', color: DS.text3, padding: 40 } }, 'Chargement Rainbow Chart...');
+
+      const cardS = { background: DS.surface, border: '1px solid ' + DS.border, borderRadius: 6 };
+
+      return React.createElement('div', null,
+        React.createElement('canvas', { ref }),
+        currentBand && React.createElement('div', {
+          style: { ...cardS, marginTop: 12, display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderColor: currentBand.color + '30' }
+        },
+          React.createElement('div', { style: { fontSize: 28 } }, currentBand.label.slice(0, 2)),
+          React.createElement('div', null,
+            React.createElement('div', { style: { fontSize: 13, fontWeight: 600, color: currentBand.color } }, currentBand.label.slice(3)),
+            React.createElement('div', { style: { fontSize: 11, color: DS.text3, marginTop: 2 } }, 'BTC est dans la bande ' + (currentBand.index + 1) + '/9 du Rainbow Chart')
+          )
+        ),
+        React.createElement('div', { style: { marginTop: 10, fontSize: 11, color: DS.text3, lineHeight: 1.6 } },
+          'R\u00E9gression logarithmique sur l\'historique BTC. Les bandes basses (bleu) = sous-\u00E9valu\u00E9, les bandes hautes (rouge) = bulle. \u00C9chelle logarithmique.'
+        )
+      );
+    }
+
+    // ======== BACKTEST PANEL (canvas + sliders) ========
+    function BacktestPanel({ hist, mob }) {
+      const ref = useRef(null);
+      const [buyTh, setBuyTh] = useState(20);
+      const [sellTh, setSellTh] = useState(80);
+
+      const bt = useMemo(() => {
+        if (!hist?.prices) return null;
+        const prices = hist.prices.filter(p => p.ma200);
+        if (prices.length < 100) return null;
+        const trades = [];
+        let holding = false, buyPrice = 0, invested = 0, btcHeld = 0;
+
+        const scores = prices.map((p, i) => {
+          const mayer = p.ma200 ? p.price / p.ma200 : 1;
+          const s_mayer = mayer < 0.6 ? 5 : mayer < 0.8 ? 15 : mayer < 1.0 ? 30 : mayer < 1.5 ? 50 : mayer < 2.4 ? 75 : 95;
+          const lookback = prices.slice(Math.max(0, i - 365), i + 1);
+          const localATH = Math.max(...lookback.map(x => x.price));
+          const dd = (localATH - p.price) / localATH * 100;
+          const s_dd = dd > 70 ? 5 : dd > 50 ? 15 : dd > 30 ? 35 : dd > 15 ? 55 : dd > 5 ? 75 : 90;
+          const dist200 = (p.price / p.ma200 - 1) * 100;
+          const s_dist = dist200 < -40 ? 5 : dist200 < -20 ? 15 : dist200 < 0 ? 30 : dist200 < 30 ? 50 : dist200 < 60 ? 75 : 95;
+          const p30 = i >= 30 ? prices[i - 30].price : p.price;
+          const mom = (p.price / p30 - 1) * 100;
+          const s_mom = mom < -30 ? 5 : mom < -15 ? 15 : mom < -5 ? 30 : mom < 10 ? 50 : mom < 30 ? 70 : 90;
+          const score = Math.round((s_mayer + s_dd + s_dist + s_mom) / 4);
+
+          if (!holding && score <= buyTh) {
+            holding = true; buyPrice = p.price;
+            invested += 10000; btcHeld += 10000 / p.price;
+            trades.push({ type: 'BUY', date: p.date, price: p.price, score });
+          } else if (holding && score >= sellTh) {
+            const value = btcHeld * p.price;
+            trades.push({ type: 'SELL', date: p.date, price: p.price, score, profit: (value / invested - 1) * 100 });
+            holding = false;
+          }
+          return { ...p, score };
+        });
+
+        const finalValue = holding ? btcHeld * prices[prices.length - 1].price : invested * (trades.length > 0 ? 1 + trades.filter(t => t.profit).reduce((s, t) => s + t.profit / 100, 0) : 1);
+        const hodlReturn = (prices[prices.length - 1].price / prices[0].price - 1) * 100;
+        const stratReturn = invested > 0 ? (finalValue / invested - 1) * 100 : 0;
+
+        return { scores, trades, invested, finalValue, hodlReturn, stratReturn, holding, btcHeld };
+      }, [hist, buyTh, sellTh]);
+
+      useEffect(() => {
+        const cv = ref.current;
+        if (!cv || !bt?.scores?.length) return;
+        const ctx = cv.getContext('2d');
+        const W = cv.parentElement.clientWidth, H = mob ? 200 : 260;
+        cv.width = W * 2; cv.height = H * 2;
+        cv.style.width = W + 'px'; cv.style.height = H + 'px';
+        ctx.scale(2, 2);
+        const pad = { t: 20, r: 40, b: 30, l: 10 };
+        const cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+        const x = i => pad.l + i / (bt.scores.length - 1) * cw;
+        const y = v => pad.t + (1 - v / 100) * ch;
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Buy/Sell zones
+        ctx.fillStyle = DS.up + '08';
+        ctx.fillRect(pad.l, y(buyTh), cw, ch - (ch - (y(buyTh) - pad.t)));
+        ctx.fillStyle = DS.down + '08';
+        ctx.fillRect(pad.l, pad.t, cw, y(sellTh) - pad.t);
+
+        // Threshold lines
+        ctx.setLineDash([4, 3]);
+        ctx.strokeStyle = DS.up + '40';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad.l, y(buyTh)); ctx.lineTo(W - pad.r, y(buyTh)); ctx.stroke();
+        ctx.strokeStyle = DS.down + '40';
+        ctx.beginPath(); ctx.moveTo(pad.l, y(sellTh)); ctx.lineTo(W - pad.r, y(sellTh)); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Score line
+        ctx.beginPath();
+        bt.scores.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), y(p.score)) : ctx.lineTo(x(i), y(p.score)));
+        ctx.strokeStyle = DS.purple;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Trade dots
+        bt.trades.forEach(t => {
+          const idx = bt.scores.findIndex(s => Math.abs(s.ts - (t.date?.getTime?.() || t.date)) < 86400000 * 2);
+          if (idx < 0) return;
+          ctx.beginPath();
+          ctx.arc(x(idx), y(t.score), 4, 0, Math.PI * 2);
+          ctx.fillStyle = t.type === 'BUY' ? DS.up : DS.down;
+          ctx.fill();
+        });
+
+        // Y axis
+        ctx.fillStyle = 'rgba(255,255,255,0.2)';
+        ctx.font = '10px ' + DS.mono;
+        ctx.textAlign = 'right';
+        [0, 25, 50, 75, 100].forEach(v => {
+          ctx.fillText(v, W - pad.r + 25, y(v) + 4);
+          ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath(); ctx.moveTo(pad.l, y(v)); ctx.lineTo(W - pad.r, y(v)); ctx.stroke();
+        });
+
+        // Labels
+        ctx.font = 'bold 9px ' + DS.font;
+        ctx.fillStyle = DS.up;
+        ctx.textAlign = 'left';
+        ctx.fillText('BUY \u2264 ' + buyTh, pad.l + 4, y(buyTh) + 14);
+        ctx.fillStyle = DS.down;
+        ctx.fillText('SELL \u2265 ' + sellTh, pad.l + 4, y(sellTh) - 6);
+      }, [bt, buyTh, sellTh, mob]);
+
+      if (!bt) return React.createElement('div', { style: { textAlign: 'center', color: DS.text3, padding: 40 } }, 'Chargement backtest...');
+
+      const cardS = { background: DS.surface, border: '1px solid ' + DS.border, borderRadius: 6 };
+
+      return React.createElement('div', null,
+        React.createElement('div', { style: { display: 'flex', gap: 16, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' } },
+          React.createElement('label', { style: { fontSize: 11, color: DS.text2, display: 'flex', alignItems: 'center', gap: 6 } },
+            'Achat \u2264',
+            React.createElement('input', { type: 'range', min: 5, max: 40, value: buyTh, onChange: e => setBuyTh(+e.target.value), style: { width: 80, accentColor: DS.up } }),
+            React.createElement('span', { style: { fontFamily: DS.mono, color: DS.up, fontWeight: 700, width: 24 } }, buyTh)
+          ),
+          React.createElement('label', { style: { fontSize: 11, color: DS.text2, display: 'flex', alignItems: 'center', gap: 6 } },
+            'Vente \u2265',
+            React.createElement('input', { type: 'range', min: 60, max: 95, value: sellTh, onChange: e => setSellTh(+e.target.value), style: { width: 80, accentColor: DS.down } }),
+            React.createElement('span', { style: { fontFamily: DS.mono, color: DS.down, fontWeight: 700, width: 24 } }, sellTh)
+          )
+        ),
+        React.createElement('canvas', { ref }),
+        React.createElement('div', { style: { marginTop: 14, display: 'grid', gridTemplateColumns: mob ? '1fr 1fr' : 'repeat(4, 1fr)', gap: 10 } },
+          [
+            { l: 'Trades', v: bt.trades.length, c: DS.purple },
+            { l: 'Rendement Strat.', v: (bt.stratReturn >= 0 ? '+' : '') + bt.stratReturn.toFixed(0) + '%', c: bt.stratReturn > 0 ? DS.up : DS.down },
+            { l: 'HODL Return', v: '+' + bt.hodlReturn.toFixed(0) + '%', c: DS.accent },
+            { l: 'Status', v: bt.holding ? 'In (' + bt.btcHeld.toFixed(3) + ' BTC)' : 'Cash', c: bt.holding ? DS.up : DS.text2 }
+          ].map(d =>
+            React.createElement('div', {
+              key: d.l,
+              style: { ...cardS, padding: '10px 14px', textAlign: 'center', borderColor: d.c + '15' }
+            },
+              React.createElement('div', { style: { fontSize: 9, color: DS.text3, letterSpacing: 2 } }, d.l.toUpperCase()),
+              React.createElement('div', { style: { fontSize: 20, fontWeight: 700, fontFamily: DS.mono, color: d.c, marginTop: 4 } }, d.v)
+            )
+          )
+        ),
+        React.createElement('div', { style: { marginTop: 10, fontSize: 11, color: DS.text3, lineHeight: 1.6 } },
+          'Score approx. (price-only: Mayer, drawdown, dist. MA200, momentum 30j). ' + bt.trades.length + ' trades. ',
+          bt.stratReturn > bt.hodlReturn ? 'La strat\u00E9gie bat le HODL ! \uD83C\uDFAF' : 'Le HODL simple reste sup\u00E9rieur sur cette p\u00E9riode.',
+          ' Ajuste les seuils. \u26A0\uFE0F Not financial advice.'
+        )
+      );
+    }
+
+    // ======== MAIN DASHBOARD ========
+    function Dashboard() {
+      const { mob } = useScreen();
+      const data = useLiveData();
+      const calc = useCalc(data);
+      const hist = useHistoricalData();
+      const [tab, setTab] = useState('onchain');
+      const [ready, setReady] = useState(false);
+      useEffect(() => { setTimeout(() => setReady(true), 100); }, []);
+
+      const ocLevels = useMemo(() => [
+        { k: 'ma111', l: '111-Day MA', v: MA111, c: DS.down },
+        { k: 'ma2y', l: '2-Year MA', v: MA2Y, c: DS.warn },
+        { k: 'sth_rp', l: 'STH Real. Price', v: calc.sthRp, c: DS.accent },
+        { k: 'w200', l: '200-Week MA', v: W200, c: DS.blue },
+        { k: 'rp', l: 'Realized Price', v: calc.rp, c: DS.purple },
+        { k: 'cvdd', l: 'CVDD', v: CVDD, c: DS.pink },
+        { k: 'lth_rp', l: 'LTH Real. Price', v: calc.lthRp, c: DS.up }
+      ], [calc.rp, calc.sthRp, calc.lthRp]);
+
+      const g = mob ? 8 : 12;
+      const cardS = { background: DS.surface, border: '1px solid ' + DS.border, borderRadius: 6 };
+
+      const section = t => React.createElement('div', {
+        style: { fontSize: 10, letterSpacing: 3, color: DS.text3, fontWeight: 600, marginBottom: 14, textTransform: 'uppercase' }
+      }, t);
+
+      return React.createElement('div', {
+        style: {
+          minHeight: '100vh', background: DS.bg, color: DS.text, fontFamily: DS.font,
+          padding: mob ? '16px 10px' : '24px 20px', maxWidth: 1000, margin: '0 auto',
+          opacity: ready ? 1 : 0, transition: 'opacity 0.6s ease-out'
+        }
+      },
+        // ---- HEADER ----
+        React.createElement('div', {
+          style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: mob ? 20 : 28, padding: '0 2px' }
+        },
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: mob ? 10 : 16 } },
+            React.createElement('div', { style: { fontSize: 13, letterSpacing: 5, color: DS.text3, fontWeight: 700 } }, 'BTC CYCLE'),
+            React.createElement('div', { style: { display: 'inline-flex', alignItems: 'center', gap: 6 } },
+              React.createElement('div', {
+                style: { width: 7, height: 7, borderRadius: '50%', background: data.loading ? DS.warn : data.live ? DS.up : DS.down }
+              }),
+              React.createElement('span', { style: { fontSize: 10, color: DS.text3, letterSpacing: 1, fontWeight: 500 } },
+                data.loading ? 'LOADING' : data.live ? 'LIVE' : 'OFFLINE'
+              )
+            )
+          ),
+          React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: mob ? 12 : 24 } },
+            React.createElement('div', { style: { textAlign: 'right' } },
+              React.createElement('div', { style: { fontSize: 9, color: DS.text3, letterSpacing: 2 } }, 'CYCLE DAY'),
+              React.createElement('div', { style: { fontSize: 18, fontWeight: 700, fontFamily: DS.mono, color: DS.text } },
+                calc.cycleDay,
+                React.createElement('span', { style: { fontSize: 11, color: DS.text3 } }, '/~1400')
+              )
+            ),
+            React.createElement('div', { style: { textAlign: 'right' } },
+              React.createElement('div', { style: { fontSize: 9, color: DS.text3, letterSpacing: 2 } }, 'BEAR PROG.'),
+              React.createElement('div', { style: { fontSize: 18, fontWeight: 700, fontFamily: DS.mono, color: DS.down } },
+                calc.bearProg.toFixed(0), '%'
+              )
+            )
+          )
+        ),
+
+        // ---- PRICE + COMPOSITE CARDS ----
+        React.createElement('div', {
+          style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: g, marginBottom: g }
+        },
+          // Price card
+          React.createElement('div', {
+            style: { ...cardS, padding: mob ? '24px 16px' : '32px 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }
+          },
+            React.createElement('div', { style: { fontSize: 11, letterSpacing: 5, color: DS.accent, opacity: 0.4, marginBottom: 8 } }, 'BITCOIN'),
+            React.createElement('div', {
+              style: { fontSize: mob ? 40 : 52, fontWeight: 800, fontFamily: DS.mono, color: DS.text, letterSpacing: -2 }
+            }, fP(data.price)),
+            data.loading && React.createElement('div', {
+              style: {
+                fontSize: 11, color: DS.accent, fontFamily: DS.mono, marginTop: 6,
+                padding: '5px 14px', background: DS.accent + '08', borderRadius: 20,
+                border: '1px solid ' + DS.accent + '12', display: 'flex', alignItems: 'center', gap: 8
+              }
+            },
+              React.createElement('span', {
+                style: { display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: DS.accent, animation: 'pulse 1.2s infinite' }
+              }),
+              'Chargement des donn\u00E9es live...'
+            ),
+            React.createElement('div', { style: { display: 'flex', gap: 16, marginTop: 8 } },
+              React.createElement('span', { style: { fontSize: 14, fontWeight: 600, color: DS.down, fontFamily: DS.mono } },
+                '-', calc.drop.toFixed(1), '% ATH'
+              ),
+              React.createElement('span', {
+                style: { fontSize: 14, fontWeight: 600, color: data.change24h >= 0 ? DS.up : DS.down, fontFamily: DS.mono }
+              }, fPct(data.change24h), ' 24h')
+            ),
+            React.createElement('div', {
+              style: { display: 'flex', gap: mob ? 14 : 28, marginTop: 16, flexWrap: 'wrap', justifyContent: 'center' }
+            },
+              [
+                { l: 'MCap', v: fB(data.marketCap) },
+                { l: 'Dom.', v: data.dominance.toFixed(1) + '%' },
+                { l: 'Vol 24h', v: fB(data.volume24h) },
+                { l: 'To Bottom', v: calc.dBot + 'd', c: DS.down }
+              ].map(d =>
+                React.createElement('div', { key: d.l, style: { textAlign: 'center' } },
+                  React.createElement('div', { style: { fontSize: 9, color: DS.text3, letterSpacing: 2 } }, d.l.toUpperCase()),
+                  React.createElement('div', { style: { fontSize: 14, fontWeight: 600, fontFamily: DS.mono, color: d.c || DS.text2, marginTop: 2 } }, d.v)
+                )
+              )
+            )
+          ),
+
+          // Composite card
+          React.createElement('div', {
+            style: { ...cardS, padding: mob ? '20px 12px' : '24px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }
+          },
+            React.createElement('div', {
+              style: { fontSize: 9, letterSpacing: 4, color: DS.text3, marginBottom: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }
+            }, 'COMPOSITE SCORE', React.createElement(InfoTip, { text: INFO.composite, mob })),
+            React.createElement(CompositeGauge, { value: calc.composite, mob }),
+            React.createElement('div', {
+              style: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: mob ? 6 : 8, width: '100%', marginTop: 12 }
+            },
+              React.createElement(MiniGauge, { value: calc.onChain, label: 'On-Chain', icon: '\u26D3', mob }),
+              React.createElement(MiniGauge, { value: calc.mktStruct, label: 'March\u00E9', icon: '\uD83D\uDCCA', mob }),
+              React.createElement(MiniGauge, { value: calc.miners, label: 'Miners', icon: '\u26CF', mob }),
+              React.createElement(MiniGauge, { value: calc.derivs, label: 'D\u00E9riv\u00E9s', icon: '\uD83D\uDCC8', mob })
+            )
+          )
+        ),
+
+        // ---- 13 SIGNAL CARDS ----
+        React.createElement('div', {
+          style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : 'repeat(3, 1fr)', gap: g, marginBottom: g }
+        },
+          React.createElement(SignalCard, {
+            title: 'MVRV Ratio', value: calc.mvrv.toFixed(2),
+            status: calc.mvrv < 1 ? 'bullish' : calc.mvrv < 1.5 ? 'bearish' : 'neutral',
+            detail: 'RP: ' + fP(calc.rp) + ' \u00B7 Z-Score: ' + calc.mvrvz.toFixed(2),
+            color: calc.mvrv < 1 ? DS.up : DS.warn, mob, info: INFO.mvrv
+          }),
+          React.createElement(SignalCard, {
+            title: 'Fear & Greed', value: data.fearGreed,
+            status: data.fearGreed < 20 ? 'bullish' : data.fearGreed > 70 ? 'bearish' : 'neutral',
+            detail: data.fgLabel,
+            color: data.fearGreed < 25 ? DS.up : data.fearGreed < 50 ? DS.warn : DS.down, mob, info: INFO.fg
+          }),
+          React.createElement(SignalCard, {
+            title: 'Mining Margin', value: (calc.margin >= 0 ? '+' : '') + calc.margin.toFixed(1), unit: '%',
+            status: calc.margin < 5 ? 'bullish' : calc.margin > 40 ? 'bearish' : 'neutral',
+            detail: 'Cost: ' + fP(MC) + ' \u00B7 ' + (calc.margin < 10 ? 'Capitulation proche' : 'Profitable'),
+            color: calc.margin > 15 ? DS.up : calc.margin > 0 ? DS.warn : DS.down, mob, info: INFO.mining
+          }),
+          React.createElement(SignalCard, {
+            title: 'Funding Rate', value: data.fundingRate.toFixed(3), unit: '%',
+            status: data.fundingRate < -0.01 ? 'bullish' : data.fundingRate > 0.05 ? 'bearish' : 'neutral',
+            detail: 'OI: ' + fB(data.openInterest),
+            color: data.fundingRate < 0 ? DS.up : DS.warn, mob, info: INFO.funding
+          }),
+          React.createElement(SignalCard, {
+            title: 'NUPL', value: data.nupl.toFixed(3),
+            status: data.nupl < 0 ? 'bullish' : data.nupl > 0.6 ? 'bearish' : 'neutral',
+            detail: data.nupl < 0 ? 'Capitulation zone' : 'Holders en profit',
+            color: data.nupl < 0 ? DS.up : data.nupl < 0.4 ? DS.warn : DS.down, mob, info: INFO.nupl
+          }),
+          React.createElement(SignalCard, {
+            title: 'Supply in Profit', value: calc.supplyProfit.toFixed(0), unit: '%',
+            status: calc.supplyProfit < 50 ? 'bullish' : calc.supplyProfit > 90 ? 'bearish' : 'neutral',
+            detail: (data.supplyProfitBtc / 1e6).toFixed(1) + 'M BTC \u00B7 >95% = top',
+            color: calc.supplyProfit < 55 ? DS.up : calc.supplyProfit < 80 ? DS.warn : DS.down, mob, info: INFO.supply
+          }),
+          React.createElement(SignalCard, {
+            title: 'aSOPR', value: (data.asopr || data.sopr).toFixed(3),
+            status: data.asopr < 1 ? 'bullish' : 'neutral',
+            detail: 'SOPR: ' + data.sopr.toFixed(3) + ' \u00B7 <1 = perte nette',
+            color: data.asopr < 1 ? DS.up : DS.warn, mob, info: INFO.asopr
+          }),
+          React.createElement(SignalCard, {
+            title: 'Puell Multiple', value: calc.puell.toFixed(2),
+            status: calc.puell < 0.5 ? 'bullish' : calc.puell > 4 ? 'bearish' : 'neutral',
+            detail: '<0.5 = zone achat \u00B7 >4 = top',
+            color: calc.puell < 0.7 ? DS.up : calc.puell < 1.5 ? DS.warn : DS.down, mob, info: INFO.puell
+          }),
+          React.createElement(SignalCard, {
+            title: 'RSI (14d)', value: (data.rsi || 29).toFixed(0),
+            status: data.rsi < 30 ? 'bullish' : data.rsi > 70 ? 'bearish' : 'neutral',
+            detail: 'Mayer: ' + calc.mayer.toFixed(2) + ' \u00B7 SMA200: ' + fP(calc.sma200),
+            color: data.rsi < 30 ? DS.up : data.rsi < 50 ? DS.warn : DS.down, mob, info: INFO.rsi
+          }),
+          React.createElement(SignalCard, {
+            title: 'RHODL Ratio', value: (data.rhodl || 1.06).toFixed(2),
+            status: data.rhodl < 2 ? 'bullish' : data.rhodl > 50 ? 'bearish' : 'neutral',
+            detail: '<2 = accumulation \u00B7 >50 = top',
+            color: data.rhodl < 5 ? DS.up : data.rhodl < 20 ? DS.warn : DS.down, mob, info: INFO.rhodl
+          }),
+          React.createElement(SignalCard, {
+            title: 'Hash Ribbons', value: data.hashRibbons || 'Down',
+            status: data.hashRibbons === 'Down' ? 'bullish' : 'neutral',
+            detail: 'SMA30: ' + ((data.hashSma30 || 0) / 1e6).toFixed(0) + 'M \u00B7 SMA60: ' + ((data.hashSma60 || 0) / 1e6).toFixed(0) + 'M',
+            color: data.hashRibbons === 'Down' ? DS.up : DS.warn, mob, info: INFO.hash
+          }),
+          React.createElement(SignalCard, {
+            title: 'ETF Flows', value: ((data.etfFlowBtc || 0) > 0 ? '+' : '') + Math.round(data.etfFlowBtc || 0), unit: 'BTC/j',
+            status: (data.etfFlowBtc || 0) > 0 ? 'bullish' : 'bearish',
+            detail: 'Total: ' + ((data.etfBtcTotal || 0) / 1000).toFixed(0) + 'K BTC',
+            color: (data.etfFlowBtc || 0) > 0 ? DS.up : DS.down, mob, info: INFO.etf
+          }),
+          React.createElement(SignalCard, {
+            title: 'STH Real. Price', value: fP(calc.sthRp),
+            status: data.price < calc.sthRp ? 'bullish' : 'neutral',
+            detail: 'LTH: ' + fP(calc.lthRp) + ' \u00B7 Dist: ' + ((data.price / calc.sthRp - 1) * 100).toFixed(0) + '%',
+            color: data.price < calc.sthRp ? DS.up : DS.warn, mob, info: INFO.sth
+          })
+        ),
+
+        // ---- PRICE BANDS SECTION ----
+        React.createElement('div', {
+          style: { ...cardS, padding: mob ? '16px 12px' : '24px 24px', marginBottom: g }
+        },
+          section('Prix + Bandes On-Chain'),
+          React.createElement(PriceBandsChart, { price: data.price, mob, levels: ocLevels }),
+          React.createElement('div', {
+            style: { display: 'flex', flexWrap: 'wrap', gap: mob ? 8 : 14, justifyContent: 'center', marginTop: 10 }
+          },
+            ocLevels.slice(0, 5).map(l =>
+              React.createElement('div', { key: l.k, style: { display: 'flex', alignItems: 'center', gap: 5 } },
+                React.createElement('div', { style: { width: 10, height: 2, background: l.c, borderRadius: 1, opacity: 0.7 } }),
+                React.createElement('span', { style: { fontSize: 10, color: DS.text3 } }, l.l)
+              )
+            )
+          )
+        ),
+
+        // ---- TAB BUTTONS ----
+        React.createElement('div', {
+          style: { display: 'flex', gap: 6, marginBottom: g, overflowX: 'auto', WebkitOverflowScrolling: 'touch', paddingBottom: 2 }
+        },
+          [
+            { k: 'onchain', l: '\u26D3 On-Chain' },
+            { k: 'price', l: '\uD83D\uDCC8 Prix' },
+            { k: 'rainbow', l: '\uD83C\uDF08 Rainbow' },
+            { k: 'picycle', l: '\u03C0 Cycle' },
+            { k: 'backtest', l: '\uD83C\uDFAF Backtest' },
+            { k: 'exhaust', l: '\uD83D\uDD25 Exhaustion' },
+            { k: 'cycle', l: '\uD83D\uDD04 R\u00E9gime' },
+            { k: 'mc', l: '\uD83C\uDFB2 Monte Carlo' },
+            { k: 'overlay', l: '\uD83D\uDCCA Cycles' }
+          ].map(t =>
+            React.createElement('button', {
+              key: t.k,
+              onClick: () => setTab(t.k),
+              style: {
+                flex: mob ? 'none' : 1, padding: mob ? '12px 16px' : '12px 14px', whiteSpace: 'nowrap',
+                background: tab === t.k ? DS.accent + '10' : DS.surface,
+                border: '1px solid ' + (tab === t.k ? DS.accent + '25' : DS.border),
+                borderRadius: 6, fontSize: 12,
+                fontWeight: tab === t.k ? 600 : 400,
+                color: tab === t.k ? DS.accent : DS.text3,
+                letterSpacing: 0.5, transition: 'all 0.2s'
+              }
+            }, t.l)
+          )
+        ),
+
+        // ---- TAB CONTENT ----
+        React.createElement('div', {
+          style: { ...cardS, padding: mob ? '20px 14px' : '28px 28px', marginBottom: g, minHeight: mob ? 200 : 260 }
+        },
+          tab === 'onchain' && React.createElement(React.Fragment, null,
+            section('On-Chain Depth + Bottom Score'),
+            React.createElement('div', { style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 } },
+              React.createElement(OnChainDepth, { price: data.price, mob, levels: ocLevels }),
+              React.createElement(BottomScoreCard, { scores: calc.bscores, total: calc.totalScore, mob })
+            )
+          ),
+
+          tab === 'price' && React.createElement(React.Fragment, null,
+            section('Prix Historique BTC \u2014 Bitcoin.com + CoinGecko'),
+            React.createElement(PriceHistoryChart, { hist, mob })
+          ),
+
+          tab === 'rainbow' && React.createElement(React.Fragment, null,
+            section('Rainbow Chart \u2014 R\u00E9gression Logarithmique'),
+            React.createElement(RainbowChart, { hist, currentPrice: data.price, mob })
+          ),
+
+          tab === 'picycle' && React.createElement(React.Fragment, null,
+            section('Pi Cycle Top Indicator \u2014 111 DMA vs 350 DMA \u00D7 2'),
+            React.createElement(PiCycleChart, { hist, mob })
+          ),
+
+          tab === 'backtest' && React.createElement(React.Fragment, null,
+            section('Backtest Composite Score \u2014 Buy Low / Sell High'),
+            React.createElement(BacktestPanel, { hist, mob })
+          ),
+
+          tab === 'exhaust' && React.createElement(React.Fragment, null,
+            section('Seller Exhaustion \u2014 5 Couches + Sc\u00E9narios'),
+            React.createElement(ExhaustionPanel, { pct: calc.exhaustPct, mob })
+          ),
+
+          tab === 'cycle' && React.createElement(React.Fragment, null,
+            section('Cycle Position \u2014 R\u00E9gime + Timing'),
+            React.createElement(CyclePosition, { mob })
+          ),
+
+          tab === 'mc' && React.createElement(React.Fragment, null,
+            section('Monte Carlo \u2014 200 simulations GBM, 1 an'),
+            React.createElement(MonteCarloChart, { mc: calc.mc, price: data.price, mob }),
+            React.createElement('div', {
+              style: { marginTop: 14, display: 'grid', gridTemplateColumns: mob ? '1fr 1fr' : 'repeat(4, 1fr)', gap: 10 }
+            },
+              [
+                { l: 'M\u00E9diane (P50)', v: calc.mc?.p50 ? fK(calc.mc.p50[calc.mc.p50.length - 1]) : '\u2014', c: DS.accent },
+                { l: 'Pessimiste (P25)', v: calc.mc?.p25 ? fK(calc.mc.p25[calc.mc.p25.length - 1]) : '\u2014', c: DS.warn },
+                { l: 'Optimiste (P75)', v: calc.mc?.p75 ? fK(calc.mc.p75[calc.mc.p75.length - 1]) : '\u2014', c: DS.up },
+                { l: 'Extr\u00EAme (P5)', v: calc.mc?.p5 ? fK(calc.mc.p5[calc.mc.p5.length - 1]) : '\u2014', c: DS.down }
+              ].map(d =>
+                React.createElement('div', {
+                  key: d.l,
+                  style: { ...cardS, padding: '12px 14px', textAlign: 'center', borderColor: d.c + '15' }
+                },
+                  React.createElement('div', { style: { fontSize: 9, color: DS.text3, letterSpacing: 2 } }, d.l.toUpperCase()),
+                  React.createElement('div', { style: { fontSize: 22, fontWeight: 700, fontFamily: DS.mono, color: d.c, marginTop: 4 } }, d.v)
+                )
+              )
+            )
+          ),
+
+          tab === 'overlay' && React.createElement(React.Fragment, null,
+            section('Cycle Comparison \u2014 Align\u00E9 sur Halving'),
+            React.createElement(CycleOverlay, { cycleDay: calc.cycleDay, mob }),
+            React.createElement('div', { style: { marginTop: 14, fontSize: 12, color: DS.text3, lineHeight: 1.6 } },
+              'Chaque cycle index\u00E9 \u00E0 100 au prix du halving. Le cycle actuel (cyan) suit un sch\u00E9ma similaire au C2 et C3. Les bottoms historiques se forment entre J700-900.'
+            )
+          )
+        ),
+
+        // ---- SOURCES ----
+        React.createElement('div', {
+          style: { ...cardS, padding: mob ? '14px 12px' : '18px 20px', background: 'rgba(255,255,255,0.015)', marginBottom: g }
+        },
+          section('Sources de donn\u00E9es'),
+          React.createElement('div', {
+            style: { display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 6 }
+          },
+            [
+              { l: 'Prix, MCap, Vol, Dom.', src: 'CoinGecko', live: data.sources?.coingecko },
+              { l: 'Prix 8ans + Pi Cycle + Rainbow', src: 'Bitcoin.com Charts', live: !!hist },
+              { l: 'Fear & Greed', src: 'Alternative.me', live: data.sources?.fng },
+              { l: 'Funding Rate + OI', src: 'Binance Futures', live: data.sources?.binance },
+              { l: 'Hashrate, Difficult\u00E9', src: 'Mempool.space', live: data.sources?.mempool },
+              { l: 'NUPL, SOPR, MVRV, Supply%, Puell', src: 'BGeometrics ' + (data.sources?.bgeometrics === 'cache' ? '(cache)' : '(live)'), live: !!data.sources?.bgeometrics },
+              { l: 'RSI, SMA, Mayer, Hash Ribbons, RP', src: 'BGeometrics', live: !!data.sources?.bgeometrics },
+              { l: 'ETF + OI Futures', src: 'BGeometrics (proxy)', live: !!data.sources?.bgeometrics }
+            ].map((s, i) =>
+              React.createElement('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 8, padding: '3px 0' } },
+                React.createElement('div', {
+                  style: { width: 6, height: 6, borderRadius: '50%', background: s.live ? DS.up : DS.text3, opacity: s.live ? 0.8 : 0.3, flexShrink: 0 }
+                }),
+                React.createElement('span', { style: { fontSize: 11, color: DS.text2 } }, s.l),
+                React.createElement('span', { style: { color: DS.text3, marginLeft: 'auto', fontFamily: DS.mono, fontSize: 10 } }, s.src)
+              )
+            )
+          ),
+          data.lastUpdate && React.createElement('div', {
+            style: { fontSize: 10, color: DS.text3, marginTop: 10, fontFamily: DS.mono, textAlign: 'center', opacity: 0.5 }
+          }, data.lastUpdate.toLocaleTimeString(), ' \u2014 Prix: 60s \u00B7 On-chain: cache 24h')
+        ),
+
+        // ---- FOOTER ----
+        React.createElement('div', {
+          style: { textAlign: 'center', fontSize: 10, color: DS.text3, padding: '12px 0', fontFamily: DS.mono, opacity: 0.3 }
+        }, 'BTC Cycle Dashboard v10 \u2014 cryptoquant.fr \u2014 9 APIs Live + ETF + Backtest \u2014 Not financial advice')
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Dashboard));
+
+  </script>
+
+
+</body><a865feb3b-1913-43b2-9473-ce2037cabef7><template shadowrootmode="closed"><div id="9e0cbc17-6dbb-445c-a875-5912d3af2acd" style="position: fixed; top: 0px; left: 0px; right: 0px; z-index: 2147483647;"></div><style>*,::backdrop,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:#6b90fa80;--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }*,:after,:before{border:0 solid #141415;box-sizing:border-box}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:Inter,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;tab-size:4;-webkit-tap-highlight-color:transparent}body{line-height:inherit;margin:0}hr{border-top-width:1px;color:inherit;height:0}abbr:where([title]){text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-size:1em;font-variation-settings:normal}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:initial}sub{bottom:-.25em}sup{top:-.5em}table{border-collapse:collapse;border-color:inherit;text-indent:0}button,input,optgroup,select,textarea{color:inherit;font-family:inherit;font-feature-settings:inherit;font-size:100%;font-variation-settings:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:initial;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:initial}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{color:#9ca3af;opacity:1}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{height:auto;max-width:100%}[hidden]:where(:not([hidden=until-found])){display:none}b,strong{font-weight:600}body{background-color:#fff;color:#2a2a2d}@media{.container{max-width:1168px}}.display{font-size:1.5em;line-height:32px}.display,.heading{font-family:Inter,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-weight:600;letter-spacing:0}.heading{font-size:1.25em;line-height:26px}.subHeading{font-weight:500}.body,.subHeading{font-size:1em;letter-spacing:0;line-height:22px}.body{font-weight:400}.subBody{font-size:.875em;line-height:20px}.caption,.subBody{font-weight:400;letter-spacing:0}.caption,.caption-medium{font-size:.75em;line-height:18px}.caption-medium{font-weight:500;letter-spacing:0}.heading-2xl{font-size:2em;line-height:40px}.heading-2xl,.heading-xl{font-family:Inter,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-weight:600;letter-spacing:-.016em}.heading-xl{font-size:1.75em;line-height:36px}.heading-lg{font-family:Inter,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-size:1.625em;font-weight:600;letter-spacing:-.016em;line-height:34px}.heading-md{font-size:1.5em;line-height:32px}.heading-md,.heading-sm{font-family:Inter,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-weight:600;letter-spacing:0}.heading-sm{font-size:1.25em;line-height:26px}.body-lg{font-weight:400}.body-lg,.body-lg-medium{font-size:1.125em;letter-spacing:0;line-height:24px}.body-lg-medium{font-weight:500}.body-lg-bold{font-size:1.125em;font-weight:600;letter-spacing:0;line-height:24px}.body-md{font-weight:400}.body-md,.body-md-medium{font-size:1em;letter-spacing:0;line-height:22px}.body-md-medium{font-weight:500}.body-md-bold{font-size:1em;font-weight:600;letter-spacing:0;line-height:22px}.body-sm{font-weight:400}.body-sm,.body-sm-medium{font-size:.875em;letter-spacing:0;line-height:20px}.body-sm-medium{font-weight:500}.body-sm-bold{font-size:.875em;font-weight:600;letter-spacing:0;line-height:20px}.body-xs{font-weight:400}.body-xs,.body-xs-medium{font-size:.75em;letter-spacing:0;line-height:18px}.body-xs-medium{font-weight:500}.body-xs-bold{font-size:.75em;font-weight:600;letter-spacing:0;line-height:18px}.body-2xs{font-weight:400}.body-2xs,.body-2xs-medium{font-size:.6875em;letter-spacing:0;line-height:18px}.body-2xs-medium{font-weight:500}.body-2xs-bold{font-size:.6875em;font-weight:600;letter-spacing:0;line-height:18px}.bg-primary{background-color:#f7f7f8}.bg-secondary{background-color:#fff}.bg-tertiary{background-color:#ededed}.bg-accent{background-color:#3e5fff}.bg-accent-subtle{background-color:#f3f7fc}.bg-disabled{background-color:#c8c9cb}.bg-success{background-color:#0a8550}.bg-critical{background-color:#e02f1f}.bg-warning{background-color:#fac900}.bg-success-subtle{background-color:#ecf9ee}.bg-warning-subtle{background-color:#fff6db}.bg-critical-subtle{background-color:#fcefee}.bg-primary-active{background-color:#ededed}.bg-secondary-active{background-color:#f7f7f8}.bg-accent-active{background-color:#243dcc}.border-primary{border-color:#c8c9cb}.border-secondary{border-color:#e2e2e4}.border-input{border-color:#909192}.border-accent{border-color:#3e5fff}.border-success{border-color:#37c871}.border-warning{border-color:#fac900}.border-critical{border-color:#f29086}.border-accent-active{border-color:#243dcc}.text-primary{color:#2a2a2d}.text-secondary{color:#696a6d}.text-accent{color:#3e5fff}.text-primary-on-color{color:#fff}.text-secondary-on-color{color:#f7f7f8}.text-disabled{color:#b2b2b3}.text-success{color:#075f3c}.text-warning{color:#654a0b}.text-critical{color:#9e1c10}.text-accent-active{color:#243dcc}.text-placeholder{color:#696a6d}.stroke-primary{stroke:#c8c9cb}.dark .bg-primary{background-color:#141415}.dark .bg-secondary{background-color:#1d1e20}.dark .bg-tertiary{background-color:#2a2a2d}.dark .bg-accent{background-color:#3e5fff}.dark .bg-accent-subtle{background-color:#1a1f3d}.dark .bg-disabled{background-color:#3e3f42}.dark .bg-success{background-color:#0a8550}.dark .bg-critical{background-color:#9e1c10}.dark .bg-warning{background-color:#8e6c10}.dark .bg-success-subtle{background-color:#043420}.dark .bg-warning-subtle{background-color:#3c2a07}.dark .bg-critical-subtle{background-color:#5a0e07}.dark .bg-primary-active{background-color:#1d1e20}.dark .bg-secondary-active{background-color:#2a2a2d}.dark .bg-accent-active{background-color:#243dcc}.dark .border-primary{border-color:#4f5054}.dark .border-secondary{border-color:#3e3f42}.dark .border-input{border-color:#696a6d}.dark .border-accent{border-color:#3e5fff}.dark .border-success{border-color:#0a8550}.dark .border-warning{border-color:#8e6c10}.dark .border-critical{border-color:#e02f1f}.dark .border-accent-active{border-color:#243dcc}.dark .text-primary{color:#fff}.dark .text-secondary{color:#909192}.dark .text-accent{color:#6b90fa}.dark .text-primary-on-color{color:#fff}.dark .text-secondary-on-color{color:#f7f7f8}.dark .text-disabled{color:#4f5054}.dark .text-success{color:#37c871}.dark .text-warning{color:#fac900}.dark .text-critical{color:#f29086}.dark .text-accent-active{color:#8caef8}.dark .text-placeholder{color:#b2b2b3}.dark .stroke-primary{stroke:#4f5054}.pointer-events-none{pointer-events:none}.invisible{visibility:hidden}.inset-0{inset:0}.inset-y-0{bottom:0;top:0}.bottom-4{bottom:1em}.left-0{left:0}.left-1\/2,.left-2\/4{left:50%}.right-0{right:0}.right-1\.5{right:.375em}.top-2\/4{top:50%}.z-50{z-index:50}.z-\[1\]{z-index:1}.my-0\.5{margin-top:.125em}.mb-0\.5,.my-0\.5{margin-bottom:.125em}.ml-2{margin-left:.5em}.ml-7{margin-left:1.75em}.mr-0\.5{margin-right:.125em}.mr-4{margin-right:1em}.mt-0\.5{margin-top:.125em}.box-border{box-sizing:border-box}.contents{display:contents}.h-1\.5{height:.375em}.h-10{height:2.5em}.h-12{height:3em}.h-20{height:5em}.h-4\.5{height:1.125em}.h-\[151px\]{height:151px}.h-\[214px\]{height:214px}.h-\[40px\]{height:40px}.h-\[75\%\]{height:75%}.max-h-10{max-height:2.5em}.max-h-\[300px\]{max-height:300px}.max-h-\[500px\]{max-height:500px}.max-h-\[90vh\]{max-height:90vh}.min-h-0{min-height:0}.min-h-12{min-height:3em}.min-h-\[140px\]{min-height:140px}.min-h-full{min-height:100%}.w-1\.5{width:.375em}.w-10{width:2.5em}.w-11{width:2.75em}.w-12{width:3em}.w-20{width:5em}.w-4\.5{width:1.125em}.w-80{width:20em}.w-\[150px\]{width:150px}.w-\[198px\]{width:198px}.w-\[416px\]{width:416px}.w-\[41px\]{width:41px}.w-\[75\%\]{width:75%}.w-fit{width:-moz-fit-content;width:fit-content}.min-w-80{min-width:20em}.min-w-\[150px\]{min-width:150px}.min-w-\[230px\]{min-width:230px}.max-w-55{max-width:13.75em}.flex-shrink-0,.shrink-0{flex-shrink:0}.-translate-x-1\.5{--tw-translate-x:-.375em}.-translate-x-1\.5,.-translate-x-1\/2,.-translate-x-2\/4{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.-translate-x-1\/2,.-translate-x-2\/4{--tw-translate-x:-50%}.-translate-y-2\/4{--tw-translate-y:-50%}.-translate-y-2\/4,.translate-x-0{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.translate-x-0{--tw-translate-x:0px}.translate-x-5{--tw-translate-x:1.25em}.-rotate-90,.translate-x-5{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.-rotate-90{--tw-rotate:-90deg}.rotate-180{--tw-rotate:180deg}.rotate-180,.rotate-90{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.rotate-90{--tw-rotate:90deg}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes dash{0%{stroke-dasharray:1,300;stroke-dashoffset:0}50%{stroke-dasharray:150,300;stroke-dashoffset:-75}to{stroke-dasharray:1,300;stroke-dashoffset:-250}}.animate-connectingDash{animation:dash 1.5s ease-in-out infinite}@keyframes rotate{to{transform:rotate(1turn)}}.animate-connectingRotate{animation:rotate 1.5s linear infinite}@keyframes spin{to{transform:rotate(1turn)}}.animate-spin{animation:spin 1s linear infinite}.\!cursor-not-allowed{cursor:not-allowed!important}.\!resize-none{resize:none!important}.appearance-none{appearance:none}.flex-row{flex-direction:row}.flex-row-reverse{flex-direction:row-reverse}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.gap-2{gap:.5em}.gap-3{gap:.75em}.gap-4{gap:1em}.gap-5{gap:1.25em}.gap-6{gap:1.5em}.gap-7{gap:1.75em}.gap-8{gap:2em}.gap-x-1{column-gap:.25em}.self-start{align-self:flex-start}.overflow-y-auto{overflow-y:auto}.whitespace-nowrap{white-space:nowrap}.rounded-full{border-radius:9999px}.border-none{border-style:none;border-width:0}.border-transparent{border-color:#0000}.bg-neutral-0{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.bg-neutral-500{--tw-bg-opacity:1;background-color:rgb(144 145 146/var(--tw-bg-opacity,1))}.bg-neutral-700{--tw-bg-opacity:1;background-color:rgb(79 80 84/var(--tw-bg-opacity,1))}.fill-current{fill:currentColor}.stroke-green-400{stroke:#37c871}.stroke-neutral-300{stroke:#c8c9cb}.p-0\.5{padding:.125em}.p-4{padding:1em}.px-1{padding-left:.25em;padding-right:.25em}.px-1\.5{padding-left:.375em;padding-right:.375em}.py-0\.5{padding-bottom:.125em;padding-top:.125em}.py-1\.5{padding-bottom:.375em;padding-top:.375em}.pl-1{padding-left:.25em}.pl-3{padding-left:.75em}.pr-2{padding-right:.5em}.pr-8{padding-right:2em}.pt-1{padding-top:.25em}.pt-2{padding-top:.5em}.text-left{text-align:left}.text-right{text-align:right}.text-justify{text-align:justify}.text-start{text-align:start}.text-end{text-align:end}.text-sm{font-size:.875em}.capitalize{text-transform:capitalize}.text-inherit{color:inherit}.text-neutral-500{--tw-text-opacity:1;color:rgb(144 145 146/var(--tw-text-opacity,1))}.opacity-0{opacity:0}.opacity-50{opacity:.5}.outline-none{outline:2px solid #0000;outline-offset:2px}.transition-colors{transition-duration:.25s;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1)}.transition-opacity{transition-duration:.25s;transition-property:opacity;transition-timing-function:cubic-bezier(.4,0,.2,1)}.duration-fast{transition-duration:.15s}.duration-medium{transition-duration:.25s}.ease-in{transition-timing-function:cubic-bezier(.4,0,1,1)}.ease-in-out{transition-timing-function:cubic-bezier(.4,0,.2,1)}.placeholder\:text-disabled::placeholder{color:#b2b2b3}.placeholder\:text-placeholder::placeholder{color:#696a6d}.dark .placeholder\:text-disabled::placeholder{color:#4f5054}.dark .placeholder\:text-placeholder::placeholder{color:#b2b2b3}.checked\:bg-accent:checked{background-color:#3e5fff}.checked\:border-accent:checked{border-color:#3e5fff}.dark .checked\:bg-accent:checked{background-color:#3e5fff}.dark .checked\:border-accent:checked{border-color:#3e5fff}.hover\:bg-secondary:hover{background-color:#fff}.hover\:bg-primary-active:hover{background-color:#ededed}.hover\:bg-secondary-active:hover{background-color:#f7f7f8}.hover\:bg-accent-active:hover{background-color:#243dcc}.hover\:border-accent-active:hover{border-color:#243dcc}.hover\:text-accent-active:hover{color:#243dcc}.dark .hover\:bg-primary-active:hover,.dark .hover\:bg-secondary:hover{background-color:#1d1e20}.dark .hover\:bg-secondary-active:hover{background-color:#2a2a2d}.dark .hover\:bg-accent-active:hover{background-color:#243dcc}.dark .hover\:border-accent-active:hover{border-color:#243dcc}.dark .hover\:text-accent-active:hover{color:#8caef8}.checked\:hover\:bg-accent-active:hover:checked{background-color:#243dcc}.checked\:hover\:border-accent-active:hover:checked{border-color:#243dcc}.dark .checked\:hover\:bg-accent-active:hover:checked{background-color:#243dcc}.dark .checked\:hover\:border-accent-active:hover:checked{border-color:#243dcc}.active\:bg-secondary:active{background-color:#fff}.active\:bg-accent:active{background-color:#3e5fff}.active\:bg-secondary-active:active{background-color:#f7f7f8}.active\:border-accent:active{border-color:#3e5fff}.dark .active\:bg-secondary:active{background-color:#1d1e20}.dark .active\:bg-accent:active{background-color:#3e5fff}.dark .active\:bg-secondary-active:active{background-color:#2a2a2d}.dark .active\:border-accent:active{border-color:#3e5fff}.group:hover .group-hover\:text-accent-active{color:#243dcc}.dark .group:hover .group-hover\:text-accent-active{color:#8caef8}.dark\:bg-primary:is(.dark *){background-color:#f7f7f8}.dark\:bg-secondary:is(.dark *){background-color:#fff}.dark\:bg-tertiary:is(.dark *){background-color:#ededed}.dark\:bg-accent:is(.dark *){background-color:#3e5fff}.dark\:bg-accent-subtle:is(.dark *){background-color:#f3f7fc}.dark\:bg-success:is(.dark *){background-color:#0a8550}.dark\:bg-critical:is(.dark *){background-color:#e02f1f}.dark\:bg-warning:is(.dark *){background-color:#fac900}.dark\:bg-success-subtle:is(.dark *){background-color:#ecf9ee}.dark\:bg-warning-subtle:is(.dark *){background-color:#fff6db}.dark\:bg-critical-subtle:is(.dark *){background-color:#fcefee}.dark\:bg-primary-active:is(.dark *){background-color:#ededed}.dark\:bg-secondary-active:is(.dark *){background-color:#f7f7f8}.dark\:bg-accent-active:is(.dark *){background-color:#243dcc}.dark\:border-primary:is(.dark *){border-color:#c8c9cb}.dark\:border-secondary:is(.dark *){border-color:#e2e2e4}.dark\:border-accent:is(.dark *){border-color:#3e5fff}.dark\:border-success:is(.dark *){border-color:#37c871}.dark\:border-warning:is(.dark *){border-color:#fac900}.dark\:border-critical:is(.dark *){border-color:#f29086}.dark\:border-accent-active:is(.dark *){border-color:#243dcc}.dark\:text-primary:is(.dark *){color:#2a2a2d}.dark\:text-secondary:is(.dark *){color:#696a6d}.dark\:text-accent:is(.dark *){color:#3e5fff}.dark\:text-primary-on-color:is(.dark *){color:#fff}.dark\:text-secondary-on-color:is(.dark *){color:#f7f7f8}.dark\:text-disabled:is(.dark *){color:#b2b2b3}.dark\:text-success:is(.dark *){color:#075f3c}.dark\:text-warning:is(.dark *){color:#654a0b}.dark\:text-critical:is(.dark *){color:#9e1c10}.dark\:text-accent-active:is(.dark *){color:#243dcc}.dark .dark\:bg-primary:is(.dark *){background-color:#141415}.dark .dark\:bg-secondary:is(.dark *){background-color:#1d1e20}.dark .dark\:bg-tertiary:is(.dark *){background-color:#2a2a2d}.dark .dark\:bg-accent:is(.dark *){background-color:#3e5fff}.dark .dark\:bg-accent-subtle:is(.dark *){background-color:#1a1f3d}.dark .dark\:bg-success:is(.dark *){background-color:#0a8550}.dark .dark\:bg-critical:is(.dark *){background-color:#9e1c10}.dark .dark\:bg-warning:is(.dark *){background-color:#8e6c10}.dark .dark\:bg-success-subtle:is(.dark *){background-color:#043420}.dark .dark\:bg-warning-subtle:is(.dark *){background-color:#3c2a07}.dark .dark\:bg-critical-subtle:is(.dark *){background-color:#5a0e07}.dark .dark\:bg-primary-active:is(.dark *){background-color:#1d1e20}.dark .dark\:bg-secondary-active:is(.dark *){background-color:#2a2a2d}.dark .dark\:bg-accent-active:is(.dark *){background-color:#243dcc}.dark .dark\:border-primary:is(.dark *){border-color:#4f5054}.dark .dark\:border-secondary:is(.dark *){border-color:#3e3f42}.dark .dark\:border-accent:is(.dark *){border-color:#3e5fff}.dark .dark\:border-success:is(.dark *){border-color:#0a8550}.dark .dark\:border-warning:is(.dark *){border-color:#8e6c10}.dark .dark\:border-critical:is(.dark *){border-color:#e02f1f}.dark .dark\:border-accent-active:is(.dark *){border-color:#243dcc}.dark .dark\:text-primary:is(.dark *){color:#fff}.dark .dark\:text-secondary:is(.dark *){color:#909192}.dark .dark\:text-accent:is(.dark *){color:#6b90fa}.dark .dark\:text-primary-on-color:is(.dark *){color:#fff}.dark .dark\:text-secondary-on-color:is(.dark *){color:#f7f7f8}.dark .dark\:text-disabled:is(.dark *){color:#4f5054}.dark .dark\:text-success:is(.dark *){color:#37c871}.dark .dark\:text-warning:is(.dark *){color:#fac900}.dark .dark\:text-critical:is(.dark *){color:#f29086}.dark .dark\:text-accent-active:is(.dark *){color:#8caef8}.last\:mb-0:last-child{margin-bottom:0}.focus-visible\:shadow-focus:focus-visible{--tw-shadow:0px 0px 0px 2px #fff,0px 0px 0px 4px #3e5fff;--tw-shadow-colored:0px 0px 0px 2px var(--tw-shadow-color),0px 0px 0px 4px var(--tw-shadow-color)}.focus-visible\:shadow-focus-inset:focus-visible,.focus-visible\:shadow-focus:focus-visible{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.focus-visible\:shadow-focus-inset:focus-visible{--tw-shadow:inset 0px 0px 0px 2px #3e5fff,inset 0px 0px 0 4px #fff;--tw-shadow-colored:inset 0px 0px 0px 2px var(--tw-shadow-color),inset 0px 0px 0 4px var(--tw-shadow-color)}.disabled\:cursor-not-allowed:disabled{cursor:not-allowed}.peer:checked~.peer-checked\:opacity-100{opacity:1}.data-\[closed\]\:translate-y-2[data-closed]{--tw-translate-y:.5em}.data-\[closed\]\:translate-y-2[data-closed],.data-\[closed\]\:translate-y-4[data-closed]{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.data-\[closed\]\:translate-y-4[data-closed]{--tw-translate-y:1em}.data-\[closed\]\:scale-95[data-closed]{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.data-\[closed\]\:opacity-0[data-closed]{opacity:0}:where([data-headlessui-focus-visible]) .ui-focus-visible\:shadow-focus:focus{--tw-shadow:0px 0px 0px 2px #fff,0px 0px 0px 4px #3e5fff;--tw-shadow-colored:0px 0px 0px 2px var(--tw-shadow-color),0px 0px 0px 4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.\[\&_\*\]\:cursor-not-allowed *{cursor:not-allowed}.sr-only{height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;clip:rect(0,0,0,0);border-width:0;white-space:nowrap}.visible{visibility:visible}.static{position:static}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.bottom-2{bottom:.5em}.left-1\/2{left:50%}.z-10{z-index:10}.mx-1{margin-left:.25em;margin-right:.25em}.mx-auto{margin-left:auto;margin-right:auto}.my-4{margin-bottom:1em;margin-top:1em}.my-6{margin-bottom:1.5em;margin-top:1.5em}.-mr-1{margin-right:-.25em}.-mr-1\.5{margin-right:-.375em}.mb-0{margin-bottom:0}.mb-1{margin-bottom:.25em}.mb-2{margin-bottom:.5em}.mb-3{margin-bottom:.75em}.mb-4{margin-bottom:1em}.mb-6{margin-bottom:1.5em}.mb-8{margin-bottom:2em}.ml-1{margin-left:.25em}.ml-auto{margin-left:auto}.mr-0{margin-right:0}.mr-1{margin-right:.25em}.mr-1\.5{margin-right:.375em}.mr-2{margin-right:.5em}.mr-auto{margin-right:auto}.mt-1{margin-top:.25em}.mt-1\.5{margin-top:.375em}.mt-2{margin-top:.5em}.mt-3{margin-top:.75em}.mt-4{margin-top:1em}.mt-6{margin-top:1.5em}.mt-\[1px\]{margin-top:1px}.mt-\[3px\]{margin-top:3px}.line-clamp-1{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:1}.block{display:block}.inline-block{display:inline-block}.inline{display:inline}.flex{display:flex}.inline-flex{display:inline-flex}.table-caption{display:table-caption}.hidden{display:none}.size-full{height:100%;width:100%}.h-0{height:0}.h-4{height:1em}.h-5{height:1.25em}.h-6{height:1.5em}.h-7{height:1.75em}.h-8{height:2em}.h-\[140px\]{height:140px}.h-\[180px\]{height:180px}.h-\[22px\]{height:22px}.h-\[23px\]{height:23px}.h-\[56px\]{height:56px}.h-\[80px\]{height:80px}.h-auto{height:auto}.h-full{height:100%}.max-h-\[276px\]{max-height:276px}.max-h-\[348px\]{max-height:348px}.max-h-full{max-height:100%}.min-h-\[276px\]{min-height:276px}.min-h-\[348px\]{min-height:348px}.w-4{width:1em}.w-5{width:1.25em}.w-6{width:1.5em}.w-7{width:1.75em}.w-8{width:2em}.w-\[140px\]{width:140px}.w-\[180px\]{width:180px}.w-\[220px\]{width:220px}.w-\[22px\]{width:22px}.w-\[308px\]{width:308px}.w-\[310px\]{width:310px}.w-\[400px\]{width:400px}.w-\[440px\]{width:440px}.w-\[56px\]{width:56px}.w-\[660px\]{width:660px}.w-\[80px\]{width:80px}.w-auto{width:auto}.w-full{width:100%}.max-w-\[180px\]{max-width:180px}.max-w-\[308px\]{max-width:308px}.max-w-\[704px\]{max-width:704px}.max-w-\[794px\]{max-width:794px}.flex-1{flex:1 1 0%}.flex-initial{flex:0 1 auto}.flex-none{flex:none}.flex-shrink-0{flex-shrink:0}.flex-grow,.grow{flex-grow:1}.caption-top{caption-side:top}.caption-bottom{caption-side:bottom}.-translate-x-1\/2{--tw-translate-x:-50%}.-translate-x-1\/2,.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-not-allowed{cursor:not-allowed}.cursor-pointer{cursor:pointer}.select-none{user-select:none}.resize{resize:both}.flex-col{flex-direction:column}.flex-nowrap{flex-wrap:nowrap}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25em}.gap-12{gap:3em}.space-x-0>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-left:calc(0px*(1 - var(--tw-space-x-reverse)));margin-right:calc(0px*var(--tw-space-x-reverse))}.space-x-0\.5>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-left:calc(.125em*(1 - var(--tw-space-x-reverse)));margin-right:calc(.125em*var(--tw-space-x-reverse))}.self-center{align-self:center}.self-stretch{align-self:stretch}.justify-self-center{justify-self:center}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-visible{overflow:visible}.overflow-x-hidden{overflow-x:hidden}.overflow-y-hidden{overflow-y:hidden}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.whitespace-pre-line{white-space:pre-line}.rounded-md{border-radius:12px}.rounded-sm{border-radius:6px}.rounded-xs{border-radius:3px}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-b-0{border-bottom-width:0}.border-l{border-left-width:1px}.border-solid{border-style:solid}.border-hidden{border-style:hidden}.border-black{--tw-border-opacity:1;border-color:rgb(0 0 0/var(--tw-border-opacity))}.border-pink-400{--tw-border-opacity:1;border-color:rgb(244 114 182/var(--tw-border-opacity))}.object-cover{object-fit:cover}.object-bottom{object-position:bottom}.object-center{object-position:center}.object-left{object-position:left}.object-left-bottom{object-position:left bottom}.object-left-top{object-position:left top}.object-right{object-position:right}.object-right-bottom{object-position:right bottom}.object-right-top{object-position:right top}.object-top{object-position:top}.p-1{padding:.25em}.p-2{padding:.5em}.p-3{padding:.75em}.px-10{padding-left:2.5em;padding-right:2.5em}.px-2{padding-left:.5em;padding-right:.5em}.px-3{padding-left:.75em;padding-right:.75em}.px-4{padding-left:1em;padding-right:1em}.px-8{padding-left:2em;padding-right:2em}.py-1{padding-bottom:.25em;padding-top:.25em}.py-2{padding-bottom:.5em;padding-top:.5em}.py-2\.5{padding-bottom:.625em;padding-top:.625em}.py-3{padding-bottom:.75em;padding-top:.75em}.py-6{padding-bottom:1.5em;padding-top:1.5em}.py-8{padding-bottom:2em;padding-top:2em}.pb-3{padding-bottom:.75em}.pl-2{padding-left:.5em}.pl-4{padding-left:1em}.pl-8{padding-left:2em}.pr-1{padding-right:.25em}.pr-1\.5{padding-right:.375em}.pr-14{padding-right:3.5em}.pt-12{padding-top:3em}.text-center{text-align:center}.align-middle{vertical-align:middle}.align-bottom{vertical-align:bottom}.font-heading{font-family:Inter,ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji}.uppercase{text-transform:uppercase}.lowercase{text-transform:lowercase}.text-red-600{--tw-text-opacity:1;color:rgb(224 47 31/var(--tw-text-opacity))}.underline{text-decoration-line:underline}.shadow-bottom-sheet{--tw-shadow:0 -4px 8px 0 #00000029;--tw-shadow-colored:0 -4px 8px 0 var(--tw-shadow-color)}.shadow-bottom-sheet,.shadow-bottom-sheet-dark{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-bottom-sheet-dark{--tw-shadow:0 -4px 8px 0 #000000b3;--tw-shadow-colored:0 -4px 8px 0 var(--tw-shadow-color)}.shadow-lg{--tw-shadow:0 4px 8px 0 #00000029;--tw-shadow-colored:0 4px 8px 0 var(--tw-shadow-color)}.shadow-lg,.shadow-lg-dark{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-lg-dark{--tw-shadow:0 4px 8px 0 #000000b3;--tw-shadow-colored:0 4px 8px 0 var(--tw-shadow-color)}.shadow-lg-reverse{--tw-shadow:0 -4px 8px 0 #00000026;--tw-shadow-colored:0 -4px 8px 0 var(--tw-shadow-color)}.shadow-lg-reverse,.shadow-lg-reverse-dark{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-lg-reverse-dark{--tw-shadow:0 -4px 8px 0 #000000b3;--tw-shadow-colored:0 -4px 8px 0 var(--tw-shadow-color)}.shadow-md{--tw-shadow:0 2px 4px 0 #00000029;--tw-shadow-colored:0 2px 4px 0 var(--tw-shadow-color)}.shadow-md,.shadow-md-dark{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-md-dark{--tw-shadow:0 2px 4px 0 #000000b3;--tw-shadow-colored:0 2px 4px 0 var(--tw-shadow-color)}.shadow-modal{--tw-shadow:0 4px 8px 0 #00000029;--tw-shadow-colored:0 4px 8px 0 var(--tw-shadow-color)}.shadow-modal,.shadow-modal-dark{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-modal-dark{--tw-shadow:0 4px 8px 0 #000000b3;--tw-shadow-colored:0 4px 8px 0 var(--tw-shadow-color)}.shadow-popover{--tw-shadow:0 2px 4px 0 #00000029;--tw-shadow-colored:0 2px 4px 0 var(--tw-shadow-color)}.shadow-popover,.shadow-popover-dark{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-popover-dark{--tw-shadow:0 2px 4px 0 #000000b3;--tw-shadow-colored:0 2px 4px 0 var(--tw-shadow-color)}.shadow-sm{--tw-shadow:0 1px 2px 0 #0000001a;--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color)}.shadow-sm,.shadow-sm-dark{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-sm-dark{--tw-shadow:0 1px 2px 0 #000000b3;--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color)}.outline{outline-style:solid}.blur{--tw-blur:blur(8px)}.blur,.blur-sm{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.blur-sm{--tw-blur:blur(4px)}.drop-shadow{--tw-drop-shadow:drop-shadow(0 1px 2px #0000001a) drop-shadow(0 1px 1px #0000000f)}.drop-shadow,.drop-shadow-lg{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-lg{--tw-drop-shadow:drop-shadow(0 10px 8px #0000000a) drop-shadow(0 4px 3px #0000001a)}.drop-shadow-md{--tw-drop-shadow:drop-shadow(0 4px 3px #00000012) drop-shadow(0 2px 2px #0000000f)}.drop-shadow-md,.drop-shadow-sm{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow-sm{--tw-drop-shadow:drop-shadow(0 1px 1px #0000000d)}.invert{--tw-invert:invert(100%)}.filter,.invert{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-duration:.25s;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1)}.scrollbar-none{scrollbar-width:none}.scrollbar-none::-webkit-scrollbar{display:none}@supports (overflow-wrap:anywhere){.break-anywhere{overflow-wrap:anywhere}}@supports not (overflow-wrap:anywhere){.break-anywhere{word-break:break-word}}.placeholder-primary::placeholder{color:#696a6d}.remove-arrows::-webkit-inner-spin-button,.remove-arrows::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.remove-arrows{-moz-appearance:textfield}:host{font-size:16px!important;line-height:1.5!important;-webkit-text-size-adjust:100%!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji!important;font-feature-settings:normal!important;tab-size:4!important}.focus-visible\:outline-none:focus-visible,.focus\:outline-none:focus{outline:2px solid #0000;outline-offset:2px}.dark\:bg-black:is(.dark *){--tw-bg-opacity:1;background-color:rgb(0 0 0/var(--tw-bg-opacity))}.dark\:text-red-700:is(.dark *){--tw-text-opacity:1;color:rgb(158 28 16/var(--tw-text-opacity))}@media{.sm\:block{display:block}.sm\:inline-block{display:inline-block}.sm\:hidden{display:none}.sm\:overflow-hidden{overflow:hidden}.sm\:overflow-x-hidden{overflow-x:hidden}.sm\:overflow-y-hidden{overflow-y:hidden}.sm\:border-hidden{border-style:hidden}.md\:block{display:block}.md\:inline-block{display:inline-block}.md\:hidden{display:none}.md\:overflow-hidden{overflow:hidden}.md\:overflow-x-hidden{overflow-x:hidden}.md\:overflow-y-hidden{overflow-y:hidden}.md\:border-hidden{border-style:hidden}.lg\:block{display:block}.lg\:inline-block{display:inline-block}.lg\:hidden{display:none}.lg\:overflow-hidden{overflow:hidden}.lg\:overflow-x-hidden{overflow-x:hidden}.lg\:overflow-y-hidden{overflow-y:hidden}.lg\:border-hidden{border-style:hidden}.xl\:block{display:block}.xl\:inline-block{display:inline-block}.xl\:hidden{display:none}.xl\:overflow-hidden{overflow:hidden}.xl\:overflow-x-hidden{overflow-x:hidden}.xl\:overflow-y-hidden{overflow-y:hidden}.xl\:border-hidden{border-style:hidden}}</style></template></a865feb3b-1913-43b2-9473-ce2037cabef7></html>

@@ -1,0 +1,21 @@
+export const DS = {
+  bg: '#F4F6F8',
+  surface: '#FFFFFF',
+  surface2: '#FAFBFC',
+  border: '#E4E7EC',
+  borderLight: '#F0F2F5',
+  text: '#1A1D21',
+  text2: '#5E6C84',
+  text3: '#8993A4',
+  sidebar: '#0C1222',
+  sidebarHover: '#141C30',
+  accent: '#F97316',
+  up: '#10B981',
+  down: '#EF4444',
+  warn: '#F59E0B',
+  blue: '#3B82F6',
+  purple: '#8B5CF6',
+  pink: '#EC4899',
+  font: "'IBM Plex Sans', -apple-system, sans-serif",
+  mono: "'IBM Plex Mono', 'SF Mono', monospace"
+};
