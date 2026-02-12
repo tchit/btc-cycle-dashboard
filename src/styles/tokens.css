@@ -155,6 +155,16 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
 
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes loadSlide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(430%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 1ms !important; animation-duration: 1ms !important; }
 }

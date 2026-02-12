@@ -97,26 +97,27 @@ export default function App() {
         </div>
       </aside>
       <div className={`sidebar-overlay ${menuOpen ? 'visible' : ''}`} onClick={() => setMenuOpen(false)} />
-      <main className=\"main-content\">
-        <header className=\"header\">
-          {live.loading && <div className=\"loading-bar-top\"><div /></div>}
-          <div className=\"header-left\">
-            <button className=\"menu-toggle\" onClick={() => setMenuOpen(true)}>
+      <main className="main-content">
+        <header className="header" style={{ position: 'relative' }}>
+          {live.loading && <div className="loading-bar-top"><div /></div>}
+          <div className="header-left">
+            <button className="menu-toggle" onClick={() => setMenuOpen(true)}>
               <Menu size={24} />
             </button>
             <div>
-              <div className=\"header-title\">Bitcoin Cycle Dashboard</div>
-              <div className=\"header-subtitle\">
+              <div className="header-title">Bitcoin Cycle Dashboard</div>
+              <div className="header-subtitle">
                 {live.loading ? 'Syncing...' : live.lastUpdate ? `Last Sync: ${live.lastUpdate.toLocaleTimeString()}` : 'Initializing...'}
               </div>
             </div>
           </div>
-          <div className=\"header-right\">
+          <div className="header-right">
             {live.loading
               ? <div style={{ fontSize: 12, color: DS.text3, fontStyle: 'italic' }}>Loading...</div>
-              : <>\n                  {!mob && (
-                    <div className=\"header-badge\">
-                      <div className=\"header-badge-dot\" style={{ background: live.fearGreed < 20 ? DS.up : live.fearGreed > 80 ? DS.down : DS.warn }} />
+              : <>
+                  {!mob && (
+                    <div className="header-badge">
+                      <div className="header-badge-dot" style={{ background: live.fearGreed < 20 ? DS.up : live.fearGreed > 80 ? DS.down : DS.warn }} />
                       {`F&G: ${live.fearGreed}`}
                       {isFake(live.fakes, 'fearGreed') && <FakeBadge />}
                     </div>
@@ -125,10 +126,11 @@ export default function App() {
                     {`$${fP(live.price)}`}
                     {isFake(live.fakes, 'price') && <FakeBadge />}
                   </div>
-                </>\n            }
+                </>
+            }
           </div>
         </header>
-        <div className=\"content\">{renderContent()}</div>
+        <div className="content">{renderContent()}</div>
       </main>
     </div>
   );
