@@ -97,6 +97,13 @@ npm run preview  # Preview du build
 - Rate limit : 8 req/h sur bitcoin-data.com free tier
 - Cache : 1h via Cloudflare Cache API
 
+## Handoff & Continuité
+
+- **Fichier handoff** : `.claude/handoff.md` — état courant du travail en cours
+- **Règle** : Mettre à jour `.claude/handoff.md` après CHAQUE commit ou étape significative
+- **Contenu** : branche active, derniers commits, prochaines étapes, fichiers modifiés, problèmes connus
+- **Usage** : En cas de perte de contexte, lire `.claude/handoff.md` en premier pour reprendre le travail
+
 ## Conventions
 
 - Pas de TypeScript, tout en JS/JSX

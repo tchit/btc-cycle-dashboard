@@ -78,7 +78,7 @@ export default function PriceBandsChartV2({ price, mob, levels, histPrices }) {
 
     // Price area gradient
     const grad = ctx.createLinearGradient(0, y(mx), 0, y(mn));
-    grad.addColorStop(0, 'rgba(0,255,198,0.15)'); grad.addColorStop(1, 'rgba(0,255,198,0)');
+    grad.addColorStop(0, 'rgba(204,255,0,0.15)'); grad.addColorStop(1, 'rgba(204,255,0,0)');
     ctx.beginPath();
     pricePath.forEach((p, i) => { i === 0 ? ctx.moveTo(x(i), y(p.v)) : ctx.lineTo(x(i), y(p.v)); });
     ctx.lineTo(x(pricePath.length - 1), pad.t + ch); ctx.lineTo(x(0), pad.t + ch);

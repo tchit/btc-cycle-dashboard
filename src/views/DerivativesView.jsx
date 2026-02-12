@@ -39,7 +39,7 @@ export default function DerivativesView({ live, calc, mob }) {
                   const ranges = [-0.03, -0.01, 0.01, 0.05, Infinity];
                   const active = i === 0 ? fr < -0.03 : fr >= [-Infinity, -0.03, -0.01, 0.01, 0.05][i] && fr < ranges[i];
                   return (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', borderRadius: 6, background: active ? 'rgba(0,255,198,0.06)' : 'transparent', border: active ? '1px solid rgba(0,255,198,0.2)' : '1px solid transparent' }}>
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', borderRadius: 6, background: active ? 'rgba(204,255,0,0.06)' : 'transparent', border: active ? '1px solid rgba(204,255,0,0.2)' : '1px solid transparent' }}>
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: z.c, opacity: active ? 1 : 0.4 }} />
                       <div style={{ fontSize: 15 }}>
                         <span style={{ fontFamily: DS.mono, fontWeight: 500, color: active ? DSCard.text : DSCard.text3 }}>{z.l}</span>
@@ -95,10 +95,10 @@ export default function DerivativesView({ live, calc, mob }) {
         <div className="card-body">
           <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 12 }}>
             {calc.bscores.filter(s => s.id === 'funding' || s.id === 'leverage').map(s => (
-              <div key={s.id} style={{ padding: '14px 16px', background: DSCard.borderLight, borderRadius: 10, border: `1px solid ${s.st === 'hit' ? 'rgba(0,255,198,0.2)' : s.st === 'partial' ? 'rgba(0,255,198,0.2)' : DSCard.border}` }}>
+              <div key={s.id} style={{ padding: '14px 16px', background: DSCard.borderLight, borderRadius: 10, border: `1px solid ${s.st === 'hit' ? 'rgba(204,255,0,0.2)' : s.st === 'partial' ? 'rgba(204,255,0,0.2)' : DSCard.border}` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                   <div style={{ fontWeight: 600, fontSize: 16 }}>{s.l}</div>
-                  <div style={{ fontSize: 14, padding: '2px 8px', borderRadius: 10, fontWeight: 600, background: s.st === 'hit' ? 'rgba(0,255,198,0.1)' : s.st === 'partial' ? 'rgba(0,255,198,0.1)' : 'rgba(255,0,60,0.1)', color: s.st === 'hit' ? DSCard.up : s.st === 'partial' ? DSCard.accent : DSCard.down }}>{s.st === 'hit' ? 'Atteint' : s.st === 'partial' ? 'Partiel' : 'Non atteint'}</div>
+                  <div style={{ fontSize: 14, padding: '2px 8px', borderRadius: 10, fontWeight: 600, background: s.st === 'hit' ? 'rgba(204,255,0,0.1)' : s.st === 'partial' ? 'rgba(204,255,0,0.1)' : 'rgba(255,0,60,0.1)', color: s.st === 'hit' ? DSCard.up : s.st === 'partial' ? DSCard.accent : DSCard.down }}>{s.st === 'hit' ? 'Atteint' : s.st === 'partial' ? 'Partiel' : 'Non atteint'}</div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 15, color: DSCard.text2 }}>
                   <span>{`Cible: ${s.th}`}</span>

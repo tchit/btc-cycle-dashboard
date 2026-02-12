@@ -60,7 +60,7 @@ export default function MinersView({ live, calc, mob, hrHist }) {
           <div className="card-header"><div className="card-title">⛏ Hash Ribbons</div></div>
           <div className="card-body">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: ribbonDown ? 'rgba(0,255,198,0.06)' : 'rgba(255,0,60,0.06)', borderRadius: 10, border: `1px solid ${ribbonDown ? 'rgba(0,255,198,0.15)' : 'rgba(255,0,60,0.15)'}` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: ribbonDown ? 'rgba(204,255,0,0.06)' : 'rgba(255,0,60,0.06)', borderRadius: 10, border: `1px solid ${ribbonDown ? 'rgba(204,255,0,0.15)' : 'rgba(255,0,60,0.15)'}` }}>
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: ribbonDown ? DSCard.up : DSCard.down }} />
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 14 }}>{ribbonDown ? 'Capitulation Mineurs' : 'Mineurs en expansion'}</div>
@@ -96,7 +96,7 @@ export default function MinersView({ live, calc, mob, hrHist }) {
                   const thresholds = [0.5, 1.0, 2.0, 4.0, Infinity];
                   const active = i === 0 ? calc.puell < 0.5 : calc.puell >= [0, 0.5, 1.0, 2.0, 4.0][i] && calc.puell < thresholds[i];
                   return (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', borderRadius: 6, background: active ? 'rgba(0,255,198,0.06)' : 'transparent', border: active ? '1px solid rgba(0,255,198,0.2)' : '1px solid transparent' }}>
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', borderRadius: 6, background: active ? 'rgba(204,255,0,0.06)' : 'transparent', border: active ? '1px solid rgba(204,255,0,0.2)' : '1px solid transparent' }}>
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: colors[i], opacity: active ? 1 : 0.4 }} />
                       <div style={{ fontSize: 15, color: active ? DSCard.text : DSCard.text3 }}>{t}</div>
                     </div>
