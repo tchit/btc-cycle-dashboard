@@ -28,7 +28,7 @@ export default function ScenarioZoneChart({ price, mob, levels }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 10, height: 10, borderRadius: '50%', background: s.c, flexShrink: 0 }} />
             <span style={{ fontWeight: 700, fontSize: 14, color: s.c }}>{s.l}</span>
-            {s.hl && <span style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: s.c, color: '#fff', marginLeft: 4 }}>PROBABLE</span>}
+            {s.hl && <span style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: s.c, color: DS.bg, marginLeft: 4 }}>PROBABLE</span>}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <span style={{ fontSize: 16, fontFamily: DS.mono, fontWeight: 600, color: DS.text }}>{`$${s.r[0]}K \u2014 $${s.r[1]}K`}</span>

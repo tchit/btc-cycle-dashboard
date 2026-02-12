@@ -26,8 +26,8 @@ export default function ScenariosView({ live, calc, mob }) {
             {SCENARIOS.map((s, i) => {
               const inRange = live.price >= s.r[0] * 1000 && live.price <= s.r[1] * 1000;
               return (
-                <div key={i} style={{ padding: '18px 20px', borderRadius: 12, border: `1.5px solid ${s.hl ? s.c : DSCard.border}`, background: s.hl ? 'rgba(249,115,22,0.04)' : DSCard.bgHover, position: 'relative', overflow: 'hidden' }}>
-                  {s.hl && <div style={{ position: 'absolute', top: 0, right: 0, padding: '3px 10px', fontSize: 13, fontWeight: 700, background: s.c, color: '#fff', borderRadius: '0 0 0 8px' }}>PROBABLE</div>}
+                <div key={i} style={{ padding: '18px 20px', borderRadius: 12, border: `1.5px solid ${s.hl ? s.c : DSCard.border}`, background: s.hl ? 'rgba(0,255,198,0.04)' : DSCard.bgHover, position: 'relative', overflow: 'hidden' }}>
+                  {s.hl && <div style={{ position: 'absolute', top: 0, right: 0, padding: '3px 10px', fontSize: 13, fontWeight: 700, background: s.c, color: DS.bg, borderRadius: '0 0 0 8px' }}>PROBABLE</div>}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ width: 10, height: 10, borderRadius: '50%', background: s.c }} />
@@ -46,7 +46,7 @@ export default function ScenariosView({ live, calc, mob }) {
                       <div style={{ fontSize: 14, fontWeight: 600, fontFamily: DS.mono, color: DSCard.down }}>{`${s.dd[0]}% / ${s.dd[1]}%`}</div>
                     </div>
                   </div>
-                  {inRange && <div style={{ marginTop: 10, padding: '4px 10px', background: 'rgba(16,185,129,0.08)', borderRadius: 6, fontSize: 14, color: DSCard.up, fontWeight: 600, textAlign: 'center' }}>Prix actuel dans cette zone</div>}
+                  {inRange && <div style={{ marginTop: 10, padding: '4px 10px', background: 'rgba(0,255,198,0.08)', borderRadius: 6, fontSize: 14, color: DSCard.up, fontWeight: 600, textAlign: 'center' }}>Prix actuel dans cette zone</div>}
                 </div>
               );
             })}
@@ -60,7 +60,7 @@ export default function ScenariosView({ live, calc, mob }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {TIMING.map((t, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 16px', background: DSCard.borderLight, borderRadius: 10 }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: `rgba(249,115,22,${0.06 + t.conf * 0.1})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, fontFamily: DS.mono, color: DSCard.accent, flexShrink: 0 }}>{`${i + 1}`}</div>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: `rgba(0,255,198,${0.06 + t.conf * 0.1})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 700, fontFamily: DS.mono, color: DSCard.accent, flexShrink: 0 }}>{`${i + 1}`}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 2 }}>{t.m}</div>
                   <div style={{ fontSize: 15, color: DSCard.text2 }}>{t.calc}</div>
@@ -71,7 +71,7 @@ export default function ScenariosView({ live, calc, mob }) {
                 </div>
               </div>
             ))}
-            <div style={{ marginTop: 8, padding: '12px 16px', background: 'rgba(249,115,22,0.04)', borderRadius: 10, border: '1px solid rgba(249,115,22,0.12)' }}>
+            <div style={{ marginTop: 8, padding: '12px 16px', background: 'rgba(0,255,198,0.04)', borderRadius: 10, border: '1px solid rgba(0,255,198,0.12)' }}>
               <div style={{ fontSize: 16, fontWeight: 600, color: DSCard.accent, marginBottom: 4 }}>Convergence: Sep - Nov 2026</div>
               <div style={{ fontSize: 15, color: DSCard.text2, lineHeight: 1.5 }}>Les 3 méthodes de calcul convergent vers une fenêtre de bottom potentiel entre septembre et novembre 2026.</div>
             </div>

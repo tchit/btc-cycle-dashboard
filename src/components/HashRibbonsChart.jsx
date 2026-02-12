@@ -90,7 +90,7 @@ export default function HashRibbonsChart({ hrHist, mob }) {
     padding: '4px 12px', borderRadius: 6, fontSize: 14, fontWeight: 600,
     fontFamily: DS.mono, cursor: 'pointer', border: 'none',
     background: active ? DS.accent : DS.borderLight,
-    color: active ? '#fff' : DS.text2,
+    color: active ? DS.bg : DS.text2,
     transition: 'all 0.15s ease'
   });
 

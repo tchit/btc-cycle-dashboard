@@ -3,15 +3,15 @@ import { DS } from '../config/design';
 import FakeBadge from './FakeBadge';
 
 const getZone = (v) => {
-  if (v <= 10) return { label: 'EXTREME FEAR', color: '#DC2626', bg: 'rgba(220,38,38,0.14)', ring: 'rgba(220,38,38,0.45)' };
-  if (v <= 20) return { label: 'FEAR', color: '#EF4444', bg: 'rgba(239,68,68,0.10)', ring: 'rgba(239,68,68,0.30)' };
-  if (v <= 35) return { label: 'FEAR', color: '#F97316', bg: 'rgba(249,115,22,0.07)', ring: 'rgba(249,115,22,0.18)' };
-  if (v <= 45) return { label: 'PRUDENCE', color: '#F59E0B', bg: 'rgba(245,158,11,0.05)', ring: 'rgba(245,158,11,0.12)' };
-  if (v <= 55) return { label: 'NEUTRAL', color: '#94A3B8', bg: 'transparent', ring: 'transparent' };
+  if (v <= 10) return { label: 'EXTREME FEAR', color: '#FF003C', bg: 'rgba(255,0,60,0.14)', ring: 'rgba(255,0,60,0.45)' };
+  if (v <= 20) return { label: 'FEAR', color: '#FF003C', bg: 'rgba(255,0,60,0.10)', ring: 'rgba(255,0,60,0.30)' };
+  if (v <= 35) return { label: 'FEAR', color: '#FFB800', bg: 'rgba(255,184,0,0.07)', ring: 'rgba(255,184,0,0.18)' };
+  if (v <= 45) return { label: 'PRUDENCE', color: '#FFB800', bg: 'rgba(255,184,0,0.05)', ring: 'rgba(255,184,0,0.12)' };
+  if (v <= 55) return { label: 'NEUTRAL', color: '#5A5E6B', bg: 'transparent', ring: 'transparent' };
   if (v <= 65) return { label: 'GREED', color: '#84CC16', bg: 'rgba(132,204,22,0.05)', ring: 'rgba(132,204,22,0.12)' };
-  if (v <= 80) return { label: 'GREED', color: '#22C55E', bg: 'rgba(34,197,94,0.07)', ring: 'rgba(34,197,94,0.18)' };
-  if (v <= 90) return { label: 'EXTREME GREED', color: '#16A34A', bg: 'rgba(22,163,74,0.10)', ring: 'rgba(22,163,74,0.30)' };
-  return { label: 'MAX GREED', color: '#15803D', bg: 'rgba(21,128,61,0.14)', ring: 'rgba(21,128,61,0.45)' };
+  if (v <= 80) return { label: 'GREED', color: '#00FFC6', bg: 'rgba(0,255,198,0.07)', ring: 'rgba(0,255,198,0.18)' };
+  if (v <= 90) return { label: 'EXTREME GREED', color: '#00FFC6', bg: 'rgba(0,255,198,0.10)', ring: 'rgba(0,255,198,0.30)' };
+  return { label: 'MAX GREED', color: '#00FFC6', bg: 'rgba(0,255,198,0.14)', ring: 'rgba(0,255,198,0.45)' };
 };
 
 export default function FearGreedCard({ value, fgLabel, fake }) {
@@ -103,7 +103,7 @@ export default function FearGreedCard({ value, fgLabel, fake }) {
         <div style={{ position: 'relative', height: 6, borderRadius: 3, overflow: 'hidden', marginTop: 2 }}>
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(90deg, #DC2626 0%, #EF4444 15%, #F97316 30%, #F59E0B 45%, #84CC16 65%, #22C55E 80%, #15803D 100%)',
+            background: 'linear-gradient(90deg, #FF003C 0%, #FF003C 15%, #FFB800 30%, #FFB800 45%, #84CC16 65%, #00FFC6 80%, #00FFC6 100%)',
             opacity: 0.25, borderRadius: 3
           }} />
           <div style={{

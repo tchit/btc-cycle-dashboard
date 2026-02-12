@@ -206,8 +206,8 @@ export default function PiCycleChart({ hist, mob }) {
   const btnStyle = (active) => ({
     padding: '4px 12px', borderRadius: 14, fontSize: 14, fontWeight: 600,
     fontFamily: DS.mono, cursor: 'pointer', border: 'none',
-    background: active ? DS.accent : '#F0F2F5',
-    color: active ? '#fff' : '#5E6C84',
+    background: active ? DS.accent : DS.surface,
+    color: active ? DS.bg : DS.text3,
     transition: 'all 0.15s ease'
   });
 

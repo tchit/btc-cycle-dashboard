@@ -71,8 +71,8 @@ export default function PriceBandsChartV3({ price, mob, levels, histPrices }) {
 
     // Area fill under the curve
     const grad = ctx.createLinearGradient(0, y(mx), 0, y(mn));
-    grad.addColorStop(0, 'rgba(249,115,22,0.12)');
-    grad.addColorStop(1, 'rgba(249,115,22,0)');
+    grad.addColorStop(0, 'rgba(0,255,198,0.12)');
+    grad.addColorStop(1, 'rgba(0,255,198,0)');
     ctx.beginPath();
     pricePath.forEach((p, i) => i === 0 ? ctx.moveTo(x(i), y(p.v)) : ctx.lineTo(x(i), y(p.v)));
     ctx.lineTo(x(pricePath.length - 1), pad.t + ch);
@@ -98,7 +98,7 @@ export default function PriceBandsChartV3({ price, mob, levels, histPrices }) {
         ctx.fillStyle = DS.accent;
         ctx.fill();
       } else {
-        ctx.fillStyle = '#FFFFFF';
+        ctx.fillStyle = DS.text;
         ctx.fill();
         ctx.strokeStyle = DS.accent;
         ctx.lineWidth = 1.5;
@@ -112,7 +112,7 @@ export default function PriceBandsChartV3({ price, mob, levels, histPrices }) {
     ctx.beginPath();
     ctx.roundRect(lx - 30, ly - 22, 60, 18, 9);
     ctx.fill();
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = DS.bg;
     ctx.font = `bold 10px ${DS.mono}`;
     ctx.textAlign = 'center';
     ctx.fillText(`$${fK(price)}`, lx, ly - 10);
