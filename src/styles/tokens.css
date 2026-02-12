@@ -3,35 +3,49 @@
   --bg-app: #0B0E14;          /* Fond profond, presque noir */
   --bg-sidebar: #0F1219;      /* Légère distinction */
   --bg-surface: rgba(255, 255, 255, 0.02); /* Pour les cards */
-  --bg-surface-hover: rgba(255, 255, 255, 0.05);
+  --bg-surface-hover: rgba(255, 255, 255, 0.04);
+  --bg-surface-active: rgba(255, 255, 255, 0.06);
 
   /* 🌈 ACCENTS (Electric but contained) */
   --accent-primary: #5E6AD2;  /* Linear Purple */
-  --accent-glow: rgba(94, 106, 210, 0.35);
-  --accent-cyan: #4CC2D0;     /* Pour les valeurs positives vives */
+  --accent-glow: rgba(94, 106, 210, 0.25); /* Glow réduit pour éviter l'effet gamer */
+  --accent-cyan: #4CC2D0;     
   
   /* 🚥 SEMANTIC (Data colors) */
-  --up: #4CC2D0;              /* Cyan au lieu de vert standard */
+  --up: #4CC2D0;              
   --up-bg: rgba(76, 194, 208, 0.1);
-  --down: #FF4F5E;            /* Rouge-Rosé moderne */
-  --down-bg: rgba(239, 68, 68, 0.1);
+  --down: #FF4F5E;            
+  --down-bg: rgba(255, 79, 94, 0.1);
   --warn: #F5A623;
   --neutral: #8A8F98;
 
-  /* ✒️ TYPOGRAPHY */
-  --font-sans: 'Instrument Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* ✒️ TYPOGRAPHY REFINED */
+  --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  
+  /* SIZES - Optically adjusted for high density */
+  --text-xs: 12px;   /* Labels techniques */
+  --text-sm: 13px;   /* Secondaire */
+  --text-base: 15px; /* Body par défaut (augmenté pour faire pro) */
+  --text-lg: 18px;   /* Titres de sections */
+  --text-xl: 24px;   /* Valeurs moyennes */
+  --text-2xl: 32px;  /* Gros chiffres (StatCards) */
+  --text-display: 48px;
+
+  /* WEIGHTS */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
 
   /* 🕸️ BORDERS & SEPARATORS */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(255, 255, 255, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-active: rgba(255, 255, 255, 0.12);
   --glass-border: 1px solid var(--border-subtle);
 
-  /* 💡 SHADOWS & GLOWS */
-  --glow-surface: 0px 0px 0px 1px rgba(255, 255, 255, 0.05), 
-                  0px 2px 8px rgba(0, 0, 0, 0.4);
-  --glow-active: 0px 0px 0px 1px var(--accent-primary), 
-                 0px 0px 16px var(--accent-glow);
+  /* 💡 SHADOWS & GLOWS (Raffiné) */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --glow-surface: 0 0 0 1px rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.4);
+  --glow-active: 0 0 0 1px var(--accent-primary), 0 0 20px rgba(94, 106, 210, 0.2);
 
   /* 📐 SPACING & RADIUS */
   --radius-sm: 6px;
@@ -39,9 +53,9 @@
   --radius-lg: 16px;
   
   /* TEXT COLORS */
-  --text-primary: #F7F8F8;
-  --text-secondary: #8A8F98;
-  --text-tertiary: #585C66;
+  --text-primary: #F0F0F0; /* Blanc cassé, moins agressif */
+  --text-secondary: #9CA3AF;
+  --text-tertiary: #6B7280;
   
   /* Layout */
   --sidebar-width: 240px;
@@ -52,9 +66,10 @@ body {
   background-color: var(--bg-app);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1.5;
+  letter-spacing: -0.01em; /* Tighten sans-serif globally */
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Scrollbar */
