@@ -59,16 +59,16 @@ export default function PiCycleView({ live, calc, hist, mob }) {
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: stColor }} />
                 <div>
                   <div style={{ fontWeight: 600, fontSize: 14 }}>{stLabel}</div>
-                  <div style={{ fontSize: 12, color: DS.text2, marginTop: 2 }}>{stDesc}</div>
+                  <div style={{ fontSize: 15, color: DS.text2, marginTop: 2 }}>{stDesc}</div>
                 </div>
               </div>
               {lastCross && (
                 <div style={{ padding: '12px 14px', background: DS.borderLight, borderRadius: 8 }}>
-                  <div style={{ fontSize: 11, color: DS.text3, marginBottom: 4 }}>Dernier croisement</div>
+                  <div style={{ fontSize: 14, color: DS.text3, marginBottom: 4 }}>Dernier croisement</div>
                   <div style={{ fontSize: 15, fontWeight: 600, fontFamily: DS.mono }}>{daysSinceLastCross} jours</div>
                 </div>
               )}
-              <div style={{ fontSize: 12, color: DS.text2, lineHeight: 1.6 }}>{INFO.picycle}</div>
+              <div style={{ fontSize: 15, color: DS.text2, lineHeight: 1.6 }}>{INFO.picycle}</div>
             </div>
           </div>
         </div>
@@ -82,10 +82,10 @@ export default function PiCycleView({ live, calc, hist, mob }) {
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 14px', background: active ? z.c + '11' : 'transparent', borderRadius: 8, border: active ? `1px solid ${z.c}33` : '1px solid transparent' }}>
                     <div style={{ width: 8, height: 8, borderRadius: '50%', background: z.c, opacity: active ? 1 : 0.3 }} />
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 13, fontWeight: active ? 600 : 400 }}>{z.label}</div>
-                      <div style={{ fontSize: 11, color: DS.text3 }}>{z.desc}</div>
+                      <div style={{ fontSize: 16, fontWeight: active ? 600 : 400 }}>{z.label}</div>
+                      <div style={{ fontSize: 14, color: DS.text3 }}>{z.desc}</div>
                     </div>
-                    {active && <div style={{ fontSize: 12, fontWeight: 600, color: z.c }}>◀</div>}
+                    {active && <div style={{ fontSize: 15, fontWeight: 600, color: z.c }}>◀</div>}
                   </div>
                 );
               })}

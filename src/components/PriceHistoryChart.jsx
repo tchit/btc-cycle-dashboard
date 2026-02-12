@@ -102,7 +102,7 @@ export default function PriceHistoryChart({ hist, mob }) {
       <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
         {[30, 90, 365, 1460, 2920].map(d => (
           <button key={d} onClick={() => setPeriod(d)} style={{
-            padding: '6px 14px', borderRadius: 6, fontSize: 11,
+            padding: '6px 14px', borderRadius: 6, fontSize: 14,
             fontWeight: period === d ? 600 : 400,
             background: period === d ? DS.text : DS.surface,
             border: `1px solid ${period === d ? DS.text : DS.border}`,
@@ -112,7 +112,7 @@ export default function PriceHistoryChart({ hist, mob }) {
             {d === 365 ? '1A' : d === 1460 ? '4A' : d === 2920 ? '8A' : `${d}J`}
           </button>
         ))}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, fontSize: 10, alignItems: 'center' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, fontSize: 13, alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <div style={{ width: 8, height: 2, background: DS.accent }} />
             <span style={{ color: DS.text2 }}>Prix</span>

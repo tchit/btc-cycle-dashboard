@@ -119,10 +119,10 @@ export default function PriceBandsChartV2({ price, mob, levels, histPrices }) {
       <canvas ref={ref} style={{ width: '100%', height: mob ? 280 : 340 }} />
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10, padding: '0 4px' }}>
         {lvls2.map(l => (
-          <div key={l.k} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: l.c + '10', fontSize: 11, fontFamily: DS.font, whiteSpace: 'nowrap' }}>
+          <div key={l.k} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: l.c + '10', fontSize: 14, fontFamily: DS.font, whiteSpace: 'nowrap' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: l.c, flexShrink: 0 }} />
             <span style={{ fontWeight: 600, color: l.c }}>{l.l}</span>
-            <span style={{ color: DS.text3, fontFamily: DS.mono, fontSize: 10 }}>{`$${fK(l.v)}`}</span>
+            <span style={{ color: DS.text3, fontFamily: DS.mono, fontSize: 13 }}>{`$${fK(l.v)}`}</span>
           </div>
         ))}
       </div>

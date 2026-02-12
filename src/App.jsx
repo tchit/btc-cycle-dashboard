@@ -16,17 +16,26 @@ import MinersView from './views/MinersView';
 import DerivativesView from './views/DerivativesView';
 import ScenariosView from './views/ScenariosView';
 import ConnectorsView from './components/ConnectorsView';
+import TradingViewView from './views/TradingViewView';
+import {
+  IconDashboard, IconChain, IconDollar, IconRainbow, IconCycle,
+  IconMiner, IconTrending, IconSparkles, IconPlug, IconMonitor
+} from './components/Icons';
+import SystemStatus from './components/SystemStatus';
+
+const ART_VISUAL = "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=600";
 
 const TABS = [
-  { id: 'dashboard', l: 'Dashboard', i: '📊' },
-  { id: 'onchain', l: 'On-Chain', i: '🔗' },
-  { id: 'price', l: 'Prix', i: '💰' },
-  { id: 'rainbow', l: 'Rainbow', i: '🌈' },
-  { id: 'picycle', l: 'Pi Cycle', i: '🔄' },
-  { id: 'miners', l: 'Miners', i: '⛏' },
-  { id: 'derivatives', l: 'Dérivés', i: '📈' },
-  { id: 'scenarios', l: 'Scénarios', i: '🔮' },
-  { id: 'connectors', l: 'Connecteurs', i: '🔌' }
+  { id: 'dashboard', l: 'Dashboard', i: <IconDashboard /> },
+  { id: 'onchain', l: 'On-Chain', i: <IconChain /> },
+  { id: 'price', l: 'Prix', i: <IconDollar /> },
+  { id: 'rainbow', l: 'Rainbow', i: <IconRainbow /> },
+  { id: 'picycle', l: 'Pi Cycle', i: <IconCycle /> },
+  { id: 'miners', l: 'Miners', i: <IconMiner /> },
+  { id: 'derivatives', l: 'Dérivés', i: <IconTrending /> },
+  { id: 'scenarios', l: 'Scénarios', i: <IconSparkles /> },
+  { id: 'connectors', l: 'Connecteurs', i: <IconPlug /> },
+  { id: 'tradingview', l: 'TradingView', i: <IconMonitor /> }
 ];
 
 export default function App() {
@@ -50,6 +59,7 @@ export default function App() {
       case 'derivatives': return <DerivativesView live={live} calc={calc} mob={mob} />;
       case 'scenarios': return <ScenariosView live={live} calc={calc} mob={mob} />;
       case 'connectors': return <ConnectorsView live={live} mob={mob} />;
+      case 'tradingview': return <TradingViewView />;
       default: return <DashboardView live={live} calc={calc} hist={hist} mob={mob} />;
     }
   };
@@ -58,8 +68,8 @@ export default function App() {
     <div className="app-layout">
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
-          <div className="sidebar-logo-icon">₿</div>
-          <div className="sidebar-logo-text">CYCLE PRO</div>
+          <div className="sidebar-logo-icon" />
+          <div className="sidebar-logo-text">BTC CYCLE</div>
         </div>
         <nav className="sidebar-nav">
           <div className="sidebar-section">
@@ -81,6 +91,11 @@ export default function App() {
             ))}
           </div>
         </nav>
+        <div className="brand-slot">
+          <div className="brand-visual-container">
+            <img src={ART_VISUAL} alt="Cycle Art" className="brand-image" />
+          </div>
+        </div>
         <div className="sidebar-footer">
           <div className="sidebar-status">
             <div className="sidebar-status-dot" />
@@ -103,15 +118,35 @@ export default function App() {
           </div>
           <div className="header-right">
             {live.loading
-              ? <div style={{ fontSize: 12, color: DS.text3, fontStyle: 'italic' }}>Loading...</div>
+              ? <div style={{ fontSize: 15, color: DS.text3, fontStyle: 'italic' }}>Loading...</div>
               : <>
-                  {!mob && (
-                    <div className="header-badge">
-                      <div className="header-badge-dot" style={{ background: live.fearGreed < 20 ? DS.up : live.fearGreed > 80 ? DS.down : DS.warn }} />
-                      {`F&G: ${live.fearGreed}`}
-                      {isFake(live.fakes, 'fearGreed') && <FakeBadge />}
-                    </div>
-                  )}
+                  {!mob && (() => {
+                    const fg = live.fearGreed;
+                    const extreme = fg < 20 || fg > 80;
+                    const c = fg < 20 ? '#EF4444' : fg > 80 ? '#22C55E' : DS.warn;
+                    return (
+                      <div className="header-badge" style={{
+                        background: extreme ? (fg < 20 ? 'rgba(239,68,68,0.2)' : 'rgba(34,197,94,0.2)') : undefined,
+                        border: extreme ? `2px solid ${c}` : undefined,
+                        color: extreme ? c : undefined,
+                        fontWeight: extreme ? 800 : undefined,
+                        fontSize: extreme ? 15 : undefined,
+                        padding: extreme ? '6px 16px' : undefined,
+                        boxShadow: extreme ? `0 0 20px ${fg < 20 ? 'rgba(239,68,68,0.35)' : 'rgba(34,197,94,0.35)'}, 0 0 6px ${fg < 20 ? 'rgba(239,68,68,0.2)' : 'rgba(34,197,94,0.2)'}` : undefined,
+                        animation: extreme ? 'pulse-glow 1.5s ease-in-out infinite' : undefined,
+                        textShadow: extreme ? `0 0 10px ${fg < 20 ? 'rgba(239,68,68,0.4)' : 'rgba(34,197,94,0.4)'}` : undefined
+                      }}>
+                        <div className="header-badge-dot" style={{
+                          background: c,
+                          width: extreme ? 10 : 8,
+                          height: extreme ? 10 : 8,
+                          boxShadow: extreme ? `0 0 10px ${c}, 0 0 4px ${c}` : 'none'
+                        }} />
+                        {extreme ? `${fg} — ${live.fgLabel}` : `F&G: ${fg}`}
+                        {isFake(live.fakes, 'fearGreed') && <FakeBadge />}
+                      </div>
+                    );
+                  })()}
                   <div style={{ fontSize: 16, fontWeight: 700, fontFamily: DS.mono }}>
                     {`$${fP(live.price)}`}
                     {isFake(live.fakes, 'price') && <FakeBadge />}
@@ -122,6 +157,7 @@ export default function App() {
         </header>
         <div className="content">{renderContent()}</div>
       </main>
+      <SystemStatus />
     </div>
   );
 }

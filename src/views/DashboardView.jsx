@@ -1,5 +1,6 @@
 import React from 'react';
 import StatCard from '../components/StatCard';
+import FearGreedCard from '../components/FearGreedCard';
 import CompositeGauge from '../components/CompositeGauge';
 import BottomScoreCard from '../components/BottomScoreCard';
 import SignalCard from '../components/SignalCard';
@@ -12,9 +13,9 @@ export default function DashboardView({ live, calc, hist, mob }) {
   return (
     <>
       <div className="stat-grid" style={{ marginBottom: 24 }}>
-        <StatCard label="Prix Actuel" value={`$${fP(live.price)}`} change={live.change24h} neutral fake={isFake(live.fakes, 'price')} />
+        <StatCard label="Prix Actuel" value={`$${fP(live.price)}`} change={live.change24h} neutral fake={isFake(live.fakes, 'price')} featured />
         <StatCard label="MVRV Ratio" value={calc.mvrv.toFixed(2)} detail={`Z: ${calc.mvrvz.toFixed(2)}`} status={calc.mvrv < 1 ? 'up' : calc.mvrv > 3.5 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'mvrvratio', 'mvrvz')} />
-        <StatCard label="Fear & Greed" value={live.fearGreed} detail={live.fgLabel} status={live.fearGreed < 20 ? 'up' : live.fearGreed > 75 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'fearGreed')} />
+        <FearGreedCard value={live.fearGreed} fgLabel={live.fgLabel} fake={isFake(live.fakes, 'fearGreed')} />
         <StatCard label="Distance ATH" value={`${calc.drop.toFixed(1)}%`} detail={`${calc.dATH} jours`} status="neutral" fake={isFake(live.fakes, 'price')} />
       </div>
 
