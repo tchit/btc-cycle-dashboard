@@ -21,7 +21,7 @@ export const DS = {
   pink: '#EC4899',
   font: "'DM Sans', sans-serif",
   mono: "'JetBrains Mono', monospace",
-  display: "'Bricolage Grotesque', sans-serif",
+  display: "'Chakra Petch', sans-serif",
   neonPrimary: '#CCFF00',
   neonDanger: '#FF003C',
   neonWarn: '#FFB800',

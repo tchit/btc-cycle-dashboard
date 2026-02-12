@@ -1,11 +1,14 @@
 import React from 'react';
 import SignalCard from '../components/SignalCard';
 import ExhaustionPanel from '../components/ExhaustionPanel';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 import { INFO } from '../config/constants';
 import { fK, isFake } from '../utils/format';
 
 export default function OnChainView({ live, calc, mob }) {
-  return (
+  return (<>
+    {/* Section banner — Replace with blockchain network / node visualization */}
+    <ImagePlaceholder variant="section" section="onchain" overlay="bottom" />
     <div className="card">
       <div className="card-header"><div className="card-title">Analyse On-Chain Detaillee</div></div>
       <div className="card-body">
@@ -20,5 +23,5 @@ export default function OnChainView({ live, calc, mob }) {
         </div>
       </div>
     </div>
-  );
+  </>);
 }

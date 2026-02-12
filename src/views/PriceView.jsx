@@ -1,10 +1,13 @@
 import React from 'react';
 import PriceBandsChartV3 from '../components/PriceBandsChartV3';
 import PriceHistoryChart from '../components/PriceHistoryChart';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 export default function PriceView({ live, calc, hist, mob }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* Section banner — Replace with candlestick / price chart illustration */}
+      <ImagePlaceholder variant="section" section="price" overlay="bottom" />
       <div className="card">
         <div className="card-header"><div className="card-title">Bandes de Prix Historiques</div></div>
         <div className="card-body">

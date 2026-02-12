@@ -5,6 +5,7 @@ import { fB, isFake } from '../utils/format';
 import StatCard from '../components/StatCard';
 import FearGreedCard from '../components/FearGreedCard';
 import FundingRateChart from '../components/FundingRateChart';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 export default function DerivativesView({ live, calc, mob }) {
   const fr = live.fundingRateBG ?? live.fundingRate;
@@ -12,6 +13,8 @@ export default function DerivativesView({ live, calc, mob }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* Section banner — Replace with derivatives / leverage illustration */}
+      <ImagePlaceholder variant="section" section="derivatives" overlay="bottom" />
       <div className="stat-grid">
         <StatCard label="Funding Rate" value={`${fr.toFixed(4)}%`} status={fr < -0.01 ? 'up' : fr > 0.05 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'fundingRate')} />
         <StatCard label="Open Interest" value={fB(oi)} status={oi > 60e9 ? 'down' : oi < 30e9 ? 'up' : 'neutral'} fake={isFake(live.fakes, 'openInterest')} />
@@ -63,22 +66,38 @@ export default function DerivativesView({ live, calc, mob }) {
                 <div style={{ fontSize: 16, color: DSCard.text2, marginTop: 6 }}>Valeur totale des positions futures ouvertes</div>
               </div>
               <div style={{ padding: '12px 14px', background: DSCard.borderLight, borderRadius: 10 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: DSCard.text3, marginBottom: 6 }}>
-                  <span>Purgé</span>
-                  <span>Surlévéragé</span>
-                </div>
-                <div style={{ height: 8, background: DSCard.border, borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
-                  <div style={{ height: '100%', width: `${Math.min(100, (oi / 90e9) * 100)}%`, background: `linear-gradient(90deg, ${DSCard.up}, ${DSCard.warn}, ${DSCard.down})`, borderRadius: 4, transition: 'width 0.5s ease' }} />
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14, color: DSCard.text3, marginTop: 6 }}>
-                  <span>$0</span>
-                  <span>$90B</span>
-                </div>
-              </div>
-              <div style={{ padding: '12px 14px', background: DSCard.borderLight, borderRadius: 10, marginTop: 4 }}>
-                <div style={{ fontSize: 14, color: DSCard.text3, marginBottom: 4 }}>Levier purgé vs pic</div>
-                <div style={{ fontSize: 18, fontWeight: 600, fontFamily: DS.mono }}>{`${Math.max(0, (1 - oi / 90e9) * 100).toFixed(1)}%`}</div>
-                <div style={{ fontSize: 14, color: DSCard.text3, marginTop: 2 }}>{'Cible: -40% (OI < $54B)'}</div>
+                {(() => {
+                  const zones = [
+                    { label: 'Purgé', min: 0, max: 25e9, color: DSCard.up, desc: 'Levier nettoyé — signal bottom' },
+                    { label: 'Faible', min: 25e9, max: 40e9, color: '#34d399', desc: 'Levier contenu — sain' },
+                    { label: 'Modéré', min: 40e9, max: 60e9, color: DSCard.text2, desc: 'Activité normale' },
+                    { label: 'Élevé', min: 60e9, max: 80e9, color: DSCard.warn, desc: 'Levier excessif — prudence' },
+                    { label: 'Extrême', min: 80e9, max: Infinity, color: DSCard.down, desc: 'Surlévéragé — risque de cascade' }
+                  ];
+                  const currentZone = zones.find(z => oi >= z.min && oi < z.max) || zones[zones.length - 1];
+                  const OI_SCALE = 100e9;
+                  const pct = Math.min(100, (oi / OI_SCALE) * 100);
+                  return (
+                    <>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                        <span style={{ fontSize: 14, color: DSCard.text3 }}>Niveau de levier</span>
+                        <span style={{ fontSize: 14, fontWeight: 600, fontFamily: DS.mono, color: currentZone.color }}>{currentZone.label}</span>
+                      </div>
+                      <div style={{ height: 8, background: DSCard.border, borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
+                        <div style={{ height: '100%', width: `${pct}%`, background: `linear-gradient(90deg, ${DSCard.up}, #34d399, ${DSCard.warn}, ${DSCard.down})`, borderRadius: 4, transition: 'width 0.5s ease' }} />
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: DSCard.text3, marginTop: 6, fontFamily: DS.mono }}>
+                        <span>$0</span>
+                        <span style={{ color: oi >= 25e9 && oi < 40e9 ? '#34d399' : DSCard.text3 }}>$25B</span>
+                        <span style={{ color: oi >= 40e9 && oi < 60e9 ? DSCard.text2 : DSCard.text3 }}>$40B</span>
+                        <span style={{ color: oi >= 60e9 && oi < 80e9 ? DSCard.warn : DSCard.text3 }}>$60B</span>
+                        <span style={{ color: oi >= 80e9 ? DSCard.down : DSCard.text3 }}>$80B</span>
+                        <span>$100B</span>
+                      </div>
+                      <div style={{ fontSize: 13, color: currentZone.color, marginTop: 8, opacity: 0.8 }}>{currentZone.desc}</div>
+                    </>
+                  );
+                })()}
               </div>
             </div>
           </div>

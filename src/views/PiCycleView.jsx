@@ -4,6 +4,7 @@ import { INFO } from '../config/constants';
 import { fP, isFake } from '../utils/format';
 import StatCard from '../components/StatCard';
 import PiCycleChart from '../components/PiCycleChart';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 export default function PiCycleView({ live, calc, hist, mob }) {
   const prices = hist?.prices || [];
@@ -38,6 +39,8 @@ export default function PiCycleView({ live, calc, hist, mob }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* Section banner — Replace with Pi / mathematical cycle illustration */}
+      <ImagePlaceholder variant="section" section="picycle" overlay="bottom" />
       <div className="stat-grid">
         <StatCard label="111 DMA" value={`$${fP(ma111)}`} status="neutral" />
         <StatCard label="350 DMA x2" value={`$${fP(ma350x2)}`} status="neutral" />

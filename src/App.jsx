@@ -21,6 +21,7 @@ import {
   IconDashboard, IconChain, IconDollar, IconRainbow, IconCycle,
   IconMiner, IconTrending, IconSparkles, IconPlug, IconMonitor
 } from './components/Icons';
+import ImagePlaceholder from './components/ImagePlaceholder';
 import SystemStatus from './components/SystemStatus';
 
 const ART_VISUAL = "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=600";
@@ -92,9 +93,14 @@ export default function App() {
           </div>
         </nav>
         <div className="brand-slot">
-          <div className="brand-visual-container">
-            <img src={ART_VISUAL} alt="Cycle Art" className="brand-image" />
-          </div>
+          {/* Sidebar visual — Replace with Bitcoin/crypto art illustration */}
+          <ImagePlaceholder
+            variant="sidebar"
+            label="CYCLE ART"
+            src={ART_VISUAL}
+            overlay="bottom"
+            style={{ height: 160, clipPath: 'var(--clip-card-sm)' }}
+          />
         </div>
         <div className="sidebar-footer">
           <div className="sidebar-status">
@@ -109,11 +115,8 @@ export default function App() {
           {live.loading && <div className="loading-bar-top"><div /></div>}
           <div className="header-left">
             <button className="menu-toggle" onClick={() => setMenuOpen(true)}>☰</button>
-            <div>
-              <div className="header-title">Bitcoin Cycle Dashboard</div>
-              <div className="header-subtitle">
-                {live.loading ? 'Chargement des données...' : live.lastUpdate ? `MAJ: ${live.lastUpdate.toLocaleTimeString()}` : 'Initialisation...'}
-              </div>
+            <div className="header-subtitle" style={{ fontFamily: DS.mono, fontSize: 13 }}>
+              {live.loading ? 'Chargement des données...' : live.lastUpdate ? `MAJ: ${live.lastUpdate.toLocaleTimeString()}` : 'Initialisation...'}
             </div>
           </div>
           <div className="header-right">

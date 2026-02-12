@@ -6,6 +6,7 @@ import StatCard from '../components/StatCard';
 import FakeBadge from '../components/FakeBadge';
 import HashRibbonsChart from '../components/HashRibbonsChart';
 import PriceLevels from '../components/PriceLevels';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 export default function MinersView({ live, calc, mob, hrHist }) {
   const hr = live.hashrate || 0;
@@ -16,6 +17,8 @@ export default function MinersView({ live, calc, mob, hrHist }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* Section banner — Replace with mining rig / hash rate visualization */}
+      <ImagePlaceholder variant="section" section="miners" overlay="bottom" />
       <div className="stat-grid">
         <StatCard label="Hash Rate" value={`${hr.toFixed(0)} EH/s`} status="neutral" fake={isFake(live.fakes, 'hashrate')} />
         <StatCard label="Puell Multiple" value={calc.puell.toFixed(2)} detail={calc.puell < 0.5 ? 'Zone achat' : calc.puell > 4 ? 'Zone top' : 'Neutre'} status={calc.puell < 0.5 ? 'up' : calc.puell > 4 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'puellMultiple')} />

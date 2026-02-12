@@ -6,12 +6,40 @@ import BottomScoreCard from '../components/BottomScoreCard';
 import KeySignals from '../components/KeySignals';
 import OnChainDepth from '../components/OnChainDepth';
 import CyclePosition from '../components/CyclePosition';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 import { INFO } from '../config/constants';
 import { fP, isFake } from '../utils/format';
 
 export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
+  const scoreZone = calc.composite >= 70 ? 'ACCUMULATION' : calc.composite >= 40 ? 'NEUTRE' : 'PRUDENCE';
+
   return (
     <>
+      {/* === HERO BANNER — Replace with crypto cityscape / Bitcoin illustration === */}
+      <ImagePlaceholder variant="hero" section="dashboard" overlay="bottom">
+        <div className="hero-content">
+          <div className="hero-content__eyebrow">// CYCLE MONITOR V2.0</div>
+          <div className="hero-content__title">
+            Bitcoin <span>Cycle</span> Dashboard
+          </div>
+          <div className="hero-content__subtitle">
+            Analyse on-chain, signaux de cycle et scoring composite en temps réel.
+          </div>
+          {!mob && (
+            <div className="hero-content__stats">
+              <div className="hero-stat">
+                <div className="hero-stat__value">{calc.composite}/100</div>
+                <div className="hero-stat__label">Score Composite</div>
+              </div>
+              <div className="hero-stat">
+                <div className="hero-stat__value">{scoreZone}</div>
+                <div className="hero-stat__label">Zone</div>
+              </div>
+            </div>
+          )}
+        </div>
+      </ImagePlaceholder>
+
       <div className="stat-grid" style={{ marginBottom: 24 }}>
         <StatCard label="Prix Actuel" value={`$${fP(live.price)}`} change={live.change24h} neutral fake={isFake(live.fakes, 'price')} featured />
         <StatCard label="MVRV Ratio" value={calc.mvrv.toFixed(2)} detail={`Z: ${calc.mvrvz.toFixed(2)}`} status={calc.mvrv < 1 ? 'up' : calc.mvrv > 3.5 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'mvrvratio', 'mvrvz')} variant="alert" tone={calc.mvrv < 1 ? 'bull' : calc.mvrv > 3.5 ? 'bear' : 'neutral'} />
@@ -20,12 +48,17 @@ export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '2fr 1fr', gap: 24, marginBottom: 24 }}>
-        <div className="card">
-          <div className="card-header">
+        <div className="card" style={{ position: 'relative' }}>
+          {/* Card background art — Replace with abstract mesh/circuit illustration */}
+          <ImagePlaceholder variant="card-bg" overlay="none" style={{ position: 'absolute' }} />
+          <div className="composite-hover-img">
+            <img src="/satoshiramen.png" alt="" />
+          </div>
+          <div className="card-header" style={{ position: 'relative', zIndex: 1 }}>
             <div className="card-title">Bottom Composite Score</div>
             <div className="card-badge">LIVE</div>
           </div>
-          <div className="card-body" style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 32 }}>
+          <div className="card-body" style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 32, position: 'relative', zIndex: 1 }}>
             <CompositeGauge value={calc.composite} mob={mob} />
             <BottomScoreCard scores={calc.bscores} total={calc.totalScore} mob={mob} />
           </div>
@@ -41,6 +74,9 @@ export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
           mob={mob}
         />
       </div>
+
+      {/* === SECTION BANNER — Replace with on-chain network visualization === */}
+      <ImagePlaceholder variant="section" label="ON-CHAIN DATA VISUALIZATION" section="onchain" overlay="bottom" />
 
       <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 }}>
         <div className="card">

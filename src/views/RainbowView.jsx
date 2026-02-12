@@ -2,10 +2,13 @@ import React from 'react';
 import { DSCard } from '../config/design';
 import RainbowChart from '../components/RainbowChart';
 import MonteCarloChart from '../components/MonteCarloChart';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 export default function RainbowView({ live, calc, hist, mob }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {/* Section banner — Replace with rainbow spectrum / prismatic illustration */}
+      <ImagePlaceholder variant="section" section="rainbow" overlay="bottom" />
       <div className="card">
         <div className="card-header"><div className="card-title">Rainbow Chart</div></div>
         <div className="card-body">
