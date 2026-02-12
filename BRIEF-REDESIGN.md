@@ -209,4 +209,44 @@ Une fois la proposition reçue, nous itérerons sur :
 
 ---
 
-*Document créé pour le package de redesign BTC Cycle Dashboard — 2024*
+## 🔗 LIENS GITHUB — ACCÈS DIRECT AUX FICHIERS
+
+### Repo complet
+https://github.com/tchit/btc-cycle-dashboard
+
+### Package Redesign (dossier dédié avec fichiers curatés)
+https://github.com/tchit/btc-cycle-dashboard/tree/master/redesign-package
+
+### Fichiers essentiels à consulter
+
+**Design System & Guidelines :**
+- [design-guidelines.md](https://github.com/tchit/btc-cycle-dashboard/blob/master/design-guidelines.md) — Règles de design premium (polices interdites, anti-patterns, thèmes)
+- [tokens.css](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/styles/tokens.css) — Variables CSS actuelles (couleurs, fonts, spacing)
+- [design.js](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/config/design.js) — Config couleurs JS
+
+**Styles (CSS) :**
+- [layout.css](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/styles/layout.css) — Structure sidebar/header/grille
+- [components.css](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/styles/components.css) — Tous les styles de composants
+- [responsive.css](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/styles/responsive.css) — Media queries
+
+**Structure :**
+- [App.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/App.jsx) — Layout principal (sidebar + header + tabs)
+
+**Composants clés :**
+- [StatCard.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/components/StatCard.jsx) — Cards stats (Prix, MVRV, F&G, ATH)
+- [SignalCard.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/components/SignalCard.jsx) — Cards signaux BULL/BEAR
+- [CompositeGauge.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/components/CompositeGauge.jsx) — Gauge canvas animé
+- [MiniGauge.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/components/MiniGauge.jsx) — Petites jauges
+- [BottomScoreCard.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/components/BottomScoreCard.jsx) — Décomposition du score
+
+**Vues :**
+- [DashboardView.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/views/DashboardView.jsx) — Vue principale
+- [OnChainView.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/views/OnChainView.jsx) — Vue On-Chain
+- [PriceView.jsx](https://github.com/tchit/btc-cycle-dashboard/blob/master/src/views/PriceView.jsx) — Vue Prix
+
+**Screenshots :**
+- [Screenshots du dashboard actuel](https://github.com/tchit/btc-cycle-dashboard/tree/master/redesign-package/screenshots)
+
+---
+
+*Document créé pour le package de redesign BTC Cycle Dashboard — Février 2026*
