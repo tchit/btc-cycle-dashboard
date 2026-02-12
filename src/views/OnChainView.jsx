@@ -8,7 +8,7 @@ import { fK, isFake } from '../utils/format';
 export default function OnChainView({ live, calc, mob }) {
   return (<>
     {/* Section banner — Replace with blockchain network / node visualization */}
-    <ImagePlaceholder variant="section" section="onchain" overlay="bottom" />
+    <ImagePlaceholder variant="section" section="onchain" overlay="bottom" src="/panel6.png" />
     <div className="card">
       <div className="card-header"><div className="card-title">Analyse On-Chain Detaillee</div></div>
       <div className="card-body">

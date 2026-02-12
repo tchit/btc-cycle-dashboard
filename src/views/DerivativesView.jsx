@@ -14,7 +14,7 @@ export default function DerivativesView({ live, calc, mob }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Section banner — Replace with derivatives / leverage illustration */}
-      <ImagePlaceholder variant="section" section="derivatives" overlay="bottom" />
+      <ImagePlaceholder variant="section" section="derivatives" overlay="bottom" src="/panel9.png" />
       <div className="stat-grid">
         <StatCard label="Funding Rate" value={`${fr.toFixed(4)}%`} status={fr < -0.01 ? 'up' : fr > 0.05 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'fundingRate')} />
         <StatCard label="Open Interest" value={fB(oi)} status={oi > 60e9 ? 'down' : oi < 30e9 ? 'up' : 'neutral'} fake={isFake(live.fakes, 'openInterest')} />

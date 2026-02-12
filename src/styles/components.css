@@ -176,12 +176,15 @@
 
 .stat-value {
   font-family: var(--font-mono);
-  font-size: var(--text-xl);
+  font-size: clamp(20px, 2.2vw, var(--text-xl));
   font-weight: 700;
   color: var(--text-highlight);
   letter-spacing: -0.02em;
   line-height: 1.1;
   text-shadow: var(--glow-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .stat-unit {
@@ -1816,8 +1819,17 @@
   z-index: 0;
 }
 
-.img-placeholder--card-bg .img-placeholder__label-container {
+.img-placeholder--card-bg .img-placeholder__label-container,
+.img-placeholder--hero .img-placeholder__label-container {
   display: none;
+}
+
+.img-placeholder--hero img {
+  filter: brightness(0.35) saturate(1.3);
+}
+
+.img-placeholder--section img {
+  filter: brightness(0.5) saturate(1.2);
 }
 
 /* === Composite card hover image === */
@@ -1846,6 +1858,17 @@
 
 .img-placeholder--sidebar {
   clip-path: var(--clip-card-sm);
+  border: 1px solid rgba(var(--neon-primary-rgb), 0.15);
+}
+
+.img-placeholder--sidebar img {
+  filter: brightness(0.6) saturate(1.3);
+  transition: filter 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth);
+}
+
+.img-placeholder--sidebar:hover img {
+  filter: brightness(0.8) saturate(1.5);
+  transform: scale(1.05);
 }
 
 .img-placeholder--banner {

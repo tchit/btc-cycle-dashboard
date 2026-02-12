@@ -247,6 +247,10 @@ export default function ImagePlaceholder({
         {overlay !== 'none' && (
           <div className={`img-placeholder__overlay img-placeholder__overlay--${overlay}`} />
         )}
+        <div className="img-placeholder__label-container">
+          {theme && <span className="img-placeholder__icon">{theme.icon}</span>}
+          <span className="img-placeholder__label">{displayLabel}</span>
+        </div>
         {children && <div className="img-placeholder__content">{children}</div>}
       </div>
     );

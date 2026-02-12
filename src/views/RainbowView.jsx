@@ -8,10 +8,13 @@ export default function RainbowView({ live, calc, hist, mob }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Section banner — Replace with rainbow spectrum / prismatic illustration */}
-      <ImagePlaceholder variant="section" section="rainbow" overlay="bottom" />
-      <div className="card">
-        <div className="card-header"><div className="card-title">Rainbow Chart</div></div>
-        <div className="card-body">
+      <ImagePlaceholder variant="section" section="rainbow" overlay="bottom" src="/panel8.png" />
+      <div className="card" style={{ position: 'relative' }}>
+        <div className="composite-hover-img">
+          <img src="/pi.png" alt="" />
+        </div>
+        <div className="card-header" style={{ position: 'relative', zIndex: 1 }}><div className="card-title">Rainbow Chart</div></div>
+        <div className="card-body" style={{ position: 'relative', zIndex: 1 }}>
           <RainbowChart hist={hist} currentPrice={live.price} mob={mob} />
         </div>
       </div>

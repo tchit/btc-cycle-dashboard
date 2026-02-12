@@ -7,7 +7,7 @@ export default function PriceView({ live, calc, hist, mob }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Section banner — Replace with candlestick / price chart illustration */}
-      <ImagePlaceholder variant="section" section="price" overlay="bottom" />
+      <ImagePlaceholder variant="section" section="price" overlay="bottom" src="/panel4.png" />
       <div className="card">
         <div className="card-header"><div className="card-title">Bandes de Prix Historiques</div></div>
         <div className="card-body">

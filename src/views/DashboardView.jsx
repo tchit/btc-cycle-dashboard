@@ -16,7 +16,7 @@ export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
   return (
     <>
       {/* === HERO BANNER — Replace with crypto cityscape / Bitcoin illustration === */}
-      <ImagePlaceholder variant="hero" section="dashboard" overlay="bottom">
+      <ImagePlaceholder variant="hero" section="dashboard" overlay="bottom" src="/panel2.png">
         <div className="hero-content">
           <div className="hero-content__eyebrow">// CYCLE MONITOR V2.0</div>
           <div className="hero-content__title">
@@ -76,7 +76,7 @@ export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
       </div>
 
       {/* === SECTION BANNER — Replace with on-chain network visualization === */}
-      <ImagePlaceholder variant="section" label="ON-CHAIN DATA VISUALIZATION" section="onchain" overlay="bottom" />
+      <ImagePlaceholder variant="section" section="onchain" overlay="bottom" src="/panel3.png" />
 
       <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 }}>
         <div className="card">

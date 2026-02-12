@@ -11,7 +11,7 @@ export default function ScenariosView({ live, calc, mob }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Section banner — Replace with Monte Carlo / simulation visualization */}
-      <ImagePlaceholder variant="section" section="scenarios" overlay="bottom" />
+      <ImagePlaceholder variant="section" section="scenarios" overlay="bottom" src="/panel5.png" />
       <div className="stat-grid">
         <StatCard label="Distance ATH" value={`${calc.drop.toFixed(1)}%`} detail={`${calc.dATH} jours`} status="neutral" fake={isFake(live.fakes, 'price')} />
         <StatCard label="Bear Progress" value={`${calc.bearProg.toFixed(0)}%`} detail={`J${calc.dATH}/383`} status={calc.bearProg > 80 ? 'up' : 'neutral'} />

@@ -18,7 +18,7 @@ export default function MinersView({ live, calc, mob, hrHist }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Section banner — Replace with mining rig / hash rate visualization */}
-      <ImagePlaceholder variant="section" section="miners" overlay="bottom" />
+      <ImagePlaceholder variant="section" section="miners" overlay="bottom" src="/panel10.png" />
       <div className="stat-grid">
         <StatCard label="Hash Rate" value={`${hr.toFixed(0)} EH/s`} status="neutral" fake={isFake(live.fakes, 'hashrate')} />
         <StatCard label="Puell Multiple" value={calc.puell.toFixed(2)} detail={calc.puell < 0.5 ? 'Zone achat' : calc.puell > 4 ? 'Zone top' : 'Neutre'} status={calc.puell < 0.5 ? 'up' : calc.puell > 4 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'puellMultiple')} />

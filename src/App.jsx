@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { DS } from './config/design';
 import { fP, isFake } from './utils/format';
 import { useScreen } from './hooks/useScreen';
@@ -24,7 +24,7 @@ import {
 import ImagePlaceholder from './components/ImagePlaceholder';
 import SystemStatus from './components/SystemStatus';
 
-const ART_VISUAL = "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=600";
+const ART_VISUAL = "/cycle.png";
 
 const TABS = [
   { id: 'dashboard', l: 'Dashboard', i: <IconDashboard /> },
@@ -43,6 +43,11 @@ export default function App() {
   const { w, mob, tab: isTab } = useScreen();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [menuOpen, setMenuOpen] = useState(false);
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (contentRef.current) contentRef.current.scrollTop = 0;
+  }, [activeTab]);
 
   const live = useLiveData();
   const calc = useCalc(live);
@@ -70,7 +75,7 @@ export default function App() {
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
           <div className="sidebar-logo-icon" />
-          <div className="sidebar-logo-text">BTC CYCLE</div>
+          <div className="sidebar-logo-text"><span className="sidebar-logo-accent">BTC</span> CYCLE</div>
         </div>
         <nav className="sidebar-nav">
           <div className="sidebar-section">
@@ -96,7 +101,7 @@ export default function App() {
           {/* Sidebar visual — Replace with Bitcoin/crypto art illustration */}
           <ImagePlaceholder
             variant="sidebar"
-            label="CYCLE ART"
+            label="MIKE BRANT"
             src={ART_VISUAL}
             overlay="bottom"
             style={{ height: 160, clipPath: 'var(--clip-card-sm)' }}
@@ -158,7 +163,7 @@ export default function App() {
             }
           </div>
         </header>
-        <div className="content">{renderContent()}</div>
+        <div className="content" ref={contentRef}>{renderContent()}</div>
       </main>
       <SystemStatus />
     </div>
