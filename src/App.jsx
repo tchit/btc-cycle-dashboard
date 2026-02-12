@@ -16,6 +16,7 @@ import MinersView from './views/MinersView';
 import DerivativesView from './views/DerivativesView';
 import ScenariosView from './views/ScenariosView';
 import ConnectorsView from './components/ConnectorsView';
+import TradingViewView from './views/TradingViewView';
 
 const TABS = [
   { id: 'dashboard', l: 'Dashboard', i: '📊' },
@@ -26,7 +27,8 @@ const TABS = [
   { id: 'miners', l: 'Miners', i: '⛏' },
   { id: 'derivatives', l: 'Dérivés', i: '📈' },
   { id: 'scenarios', l: 'Scénarios', i: '🔮' },
-  { id: 'connectors', l: 'Connecteurs', i: '🔌' }
+  { id: 'connectors', l: 'Connecteurs', i: '🔌' },
+  { id: 'tradingview', l: 'TradingView', i: '📺' }
 ];
 
 export default function App() {
@@ -50,6 +52,7 @@ export default function App() {
       case 'derivatives': return <DerivativesView live={live} calc={calc} mob={mob} />;
       case 'scenarios': return <ScenariosView live={live} calc={calc} mob={mob} />;
       case 'connectors': return <ConnectorsView live={live} mob={mob} />;
+      case 'tradingview': return <TradingViewView />;
       default: return <DashboardView live={live} calc={calc} hist={hist} mob={mob} />;
     }
   };

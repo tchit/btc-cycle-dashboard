@@ -6,12 +6,21 @@ export default function StatCard({ label, value, detail, change, status, neutral
   const s = status === 'up' ? 'up' : status === 'down' ? 'down' : status === 'warn' ? 'warn' : 'neutral';
   return (
     <div className={`stat-card ${s}${fake ? ' is-fake' : ''}`}>
-      <div className="stat-label">{label}{fake && <FakeBadge />}</div>
-      <div className="stat-value">{value}</div>
+      <div className="stat-header">
+        <span className="stat-label">{label}</span>
+        {fake && <FakeBadge />}
+      </div>
+      <div className="stat-main">
+        <span className="stat-value">{value}</span>
+      </div>
       {(detail || change) && (
-        <div className="stat-detail">
-          {change ? <span className={`stat-change ${change > 0 ? 'up' : 'down'}`}>{fPct(change)}</span> : null}
-          {detail ? <span style={{ marginLeft: 8 }}>{detail}</span> : null}
+        <div className="stat-footer">
+          {change ? (
+            <span className={`stat-change ${change > 0 ? 'is-up' : 'is-down'}`}>
+              {change > 0 ? '\u2191' : '\u2193'} {fPct(change)}
+            </span>
+          ) : null}
+          {detail && <span className="stat-detail-text">{detail}</span>}
         </div>
       )}
     </div>
