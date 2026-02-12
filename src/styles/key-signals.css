@@ -1,0 +1,225 @@
+/* ======================================================
+   KEY SIGNALS — Bento Interactive Grid (Electric Playground)
+   ====================================================== */
+
+.key-signals {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* --- Header with ImageSlot background --- */
+.key-signals-header {
+  position: relative;
+  padding: 20px 24px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.key-signals-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.key-signals-subtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+/* --- Tiles grid --- */
+.key-signals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 12px;
+  flex: 1;
+}
+
+/* --- Individual tile --- */
+.key-signal-tile {
+  position: relative;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  cursor: default;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.key-signal-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Status-based background tint */
+.key-signal-tile--bull {
+  background: rgba(132, 204, 22, 0.05);
+  border-color: rgba(132, 204, 22, 0.15);
+}
+.key-signal-tile--bull:hover {
+  border-color: rgba(132, 204, 22, 0.35);
+}
+
+.key-signal-tile--bear {
+  background: rgba(255, 61, 0, 0.05);
+  border-color: rgba(255, 61, 0, 0.15);
+}
+.key-signal-tile--bear:hover {
+  border-color: rgba(255, 61, 0, 0.35);
+}
+
+.key-signal-tile--neutral {
+  background: var(--bg-surface);
+}
+.key-signal-tile--neutral:hover {
+  border-color: rgba(45, 91, 255, 0.25);
+}
+
+/* Tile header */
+.key-signal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.key-signal-name {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.key-signal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.key-signal-dot--bull {
+  background: var(--tone-lime-a);
+}
+
+.key-signal-dot--bear {
+  background: var(--tone-coral-a);
+}
+
+/* Value */
+.key-signal-value {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Description */
+.key-signal-desc {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mini progress bar */
+.key-signal-bar {
+  height: 3px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.key-signal-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.key-signal-bar-fill--bull {
+  background: var(--tone-lime-a);
+}
+
+.key-signal-bar-fill--bear {
+  background: var(--tone-coral-a);
+}
+
+.key-signal-bar-fill--neutral {
+  background: var(--neutral-signal);
+}
+
+/* Tooltip */
+.key-signal-tooltip {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  border: 1px solid var(--border-light);
+}
+
+.key-signal-tile:hover .key-signal-tooltip {
+  opacity: 1;
+}
+
+/* --- Footer --- */
+.key-signals-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-surface);
+}
+
+.key-signals-viewall {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--font);
+}
+
+.key-signals-viewall:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+/* Mobile: single column */
+@media (max-width: 640px) {
+  .key-signals-grid {
+    grid-template-columns: 1fr;
+  }
+}
