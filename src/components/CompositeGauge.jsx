@@ -1,83 +1,155 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { DS } from '../config/design';
 
-export default function CompositeGauge({ value, mob }) {
-  const sz = mob ? 180 : 220;
-  const ref = useRef(null);
+const getZoneLabel = (s) => {
+  if (s < 15) return 'CAPITULATION';
+  if (s < 30) return 'FEAR';
+  if (s < 45) return 'PRUDENCE';
+  if (s < 55) return 'NEUTRE';
+  if (s < 70) return 'OPTIMISME';
+  if (s < 85) return 'EUPHORIE';
+  return 'BULLE';
+};
 
+// Spring easing for count-up animation
+const springEase = (t) => {
+  const c4 = (2 * Math.PI) / 3;
+  return t === 0 ? 0 : t === 1 ? 1 :
+    Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+};
+
+export default function CompositeGauge({
+  score,
+  value,
+  label,
+  signals = [],
+  mob
+}) {
+  const actualScore = score ?? value ?? 50;
+  const actualLabel = label || getZoneLabel(actualScore);
+  const [displayScore, setDisplayScore] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const progressRef = useRef(null);
+
+  // Spring count-up animation
   useEffect(() => {
-    const cv = ref.current;
-    if (!cv) return;
-    const ctx = cv.getContext('2d');
-    const w = sz, h = sz * 0.58;
-    cv.width = w * 2;
-    cv.height = h * 2;
-    ctx.scale(2, 2);
-    const cx = w / 2, cy = h - 6, r = sz * 0.38, lw = mob ? 16 : 20;
+    const duration = 1200;
+    const steps = 72;
+    const stepTime = duration / steps;
+    let currentStep = 0;
+    const timer = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      const eased = springEase(progress);
+      setDisplayScore(Math.round(actualScore * eased));
+      if (currentStep >= steps) clearInterval(timer);
+    }, stepTime);
+    return () => clearInterval(timer);
+  }, [actualScore]);
 
-    ctx.lineWidth = lw;
-    ctx.lineCap = 'round';
+  // Trigger mount animation after a short delay
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(t);
+  }, []);
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, Math.PI, 2 * Math.PI);
-    ctx.strokeStyle = '#E4E7EC';
-    ctx.stroke();
+  const radius = 90;
+  const circumference = 2 * Math.PI * radius;
+  const offset = mounted ? circumference - (actualScore / 100) * circumference : circumference;
 
-    const activeEnd = Math.PI + (value / 100) * Math.PI;
-    for (let i = 0; i < 120; i++) {
-      const t = i / 120;
-      const sa = Math.PI + t * Math.PI;
-      const ea = Math.PI + ((i + 1) / 120) * Math.PI;
-      if (sa > activeEnd) break;
-      const end = Math.min(ea, activeEnd);
-      const hue = 210 - t * 210;
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, sa, end + 0.02);
-      ctx.strokeStyle = `hsl(${hue}, 80%, 55%)`;
-      ctx.stroke();
-    }
+  // Gradient colors based on score zone
+  const getGradientColors = () => {
+    if (actualScore <= 30) return [DS.down, '#F59E0B'];
+    if (actualScore <= 60) return [DS.accent, DS.accentCyan];
+    return [DS.up, DS.lime];
+  };
 
-    const na = Math.PI + (value / 100) * Math.PI;
-    ctx.lineWidth = 1.5;
-    ctx.globalAlpha = 0.4;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(na) * (r - lw - 8), cy + Math.sin(na) * (r - lw - 8));
-    ctx.strokeStyle = DS.text;
-    ctx.stroke();
-    ctx.globalAlpha = 1;
+  const [gradStart, gradEnd] = getGradientColors();
 
-    ctx.beginPath();
-    ctx.arc(cx, cy, 3, 0, Math.PI * 2);
-    ctx.fillStyle = DS.text;
-    ctx.globalAlpha = 0.8;
-    ctx.fill();
-    ctx.globalAlpha = 1;
-
-    ctx.globalAlpha = 0.12;
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 10; i++) {
-      const a = Math.PI + (i / 10) * Math.PI;
-      const len = i % 5 === 0 ? 8 : 4;
-      ctx.beginPath();
-      ctx.moveTo(cx + Math.cos(a) * (r + lw / 2 + 2), cy + Math.sin(a) * (r + lw / 2 + 2));
-      ctx.lineTo(cx + Math.cos(a) * (r + lw / 2 + 2 + len), cy + Math.sin(a) * (r + lw / 2 + 2 + len));
-      ctx.strokeStyle = DS.text;
-      ctx.stroke();
-    }
-    ctx.globalAlpha = 1;
-  }, [value, sz, mob]);
-
-  const zoneLabel = value < 15 ? 'CAPITULATION' : value < 30 ? 'FEAR EXTR\u00caME' : value < 45 ? 'BEAR' : value < 55 ? 'NEUTRE' : value < 70 ? 'OPTIMISME' : value < 85 ? 'EUPHORIE' : 'BULLE';
-  const hue = 210 - (value / 100) * 210;
-  const col = `hsl(${hue}, 80%, 50%)`;
-
-  return (
-    <div className="gauge-container">
-      <div className="gauge-label">COMPOSITE SCORE</div>
-      <canvas ref={ref} style={{ width: sz, height: sz * 0.58 }} />
-      <div className="gauge-value" style={{ color: col }}>{value}</div>
-      <div className="gauge-zone" style={{ color: col }}>{zoneLabel}</div>
+  const gaugeElement = (
+    <div style={{
+      position: 'relative', width: 220, height: 220,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      flexShrink: 0
+    }}>
+      <svg width="220" height="220" viewBox="0 0 220 220">
+        <defs>
+          <linearGradient id="gauge-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={gradStart} />
+            <stop offset="100%" stopColor={gradEnd} />
+          </linearGradient>
+          <filter id="gauge-glow">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <circle className="gauge-bg" cx="110" cy="110" r={radius} />
+        <circle
+          ref={progressRef}
+          className="gauge-progress"
+          cx="110" cy="110" r={radius}
+          stroke="url(#gauge-grad)"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          filter="url(#gauge-glow)"
+          style={{
+            transition: 'stroke-dashoffset 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.5s ease'
+          }}
+        />
+      </svg>
+      <div className="gauge-center">
+        <span className="gauge-score" style={{
+          background: `linear-gradient(135deg, ${gradStart}, ${gradEnd})`,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>
+          {displayScore}
+        </span>
+        <span className="gauge-ring-label">{actualLabel}</span>
+      </div>
     </div>
   );
+
+  if (signals.length > 0) {
+    return (
+      <div className="composite-card">
+        {gaugeElement}
+        <div className="signals-list">
+          <h4 style={{
+            fontFamily: DS.display,
+            fontSize: 14,
+            fontWeight: 700,
+            marginBottom: 8,
+            color: 'var(--text-primary)'
+          }}>
+            Composition du score
+          </h4>
+          {signals.map((sig, idx) => (
+            <div key={idx} className="signal-row" style={{
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? 'translateX(0)' : 'translateX(12px)',
+              transition: `opacity 0.4s ease ${0.3 + idx * 0.08}s, transform 0.4s ease ${0.3 + idx * 0.08}s`
+            }}>
+              <span className="signal-row-name">{sig.name}</span>
+              <div className="signal-row-status">
+                <span style={{
+                  color: sig.status === 'bull' ? 'var(--up)' :
+                         sig.status === 'bear' ? 'var(--down)' : 'var(--text-tertiary)'
+                }}>
+                  {sig.status.toUpperCase()}
+                </span>
+                <div className={`dot ${sig.status}`} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return gaugeElement;
 }

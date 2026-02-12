@@ -2,10 +2,10 @@ import React from 'react';
 import FakeBadge from './FakeBadge';
 import { fPct } from '../utils/format';
 
-export default function StatCard({ label, value, detail, change, status, neutral, fake }) {
+export default function StatCard({ label, value, detail, change, status, neutral, fake, featured, intense }) {
   const s = status === 'up' ? 'up' : status === 'down' ? 'down' : status === 'warn' ? 'warn' : 'neutral';
   return (
-    <div className={`stat-card ${s}${fake ? ' is-fake' : ''}`}>
+    <div className={`stat-card ${s}${featured ? ' featured' : ''}${intense ? ' intense' : ''}${fake ? ' is-fake' : ''}`}>
       <div className="stat-header">
         <span className="stat-label">{label}</span>
         {fake && <FakeBadge />}

@@ -87,14 +87,14 @@ export default function HashRibbonsChart({ hrHist, mob }) {
   }, [hrHist, mob, days]);
 
   const btnStyle = (active) => ({
-    padding: '4px 12px', borderRadius: 6, fontSize: 11, fontWeight: 600,
+    padding: '4px 12px', borderRadius: 6, fontSize: 14, fontWeight: 600,
     fontFamily: DS.mono, cursor: 'pointer', border: 'none',
     background: active ? DS.accent : DS.borderLight,
     color: active ? '#fff' : DS.text2,
     transition: 'all 0.15s ease'
   });
 
-  if (!hrHist) return <div style={{ padding: 24, textAlign: 'center', color: DS.text3, fontSize: 13 }}>Chargement des donn&eacute;es hashrate...</div>;
+  if (!hrHist) return <div style={{ padding: 24, textAlign: 'center', color: DS.text3, fontSize: 16 }}>Chargement des donn&eacute;es hashrate...</div>;
 
   return (
     <div>

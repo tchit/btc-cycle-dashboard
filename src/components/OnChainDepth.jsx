@@ -4,48 +4,113 @@ import { ATH, OCLEVELS } from '../config/constants';
 import { fK } from '../utils/format';
 
 export default function OnChainDepth({ price, mob, levels }) {
-  return (
-    <div>
-      {(levels || OCLEVELS).map((l, i) => {
-        const dist = ((price - l.v) / price) * 100;
-        const below = price < l.v;
-        const pct = Math.min(100, Math.max(0, (l.v / ATH) * 100));
-        const pricePct = Math.min(100, Math.max(0, (price / ATH) * 100));
+  const lvls = (levels || OCLEVELS).filter(l => l.v > 20000 && l.v < 200000);
+  const resistances = lvls.filter(l => l.v > price).sort((a, b) => a.v - b.v);
+  const supports = lvls.filter(l => l.v <= price).sort((a, b) => b.v - a.v);
 
-        return (
-          <div key={l.k} style={{ display: 'grid', gridTemplateColumns: mob ? '80px 1fr 60px' : '120px 1fr 80px', alignItems: 'center', gap: 10, marginBottom: 6, opacity: below ? 0.5 : 1 }}>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: l.c }}>{l.l}</div>
+  const maxDelta = Math.max(
+    ...lvls.map(l => Math.abs((l.v - price) / price) * 100)
+  );
+
+  const corrections = [
+    { l: 'C0', d: 93 },
+    { l: 'C1', d: 87 },
+    { l: 'C2', d: 84 },
+    { l: 'C3', d: 78 },
+  ];
+  const currentDd = ((ATH - price) / ATH * 100).toFixed(0);
+
+  return (
+    <div className="ocd">
+      {/* ---- RESISTANCES ---- */}
+      {resistances.length > 0 && (
+        <div className="ocd-section">
+          <div className="ocd-section-label">Au-dessus du prix</div>
+          {resistances.map(l => {
+            const delta = ((l.v - price) / price * 100).toFixed(0);
+            const barW = Math.min(100, (Math.abs(delta) / maxDelta) * 100);
+            return (
+              <div className="ocd-row" key={l.k}>
+                <span className="ocd-row-label">{l.l}</span>
+                <div className="ocd-row-bar-track">
+                  <div
+                    className="ocd-row-bar-fill is-down"
+                    style={{ width: `${barW}%` }}
+                  />
+                </div>
+                <span className="ocd-row-value is-down">{fK(l.v)}</span>
+                <span className="ocd-row-delta is-down">{`+${delta}%`}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ---- PRIX ACTUEL ---- */}
+      <div className="ocd-current">
+        <span className="ocd-current-arrow">&#9656;</span>
+        <span className="ocd-current-label">Prix actuel</span>
+        <span className="ocd-current-value">{`$${fK(price)}`}</span>
+      </div>
+
+      {/* ---- SUPPORTS ---- */}
+      {supports.length > 0 && (
+        <div className="ocd-section">
+          <div className="ocd-section-label">Sous le prix</div>
+          {supports.map(l => {
+            const delta = ((price - l.v) / price * 100).toFixed(0);
+            const barW = Math.min(100, (Math.abs(delta) / maxDelta) * 100);
+            return (
+              <div className="ocd-row" key={l.k}>
+                <span className="ocd-row-label">{l.l}</span>
+                <div className="ocd-row-bar-track">
+                  <div
+                    className="ocd-row-bar-fill is-up"
+                    style={{ width: `${barW}%` }}
+                  />
+                </div>
+                <span className="ocd-row-value is-up">{fK(l.v)}</span>
+                <span className="ocd-row-delta is-up">{`-${delta}%`}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ---- DRAWDOWNS CYCLIQUES ---- */}
+      <div className="ocd-drawdowns">
+        <div className="ocd-drawdowns-label">Drawdowns cycliques</div>
+
+        {corrections.map((x, i) => (
+          <div className="ocd-dd-row" key={i}>
+            <span className="ocd-dd-cycle">{x.l}</span>
+            <div className="ocd-dd-bar-track">
+              <div
+                className="ocd-dd-bar-fill"
+                style={{ width: `${x.d}%` }}
+              />
             </div>
-            <div style={{ position: 'relative', height: 6, background: DS.borderLight, borderRadius: 3, overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', left: `${pct}%`, top: 0, bottom: 0, width: 2, background: l.c, opacity: 0.6, borderRadius: 1 }} />
-              {i === 0 && <div style={{ position: 'absolute', left: `${pricePct}%`, top: -2, bottom: -2, width: 3, background: DS.text, borderRadius: 2, zIndex: 2 }} />}
-              {!below && <div style={{ position: 'absolute', left: `${pct}%`, top: 0, bottom: 0, width: `${pricePct - pct}%`, background: `${l.c}20`, borderRadius: 2 }} />}
-            </div>
-            <div style={{ fontFamily: DS.mono, fontSize: 11, textAlign: 'right' }}>
-              <span style={{ color: l.c, fontWeight: 600 }}>{fK(l.v)}</span>
-              <span style={{ color: DS.text3, fontSize: 9, marginLeft: 4 }}>{`${below ? '+' : '-'}${Math.abs(dist).toFixed(0)}%`}</span>
-            </div>
-          </div>
-        );
-      })}
-      <div style={{ marginTop: 20 }}>
-        <div style={{ fontSize: 10, letterSpacing: 2, color: DS.text3, fontWeight: 600, marginBottom: 10 }}>CORRECTIONS HISTORIQUES</div>
-        {[{ l: 'C0', d: 93 }, { l: 'C1', d: 87 }, { l: 'C2', d: 84 }, { l: 'C3', d: 78 }].map((x, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
-            <div style={{ width: 50, fontSize: 10, color: DS.text3, fontFamily: DS.mono, textAlign: 'right' }}>{x.l}</div>
-            <div style={{ flex: 1, height: 5, background: DS.borderLight, borderRadius: 3, overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${x.d}%`, background: `${DS.down}40`, borderRadius: 3 }} />
-            </div>
-            <div style={{ width: 35, fontSize: 11, fontWeight: 600, color: DS.down, fontFamily: DS.mono, textAlign: 'right', opacity: 0.7 }}>{`-${x.d}%`}</div>
+            <span className="ocd-dd-value">{`-${x.d}%`}</span>
           </div>
         ))}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6, paddingTop: 6, borderTop: `1px dashed ${DS.borderLight}` }}>
-          <div style={{ width: 50, fontSize: 10, color: DS.warn, fontFamily: DS.mono, textAlign: 'right' }}>C4 proj.</div>
-          <div style={{ flex: 1, height: 5, background: DS.borderLight, borderRadius: 3, overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: '60%', background: `${DS.warn}50`, borderRadius: 3 }} />
+
+        <div className="ocd-dd-separator" />
+
+        {/* C4 projection */}
+        <div className="ocd-dd-row is-projected">
+          <span className="ocd-dd-cycle is-warn">C4 proj.</span>
+          <div className="ocd-dd-bar-track">
+            <div className="ocd-dd-bar-fill is-warn" style={{ width: '60%' }} />
+            {/* Marqueur position actuelle */}
+            <div
+              className="ocd-dd-marker"
+              style={{ left: `${currentDd}%` }}
+            >
+              <div className="ocd-dd-marker-line" />
+              <span className="ocd-dd-marker-label">{`-${currentDd}%`}</span>
+            </div>
           </div>
-          <div style={{ width: 35, fontSize: 11, fontWeight: 600, color: DS.warn, fontFamily: DS.mono, textAlign: 'right' }}>-60%</div>
+          <span className="ocd-dd-value is-warn">-60%</span>
         </div>
       </div>
     </div>

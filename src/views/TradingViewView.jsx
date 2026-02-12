@@ -26,7 +26,17 @@ export default function TradingViewView() {
           toolbar_bg: '#0C1222',
           enable_publishing: false,
           allow_symbol_change: true,
-          studies: ['IchimokuCloud@tv-basicstudies'],
+          studies: [
+            'IchimokuCloud@tv-basicstudies',
+            'MAExp@tv-basicstudies',
+            'MAExp@tv-basicstudies',
+          ],
+          studies_overrides: {
+            'moving average exponential.length': 100,
+            'moving average exponential.plot.color': '#8B5CF6',
+            'moving average exponential#1.length': 200,
+            'moving average exponential#1.plot.color': '#EF4444',
+          },
           container_id: 'tradingview_chart',
         });
       }
@@ -45,7 +55,7 @@ export default function TradingViewView() {
   return (
     <div className="card" style={{ height: 'calc(100vh - 100px)' }}>
       <div className="card-header">
-        <div className="card-title">TradingView — BTC/USDT Ichimoku</div>
+        <div className="card-title">TradingView — BTC/USDT Ichimoku + EMA 100/200</div>
       </div>
       <div className="card-body" style={{ padding: 0, height: 'calc(100% - 48px)' }}>
         <div ref={containerRef} className="tradingview-widget-container" style={{ height: '100%' }} />

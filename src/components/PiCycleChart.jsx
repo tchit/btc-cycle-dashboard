@@ -204,14 +204,14 @@ export default function PiCycleChart({ hist, mob }) {
   }, [data, mob]);
 
   const btnStyle = (active) => ({
-    padding: '4px 12px', borderRadius: 14, fontSize: 11, fontWeight: 600,
+    padding: '4px 12px', borderRadius: 14, fontSize: 14, fontWeight: 600,
     fontFamily: DS.mono, cursor: 'pointer', border: 'none',
     background: active ? DS.accent : '#F0F2F5',
     color: active ? '#fff' : '#5E6C84',
     transition: 'all 0.15s ease'
   });
 
-  if (!hist || !hist.prices) return <div style={{ padding: 24, textAlign: 'center', color: DS.text3, fontSize: 13 }}>Chargement des donn&eacute;es Pi Cycle...</div>;
+  if (!hist || !hist.prices) return <div style={{ padding: 24, textAlign: 'center', color: DS.text3, fontSize: 16 }}>Chargement des donn&eacute;es Pi Cycle...</div>;
 
   return (
     <div style={{ position: 'relative' }}>
@@ -221,7 +221,7 @@ export default function PiCycleChart({ hist, mob }) {
         ))}
       </div>
       <canvas ref={ref} style={{ width: '100%', display: 'block' }} />
-      <div style={{ textAlign: 'left', fontSize: 11, color: '#8993A4', marginTop: 8, fontFamily: DS.mono }}>
+      <div style={{ textAlign: 'left', fontSize: 14, color: '#8993A4', marginTop: 8, fontFamily: DS.mono }}>
         111 DMA (Orange) vs 350 DMA x2 (Vert)
       </div>
     </div>

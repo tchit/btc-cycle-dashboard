@@ -125,12 +125,13 @@ export function useLiveData() {
     const BGDIRECT = 'https://bitcoin-data.com';
     const CACHEKEY = 'bg_cache', CACHETTL = 1 * 60 * 60 * 1000;
     const BG_RATE_KEY = 'bg_rate_log', BG_RATE_MAX = 8, BG_RATE_WINDOW = 60 * 60 * 1000;
-    let cached = null, cachedStale = null;
+    let cached = null, cachedStale = null, cacheTs = null;
 
     try {
       const raw = localStorage.getItem(CACHEKEY);
       if (raw) {
         const c = JSON.parse(raw);
+        cacheTs = c.ts;
         if (Date.now() - c.ts < CACHETTL) cached = c.data;
         else cachedStale = c.data;
       }
@@ -250,6 +251,7 @@ export function useLiveData() {
       if (Object.keys(bg).length > 0) {
         Object.assign(r, bg);
         r.sources.bgeometrics = source;
+        r.bgFetchTime = Date.now();
         r.live = true;
         markLive('bgeometrics');
         try {
@@ -261,12 +263,14 @@ export function useLiveData() {
     if (cached) {
       Object.assign(r, cached);
       r.sources.bgeometrics = 'cache';
+      r.bgFetchTime = cacheTs;
       r.live = true;
       markLive('bgeometrics');
     } else if (!bgCanCall()) {
       if (cachedStale) {
         Object.assign(r, cachedStale);
         r.sources.bgeometrics = 'cache';
+        r.bgFetchTime = cacheTs;
         r.live = true;
         markLive('bgeometrics');
       } else {
@@ -306,6 +310,7 @@ export function useLiveData() {
         if (cachedStale) {
           Object.assign(r, cachedStale);
           r.sources.bgeometrics = 'stale';
+          r.bgFetchTime = cacheTs;
           r.live = true;
           markLive('bgeometrics');
         } else {

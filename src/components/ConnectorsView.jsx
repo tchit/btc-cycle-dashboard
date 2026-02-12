@@ -1,5 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DS } from '../config/design';
+
+const timeAgo = (ts) => {
+  if (!ts) return null;
+  const diff = Math.floor((Date.now() - ts) / 1000);
+  if (diff < 60) return 'à l\'instant';
+  if (diff < 3600) return `il y a ${Math.floor(diff / 60)} min`;
+  if (diff < 86400) return `il y a ${Math.floor(diff / 3600)}h`;
+  return `il y a ${Math.floor(diff / 86400)}j`;
+};
 
 const CONNECTORS = [
   { name: 'CoinGecko', key: 'coingecko', url: 'api.coingecko.com', description: 'Prix BTC, Market Cap, Volume 24h, Dominance', endpoints: ['/api/v3/simple/price', '/api/v3/global', '/api/v3/coins/bitcoin/market_chart'], icon: '\uD83E\uDD8E' },
@@ -11,6 +20,12 @@ const CONNECTORS = [
 ];
 
 export default function ConnectorsView({ live, mob }) {
+  const [, tick] = useState(0);
+  useEffect(() => {
+    const iv = setInterval(() => tick(t => t + 1), 30000);
+    return () => clearInterval(iv);
+  }, []);
+
   const getStatus = (key) => {
     const s = live.sources[key];
     if (s === true || s === 'live') return { label: 'En ligne', color: DS.up, bg: 'rgba(16,185,129,0.08)' };
@@ -35,7 +50,7 @@ export default function ConnectorsView({ live, mob }) {
           <div className="card-badge">{live.loading ? 'CHARGEMENT...' : `${countOnline}/${CONNECTORS.length} ACTIFS`}</div>
         </div>
         <div className="card-body" style={{ padding: '16px 24px' }}>
-          <div style={{ fontSize: 13, color: DS.text2, lineHeight: 1.6 }}>
+          <div style={{ fontSize: 16, color: DS.text2, lineHeight: 1.6 }}>
             Liste des API et sources externes utilis&eacute;es par le dashboard pour alimenter les indicateurs en temps r&eacute;el et historiques.
           </div>
         </div>
@@ -50,19 +65,25 @@ export default function ConnectorsView({ live, mob }) {
                   <span style={{ fontSize: 20 }}>{c.icon}</span>
                   <div className="card-title" style={{ margin: 0 }}>{c.name}</div>
                 </div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 20, background: st.bg, fontSize: 12, fontWeight: 600, color: st.color, fontFamily: DS.mono }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px', borderRadius: 20, background: st.bg, fontSize: 15, fontWeight: 600, color: st.color, fontFamily: DS.mono }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: st.color, flexShrink: 0 }} />
                   {st.label}
                 </div>
               </div>
               <div className="card-body" style={{ padding: '16px 24px' }}>
-                <div style={{ fontSize: 13, color: DS.text2, marginBottom: 12 }}>{c.description}</div>
-                <div style={{ fontSize: 11, color: DS.text3, fontFamily: DS.mono, marginBottom: 8 }}>{c.url}</div>
+                <div style={{ fontSize: 16, color: DS.text2, marginBottom: 12 }}>{c.description}</div>
+                <div style={{ fontSize: 14, color: DS.text3, fontFamily: DS.mono, marginBottom: 8 }}>{c.url}</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                   {c.endpoints.map((ep, i) => (
-                    <div key={i} style={{ fontSize: 11, fontFamily: DS.mono, color: DS.text3, background: DS.bg, padding: '4px 8px', borderRadius: 4 }}>{ep}</div>
+                    <div key={i} style={{ fontSize: 14, fontFamily: DS.mono, color: DS.text3, background: DS.bg, padding: '4px 8px', borderRadius: 4 }}>{ep}</div>
                   ))}
                 </div>
+                {c.key === 'bgeometrics' && live.bgFetchTime && (
+                  <div style={{ marginTop: 10, fontSize: 12, fontFamily: DS.mono, color: DS.text3, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ opacity: 0.6 }}>Dernier fetch:</span>
+                    <span style={{ fontWeight: 600, color: st.color }}>{timeAgo(live.bgFetchTime)}</span>
+                  </div>
+                )}
               </div>
             </div>
           );

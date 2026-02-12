@@ -134,12 +134,12 @@ export default function RainbowChart({ hist, currentPrice, mob }) {
         <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', background: DS.surface, border: `1px solid ${currentBand.color}30`, borderRadius: 10 }}>
           <div style={{ fontSize: 28 }}>{currentBand.label.slice(0, 2)}</div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: currentBand.color }}>{currentBand.label.slice(3)}</div>
-            <div style={{ fontSize: 11, color: DS.text3, marginTop: 2 }}>{'BTC est dans la bande ' + (currentBand.index + 1) + '/9 du Rainbow Chart'}</div>
+            <div style={{ fontSize: 16, fontWeight: 600, color: currentBand.color }}>{currentBand.label.slice(3)}</div>
+            <div style={{ fontSize: 14, color: DS.text3, marginTop: 2 }}>{'BTC est dans la bande ' + (currentBand.index + 1) + '/9 du Rainbow Chart'}</div>
           </div>
         </div>
       )}
-      <div style={{ marginTop: 10, fontSize: 11, color: DS.text3, lineHeight: 1.6 }}>
+      <div style={{ marginTop: 10, fontSize: 14, color: DS.text3, lineHeight: 1.6 }}>
         R&eacute;gression logarithmique sur l&apos;historique BTC. Les bandes basses (bleu) = sous-&eacute;valu&eacute;, les bandes hautes (rouge) = bulle. &Eacute;chelle logarithmique.
       </div>
     </div>

@@ -19,7 +19,7 @@ export default function SignalCard({ title, value, unit, status, detail, color, 
       </div>
       <div className="signal-value" style={{ color: color || DS.text }}>
         {value}
-        {unit && <span style={{ fontSize: 13, color: DS.text3, fontWeight: 400, marginLeft: 2 }}>{unit}</span>}
+        {unit && <span style={{ fontSize: 16, color: DS.text3, fontWeight: 400, marginLeft: 2 }}>{unit}</span>}
       </div>
       {detail && <div className="signal-detail">{detail}</div>}
     </div>
