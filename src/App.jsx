@@ -17,22 +17,16 @@ import DerivativesView from './views/DerivativesView';
 import ScenariosView from './views/ScenariosView';
 import ConnectorsView from './components/ConnectorsView';
 
-// Import Icons
-import { 
-  LayoutGrid, Link2, DollarSign, Rainbow, RefreshCw, 
-  Pickaxe, TrendingUp, Zap, Cable, Menu, Activity 
-} from './components/Icons';
-
 const TABS = [
-  { id: 'dashboard', l: 'Overview', Icon: LayoutGrid },
-  { id: 'onchain', l: 'On-Chain', Icon: Link2 },
-  { id: 'price', l: 'Price Action', Icon: DollarSign },
-  { id: 'rainbow', l: 'Rainbow Chart', Icon: Rainbow },
-  { id: 'picycle', l: 'Pi Cycle', Icon: RefreshCw },
-  { id: 'miners', l: 'Miners', Icon: Pickaxe },
-  { id: 'derivatives', l: 'Derivatives', Icon: TrendingUp },
-  { id: 'scenarios', l: 'Projections', Icon: Zap },
-  { id: 'connectors', l: 'API Status', Icon: Cable }
+  { id: 'dashboard', l: 'Dashboard', i: '📊' },
+  { id: 'onchain', l: 'On-Chain', i: '🔗' },
+  { id: 'price', l: 'Prix', i: '💰' },
+  { id: 'rainbow', l: 'Rainbow', i: '🌈' },
+  { id: 'picycle', l: 'Pi Cycle', i: '🔄' },
+  { id: 'miners', l: 'Miners', i: '⛏' },
+  { id: 'derivatives', l: 'Dérivés', i: '📈' },
+  { id: 'scenarios', l: 'Scénarios', i: '🔮' },
+  { id: 'connectors', l: 'Connecteurs', i: '🔌' }
 ];
 
 export default function App() {
@@ -64,26 +58,24 @@ export default function App() {
     <div className="app-layout">
       <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
         <div className="sidebar-logo">
-          <div className="sidebar-logo-icon">
-             <Activity size={20} />
-          </div>
+          <div className="sidebar-logo-icon">₿</div>
           <div className="sidebar-logo-text">CYCLE PRO</div>
         </div>
         <nav className="sidebar-nav">
           <div className="sidebar-section">
-            <div className="sidebar-section-title">ANALYTICS</div>
+            <div className="sidebar-section-title">ANALYSE</div>
             {TABS.slice(0, 5).map(t => (
               <div key={t.id} className={`sidebar-item ${activeTab === t.id ? 'active' : ''}`} onClick={() => { setActiveTab(t.id); setMenuOpen(false); }}>
-                <span className="sidebar-item-icon"><t.Icon size={18} /></span>
+                <span className="sidebar-item-icon">{t.i}</span>
                 {t.l}
               </div>
             ))}
           </div>
           <div className="sidebar-section">
-            <div className="sidebar-section-title">INDICATORS</div>
+            <div className="sidebar-section-title">INDICATEURS</div>
             {TABS.slice(5).map(t => (
               <div key={t.id} className={`sidebar-item ${activeTab === t.id ? 'active' : ''}`} onClick={() => { setActiveTab(t.id); setMenuOpen(false); }}>
-                <span className="sidebar-item-icon"><t.Icon size={18} /></span>
+                <span className="sidebar-item-icon">{t.i}</span>
                 {t.l}
               </div>
             ))}
@@ -91,44 +83,44 @@ export default function App() {
         </nav>
         <div className="sidebar-footer">
           <div className="sidebar-status">
-            <div className={`sidebar-status-dot ${live.live ? 'bg-emerald-500' : 'bg-red-500'}`} style={{background: live.live ? 'var(--up)' : 'var(--down)'}} />
-            {live.live ? 'System Operational' : 'Connecting...'}
+            <div className="sidebar-status-dot" />
+            {live.live ? 'Système en ligne' : 'Connexion...'}
           </div>
         </div>
       </aside>
       <div className={`sidebar-overlay ${menuOpen ? 'visible' : ''}`} onClick={() => setMenuOpen(false)} />
-      <main className=\"main-content\">
-        <header className=\"header\">
-          {live.loading && <div className=\"loading-bar-top\"><div /></div>}
-          <div className=\"header-left\">
-            <button className=\"menu-toggle\" onClick={() => setMenuOpen(true)}>
-              <Menu size={24} />
-            </button>
+      <main className="main-content">
+        <header className="header" style={{ position: 'relative' }}>
+          {live.loading && <div className="loading-bar-top"><div /></div>}
+          <div className="header-left">
+            <button className="menu-toggle" onClick={() => setMenuOpen(true)}>☰</button>
             <div>
-              <div className=\"header-title\">Bitcoin Cycle Dashboard</div>
-              <div className=\"header-subtitle\">
-                {live.loading ? 'Syncing...' : live.lastUpdate ? `Last Sync: ${live.lastUpdate.toLocaleTimeString()}` : 'Initializing...'}
+              <div className="header-title">Bitcoin Cycle Dashboard</div>
+              <div className="header-subtitle">
+                {live.loading ? 'Chargement des données...' : live.lastUpdate ? `MAJ: ${live.lastUpdate.toLocaleTimeString()}` : 'Initialisation...'}
               </div>
             </div>
           </div>
-          <div className=\"header-right\">
+          <div className="header-right">
             {live.loading
               ? <div style={{ fontSize: 12, color: DS.text3, fontStyle: 'italic' }}>Loading...</div>
-              : <>\n                  {!mob && (
-                    <div className=\"header-badge\">
-                      <div className=\"header-badge-dot\" style={{ background: live.fearGreed < 20 ? DS.up : live.fearGreed > 80 ? DS.down : DS.warn }} />
+              : <>
+                  {!mob && (
+                    <div className="header-badge">
+                      <div className="header-badge-dot" style={{ background: live.fearGreed < 20 ? DS.up : live.fearGreed > 80 ? DS.down : DS.warn }} />
                       {`F&G: ${live.fearGreed}`}
                       {isFake(live.fakes, 'fearGreed') && <FakeBadge />}
                     </div>
                   )}
-                  <div style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ fontSize: 16, fontWeight: 700, fontFamily: DS.mono }}>
                     {`$${fP(live.price)}`}
                     {isFake(live.fakes, 'price') && <FakeBadge />}
                   </div>
-                </>\n            }
+                </>
+            }
           </div>
         </header>
-        <div className=\"content\">{renderContent()}</div>
+        <div className="content">{renderContent()}</div>
       </main>
     </div>
   );
