@@ -335,12 +335,16 @@ export function useLiveData() {
 
     // Derive CVDD from Terminal Price and circulating supply
     // CVDD = terminalPrice × supply / 126_000_000 (where 126M = 21 × 6M)
+    // Sources: https://blockchain.info/q/totalbc (satoshis)
+    //          https://api.coingecko.com (marketCap / price)
     if (r.terminalPrice > 0) {
-      // Supply: blockchain.info > CoinGecko (marketCap/price) > skip
-      const supply = r.supply || ((r.marketCap && r.price) ? r.marketCap / r.price : null);
-      if (supply) {
-        r.cvdd = Math.round(r.terminalPrice * supply / 126_000_000);
-      }
+      // Supply: blockchain.info > CoinGecko (marketCap/price) > hardcoded fallback
+      // Fallback: 19_986_750 BTC — halving 840000 (19 687 500) + ~665j × 144 blocs × 3.125 BTC
+      // Mis à jour : 2026-02-13. Dérive de ~450 BTC/jour post-halving 2024.
+      const supply = r.supply
+        || ((r.marketCap && r.price) ? r.marketCap / r.price : null)
+        || 19_986_750;
+      r.cvdd = Math.round(r.terminalPrice * supply / 126_000_000);
     }
 
     r.fakes = fakes;
