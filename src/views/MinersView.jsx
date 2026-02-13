@@ -9,6 +9,7 @@ import PriceLevels from '../components/PriceLevels';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 
 export default function MinersView({ live, calc, mob, hrHist }) {
+  const d = live.deltas || {};
   const hr = live.hashrate || 0;
   const diff = live.difficulty || 0;
   const sma30 = hrHist?.sma30 || live.hashSma30 || 0;
@@ -20,9 +21,9 @@ export default function MinersView({ live, calc, mob, hrHist }) {
       {/* Section banner — Replace with mining rig / hash rate visualization */}
       <ImagePlaceholder variant="section" section="miners" overlay="bottom" src="/panel10.png" />
       <div className="stat-grid">
-        <StatCard label="Hash Rate" value={`${hr.toFixed(0)} EH/s`} status="neutral" fake={isFake(live.fakes, 'hashrate')} />
-        <StatCard label="Puell Multiple" value={calc.puell.toFixed(2)} detail={calc.puell < 0.5 ? 'Zone achat' : calc.puell > 4 ? 'Zone top' : 'Neutre'} status={calc.puell < 0.5 ? 'up' : calc.puell > 4 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'puellMultiple')} />
-        <StatCard label="Mining Margin" value={`${calc.margin.toFixed(1)}%`} detail={`MC: $${fP(MC)}`} status={calc.margin < 0 ? 'down' : calc.margin < 15 ? 'up' : 'neutral'} fake={isFake(live.fakes, 'price')} />
+        <StatCard label="Hash Rate" value={`${hr.toFixed(0)} EH/s`} delta={d.hashrate} status="neutral" fake={isFake(live.fakes, 'hashrate')} />
+        <StatCard label="Puell Multiple" value={calc.puell.toFixed(2)} detail={calc.puell < 0.5 ? 'Zone achat' : calc.puell > 4 ? 'Zone top' : 'Neutre'} delta={d.puellMultiple} status={calc.puell < 0.5 ? 'up' : calc.puell > 4 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'puellMultiple')} />
+        <StatCard label="Mining Margin" value={`${calc.margin.toFixed(1)}%`} detail={`MC: $${fP(MC)}`} delta={d.price} status={calc.margin < 0 ? 'down' : calc.margin < 15 ? 'up' : 'neutral'} fake={isFake(live.fakes, 'price')} />
         <StatCard label="Score Miners" value={`${calc.miners}/100`} status={calc.miners < 25 ? 'up' : calc.miners > 70 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'puellMultiple', 'price')} />
       </div>
 

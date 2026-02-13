@@ -320,6 +320,54 @@ export function useLiveData() {
     }
 
     r.fakes = fakes;
+
+    // Delta calculation: compare current values to previous fetch stored in localStorage
+    const PREV_KEY = 'live_prev';
+    const DELTA_FIELDS = [
+      'price', 'marketCap', 'dominance', 'volume24h', 'fearGreed',
+      'nupl', 'sopr', 'asopr', 'mvrvz', 'mvrvratio',
+      'realizedPrice', 'sthRealizedPrice', 'lthRealizedPrice',
+      'puellMultiple', 'supplyProfitPct', 'supplyProfitBtc', 'rhodl',
+      'rsi', 'sma200', 'ema200', 'sma50',
+      'fundingRate', 'openInterest',
+      'hashrate', 'difficulty',
+      'etfBtcTotal', 'etfFlowBtc'
+    ];
+    let deltas = {};
+    let prevTimestamp = null;
+    try {
+      const raw = localStorage.getItem(PREV_KEY);
+      if (raw) {
+        const prev = JSON.parse(raw);
+        prevTimestamp = prev.ts || null;
+        const pd = prev.data || {};
+        for (const f of DELTA_FIELDS) {
+          const cur = r[f];
+          const old = pd[f];
+          if (cur != null && old != null && !fakes.has(f) && typeof cur === 'number' && typeof old === 'number') {
+            if (old !== 0) {
+              deltas[f] = ((cur - old) / Math.abs(old)) * 100;
+            } else if (cur !== 0) {
+              deltas[f] = cur > 0 ? 100 : -100;
+            }
+          }
+        }
+      }
+    } catch (e) {}
+
+    // Save current values as previous for next comparison
+    if (r.live) {
+      try {
+        const snapshot = {};
+        for (const f of DELTA_FIELDS) {
+          if (r[f] != null && !fakes.has(f)) snapshot[f] = r[f];
+        }
+        localStorage.setItem(PREV_KEY, JSON.stringify({ ts: Date.now(), data: snapshot }));
+      } catch (e) {}
+    }
+
+    r.deltas = deltas;
+    r.prevTimestamp = prevTimestamp;
     setData(r);
   }, []);
 

@@ -11,6 +11,7 @@ import { INFO } from '../config/constants';
 import { fP, isFake } from '../utils/format';
 
 export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
+  const d = live.deltas || {};
   const scoreZone = calc.composite >= 70 ? 'ACCUMULATION' : calc.composite >= 40 ? 'NEUTRE' : 'PRUDENCE';
 
   return (
@@ -41,10 +42,10 @@ export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
       </ImagePlaceholder>
 
       <div className="stat-grid" style={{ marginBottom: 24 }}>
-        <StatCard label="Prix Actuel" value={`$${fP(live.price)}`} change={live.change24h} neutral fake={isFake(live.fakes, 'price')} featured />
-        <StatCard label="MVRV Ratio" value={calc.mvrv.toFixed(2)} detail={`Z: ${calc.mvrvz.toFixed(2)}`} status={calc.mvrv < 1 ? 'up' : calc.mvrv > 3.5 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'mvrvratio', 'mvrvz')} variant="alert" tone={calc.mvrv < 1 ? 'bull' : calc.mvrv > 3.5 ? 'bear' : 'neutral'} />
-        <FearGreedCard value={live.fearGreed} fgLabel={live.fgLabel} fake={isFake(live.fakes, 'fearGreed')} />
-        <StatCard label="Distance ATH" value={`${calc.drop.toFixed(1)}%`} detail={`${calc.dATH} jours`} status="neutral" fake={isFake(live.fakes, 'price')} variant="glass" />
+        <StatCard label="Prix Actuel" value={`$${fP(live.price)}`} change={live.change24h} delta={d.price} neutral fake={isFake(live.fakes, 'price')} featured />
+        <StatCard label="MVRV Ratio" value={calc.mvrv.toFixed(2)} detail={`Z: ${calc.mvrvz.toFixed(2)}`} delta={d.mvrvratio} status={calc.mvrv < 1 ? 'up' : calc.mvrv > 3.5 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'mvrvratio', 'mvrvz')} variant="alert" tone={calc.mvrv < 1 ? 'bull' : calc.mvrv > 3.5 ? 'bear' : 'neutral'} />
+        <FearGreedCard value={live.fearGreed} fgLabel={live.fgLabel} fake={isFake(live.fakes, 'fearGreed')} delta={d.fearGreed} />
+        <StatCard label="Distance ATH" value={`${calc.drop.toFixed(1)}%`} detail={`${calc.dATH} jours`} delta={d.price} status="neutral" fake={isFake(live.fakes, 'price')} variant="glass" />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '2fr 1fr', gap: 24, marginBottom: 24 }}>

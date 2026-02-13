@@ -8,6 +8,7 @@ import FundingRateChart from '../components/FundingRateChart';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 
 export default function DerivativesView({ live, calc, mob }) {
+  const d = live.deltas || {};
   const fr = live.fundingRateBG ?? live.fundingRate;
   const oi = live.openInterestBG ?? live.openInterest;
 
@@ -16,9 +17,9 @@ export default function DerivativesView({ live, calc, mob }) {
       {/* Section banner — Replace with derivatives / leverage illustration */}
       <ImagePlaceholder variant="section" section="derivatives" overlay="bottom" src="/panel9.png" />
       <div className="stat-grid">
-        <StatCard label="Funding Rate" value={`${fr.toFixed(4)}%`} status={fr < -0.01 ? 'up' : fr > 0.05 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'fundingRate')} />
-        <StatCard label="Open Interest" value={fB(oi)} status={oi > 60e9 ? 'down' : oi < 30e9 ? 'up' : 'neutral'} fake={isFake(live.fakes, 'openInterest')} />
-        <FearGreedCard value={live.fearGreed} fgLabel={live.fgLabel} fake={isFake(live.fakes, 'fearGreed')} />
+        <StatCard label="Funding Rate" value={`${fr.toFixed(4)}%`} delta={d.fundingRate} status={fr < -0.01 ? 'up' : fr > 0.05 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'fundingRate')} />
+        <StatCard label="Open Interest" value={fB(oi)} delta={d.openInterest} status={oi > 60e9 ? 'down' : oi < 30e9 ? 'up' : 'neutral'} fake={isFake(live.fakes, 'openInterest')} />
+        <FearGreedCard value={live.fearGreed} fgLabel={live.fgLabel} fake={isFake(live.fakes, 'fearGreed')} delta={d.fearGreed} />
         <StatCard label="Score Dérivés" value={`${calc.derivs}/100`} status={calc.derivs < 25 ? 'up' : calc.derivs > 70 ? 'down' : 'neutral'} fake={isFake(live.fakes, 'fundingRate', 'openInterest', 'fearGreed')} />
       </div>
 

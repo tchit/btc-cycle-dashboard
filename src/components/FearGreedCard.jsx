@@ -14,7 +14,7 @@ const getZone = (v) => {
   return { label: 'MAX GREED', color: '#CCFF00', bg: 'rgba(204,255,0,0.14)', ring: 'rgba(204,255,0,0.45)' };
 };
 
-export default function FearGreedCard({ value, fgLabel, fake }) {
+export default function FearGreedCard({ value, fgLabel, fake, delta }) {
   const [display, setDisplay] = useState(0);
   const [mounted, setMounted] = useState(false);
   const v = value || 50;
@@ -97,6 +97,11 @@ export default function FearGreedCard({ value, fgLabel, fake }) {
           }}>
             {zone.label}
           </span>
+          {delta != null && isFinite(delta) && Math.abs(delta) >= 0.01 && (
+            <span className={`stat-delta ${delta > 0 ? 'is-up' : 'is-down'}`}>
+              {delta > 0 ? '\u2191' : '\u2193'}{Math.abs(delta) < 10 ? Math.abs(delta).toFixed(1) : Math.abs(delta).toFixed(0)}%
+            </span>
+          )}
         </div>
 
         {/* Spectrum bar */}
