@@ -43,7 +43,7 @@ export function useCalc(data) {
 
     const fr = data.fundingRateBG ?? data.fundingRate;
     const sfunding = fr < -0.03 ? 5 : fr < -0.01 ? 15 : fr < 0.01 ? 40 : fr < 0.05 ? 60 : fr < 0.1 ? 80 : 95;
-    const oi = data.openInterestBG ?? data.openInterest;
+    const oi = data.openInterestAgg ?? data.openInterestBG ?? data.openInterest;
     const soi = oi > 80e9 ? 90 : oi > 60e9 ? 70 : oi > 40e9 ? 45 : oi > 25e9 ? 25 : 10;
     const derivs = Math.round((sfunding + soi + sfg) / 3);
 
