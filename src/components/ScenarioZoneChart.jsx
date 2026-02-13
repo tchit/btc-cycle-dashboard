@@ -1,6 +1,6 @@
 import React from 'react';
 import { DS } from '../config/design';
-import { ATH, RP, W200, MC, CVDD, STHRP, LTHRP, SCENARIOS } from '../config/constants';
+import { ATH, RP, W200, MC, CVDD as CVDD_CONST, STHRP, LTHRP, SCENARIOS } from '../config/constants';
 import { fP } from '../utils/format';
 
 export default function ScenarioZoneChart({ price, mob, levels }) {
@@ -9,7 +9,7 @@ export default function ScenarioZoneChart({ price, mob, levels }) {
     { k: 'ath', l: 'ATH', v: ATH, c: DS.down }
   ].sort((a, b) => a.v - b.v) : [
     { v: LTHRP, l: 'LTH-RP', c: DS.up },
-    { v: CVDD, l: 'CVDD', c: '#f472b6' },
+    { v: CVDD_CONST, l: 'CVDD', c: '#f472b6' },
     { v: RP, l: 'RP', c: '#a78bfa' },
     { v: W200, l: '200W', c: '#60a5fa' },
     { v: MC, l: 'MC', c: DS.warn },

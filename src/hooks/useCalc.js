@@ -12,6 +12,7 @@ export function useCalc(data) {
     const rp = data.realizedPrice || RP;
     const sthRp = data.sthRealizedPrice || STHRP;
     const lthRp = data.lthRealizedPrice || LTHRP;
+    const cvdd = data.cvdd || CVDD;
     const mvrv = data.mvrvratio || (p / rp);
     const mvrvz = data.mvrvz || ((p - rp) / (p * 0.4));
     const margin = ((p - MC) / MC) * 100;
@@ -76,14 +77,14 @@ export function useCalc(data) {
       { k: 'sthrp', l: 'STH Realized Price', v: sthRp, c: DS.accent },
       { k: 'w200', l: '200-Week MA', v: w200, c: '#60a5fa' },
       { k: 'rp', l: 'Realized Price', v: rp, c: '#a78bfa' },
-      { k: 'cvdd', l: 'CVDD', v: CVDD, c: '#f472b6' },
+      { k: 'cvdd', l: 'CVDD', v: cvdd, c: '#f472b6' },
       { k: 'lthrp', l: 'LTH Realized Price', v: lthRp, c: DS.up }
     ];
 
     return {
       dATH, dHalv, drop, mvrv, mvrvz, margin, bearProg, dBot, dNH, cycleDay,
       mayer, puell, supplyProfit, composite, onChain, mktStruct, miners, derivs,
-      exhaustPct, bscores, totalScore, mc, rp, sthRp, lthRp, sma200, liveLevels
+      exhaustPct, bscores, totalScore, mc, rp, sthRp, lthRp, cvdd, sma200, liveLevels
     };
   }, [data]);
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { DS } from '../config/design';
-import { RP as RP_CONST, CVDD, W200 as W200_CONST } from '../config/constants';
+import { RP as RP_CONST, CVDD as CVDD_CONST, W200 as W200_CONST } from '../config/constants';
 
-export default function MonteCarloChart({ mc, price, mob, rp, w200 }) {
+export default function MonteCarloChart({ mc, price, mob, rp, w200, cvdd }) {
   if (!mc?.p50?.length) return null;
   const W = mob ? 340 : 700, H = mob ? 200 : 320, PX = 50, PY = 20;
   const n = mc.p50.length;
@@ -24,7 +24,7 @@ export default function MonteCarloChart({ mc, price, mob, rp, w200 }) {
 
   const labels = [
     { v: rp || RP_CONST, l: 'RP', c: DS.purple },
-    { v: CVDD, l: 'CVDD', c: DS.pink },
+    { v: cvdd || CVDD_CONST, l: 'CVDD', c: DS.pink },
     { v: w200 || W200_CONST, l: '200W', c: DS.blue }
   ].filter(l => l.v > mn && l.v < mx);
 

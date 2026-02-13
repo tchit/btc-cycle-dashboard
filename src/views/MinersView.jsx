@@ -55,7 +55,7 @@ export default function MinersView({ live, calc, mob, hrHist }) {
           </div>
           <div className="card-body"><HashRibbonsChart hrHist={hrHist} mob={mob} /></div>
         </div>
-        <PriceLevels price={live.price} margin={calc.margin} mob={mob} rp={calc.rp} sthRp={calc.sthRp} lthRp={calc.lthRp} w200={calc.sma200} />
+        <PriceLevels price={live.price} margin={calc.margin} mob={mob} rp={calc.rp} sthRp={calc.sthRp} lthRp={calc.lthRp} w200={calc.sma200} cvdd={calc.cvdd} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 }}>

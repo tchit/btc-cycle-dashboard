@@ -21,7 +21,7 @@ export default function RainbowView({ live, calc, hist, mob }) {
       <div className="card">
         <div className="card-header"><div className="card-title">Monte Carlo Simulation</div></div>
         <div className="card-body">
-          <MonteCarloChart mc={calc.mc} price={live.price} mob={mob} rp={calc.rp} w200={calc.sma200} />
+          <MonteCarloChart mc={calc.mc} price={live.price} mob={mob} rp={calc.rp} w200={calc.sma200} cvdd={calc.cvdd} />
           <div style={{ marginTop: 20, padding: '16px 18px', background: DSCard.bgHeader, borderRadius: 10, border: `1px solid ${DSCard.borderLight}` }}>
             <div style={{ fontSize: 16, fontWeight: 700, color: DSCard.text, marginBottom: 10 }}>Comment lire ce graphique ?</div>
             <div style={{ fontSize: 15, color: DSCard.text2, lineHeight: 1.7 }}>

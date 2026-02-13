@@ -227,6 +227,13 @@ export function useLiveData() {
         if (oiSum > 0) bg.openInterestBG = oiSum;
       }
 
+      const tp = get('terminal-price');
+      if (tp?.terminalPrice != null) {
+        bg.terminalPrice = parseFloat(tp.terminalPrice);
+        // CVDD ≈ Terminal Price / 6.3 (empirical ratio, both share CDD data)
+        bg.cvdd = Math.round(bg.terminalPrice / 6.3);
+      }
+
       return bg;
     };
 

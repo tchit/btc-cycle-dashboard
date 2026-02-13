@@ -37,6 +37,7 @@ const BATCHES = [
     'etf-btc-total',         // ETF total BTC holdings
     'etf-flow-btc',          // ETF daily flow
     'open-interest-futures', // aggregated OI
+    'terminal-price',        // terminal price (derives CVDD)
   ],
 ];
 
