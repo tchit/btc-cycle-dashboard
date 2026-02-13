@@ -230,8 +230,6 @@ export function useLiveData() {
       const tp = get('terminal-price');
       if (tp?.terminalPrice != null) {
         bg.terminalPrice = parseFloat(tp.terminalPrice);
-        // CVDD ≈ Terminal Price / 6.3 (empirical ratio, both share CDD data)
-        bg.cvdd = Math.round(bg.terminalPrice / 6.3);
       }
 
       return bg;
@@ -324,6 +322,13 @@ export function useLiveData() {
           r.sources.bgeometrics = false;
         }
       }
+    }
+
+    // Derive CVDD from Terminal Price and circulating supply
+    // CVDD = terminalPrice × supply / 126_000_000 (where 126M = 21 × 6M)
+    if (r.terminalPrice > 0) {
+      const supply = (r.marketCap && r.price) ? r.marketCap / r.price : 19_850_000;
+      r.cvdd = Math.round(r.terminalPrice * supply / 126_000_000);
     }
 
     r.fakes = fakes;

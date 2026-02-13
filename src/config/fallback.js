@@ -9,7 +9,7 @@ export const FALLBACK = {
   etfBtcTotal: 644726, etfFlowBtc: -4968,
   hashrate: 1028, difficulty: 126e12, puellMultiple: 0.79,
   hashRibbons: 'Down', hashSma30: 964567, hashSma60: 1010355,
-  terminalPrice: 294320, cvdd: 46718
+  terminalPrice: 294320, cvdd: 46261
 };
 
 export const SOURCE_FIELDS = {
