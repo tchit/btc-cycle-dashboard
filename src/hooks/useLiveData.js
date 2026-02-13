@@ -120,6 +120,15 @@ export function useLiveData() {
       }
     } catch (e) { r.sources.mempool = false; }
 
+    // Circulating supply: blockchain.info (lightweight, no key needed)
+    try {
+      const res = await fetch('https://blockchain.info/q/totalbc');
+      if (res.ok) {
+        const sat = parseFloat(await res.text());
+        if (sat > 0) r.supply = sat / 1e8;
+      }
+    } catch (e) {}
+
     // BGeometrics: Worker proxy primary, direct bitcoin-data.com fallback
     const BGPROXY = 'https://bg-proxy.sv9ch954y9.workers.dev';
     const BGDIRECT = 'https://bitcoin-data.com';
@@ -327,8 +336,11 @@ export function useLiveData() {
     // Derive CVDD from Terminal Price and circulating supply
     // CVDD = terminalPrice × supply / 126_000_000 (where 126M = 21 × 6M)
     if (r.terminalPrice > 0) {
-      const supply = (r.marketCap && r.price) ? r.marketCap / r.price : 19_850_000;
-      r.cvdd = Math.round(r.terminalPrice * supply / 126_000_000);
+      // Supply: blockchain.info > CoinGecko (marketCap/price) > skip
+      const supply = r.supply || ((r.marketCap && r.price) ? r.marketCap / r.price : null);
+      if (supply) {
+        r.cvdd = Math.round(r.terminalPrice * supply / 126_000_000);
+      }
     }
 
     r.fakes = fakes;
