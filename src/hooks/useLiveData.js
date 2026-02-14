@@ -96,48 +96,16 @@ export function useLiveData() {
       }
     } catch (e) { r.sources.binance = false; }
 
-    // Aggregated Open Interest (multi-exchange, real-time)
+    // Aggregated Open Interest via Worker proxy (bypasses CORS)
     try {
-      const oiResults = await Promise.allSettled([
-        // Binance USDT-M perpetual (OI in BTC → × price)
-        fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT')
-          .then(res => res.ok ? res.json() : null)
-          .then(j => j?.openInterest ? parseFloat(j.openInterest) * r.price : 0),
-        // OKX USDT Swap (OI in USD)
-        fetch('https://www.okx.com/api/v5/public/open-interest?instType=SWAP&instId=BTC-USDT-SWAP')
-          .then(res => res.ok ? res.json() : null)
-          .then(j => parseFloat(j?.data?.[0]?.oiUsd) || 0),
-        // OKX USD Swap (OI in USD)
-        fetch('https://www.okx.com/api/v5/public/open-interest?instType=SWAP&instId=BTC-USD-SWAP')
-          .then(res => res.ok ? res.json() : null)
-          .then(j => parseFloat(j?.data?.[0]?.oiUsd) || 0),
-        // Bybit Linear perpetual (OI in BTC → × price)
-        fetch('https://api.bybit.com/v5/market/open-interest?category=linear&symbol=BTCUSDT&intervalTime=5min&limit=1')
-          .then(res => res.ok ? res.json() : null)
-          .then(j => {
-            const v = j?.result?.list?.[0]?.openInterest;
-            return v ? parseFloat(v) * r.price : 0;
-          }),
-        // Bitget USDT-Futures perpetual (OI in BTC → × price)
-        fetch('https://api.bitget.com/api/v2/mix/market/open-interest?symbol=BTCUSDT&productType=USDT-FUTURES')
-          .then(res => res.ok ? res.json() : null)
-          .then(j => {
-            const v = j?.data?.openInterestList?.[0]?.size;
-            return v ? parseFloat(v) * r.price : 0;
-          }),
-        // Deribit all BTC futures (OI in USD)
-        fetch('https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=future')
-          .then(res => res.ok ? res.json() : null)
-          .then(j => j?.result ? j.result.reduce((s, i) => s + (i.open_interest || 0), 0) : 0),
-      ]);
-
-      const totalOi = oiResults.reduce((s, res) => s + (res.status === 'fulfilled' ? res.value : 0), 0);
-      const okCount = oiResults.filter(res => res.status === 'fulfilled' && res.value > 0).length;
-
-      if (totalOi > 0 && okCount >= 2) {
-        r.openInterestAgg = totalOi;
-        r.oiExchanges = okCount;
-        fakes.delete('openInterest');
+      const oiRes = await fetch('https://bg-proxy.sv9ch954y9.workers.dev/oi');
+      if (oiRes.ok) {
+        const oi = await oiRes.json();
+        if (oi.total > 0 && oi.count >= 2) {
+          r.openInterestAgg = oi.total;
+          r.oiExchanges = oi.count;
+          fakes.delete('openInterest');
+        }
       }
     } catch (e) {}
 
