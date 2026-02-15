@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { DS } from '../config/design';
-import { MC, RP as RP_CONST, W200 as W200_CONST, CVDD, STHRP, LTHRP } from '../config/constants';
+import { MC, RP as RP_CONST, W200 as W200_CONST, CVDD as CVDD_CONST, STHRP, LTHRP } from '../config/constants';
 import { fK } from '../utils/format';
 
-export default function MiningMarginChart({ price, mob, rp, sthRp, lthRp, w200 }) {
+export default function MiningMarginChart({ price, mob, rp, sthRp, lthRp, w200, cvdd }) {
   const ref = useRef(null);
   useEffect(() => {
     const c = ref.current; if (!c) return;
@@ -14,7 +14,7 @@ export default function MiningMarginChart({ price, mob, rp, sthRp, lthRp, w200 }
     const pad = { t: 24, b: 24, l: 60, r: 20 }, cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
     const levels = [
       { v: lthRp || LTHRP, l: 'LTH-RP', c: DS.up },
-      { v: CVDD, l: 'CVDD', c: '#f472b6' },
+      { v: cvdd || CVDD_CONST, l: 'CVDD', c: '#f472b6' },
       { v: rp || RP_CONST, l: 'RP', c: '#a78bfa' },
       { v: w200 || W200_CONST, l: '200W', c: '#60a5fa' },
       { v: MC, l: 'MC', c: DS.warn },

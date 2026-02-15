@@ -126,6 +126,15 @@ export function useLiveData() {
       }
     } catch (e) { r.sources.mempool = false; }
 
+    // Circulating supply: blockchain.info (lightweight, no key needed)
+    try {
+      const res = await fetch('https://blockchain.info/q/totalbc');
+      if (res.ok) {
+        const sat = parseFloat(await res.text());
+        if (sat > 0) r.supply = sat / 1e8;
+      }
+    } catch (e) {}
+
     // BGeometrics: Worker proxy primary, direct bitcoin-data.com fallback
     const BGPROXY = 'https://bg-proxy.sv9ch954y9.workers.dev';
     const BGDIRECT = 'https://bitcoin-data.com';
@@ -233,6 +242,11 @@ export function useLiveData() {
         if (oiSum > 0) bg.openInterestBG = oiSum;
       }
 
+      const tp = get('terminal-price');
+      if (tp?.terminalPrice != null) {
+        bg.terminalPrice = parseFloat(tp.terminalPrice);
+      }
+
       return bg;
     };
 
@@ -327,6 +341,20 @@ export function useLiveData() {
 
     // Mark OI as live if BGeometrics provided it (fallback when aggregation fails)
     if (r.openInterestBG && !r.openInterestAgg) fakes.delete('openInterest');
+
+    // Derive CVDD from Terminal Price and circulating supply
+    // CVDD = terminalPrice × supply / 126_000_000 (where 126M = 21 × 6M)
+    // Sources: https://blockchain.info/q/totalbc (satoshis)
+    //          https://api.coingecko.com (marketCap / price)
+    if (r.terminalPrice > 0) {
+      // Supply: blockchain.info > CoinGecko (marketCap/price) > hardcoded fallback
+      // Fallback: 19_986_750 BTC — halving 840000 (19 687 500) + ~665j × 144 blocs × 3.125 BTC
+      // Mis à jour : 2026-02-13. Dérive de ~450 BTC/jour post-halving 2024.
+      const supply = r.supply
+        || ((r.marketCap && r.price) ? r.marketCap / r.price : null)
+        || 19_986_750;
+      r.cvdd = Math.round(r.terminalPrice * supply / 126_000_000);
+    }
 
     r.fakes = fakes;
 

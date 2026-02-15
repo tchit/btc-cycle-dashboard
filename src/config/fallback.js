@@ -8,7 +8,8 @@ export const FALLBACK = {
   fundingRate: -0.005, openInterest: 32e9,
   etfBtcTotal: 644726, etfFlowBtc: -4968,
   hashrate: 1028, difficulty: 126e12, puellMultiple: 0.79,
-  hashRibbons: 'Down', hashSma30: 964567, hashSma60: 1010355
+  hashRibbons: 'Down', hashSma30: 964567, hashSma60: 1010355,
+  terminalPrice: 294320, cvdd: 46261
 };
 
 export const SOURCE_FIELDS = {
@@ -17,5 +18,5 @@ export const SOURCE_FIELDS = {
   fng: ['fearGreed', 'fgLabel'],
   binance: ['fundingRate'],
   mempool: ['hashrate', 'difficulty'],
-  bgeometrics: ['nupl', 'sopr', 'asopr', 'mvrvz', 'mvrvratio', 'realizedPrice', 'sthRealizedPrice', 'lthRealizedPrice', 'puellMultiple', 'supplyProfitPct', 'supplyProfitBtc', 'rhodl', 'rsi', 'sma200', 'ema200', 'sma50', 'hashRibbons', 'hashSma30', 'hashSma60', 'etfBtcTotal', 'etfFlowBtc']
+  bgeometrics: ['nupl', 'sopr', 'asopr', 'mvrvz', 'mvrvratio', 'realizedPrice', 'sthRealizedPrice', 'lthRealizedPrice', 'puellMultiple', 'supplyProfitPct', 'supplyProfitBtc', 'rhodl', 'rsi', 'sma200', 'ema200', 'sma50', 'hashRibbons', 'hashSma30', 'hashSma60', 'etfBtcTotal', 'etfFlowBtc', 'terminalPrice', 'cvdd']
 };

@@ -1,11 +1,11 @@
 import React from 'react';
-import { MC, RP as RP_CONST, W200 as W200_CONST, CVDD, STHRP, LTHRP } from '../config/constants';
+import { MC, RP as RP_CONST, W200 as W200_CONST, CVDD as CVDD_CONST, STHRP, LTHRP } from '../config/constants';
 import { fP } from '../utils/format';
 
-export default function PriceLevels({ price, margin, mob, rp, sthRp, lthRp, w200 }) {
+export default function PriceLevels({ price, margin, mob, rp, sthRp, lthRp, w200, cvdd }) {
   const levels = [
     { label: 'LTH Realized Price', value: lthRp || LTHRP },
-    { label: 'CVDD', value: CVDD },
+    { label: 'CVDD', value: cvdd || CVDD_CONST },
     { label: 'Realized Price', value: rp || RP_CONST },
     { label: '200-Week MA', value: w200 || W200_CONST },
     { label: 'Coût de Minage', value: MC },
