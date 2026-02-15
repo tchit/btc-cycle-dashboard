@@ -43,6 +43,7 @@ const BATCHES = [
 const KV_KEY = 'bg_merged_v2';
 const ROTATION_MS = 60 * 60 * 1000; // 1 hour between batches
 const EDGE_CACHE_TTL = 300;          // 5 min edge cache
+const OI_CACHE_TTL = 120;            // 2 min cache for OI data
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -161,6 +162,148 @@ async function handleDebug(env) {
   };
 }
 
+// Aggregated Open Interest from multiple exchanges
+async function handleOi() {
+  const HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (compatible; BTCDash/1.0)',
+    'Accept': 'application/json',
+  };
+
+  const OI_ENDPOINTS = [
+    // --- Binance USDT-margined perpetual ---
+    {
+      name: 'binance_usdt',
+      url: 'https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT',
+      parse: (j, price) => j?.openInterest ? parseFloat(j.openInterest) * price : 0,
+      needsPrice: true,
+    },
+    // --- Binance coin-margined perpetual ---
+    {
+      name: 'binance_coin',
+      url: 'https://dapi.binance.com/dapi/v1/openInterest?symbol=BTCUSD_PERP',
+      // Returns openInterest in contracts, each contract = 100 USD
+      parse: (j) => j?.openInterest ? parseFloat(j.openInterest) * 100 : 0,
+    },
+    // --- OKX USDT swap ---
+    {
+      name: 'okx_usdt',
+      url: 'https://www.okx.com/api/v5/public/open-interest?instType=SWAP&instId=BTC-USDT-SWAP',
+      parse: (j) => parseFloat(j?.data?.[0]?.oiUsd) || 0,
+    },
+    // --- OKX USD swap ---
+    {
+      name: 'okx_usd',
+      url: 'https://www.okx.com/api/v5/public/open-interest?instType=SWAP&instId=BTC-USD-SWAP',
+      parse: (j) => parseFloat(j?.data?.[0]?.oiUsd) || 0,
+    },
+    // --- Bybit linear perpetual ---
+    {
+      name: 'bybit',
+      url: 'https://api.bybit.com/v5/market/open-interest?category=linear&symbol=BTCUSDT&intervalTime=5min&limit=1',
+      parse: (j, price) => {
+        const v = j?.result?.list?.[0]?.openInterest;
+        return v ? parseFloat(v) * price : 0;
+      },
+      needsPrice: true,
+    },
+    // --- Bitget USDT futures ---
+    {
+      name: 'bitget',
+      url: 'https://api.bitget.com/api/v2/mix/market/open-interest?symbol=BTCUSDT&productType=USDT-FUTURES',
+      parse: (j, price) => {
+        const v = j?.data?.openInterestList?.[0]?.size;
+        return v ? parseFloat(v) * price : 0;
+      },
+      needsPrice: true,
+    },
+    // --- Deribit all BTC futures ---
+    {
+      name: 'deribit',
+      url: 'https://www.deribit.com/api/v2/public/get_book_summary_by_currency?currency=BTC&kind=future',
+      // open_interest is in USD for inverse contracts
+      parse: (j) => j?.result ? j.result.reduce((s, i) => s + (i.open_interest || 0), 0) : 0,
+    },
+    // --- Gate.io USDT perpetual ---
+    {
+      name: 'gate',
+      url: 'https://api.gateio.ws/api/v4/futures/usdt/contracts/BTC_USDT',
+      // position_size is in contracts, each contract = 1 USD (quanto)
+      parse: (j) => j?.position_size ? Math.abs(parseFloat(j.position_size)) : 0,
+    },
+    // --- Kraken Futures (inverse perpetual, OI in USD) ---
+    {
+      name: 'kraken',
+      url: 'https://futures.kraken.com/derivatives/api/v3/tickers',
+      parse: (j, price) => {
+        if (!j?.tickers) return 0;
+        let sum = 0;
+        for (const t of j.tickers) {
+          if (!t.symbol || !t.symbol.toLowerCase().includes('xbt')) continue;
+          if (!t.openInterest) continue;
+          // PI_ pairs: OI in USD; PF_ pairs: OI in BTC
+          if (t.symbol.startsWith('PI_') || t.symbol.startsWith('FI_')) {
+            sum += parseFloat(t.openInterest) || 0;
+          } else if (t.symbol.startsWith('PF_') || t.symbol.startsWith('FF_')) {
+            sum += (parseFloat(t.openInterest) || 0) * price;
+          }
+        }
+        return sum;
+      },
+      needsPrice: true,
+    },
+  ];
+
+  // Fetch BTC price first (needed for BTC-denominated OI)
+  let btcPrice = 0;
+  try {
+    const res = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT', { headers: HEADERS });
+    if (res.ok) {
+      const j = await res.json();
+      btcPrice = parseFloat(j.price) || 0;
+    }
+  } catch (e) {}
+  if (!btcPrice) {
+    try {
+      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', { headers: HEADERS });
+      if (res.ok) {
+        const j = await res.json();
+        btcPrice = j?.bitcoin?.usd || 0;
+      }
+    } catch (e) {}
+  }
+
+  const results = await Promise.allSettled(
+    OI_ENDPOINTS.map(async (ep) => {
+      try {
+        const res = await fetch(ep.url, { headers: HEADERS });
+        if (!res.ok) return { name: ep.name, oi: 0, error: `HTTP ${res.status}` };
+        const j = await res.json();
+        const oi = ep.parse(j, btcPrice);
+        return { name: ep.name, oi };
+      } catch (e) {
+        return { name: ep.name, oi: 0, error: e.message };
+      }
+    })
+  );
+
+  const exchanges = {};
+  const errors = {};
+  let total = 0;
+  let count = 0;
+  for (const r of results) {
+    const val = r.status === 'fulfilled' ? r.value : { name: '?', oi: 0, error: 'rejected' };
+    exchanges[val.name] = val.oi;
+    if (val.oi > 0) { total += val.oi; count++; }
+    if (val.error) errors[val.name] = val.error;
+  }
+
+  return {
+    total, exchanges, count, btcPrice, ts: Date.now(),
+    errors: Object.keys(errors).length > 0 ? errors : undefined,
+    note: 'Excludes CME (no free API). Real global OI is higher.',
+  };
+}
+
 export default {
   // Cron Trigger: runs every hour to keep KV data fresh
   async scheduled(event, env, ctx) {
@@ -177,6 +320,30 @@ export default {
     if (url.pathname === '/debug') {
       const data = await handleDebug(env);
       return new Response(JSON.stringify(data, null, 2), { headers: CORS });
+    }
+
+    if (url.pathname === '/oi') {
+      // Edge cache for OI (2 min)
+      const cache = caches.default;
+      const cacheKey = new Request(request.url, { method: 'GET' });
+
+      if (!url.searchParams.has('fresh')) {
+        const cached = await cache.match(cacheKey);
+        if (cached) return new Response(cached.body, { headers: CORS });
+      }
+
+      const data = await handleOi();
+      const body = JSON.stringify(data);
+      const response = new Response(body, { headers: CORS });
+
+      if (data.count >= 2) {
+        const toCache = new Response(body, {
+          headers: { ...CORS, 'Cache-Control': `s-maxage=${OI_CACHE_TTL}` },
+        });
+        await cache.put(cacheKey, toCache);
+      }
+
+      return response;
     }
 
     if (url.pathname === '/all') {

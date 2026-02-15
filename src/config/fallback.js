@@ -15,7 +15,7 @@ export const SOURCE_FIELDS = {
   coingecko: ['price', 'marketCap', 'change24h', 'volume24h'],
   dominance: ['dominance'],
   fng: ['fearGreed', 'fgLabel'],
-  binance: ['fundingRate', 'openInterest'],
+  binance: ['fundingRate'],
   mempool: ['hashrate', 'difficulty'],
   bgeometrics: ['nupl', 'sopr', 'asopr', 'mvrvz', 'mvrvratio', 'realizedPrice', 'sthRealizedPrice', 'lthRealizedPrice', 'puellMultiple', 'supplyProfitPct', 'supplyProfitBtc', 'rhodl', 'rsi', 'sma200', 'ema200', 'sma50', 'hashRibbons', 'hashSma30', 'hashSma60', 'etfBtcTotal', 'etfFlowBtc']
 };

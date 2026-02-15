@@ -78,12 +78,9 @@ export function useLiveData() {
       }
     } catch (e) { r.sources.fng = false; }
 
-    // Binance Futures (historical funding rates + OI)
+    // Binance Futures (historical funding rates)
     try {
-      const [fr, oi] = await Promise.all([
-        fetch('https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=500'),
-        fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol=BTCUSDT')
-      ]);
+      const fr = await fetch('https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=500');
       if (fr.ok) {
         const j = await fr.json();
         if (j.length) {
@@ -97,11 +94,20 @@ export function useLiveData() {
           markLive('binance');
         }
       }
-      if (oi.ok) {
-        const j = await oi.json();
-        r.openInterest = parseFloat(j.openInterest) * r.price;
-      }
     } catch (e) { r.sources.binance = false; }
+
+    // Aggregated Open Interest via Worker proxy (bypasses CORS)
+    try {
+      const oiRes = await fetch('https://bg-proxy.sv9ch954y9.workers.dev/oi');
+      if (oiRes.ok) {
+        const oi = await oiRes.json();
+        if (oi.total > 0 && oi.count >= 2) {
+          r.openInterestAgg = oi.total;
+          r.oiExchanges = oi.count;
+          fakes.delete('openInterest');
+        }
+      }
+    } catch (e) {}
 
     // Mempool
     try {
@@ -318,6 +324,9 @@ export function useLiveData() {
         }
       }
     }
+
+    // Mark OI as live if BGeometrics provided it (fallback when aggregation fails)
+    if (r.openInterestBG && !r.openInterestAgg) fakes.delete('openInterest');
 
     r.fakes = fakes;
 

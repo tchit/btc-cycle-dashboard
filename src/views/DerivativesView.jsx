@@ -10,7 +10,7 @@ import ImagePlaceholder from '../components/ImagePlaceholder';
 export default function DerivativesView({ live, calc, mob }) {
   const d = live.deltas || {};
   const fr = live.fundingRateBG ?? live.fundingRate;
-  const oi = live.openInterestBG ?? live.openInterest;
+  const oi = live.openInterestAgg ?? live.openInterestBG ?? live.openInterest;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
