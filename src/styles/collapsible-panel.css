@@ -1,0 +1,88 @@
+/* ============================================
+   COLLAPSIBLE PANEL — HUD Disclosure Drawer
+   ============================================ */
+
+.collapsible-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 0;
+  margin: 16px 0 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Scanline dividers */
+.collapsible-toggle::before,
+.collapsible-toggle::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(204, 255, 0, 0.15) 20%, rgba(204, 255, 0, 0.15) 80%, transparent);
+}
+
+.collapsible-toggle__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: rgba(204, 255, 0, 0.08);
+  border: 1px solid rgba(204, 255, 0, 0.12);
+  clip-path: var(--clip-badge);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.collapsible-toggle:hover .collapsible-toggle__label {
+  color: var(--accent);
+  background: rgba(204, 255, 0, 0.12);
+  border-color: rgba(204, 255, 0, 0.25);
+}
+
+/* Chevron */
+.collapsible-toggle__chevron {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.collapsible-toggle--open .collapsible-toggle__chevron {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+/* Content — grid-row animation for smooth height */
+.collapsible-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+
+.collapsible-content--open {
+  grid-template-rows: 1fr;
+}
+
+.collapsible-content__inner {
+  overflow: hidden;
+}
+
+.collapsible-content--open .collapsible-content__inner {
+  animation: collapsibleReveal 0.4s ease forwards;
+}
+
+@keyframes collapsibleReveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

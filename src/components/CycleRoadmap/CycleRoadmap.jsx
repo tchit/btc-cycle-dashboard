@@ -10,7 +10,9 @@ import PhaseSegment from './PhaseSegment';
 import MilestoneNode from './MilestoneNode';
 import CountdownBadge from './CountdownBadge';
 import CursorMarker from './CursorMarker';
-import BitcoinIcon from './BitcoinIcon';
+import CollapsiblePanel from '../CollapsiblePanel';
+import ZoneAnalysisView from '../../views/ZoneAnalysisView';
+import ProjectionsView from '../../views/ProjectionsView';
 import './CycleRoadmap.css';
 
 const fgZone = (v) => {
@@ -103,8 +105,6 @@ export default function CycleRoadmap({ live, calc, mob }) {
 
         <line x1={padL} y1={barY + barH / 2} x2={W - padR} y2={barY + barH / 2} stroke={DS.border} strokeWidth={2} />
 
-        <BitcoinIcon x={mob ? 12 : 40} y={barY + barH / 2} size={mob ? 28 : 40} mounted={mounted} />
-
         <g>
           {phases.map((phase) => (
             <PhaseSegment
@@ -141,6 +141,13 @@ export default function CycleRoadmap({ live, calc, mob }) {
         <div className="cursor-tooltip__price" style={{ color: DS.text, fontFamily: DS.mono }}>${fP(price)}</div>
         <div className="cursor-tooltip__ath" style={{ color: DS.down, fontFamily: DS.mono }}>-{drop.toFixed(1)}% from ATH</div>
       </div>
+
+      <CollapsiblePanel label="Zones · On-Chain · Projections">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 32, paddingTop: 16 }}>
+          <ZoneAnalysisView live={live} calc={calc} mob={mob} />
+          <ProjectionsView live={live} calc={calc} mob={mob} />
+        </div>
+      </CollapsiblePanel>
 
       {/* ── Metrics Strip ── */}
       <div className="cycle-metrics" style={{ gridTemplateColumns: mob ? '1fr' : '1fr 1fr 1fr' }}>

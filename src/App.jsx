@@ -10,8 +10,7 @@ import FakeBadge from './components/FakeBadge';
 import DashboardView from './views/DashboardView';
 import OnChainView from './views/OnChainView';
 import PriceView from './views/PriceView';
-import RainbowView from './views/RainbowView';
-import PiCycleView from './views/PiCycleView';
+import ModelsView from './views/ModelsView';
 import MinersView from './views/MinersView';
 import DerivativesView from './views/DerivativesView';
 import ScenariosView from './views/ScenariosView';
@@ -22,7 +21,7 @@ import ZoneAnalysisView from './views/ZoneAnalysisView';
 import ProjectionsView from './views/ProjectionsView';
 import SourcesView from './views/SourcesView';
 import {
-  IconDashboard, IconChain, IconDollar, IconRainbow, IconCycle,
+  IconDashboard, IconChain, IconDollar,
   IconMiner, IconTrending, IconSparkles, IconPlug, IconMonitor,
   IconDatabase, IconLayers, IconTarget, IconBook
 } from './components/Icons';
@@ -36,19 +35,18 @@ const TABS = [
   { id: 'dashboard', l: 'Dashboard', i: <IconDashboard /> },
   { id: 'onchain', l: 'On-Chain', i: <IconChain /> },
   { id: 'price', l: 'Prix', i: <IconDollar /> },
-  { id: 'rainbow', l: 'Rainbow', i: <IconRainbow /> },
-  { id: 'picycle', l: 'Pi Cycle', i: <IconCycle /> },
-  // CYCLE ANALYSIS (5-8)
+  { id: 'models', l: 'Projections', i: <IconTarget /> },
+  { id: 'tradingview', l: 'TradingView', i: <IconMonitor /> },
+  // CYCLE ANALYSIS (5-7)
   { id: 'rawdata', l: 'Raw Data', i: <IconDatabase /> },
   { id: 'zones', l: 'Zones', i: <IconLayers /> },
-  { id: 'projections', l: 'Projections', i: <IconTarget /> },
-  { id: 'sources', l: 'Sources', i: <IconBook /> },
-  // INDICATEURS (9-13)
+  { id: 'projections', l: 'Prévisions', i: <IconTarget /> },
+  // INDICATEURS (8-13)
   { id: 'miners', l: 'Miners', i: <IconMiner /> },
   { id: 'derivatives', l: 'Dérivés', i: <IconTrending /> },
   { id: 'scenarios', l: 'Scénarios', i: <IconSparkles /> },
+  { id: 'sources', l: 'Sources', i: <IconBook /> },
   { id: 'connectors', l: 'Connecteurs', i: <IconPlug /> },
-  { id: 'tradingview', l: 'TradingView', i: <IconMonitor /> },
 ];
 
 export default function App() {
@@ -71,8 +69,7 @@ export default function App() {
       case 'dashboard': return <DashboardView live={live} calc={calc} hist={hist} mob={mob} />;
       case 'onchain': return <OnChainView live={live} calc={calc} mob={mob} />;
       case 'price': return <PriceView live={live} calc={calc} hist={hist} mob={mob} />;
-      case 'rainbow': return <RainbowView live={live} calc={calc} hist={hist} mob={mob} />;
-      case 'picycle': return <PiCycleView live={live} calc={calc} hist={hist} mob={mob} />;
+      case 'models': return <ModelsView live={live} calc={calc} hist={hist} mob={mob} />;
       case 'miners': return <MinersView live={live} calc={calc} mob={mob} hrHist={hrHist} />;
       case 'derivatives': return <DerivativesView live={live} calc={calc} mob={mob} />;
       case 'scenarios': return <ScenariosView live={live} calc={calc} mob={mob} />;
@@ -105,7 +102,7 @@ export default function App() {
           </div>
           <div className="sidebar-section">
             <div className="sidebar-section-title">CYCLE ANALYSIS</div>
-            {TABS.slice(5, 9).map(t => (
+            {TABS.slice(5, 8).map(t => (
               <div key={t.id} className={`sidebar-item ${activeTab === t.id ? 'active' : ''}`} onClick={() => { setActiveTab(t.id); setMenuOpen(false); }}>
                 <span className="sidebar-item-icon">{t.i}</span>
                 {t.l}
@@ -114,7 +111,7 @@ export default function App() {
           </div>
           <div className="sidebar-section">
             <div className="sidebar-section-title">INDICATEURS</div>
-            {TABS.slice(9).map(t => (
+            {TABS.slice(8).map(t => (
               <div key={t.id} className={`sidebar-item ${activeTab === t.id ? 'active' : ''}`} onClick={() => { setActiveTab(t.id); setMenuOpen(false); }}>
                 <span className="sidebar-item-icon">{t.i}</span>
                 {t.l}

@@ -2,8 +2,6 @@ import React from 'react';
 import CompositeGauge from '../components/CompositeGauge';
 import BottomScoreCard from '../components/BottomScoreCard';
 import KeySignals from '../components/KeySignals';
-import OnChainDepth from '../components/OnChainDepth';
-import CyclePosition from '../components/CyclePosition';
 import CycleRoadmap from '../components/CycleRoadmap/CycleRoadmap';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import { INFO } from '../config/constants';
@@ -66,20 +64,6 @@ export default function DashboardView({ live, calc, hist, mob, onNavigate }) {
           onViewAll={onNavigate ? () => onNavigate('onchain') : undefined}
           mob={mob}
         />
-      </div>
-
-      {/* === SECTION BANNER — Replace with on-chain network visualization === */}
-      <ImagePlaceholder variant="section" section="onchain" overlay="bottom" src="/panel3.png" />
-
-      <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 24 }}>
-        <div className="card">
-          <div className="card-header"><div className="card-title">On-Chain Depth</div></div>
-          <div className="card-body"><OnChainDepth price={live.price} mob={mob} levels={calc.liveLevels} /></div>
-        </div>
-        <div className="card">
-          <div className="card-header"><div className="card-title">Cycle Position</div></div>
-          <div className="card-body"><CyclePosition mob={mob} /></div>
-        </div>
       </div>
     </>
   );

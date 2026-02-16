@@ -166,8 +166,59 @@
   pointer-events: none;
   z-index: 10;
   transition: opacity 150ms ease;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(26, 28, 37, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .pdg-tooltip {
+    background: rgba(26, 28, 37, 0.95);
+  }
+}
+
+/* ---- PriceDepthGauge spot hero ---- */
+.pdg-spot-hero {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pdg--mounted .pdg-spot-hero {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- PriceDepthGauge level markers — staggered reveal ---- */
+.pdg-level {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: var(--pdg-delay, 0ms);
+}
+.pdg--mounted .pdg-level {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover lift on level markers */
+.pdg-level:hover {
+  transform: translateY(-2px);
+  transition-delay: 0ms;
+}
+.pdg-level:hover line {
+  stroke-width: 2.5px;
+}
+
+/* ---- PriceDepthGauge spot marker reveal ---- */
+.pdg-spot {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+}
+.pdg--mounted .pdg-spot {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* ---- Reduced Motion ---- */
@@ -182,6 +233,13 @@
   }
   .zone-dur-row {
     opacity: 1 !important;
+    transition: none !important;
+  }
+  .pdg-spot-hero,
+  .pdg-level,
+  .pdg-spot {
+    opacity: 1 !important;
+    transform: none !important;
     transition: none !important;
   }
 }
