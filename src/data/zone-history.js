@@ -166,11 +166,11 @@ export function getAllZones() {
 }
 
 export const ZONE_DEFINITIONS = [
-  { id: 1, name: 'Sous la 111d MA, au-dessus de la 2Y MA', shortName: 'Z1', colorHex: '#CCFF00' },
-  { id: 2, name: 'Sous la 2Y MA, au-dessus de la 200W MA', shortName: 'Z2', colorHex: '#D4A843' },
-  { id: 3, name: 'Sous la 200W MA, au-dessus du RP', shortName: 'Z3', colorHex: '#FF8C00' },
-  { id: 4, name: 'RP \u2194 CVDD \u2194 BP', shortName: 'Z4', colorHex: '#FF003C' },
-  { id: 5, name: 'CVDD \u2194 Balanced Price', shortName: 'Z5', colorHex: '#8B0000' },
+  { id: 1, name: 'Au-dessus des MAs clés', shortName: 'Z1', desc: 'Bull terminé', colorHex: '#CCFF00' },
+  { id: 2, name: 'Sous la 2Y MA, au-dessus de la 200W MA', shortName: 'Z2', desc: 'Sous tendance LT', colorHex: '#D4A843' },
+  { id: 3, name: 'Sous la 200W MA, au-dessus du RP', shortName: 'Z3', desc: 'Territoire rare', colorHex: '#E8732A' },
+  { id: 4, name: 'RP \u2194 CVDD \u2194 BP', shortName: 'Z4', desc: 'Tous en perte', colorHex: '#FF003C' },
+  { id: 5, name: 'CVDD \u2194 Balanced Price', shortName: 'Z5', desc: 'Bottom absolu', colorHex: '#7A1B1B' },
 ];
 
 export const ZONE_DURATION_DATA = [
@@ -181,11 +181,19 @@ export const ZONE_DURATION_DATA = [
 ];
 
 export function getCurrentZoneStatus() {
+  const days = daysSince(ZONE2_ENTRY_DATE);
+  // Median Z2 duration from past cycles: ~6 months ≈ 180 days
+  const medianZ2Days = 180;
+  // sqrt scale so early progress is visible; clamp to [0.2, 0.85]
+  const raw = days / medianZ2Days;
+  const activeProgress = Math.min(0.85, Math.max(0.2, Math.sqrt(raw)));
+
   return {
     activeZone: 2,
+    activeProgress,
     zones: [
       { id: 1, state: 'completed', duration: '4 mois' },
-      { id: 2, state: 'active', duration: `${daysSince(ZONE2_ENTRY_DATE)} jours` },
+      { id: 2, state: 'active', duration: `${days}j écoulés` },
       { id: 3, state: 'future', duration: '\u2014' },
       { id: 4, state: 'future', duration: '\u2014' },
       { id: 5, state: 'future', duration: '\u2014' },

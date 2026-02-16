@@ -2,27 +2,27 @@ import React from 'react';
 import { DS } from '../config/design';
 import DataTable from '../components/DataTable';
 import PriceDepthGauge from '../components/PriceDepthGauge';
-import ZoneDurationChart from '../components/ZoneDurationChart';
+import ZoneDurationRingGauge from '../components/ZoneDurationRingGauge';
 import ZoneStatusStrip from '../components/ZoneStatusStrip';
 import { getAllZones, ZONE_DURATION_DATA, ZONE_DEFINITIONS, getCurrentZoneStatus } from '../data/zone-history';
 
 const hudCard = {
-  padding: '20px 24px',
-  background: DS.surface,
-  clipPath: 'var(--clip-card)',
-  border: `1.5px solid ${DS.border}`,
-  boxShadow: '0 0 20px rgba(204, 255, 0, 0.06)',
+  background: 'rgba(26, 28, 37, 0.85)',
+  clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))',
+  border: '1px solid rgba(204, 255, 0, 0.06)',
+  boxShadow: '0 0 24px rgba(204, 255, 0, 0.02)',
+  padding: 20,
   marginBottom: 20,
 };
 
-const hudLabel = {
+const eyebrow = {
   fontSize: 13,
-  fontWeight: 700,
+  fontWeight: 600,
   fontFamily: DS.display,
-  color: DS.accent,
-  marginBottom: 14,
+  color: DS.gold,
   textTransform: 'uppercase',
   letterSpacing: '0.08em',
+  marginBottom: 14,
 };
 
 export default function ZoneAnalysisView({ live, calc, mob }) {
@@ -41,35 +41,18 @@ export default function ZoneAnalysisView({ live, calc, mob }) {
       </div>
 
       {/* Zone status progression */}
-      <ZoneStatusStrip status={status} definitions={ZONE_DEFINITIONS} mob={mob} />
+      <ZoneStatusStrip status={status} definitions={ZONE_DEFINITIONS} history={ZONE_DURATION_DATA} mob={mob} />
 
       {/* Price Depth Gauge */}
       <div style={hudCard}>
-        <div style={hudLabel}>Niveaux on-chain</div>
+        <div style={eyebrow}>Niveaux on-chain</div>
         <PriceDepthGauge price={live?.price} levels={calc?.liveLevels} mob={mob} />
       </div>
 
-      {/* Zone Duration Chart */}
+      {/* Zone Duration Ring Gauge */}
       <div style={hudCard}>
-        <div style={hudLabel}>Durée par zone — comparaison cyclique</div>
-        <ZoneDurationChart data={ZONE_DURATION_DATA} definitions={ZONE_DEFINITIONS} mob={mob} />
-        <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {ZONE_DEFINITIONS.map(def => (
-            <div key={def.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{
-                display: 'inline-block', width: 10, height: 10, borderRadius: '50%',
-                background: def.colorHex, flexShrink: 0,
-                boxShadow: `0 0 6px ${def.colorHex}60`,
-              }} />
-              <span style={{ fontSize: 12, fontFamily: DS.mono, color: def.colorHex, fontWeight: 700, minWidth: 24 }}>
-                {def.shortName}
-              </span>
-              <span style={{ fontSize: 12, fontFamily: DS.font, color: DS.text2 }}>
-                {def.name}
-              </span>
-            </div>
-          ))}
-        </div>
+        <div style={eyebrow}>Durée par zone — comparaison cyclique</div>
+        <ZoneDurationRingGauge data={ZONE_DURATION_DATA} definitions={ZONE_DEFINITIONS} mob={mob} />
       </div>
 
       {zones.map((zone, i) => (

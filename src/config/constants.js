@@ -12,6 +12,7 @@ export const LTHRP = 38000;
 export const MA111 = 90000;
 export const MA2Y = 75000;
 export const SUPPLYTOTAL = 19800000;
+export const NEXT_HALVING = '2028-04-15';
 
 export const CYCLES = [
   { name: 'C1 2011-13', halvD: '2012-11-28', peak: 1177, bottom: 152, peakD: 367, botD: 544 },

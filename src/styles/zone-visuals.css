@@ -1,66 +1,203 @@
-/* Zone Visuals — minimal CSS for what can't be inline */
+/* Zone Visuals — CycleRoadmap-style design */
 
-/* ZoneStatusStrip */
-.zs-strip {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  padding: 20px 8px;
-  margin-bottom: 8px;
+/* ---- Keyframes ---- */
+@keyframes pulseLime {
+  0%, 100% { box-shadow: 0 0 8px rgba(204, 255, 0, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(204, 255, 0, 0.6); }
+}
+@keyframes growBar { from { width: 0; } }
+
+@keyframes zonePhaseReveal {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
-.zs-node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  min-width: 64px;
+@keyframes zoneFadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.zs-dot {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+/* ---- Zone Roadmap (ZoneStatusStrip) ---- */
+.zone-roadmap {
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid rgba(204, 255, 0, 0.06);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
 }
 
-.zs-dot[data-state="completed"] {
-  opacity: 1;
+.zone-roadmap__svg {
+  display: block;
+  width: 100%;
 }
 
-.zs-dot[data-state="active"] {
-  opacity: 1;
-  animation: pulseGold 2s ease-in-out infinite;
+/* Phase segment reveal animation — staggered */
+.zone-phase-seg {
+  transform-origin: left center;
 }
 
-.zs-dot[data-state="future"] {
-  opacity: 0.25;
-  background: transparent !important;
-  border: 2px dashed currentColor;
+.zone-roadmap--mounted .zone-phase-seg:nth-child(1) {
+  animation: zonePhaseReveal 500ms cubic-bezier(0.4, 0, 0.2, 1) 0ms both;
+}
+.zone-roadmap--mounted .zone-phase-seg:nth-child(2) {
+  animation: zonePhaseReveal 500ms cubic-bezier(0.4, 0, 0.2, 1) 150ms both;
+}
+.zone-roadmap--mounted .zone-phase-seg:nth-child(3) {
+  animation: zonePhaseReveal 500ms cubic-bezier(0.4, 0, 0.2, 1) 300ms both;
+}
+.zone-roadmap--mounted .zone-phase-seg:nth-child(4) {
+  animation: zonePhaseReveal 500ms cubic-bezier(0.4, 0, 0.2, 1) 450ms both;
+}
+.zone-roadmap--mounted .zone-phase-seg:nth-child(5) {
+  animation: zonePhaseReveal 500ms cubic-bezier(0.4, 0, 0.2, 1) 600ms both;
 }
 
-.zs-connector {
-  flex: 1;
-  height: 2px;
-  min-width: 24px;
-  align-self: flex-start;
-  margin-top: 10px;
+/* Glassmorphism tooltip */
+.zone-cursor-tooltip {
+  position: absolute;
+  transform: translateX(-50%);
+  top: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: rgba(26, 28, 37, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(204, 255, 0, 0.1);
+  border-radius: 8px;
+  padding: 8px 14px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 12px rgba(255, 184, 0, 0.12);
+  transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
 }
 
-.zs-connector[data-state="completed"] {
-  background: var(--gold-border);
+.zone-roadmap--mounted .zone-cursor-tooltip {
+  animation: zoneFadeInUp 400ms cubic-bezier(0.4, 0, 0.2, 1) 800ms both;
 }
 
-.zs-connector[data-state="future"] {
-  background: none;
-  border-top: 2px dashed rgba(122, 127, 142, 0.2);
-  height: 0;
+@supports not (backdrop-filter: blur(1px)) {
+  .zone-cursor-tooltip {
+    background: rgba(26, 28, 37, 0.92);
+  }
 }
 
-/* PriceDepthGauge tooltip */
-.pdg-tooltip {
+.zone-cursor-tooltip__label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 3px;
+}
+
+.zone-cursor-tooltip__zone {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+.zone-cursor-tooltip__duration {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ---- ZoneDurationChart ---- */
+.zone-duration {
+  width: 100%;
+  position: relative;
+}
+
+.zone-duration__svg {
+  display: block;
+  width: 100%;
+}
+
+/* Duration chart row reveal animation */
+.zone-dur-row {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.zone-duration--mounted .zone-dur-row:nth-child(1) { opacity: 1; transition-delay: 0.1s; }
+.zone-duration--mounted .zone-dur-row:nth-child(2) { opacity: 1; transition-delay: 0.25s; }
+.zone-duration--mounted .zone-dur-row:nth-child(3) { opacity: 1; transition-delay: 0.4s; }
+.zone-duration--mounted .zone-dur-row:nth-child(4) { opacity: 1; transition-delay: 0.55s; }
+
+/* Duration chart HTML tooltip (glassmorphism) */
+.zone-dur-tooltip {
   position: absolute;
   pointer-events: none;
   z-index: 10;
+  background: rgba(26, 28, 37, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 8px;
+  padding: 10px 16px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
   transition: opacity 150ms ease;
+  white-space: nowrap;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .zone-dur-tooltip {
+    background: rgba(26, 28, 37, 0.95);
+  }
+}
+
+.zone-dur-tooltip__name {
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.zone-dur-tooltip__detail {
+  font-size: 10px;
+}
+
+/* ---- PriceDepthGauge tooltip ---- */
+.pdg-tooltip {
+  position: absolute;
+  padding: 10px 16px;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 150ms ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ---- Reduced Motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .zone-phase-seg {
+    animation: none !important;
+    transform: scaleX(1) !important;
+  }
+  .zone-cursor-tooltip {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  .zone-dur-row {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 640px) {
+  .zone-roadmap {
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+  }
+
+  .zone-cursor-tooltip__zone {
+    font-size: 14px;
+  }
+
+  .zone-cursor-tooltip__duration {
+    font-size: 10px;
+  }
 }

@@ -102,12 +102,10 @@ export default function CompositeGauge({
       </svg>
       <div className="gauge-center">
         <span className="gauge-score" style={{
-          background: `linear-gradient(135deg, ${gradStart}, ${gradEnd})`,
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
+          '--grad-start': gradStart,
+          '--grad-end': gradEnd,
         }}>
-          {displayScore}
+          {isNaN(displayScore) ? '--' : displayScore}
         </span>
         <span className="gauge-ring-label">{actualLabel}</span>
       </div>

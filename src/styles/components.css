@@ -67,6 +67,19 @@
   box-shadow: var(--glow-sm);
 }
 
+.card-badge--fetching {
+  background: rgba(var(--warn-rgb, 255, 184, 0), 0.15);
+  color: var(--warn);
+  border-color: rgba(var(--warn-rgb, 255, 184, 0), 0.3);
+  box-shadow: none;
+  animation: pulse-fetch 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-fetch {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 .card-body {
   padding: 20px;
 }
@@ -900,8 +913,11 @@
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.05em;
-  color: var(--text-highlight);
-  text-shadow: var(--glow-text);
+  background: linear-gradient(135deg, var(--grad-start, var(--neon-primary)), var(--grad-end, var(--neon-primary)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: var(--neon-primary); /* fallback if background-clip: text unsupported */
 }
 
 .gauge-ring-label {
