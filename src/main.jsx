@@ -9,6 +9,7 @@ import './styles/image-slot.css';
 import './styles/score-gauge.css';
 import './styles/metric-card.css';
 import './styles/key-signals.css';
+import './styles/data-table.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);

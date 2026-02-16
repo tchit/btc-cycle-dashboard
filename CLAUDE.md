@@ -12,7 +12,8 @@ Pas de framework CSS, pas de TypeScript.
 - **Compte** : tchit
 - **Visibilité** : Public
 - **Branche principale** : `master`
-- **Branche redesign** : `redesign` (pour les modifications de design)
+- **Branche redesign** : `redesign` (pour les modifications de design, actuellement en retard sur master)
+- **Worker URL** : `https://bg-proxy.sv9ch954y9.workers.dev`
 
 ## Structure du projet
 
@@ -78,18 +79,37 @@ archive/         → Anciennes versions HTML monolithiques
 
 ### Valeurs hardcodées (`src/config/constants.js`)
 Certaines métriques sont hardcodées et doivent être mises à jour manuellement :
-- `ATH` — All-Time High ($109,114 au 20 jan 2025)
-- `RP` — Realized Price
-- `CVDD` — Cumulative Value Days Destroyed ($45,000)
-- `W200` — 200-week SMA
-- `STHRP` / `LTHRP` — STH/LTH Realized Price
-- `MC` — Mining Cost estimate
+- `ATH` = $126,198 (6 oct 2025)
+- `RP` = $55,182 — Realized Price
+- `CVDD` = $46,261 — Cumulative Value Days Destroyed
+- `W200` = $57,926 — 200-week SMA
+- `MC` = $58,096 — Mining Cost estimate
+- `STHRP` = $72,000 — STH Realized Price
+- `LTHRP` = $38,000 — LTH Realized Price
+- `MA111` = $90,000 — 111-day MA
+- `MA2Y` = $75,000 — 2-Year MA x5
+- `SUPPLYTOTAL` = 19,800,000 BTC
 
 ### Données live (via Worker)
 - `useLiveData.js` — fetch depuis le Worker proxy, deltas calculés entre fetches
 - `useCalc.js` — calculs dérivés (composite score, niveaux, scénarios)
 - Deltas stockés dans `localStorage` (`btc-dashboard-prev-data`)
 - Badges ↑↓ affichés via `stat-delta` CSS classes
+
+## Vues (onglets sidebar)
+
+| ID | View | Description |
+|---|---|---|
+| dashboard | DashboardView | Vue principale, hero panel2.png, StatCards, CompositeGauge |
+| onchain | OnChainView | MVRV, NUPL, SOPR, supply profit, RHODL |
+| price | PriceView | Niveaux de prix, bandes, PriceLevels |
+| rainbow | RainbowView | Rainbow chart, hover pi.png |
+| picycle | PiCycleView | Pi Cycle Top indicator |
+| miners | MinersView | Puell, hashrate, mining cost, panel10.png |
+| derivatives | DerivativesView | OI, funding, liquidations, panel9.png |
+| scenarios | ScenariosView | Scénarios bear, Monte Carlo |
+| connectors | ConnectorsView | Connexion/debug worker |
+| tradingview | TradingViewView | Widget TradingView embarqué |
 
 ## Workflow Redesign (branche `redesign`)
 
@@ -126,6 +146,8 @@ Un dossier `redesign-package/` contient les fichiers curatés (CSS, composants c
    npm run build
    ```
    Puis copier `dist/` vers l'hébergement.
+
+**Note** : La branche `redesign` est actuellement en retard sur `master`. Faire `git checkout redesign && git merge master` avant d'y travailler.
 
 ## Commandes utiles
 

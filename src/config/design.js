@@ -19,6 +19,7 @@ export const DS = {
   blue: '#2D5BFF',
   purple: '#8B5CF6',
   pink: '#EC4899',
+  gold: '#D4A843',
   font: "'DM Sans', sans-serif",
   mono: "'JetBrains Mono', monospace",
   display: "'Chakra Petch', sans-serif",
@@ -43,5 +44,6 @@ export const DSCard = {
   accent: '#CCFF00',
   up: '#CCFF00',
   down: '#FF003C',
-  warn: '#FFB800'
+  warn: '#FFB800',
+  gold: '#D4A843'
 };

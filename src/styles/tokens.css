@@ -77,6 +77,11 @@
   --blue: #2D5BFF;
   --purple: #8B5CF6;
   --pink: #EC4899;
+  --gold: #D4A843;
+  --gold-rgb: 212, 168, 67;
+  --gold-muted: rgba(212, 168, 67, 0.15);
+  --gold-border: rgba(212, 168, 67, 0.25);
+  --glow-gold: 0 0 12px rgba(212, 168, 67, 0.25);
 
   /* Borders & Shadows */
   --border: rgba(204, 255, 0, 0.10);

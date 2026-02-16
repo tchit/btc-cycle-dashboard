@@ -92,3 +92,34 @@ export const IconMonitor = (p) => (
     <line x1="12" y1="17" x2="12" y2="21" />
   </I>
 );
+
+export const IconDatabase = (p) => (
+  <I {...p}>
+    <ellipse cx="12" cy="5" rx="9" ry="3" />
+    <path d="M21 12c0 1.66-4.03 3-9 3s-9-1.34-9-3" />
+    <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" />
+  </I>
+);
+
+export const IconLayers = (p) => (
+  <I {...p}>
+    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+    <polyline points="2 17 12 22 22 17" />
+    <polyline points="2 12 12 17 22 12" />
+  </I>
+);
+
+export const IconTarget = (p) => (
+  <I {...p}>
+    <circle cx="12" cy="12" r="10" />
+    <circle cx="12" cy="12" r="6" />
+    <circle cx="12" cy="12" r="2" />
+  </I>
+);
+
+export const IconBook = (p) => (
+  <I {...p}>
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+  </I>
+);
