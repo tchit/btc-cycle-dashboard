@@ -166,11 +166,11 @@ export function getAllZones() {
 }
 
 export const ZONE_DEFINITIONS = [
-  { id: 1, name: 'Sous la 111d MA, au-dessus de la 2Y MA', shortName: 'Z1', colorHex: '#D4A843' },
-  { id: 2, name: 'Sous la 2Y MA, au-dessus de la 200W MA', shortName: 'Z2', colorHex: '#E8732A' },
-  { id: 3, name: 'Sous la 200W MA, au-dessus du RP', shortName: 'Z3', colorHex: '#3ECFA0' },
-  { id: 4, name: 'RP \u2194 CVDD \u2194 BP', shortName: 'Z4', colorHex: '#EC4899' },
-  { id: 5, name: 'CVDD \u2194 Balanced Price', shortName: 'Z5', colorHex: '#D946EF' },
+  { id: 1, name: 'Sous la 111d MA, au-dessus de la 2Y MA', shortName: 'Z1', colorHex: '#CCFF00' },
+  { id: 2, name: 'Sous la 2Y MA, au-dessus de la 200W MA', shortName: 'Z2', colorHex: '#D4A843' },
+  { id: 3, name: 'Sous la 200W MA, au-dessus du RP', shortName: 'Z3', colorHex: '#FF8C00' },
+  { id: 4, name: 'RP \u2194 CVDD \u2194 BP', shortName: 'Z4', colorHex: '#FF003C' },
+  { id: 5, name: 'CVDD \u2194 Balanced Price', shortName: 'Z5', colorHex: '#8B0000' },
 ];
 
 export const ZONE_DURATION_DATA = [

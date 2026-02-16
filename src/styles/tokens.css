@@ -83,15 +83,15 @@
   --gold-border: rgba(212, 168, 67, 0.25);
   --glow-gold: 0 0 12px rgba(212, 168, 67, 0.25);
 
-  /* Zone colors */
-  --zone-1: #D4A843;  --zone-1-rgb: 212, 168, 67;
-  --zone-2: #E8732A;  --zone-2-rgb: 232, 115, 42;
-  --zone-3: #3ECFA0;  --zone-3-rgb: 62, 207, 160;
-  --zone-4: #EC4899;  --zone-4-rgb: 236, 72, 153;
-  --zone-5: #D946EF;  --zone-5-rgb: 217, 70, 239;
-  --scenario-shallow: #3ECFA0;
+  /* Zone colors — Severity Gradient: lime → gold → orange → red → dark red */
+  --zone-1: #CCFF00;  --zone-1-rgb: 204, 255, 0;
+  --zone-2: #D4A843;  --zone-2-rgb: 212, 168, 67;
+  --zone-3: #FF8C00;  --zone-3-rgb: 255, 140, 0;
+  --zone-4: #FF003C;  --zone-4-rgb: 255, 0, 60;
+  --zone-5: #8B0000;  --zone-5-rgb: 139, 0, 0;
+  --scenario-shallow: #CCFF00;
   --scenario-moderate: #D4A843;
-  --scenario-deep: #E8732A;
+  --scenario-deep: #FF8C00;
   --scenario-extreme: #FF003C;
 
   /* Borders & Shadows */

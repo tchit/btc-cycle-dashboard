@@ -6,17 +6,36 @@ import ZoneDurationChart from '../components/ZoneDurationChart';
 import ZoneStatusStrip from '../components/ZoneStatusStrip';
 import { getAllZones, ZONE_DURATION_DATA, ZONE_DEFINITIONS, getCurrentZoneStatus } from '../data/zone-history';
 
+const hudCard = {
+  padding: '20px 24px',
+  background: DS.surface,
+  clipPath: 'var(--clip-card)',
+  border: `1.5px solid ${DS.border}`,
+  boxShadow: '0 0 20px rgba(204, 255, 0, 0.06)',
+  marginBottom: 20,
+};
+
+const hudLabel = {
+  fontSize: 13,
+  fontWeight: 700,
+  fontFamily: DS.display,
+  color: DS.accent,
+  marginBottom: 14,
+  textTransform: 'uppercase',
+  letterSpacing: '0.08em',
+};
+
 export default function ZoneAnalysisView({ live, calc, mob }) {
   const zones = getAllZones();
   const status = getCurrentZoneStatus();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-      <div style={{ marginBottom: 8 }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.02em' }}>
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontFamily: DS.display, fontSize: 28, fontWeight: 700, color: DS.gold, letterSpacing: '0.02em' }}>
           Analyse de durée par zone
         </div>
-        <div style={{ fontSize: 14, color: 'var(--text-tertiary)' }}>
+        <div style={{ fontSize: 14, color: DS.text3 }}>
           Combien de temps le prix reste à chaque niveau de profondeur lors des cycles bear.
         </div>
       </div>
@@ -25,19 +44,32 @@ export default function ZoneAnalysisView({ live, calc, mob }) {
       <ZoneStatusStrip status={status} definitions={ZONE_DEFINITIONS} mob={mob} />
 
       {/* Price Depth Gauge */}
-      <div style={{ padding: 16, background: DS.surface, borderRadius: 10, border: `1px solid ${DS.border}`, marginBottom: 16 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: DS.text2, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-          Niveaux on-chain
-        </div>
+      <div style={hudCard}>
+        <div style={hudLabel}>Niveaux on-chain</div>
         <PriceDepthGauge price={live?.price} levels={calc?.liveLevels} mob={mob} />
       </div>
 
       {/* Zone Duration Chart */}
-      <div style={{ padding: 16, background: DS.surface, borderRadius: 10, border: `1px solid ${DS.border}`, marginBottom: 16 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: DS.text2, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5 }}>
-          Durée par zone — comparaison cyclique
-        </div>
+      <div style={hudCard}>
+        <div style={hudLabel}>Durée par zone — comparaison cyclique</div>
         <ZoneDurationChart data={ZONE_DURATION_DATA} definitions={ZONE_DEFINITIONS} mob={mob} />
+        <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {ZONE_DEFINITIONS.map(def => (
+            <div key={def.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{
+                display: 'inline-block', width: 10, height: 10, borderRadius: '50%',
+                background: def.colorHex, flexShrink: 0,
+                boxShadow: `0 0 6px ${def.colorHex}60`,
+              }} />
+              <span style={{ fontSize: 12, fontFamily: DS.mono, color: def.colorHex, fontWeight: 700, minWidth: 24 }}>
+                {def.shortName}
+              </span>
+              <span style={{ fontSize: 12, fontFamily: DS.font, color: DS.text2 }}>
+                {def.name}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {zones.map((zone, i) => (

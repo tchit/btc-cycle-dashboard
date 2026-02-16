@@ -12,11 +12,9 @@ export default function PriceDepthGauge({ price, levels, mob }) {
 
   if (!price || lvls.length < 2) return null;
 
-  // SVG dimensions
-  const W = 800, H = 120;
+  const W = 800, H = mob ? 140 : 130;
   const padL = 20, padR = 20, usable = W - padL - padR;
 
-  // Scale with 15% padding on each side
   const minV = lvls[0].v, maxV = lvls[lvls.length - 1].v;
   const range = maxV - minV;
   const paddedMin = minV - range * 0.15;
@@ -25,12 +23,19 @@ export default function PriceDepthGauge({ price, levels, mob }) {
 
   const x = (val) => ((val - paddedMin) / fullRange) * usable + padL;
 
-  // Bar dimensions
-  const barY = 35, barH = 35;
+  const barY = 40, barH = 38;
 
   return (
     <div style={{ position: 'relative' }}>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto' }}>
+        {/* Defs for glow filter */}
+        <defs>
+          <filter id="glowLime" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+
         {/* Colored segments between consecutive levels */}
         {lvls.map((lvl, i) => {
           if (i === lvls.length - 1) return null;
@@ -40,7 +45,8 @@ export default function PriceDepthGauge({ price, levels, mob }) {
             <rect
               key={`seg-${lvl.k}`}
               x={x1} y={barY} width={x2 - x1} height={barH}
-              fill={lvl.c} opacity={0.2}
+              fill={lvl.c} opacity={0.25}
+              rx={2}
               style={{ cursor: 'pointer' }}
               onMouseEnter={() => setActive({ lvl, next, x1, x2 })}
               onMouseLeave={() => setActive(null)}
@@ -52,7 +58,7 @@ export default function PriceDepthGauge({ price, levels, mob }) {
         {/* Level lines and labels */}
         {lvls.map((lvl, i) => {
           const xPos = x(lvl.v);
-          const above = i % 2 === 0; // alternate labels top/bottom
+          const above = i % 2 === 0;
           const delta = ((lvl.v - price) / price * 100).toFixed(0);
           const deltaSign = lvl.v >= price ? '+' : '';
           const deltaColor = lvl.v >= price ? DS.down : DS.up;
@@ -60,54 +66,53 @@ export default function PriceDepthGauge({ price, levels, mob }) {
           return (
             <g key={lvl.k}>
               <line
-                x1={xPos} y1={barY - 5} x2={xPos} y2={barY + barH + 5}
-                stroke={lvl.c} strokeWidth={1} opacity={0.6}
+                x1={xPos} y1={barY - 4} x2={xPos} y2={barY + barH + 4}
+                stroke={lvl.c} strokeWidth={1.5} opacity={0.7}
               />
               {above ? (
                 <>
-                  <text x={xPos} y={barY - 22} textAnchor="middle"
-                    style={{ fontSize: 10, fontFamily: DS.font, fill: lvl.c, fontWeight: 600 }}>
+                  <text x={xPos} y={barY - 20} textAnchor="middle"
+                    style={{ fontSize: 11, fontFamily: DS.display, fill: lvl.c, fontWeight: 600 }}>
                     {lvl.l}
                   </text>
-                  <text x={xPos} y={barY - 11} textAnchor="middle"
-                    style={{ fontSize: 10, fontFamily: DS.mono, fill: DS.text2 }}>
+                  <text x={xPos} y={barY - 8} textAnchor="middle"
+                    style={{ fontSize: 12, fontFamily: DS.mono, fill: DS.text2, fontWeight: 500 }}>
                     {`$${fK(lvl.v)}`}
                   </text>
                 </>
               ) : (
                 <>
                   <text x={xPos} y={barY + barH + 16} textAnchor="middle"
-                    style={{ fontSize: 10, fontFamily: DS.font, fill: lvl.c, fontWeight: 600 }}>
+                    style={{ fontSize: 11, fontFamily: DS.display, fill: lvl.c, fontWeight: 600 }}>
                     {lvl.l}
                   </text>
-                  <text x={xPos} y={barY + barH + 27} textAnchor="middle"
-                    style={{ fontSize: 10, fontFamily: DS.mono, fill: DS.text2 }}>
+                  <text x={xPos} y={barY + barH + 28} textAnchor="middle"
+                    style={{ fontSize: 12, fontFamily: DS.mono, fill: DS.text2, fontWeight: 500 }}>
                     {`$${fK(lvl.v)}`}
                   </text>
                 </>
               )}
-              {/* Delta badge near the price value */}
               <text
-                x={xPos} y={above ? barY - 33 : barY + barH + 38}
+                x={xPos} y={above ? barY - 32 : barY + barH + 40}
                 textAnchor="middle"
-                style={{ fontSize: 9, fontFamily: DS.mono, fill: deltaColor, fontWeight: 600 }}>
+                style={{ fontSize: 10, fontFamily: DS.mono, fill: deltaColor, fontWeight: 700 }}>
                 {`${deltaSign}${delta}%`}
               </text>
             </g>
           );
         })}
 
-        {/* Current price marker */}
+        {/* Current price marker with glow */}
         {(() => {
           const px = x(price);
           return (
-            <g>
-              <line x1={px} y1={barY - 8} x2={px} y2={barY + barH + 8}
-                stroke={DS.accent} strokeWidth={2} />
-              <circle cx={px} cy={barY + barH / 2} r={5}
+            <g filter="url(#glowLime)">
+              <line x1={px} y1={barY - 6} x2={px} y2={barY + barH + 6}
+                stroke={DS.accent} strokeWidth={2.5} />
+              <circle cx={px} cy={barY + barH / 2} r={6}
                 fill={DS.accent} />
-              <text x={px} y={barY - 40} textAnchor="middle"
-                style={{ fontSize: 13, fontFamily: DS.mono, fill: DS.accent, fontWeight: 700 }}>
+              <text x={px} y={barY - 44} textAnchor="middle"
+                style={{ fontSize: 14, fontFamily: DS.mono, fill: DS.accent, fontWeight: 700 }}>
                 {`$${fP(price)}`}
               </text>
             </g>
@@ -124,15 +129,15 @@ export default function PriceDepthGauge({ price, levels, mob }) {
           transform: 'translateX(-50%)',
           background: DS.surface,
           border: `1px solid ${DS.gold}`,
+          clipPath: 'var(--clip-badge)',
           color: DS.text,
           fontSize: 12,
           fontFamily: DS.mono,
           whiteSpace: 'nowrap',
-          padding: '6px 10px',
-          borderRadius: 4,
+          padding: '8px 14px',
           pointerEvents: 'none',
           zIndex: 10,
-          opacity: 1,
+          boxShadow: `0 0 12px rgba(212, 168, 67, 0.2)`,
         }}>
           <div style={{ fontWeight: 700, color: active.lvl.c, marginBottom: 2 }}>{active.lvl.l}</div>
           <div style={{ color: DS.text2 }}>{`$${fK(active.lvl.v)} — $${fK(active.next.v)}`}</div>

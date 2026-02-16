@@ -30,7 +30,7 @@ export const DS = {
   textMuted: '#7A7F8E',
   glowSm: '0 0 8px rgba(204, 255, 0, 0.3)',
   glowMd: '0 0 20px rgba(204, 255, 0, 0.4)',
-  zone1: '#D4A843', zone2: '#E8732A', zone3: '#3ECFA0', zone4: '#EC4899', zone5: '#D946EF',
+  zone1: '#CCFF00', zone2: '#D4A843', zone3: '#FF8C00', zone4: '#FF003C', zone5: '#8B0000',
 };
 
 export const DSCard = {

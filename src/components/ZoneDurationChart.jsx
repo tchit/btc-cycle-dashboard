@@ -4,12 +4,11 @@ import { DS } from '../config/design';
 export default function ZoneDurationChart({ data, definitions, mob }) {
   if (!data || !definitions) return null;
 
-  const W = 700, H = 220;
-  const labelW = 80, barAreaW = 500, rightPad = 60;
-  const barH = 28, barGap = 16;
-  const topPad = 20;
+  const W = 700, H = 240;
+  const labelW = 90, barAreaW = 480;
+  const barH = 32, barGap = 18;
+  const topPad = 16;
 
-  // Normalize by max total
   const totals = data.map(d => d.zones.reduce((s, v) => s + v, 0));
   const maxTotal = Math.max(...totals);
 
@@ -23,20 +22,19 @@ export default function ZoneDurationChart({ data, definitions, mob }) {
 
         return (
           <g key={d.cycle}>
-            {/* Cycle label */}
             <text
-              x={labelW - 10} y={y + barH / 2 + 4}
+              x={labelW - 12} y={y + barH / 2 + 5}
               textAnchor="end"
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 fontFamily: DS.display,
                 fill: d.isCurrent ? DS.gold : DS.text2,
-                fontWeight: d.isCurrent ? 700 : 400,
+                fontWeight: d.isCurrent ? 700 : 500,
+                letterSpacing: '0.02em',
               }}>
               {d.cycle}
             </text>
 
-            {/* Stacked segments */}
             {d.zones.map((months, j) => {
               if (months <= 0) return null;
               const segW = (months / total) * barW;
@@ -48,20 +46,19 @@ export default function ZoneDurationChart({ data, definitions, mob }) {
                 <g key={j}>
                   <rect
                     x={segX} y={y} width={segW} height={barH}
-                    rx={3}
+                    rx={2}
                     fill={definitions[j]?.colorHex || DS.text3}
-                    opacity={0.7}
+                    opacity={0.75}
                   />
-                  {/* Label inside segment if wide enough */}
-                  {pct > 8 && (
+                  {pct > 10 && (
                     <text
-                      x={segX + segW / 2} y={y + barH / 2 + 4}
+                      x={segX + segW / 2} y={y + barH / 2 + 5}
                       textAnchor="middle"
                       style={{
-                        fontSize: 10,
+                        fontSize: 11,
                         fontFamily: DS.mono,
                         fill: DS.text,
-                        fontWeight: 600,
+                        fontWeight: 700,
                       }}>
                       {months >= 1 ? `${Math.round(months)}mo` : `${months}mo`}
                     </text>
@@ -70,14 +67,13 @@ export default function ZoneDurationChart({ data, definitions, mob }) {
               );
             })}
 
-            {/* Total duration to the right */}
             <text
-              x={labelW + barW + 10} y={y + barH / 2 + 4}
+              x={labelW + barW + 12} y={y + barH / 2 + 5}
               style={{
-                fontSize: 11,
+                fontSize: 12,
                 fontFamily: DS.mono,
                 fill: d.isCurrent ? DS.gold : DS.text3,
-                fontWeight: 600,
+                fontWeight: 700,
               }}>
               {`${total.toFixed(1)}mo`}
             </text>
@@ -85,19 +81,19 @@ export default function ZoneDurationChart({ data, definitions, mob }) {
         );
       })}
 
-      {/* Legend at bottom */}
+      {/* Legend */}
       {(() => {
-        const legendY = topPad + data.length * (barH + barGap) + 10;
+        const legendY = topPad + data.length * (barH + barGap) + 12;
         let legendX = labelW;
-        return definitions.map((def, i) => {
+        return definitions.map((def) => {
           const thisX = legendX;
-          legendX += mob ? 65 : 110;
+          legendX += mob ? 70 : 115;
           return (
             <g key={def.id}>
-              <circle cx={thisX} cy={legendY + 6} r={5} fill={def.colorHex} />
+              <circle cx={thisX + 5} cy={legendY + 6} r={6} fill={def.colorHex} opacity={0.8} />
               <text
-                x={thisX + 10} y={legendY + 10}
-                style={{ fontSize: 10, fontFamily: DS.font, fill: DS.text2 }}>
+                x={thisX + 16} y={legendY + 10}
+                style={{ fontSize: 11, fontFamily: DS.display, fill: DS.text2, fontWeight: 500 }}>
                 {def.shortName}
               </text>
             </g>
