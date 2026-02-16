@@ -8,32 +8,32 @@ export default function SourcesView() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
       <div style={{ marginBottom: 8 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.02em' }}>
-          Sources & Methodology
+          Sources & Méthodologie
         </div>
         <div style={{ fontSize: 14, color: 'var(--text-tertiary)' }}>
-          Data sources, computation methods, and dynamic content definitions used throughout the analysis.
+          Sources de données, méthodes de calcul et définitions du contenu utilisé dans l'analyse.
         </div>
       </div>
 
-      {/* Section 1: External Sources (grouped sub-sections) */}
+      {/* Section 1: Sources externes (sous-sections groupées) */}
       <MethodologyBlock
-        title="External Sources"
-        subtitle="Figures not reproducible from our own data — sourced from third-party research and reporting."
+        title="Sources externes"
+        subtitle="Chiffres non reproductibles à partir de nos propres données — sourcés depuis des recherches et rapports tiers."
         sections={EXTERNAL_SOURCES.map(s => ({ title: s.section, items: s.items }))}
       />
 
-      {/* Section 2: Computed Metrics table */}
+      {/* Section 2: Table des métriques calculées */}
       <DataTable
-        title="Computed Metrics"
-        subtitle="Metrics computed server-side from raw API data — not sourced from external URLs."
+        title="Métriques calculées"
+        subtitle="Métriques calculées côté serveur à partir de données API brutes — non sourcées depuis des URLs externes."
         columns={COMPUTED_METRICS.columns}
         rows={COMPUTED_METRICS.rows}
       />
 
-      {/* Section 3: Methodology Notes (ordered list) */}
+      {/* Section 3: Notes méthodologiques (liste ordonnée) */}
       <MethodologyBlock
-        title="Methodology & Data Notes"
-        subtitle="Assumptions, derivations, and verification notes for all computed values."
+        title="Méthodologie & notes sur les données"
+        subtitle="Hypothèses, dérivations et notes de vérification pour toutes les valeurs calculées."
         items={METHODOLOGY_NOTES}
         ordered
       />

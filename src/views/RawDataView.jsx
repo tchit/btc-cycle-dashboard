@@ -1,67 +1,72 @@
 import React from 'react';
 import DataTable from '../components/DataTable';
 import {
-  CYCLE_KEY_DATES,
-  CYCLE_DURATION,
+  getCycleKeyDates,
+  getCycleDuration,
   ONCHAIN_AT_BOTTOM,
-  MVRV_AT_BOTTOM,
+  getMvrvAtBottom,
   BEAR_DRAWDOWNS,
   POST_HALVING,
   FIB_EXTENSIONS,
 } from '../data/cycle-constants';
+import { RP } from '../config/constants';
 
-export default function RawDataView() {
+export default function RawDataView({ live }) {
+  const keyDates = getCycleKeyDates(live?.price);
+  const duration = getCycleDuration();
+  const mvrv = getMvrvAtBottom(live?.price, RP);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
       <div style={{ marginBottom: 8 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.02em' }}>
-          Raw Datapoints
+          Données brutes
         </div>
         <div style={{ fontSize: 14, color: 'var(--text-tertiary)' }}>
-          Historical cycle data and current market position.
+          Données historiques des cycles et position actuelle du marché.
         </div>
       </div>
 
       <DataTable
-        title="Cycle Key Dates"
-        columns={CYCLE_KEY_DATES.columns}
-        rows={CYCLE_KEY_DATES.rows}
+        title="Dates clés des cycles"
+        columns={keyDates.columns}
+        rows={keyDates.rows}
       />
 
       <DataTable
-        title="Cycle Duration (Days)"
-        columns={CYCLE_DURATION.columns}
-        rows={CYCLE_DURATION.rows}
+        title="Durée des cycles (jours)"
+        columns={duration.columns}
+        rows={duration.rows}
       />
 
       <DataTable
-        title="On-Chain Metric Values at Each Cycle Bottom"
+        title="Valeurs on-chain à chaque bottom de cycle"
         columns={ONCHAIN_AT_BOTTOM.columns}
         rows={ONCHAIN_AT_BOTTOM.rows}
         highlightCol={ONCHAIN_AT_BOTTOM.highlightCol}
       />
 
       <DataTable
-        title="MVRV at Bottom"
-        columns={MVRV_AT_BOTTOM.columns}
-        rows={MVRV_AT_BOTTOM.rows}
+        title="MVRV au bottom"
+        columns={mvrv.columns}
+        rows={mvrv.rows}
       />
 
       <DataTable
-        title="Bear Market Drawdown & Duration (ATH to Bottom)"
+        title="Drawdown & durée des bear markets (ATH → Bottom)"
         columns={BEAR_DRAWDOWNS.columns}
         rows={BEAR_DRAWDOWNS.rows}
         averageRow={BEAR_DRAWDOWNS.averageRow}
       />
 
       <DataTable
-        title="Post-Halving Performance"
+        title="Performance post-halving"
         columns={POST_HALVING.columns}
         rows={POST_HALVING.rows}
       />
 
       <DataTable
-        title="Fibonacci Bull Extension (ATH \u2192 Bottom \u2192 Next ATH)"
+        title="Extension Fibonacci haussière (ATH → Bottom → ATH suivant)"
         columns={FIB_EXTENSIONS.columns}
         rows={FIB_EXTENSIONS.rows}
         note={FIB_EXTENSIONS.note}

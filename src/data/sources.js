@@ -1,79 +1,79 @@
-// Sources, methodology, and computed metrics documentation
-// Reference project paths kept as documentation (not our repo structure)
+// Sources, méthodologie et documentation des métriques calculées
+// Les chemins de code réfèrent au projet de référence, pas à notre repo
 
 export const EXTERNAL_SOURCES = [
   {
-    section: 'Historical ATH/Bottom Prices (Cycles 1-3)',
-    items: ['CoinGecko: Bitcoin ATH Data'],
+    section: 'Prix ATH/Bottom historiques (Cycles 1-3)',
+    items: ['CoinGecko : Bitcoin ATH Data'],
   },
   {
-    section: 'MVRV/CVDD Confirmations at Historical Bottoms',
+    section: 'Confirmations MVRV/CVDD aux bottoms historiques',
     items: [
-      'Blockworks: Nov 2022 Bottom Metrics (MVRV 0.75)',
-      'Willy Woo: CVDD at $15.4K (Jun 2022)',
+      'Blockworks : Métriques bottom nov. 2022 (MVRV 0.75)',
+      'Willy Woo : CVDD à $15.4K (juin 2022)',
     ],
   },
   {
-    section: 'Analysis Articles',
+    section: 'Articles d\'analyse',
     items: [
-      'CoinDesk: 200W MA as line in the sand',
-      'Glassnode: 2022 Bear of Historic Proportions',
-      'NewsBTC: Bear Market Framework',
-      'NewsBTC: CVDD Model Signals',
-      'IndexBox: Feb 2026 Selloff Analysis',
-      'Bitcoin Magazine: Price Forecast Valuation Metrics',
-      'Bitcoin Magazine: 200W MA Peak Forecasting',
-      'CoinDesk: BTC spirals toward $60K',
-      'CNBC: Bitcoin drops 15%',
+      'CoinDesk : 200W MA comme ligne de défense',
+      'Glassnode : Bear 2022 de proportions historiques',
+      'NewsBTC : Cadre d\'analyse bear market',
+      'NewsBTC : Signaux du modèle CVDD',
+      'IndexBox : Analyse de la vente de fév. 2026',
+      'Bitcoin Magazine : Prévisions de prix par métriques de valorisation',
+      'Bitcoin Magazine : Prévisions par 200W MA au peak',
+      'CoinDesk : BTC en spirale vers $60K',
+      'CNBC : Bitcoin chute de 15%',
     ],
   },
 ];
 
 export const COMPUTED_METRICS = {
-  columns: ['Metric', 'Data Source', 'Code Location'],
+  columns: ['Métrique', 'Source de données', 'Emplacement code'],
   rows: [
     { metric: 'Realized Price', source: 'BGeometrics API (/v1/realized-price)', location: 'src/api/bottom-metrics/route.ts' },
     { metric: 'CVDD', source: 'Blockchain.info prices + BGeometrics CDD', location: 'src/lib/balanced-price.ts' },
     { metric: 'Balanced Price', source: 'Blockchain.info prices + BGeometrics CDD + RP', location: 'src/lib/balanced-price.ts' },
-    { metric: '111d / 730d / 1400d MAs', source: 'Blockchain.info prices (computeSMA())', location: 'src/api/cycle-models/route.ts' },
+    { metric: 'MAs 111d / 730d / 1400d', source: 'Blockchain.info prices (computeSMA())', location: 'src/api/cycle-models/route.ts' },
     { metric: 'MVRV (bottom-metrics)', source: 'BTC_PRICE / REALIZED_PRICE', location: 'src/api/bottom-metrics/route.ts' },
     { metric: 'MVRV / NVT / SOPR / NUPL', source: 'BGeometrics API (4 endpoints)', location: 'src/api/onchain-metrics/route.ts' },
-    { metric: 'Mining Cost (dual)', source: 'Blockchain.info + CBECI/Digiconomist + EIA', location: 'src/api/mining-economics/route.ts' },
-    { metric: 'Puell Multiple + 200d/200w MAs', source: 'Blockchain.info prices + issuance schedule', location: 'src/api/macro-indicators/route.ts' },
+    { metric: 'Coût de minage (dual)', source: 'Blockchain.info + CBECI/Digiconomist + EIA', location: 'src/api/mining-economics/route.ts' },
+    { metric: 'Puell Multiple + MAs 200d/200w', source: 'Blockchain.info prices + schedule d\'émission', location: 'src/api/macro-indicators/route.ts' },
     { metric: 'Fear & Greed Index', source: 'alternative.me API', location: 'src/api/fear-greed/route.ts' },
     { metric: 'RSI (4h / 1d / 1w)', source: 'Binance klines + Wilder RSI(14) + EMA(14)', location: 'src/api/rsi/route.ts' },
-    { metric: 'BTC ATH', source: 'Static constants (Cycle 4 ATH)', location: 'src/api/btc-ath/route.ts' },
-    { metric: 'Cycle Projections', source: 'Historical patterns + live RP/200W MA', location: 'src/api/cycle-projections/route.ts' },
-    { metric: 'Zone Transitions', source: 'Post-ATH price scanning vs metric thresholds', location: 'src/lib/zone-transitions.ts' },
-    { metric: 'Historical cycle gaps', source: 'Local archived JSON (API-RAW/)', location: 'src/api/historical-gaps/route.ts' },
-    { metric: 'Historical cycle bottom metrics', source: 'Pre-computed constants (MA, RP, CVDD, BP, MVRV)', location: 'src/lib/bottom-analysis-constants.ts' },
+    { metric: 'BTC ATH', source: 'Constantes statiques (ATH Cycle 4)', location: 'src/api/btc-ath/route.ts' },
+    { metric: 'Projections de cycle', source: 'Patterns historiques + RP/200W MA live', location: 'src/api/cycle-projections/route.ts' },
+    { metric: 'Transitions de zone', source: 'Scan prix post-ATH vs seuils métriques', location: 'src/lib/zone-transitions.ts' },
+    { metric: 'Écarts historiques entre cycles', source: 'JSON archivé local (API-RAW/)', location: 'src/api/historical-gaps/route.ts' },
+    { metric: 'Métriques bottom historiques', source: 'Constantes pré-calculées (MA, RP, CVDD, BP, MVRV)', location: 'src/lib/bottom-analysis-constants.ts' },
   ],
 };
 
 export const METHODOLOGY_NOTES = [
-  'Values marked "(est.)" are approximations derived from MVRV ratios or trend extrapolation.',
-  'Realized Price at historical bottoms derived from: RP = Price / MVRV.',
-  '2015 MVRV at bottom estimated at 0.55-0.60 based on historical MVRV charts.',
-  '2018 MVRV at bottom estimated at 0.75-0.80.',
-  '2022 MVRV at bottom confirmed at 0.75 (Blockworks source).',
-  'CVDD value in Jun 2022 confirmed at $15,400 via Willy Woo (creator of CVDD).',
-  'CVDD self-computed: CVDD = \u03a3(CDD\u00d7Price) / (Age \u00d7 6,000,000).',
-  'Balanced Price self-computed: BP = Realized Price - \u03a3(CDD\u00d7Price)/(Supply\u00d7Age). Verified within 0.4-2.3% of Bitcoin Magazine Pro.',
-  'BP = Realized Price - Transferred Price; historically ~78-91% of RP at cycle bottoms.',
-  'Price has touched/dipped below BP at every completed cycle bottom (Price/BP: 0.95, 0.91, 0.99).',
-  'Cycle 5 halving-to-ATH gain (+27%): log-linear regression of ln(gain%) vs cycle number on 4 data points, R\u00b2=0.99.',
-  'Cycle 5 bottom-to-ATH gain (+149%): log-linear regression on 3 data points, R\u00b2=0.98.',
-  'Cycle 5 bull run length (~520d): recency-weighted average with 4:3:2:1 weights.',
-  'Next halving (~Feb 2028): recency-weighted average of halving intervals = 1,407 days from Apr 19, 2024.',
-  'Fear & Greed Index sourced from alternative.me API (10-min cache).',
-  'RSI(14) computed using Wilder smoothing for 4h, 1d, 1w timeframes from Binance klines. EMA(14) of RSI series used as signal line.',
-  'Mining cost uses dual model: miner average ($0.05/kWh, CBECI expert estimate) vs U.S. industrial rate (EIA API with 24h cache, $0.09/kWh fallback).',
-  'POST_ATH_LOW tracks the deepest daily close since ATH date, not current price. Values freeze until a new lower close occurs.',
-  'Zone transitions detected by scanning post-ATH price history against live metric thresholds (111d MA, 2Y MA, 200W MA, RP, CVDD, BP).',
+  'Les valeurs marquées "(est.)" sont des approximations dérivées de ratios MVRV ou d\'extrapolation de tendances.',
+  'Le Realized Price aux bottoms historiques est dérivé de : RP = Prix / MVRV.',
+  'MVRV au bottom 2015 estimé à 0.55-0.60 d\'après les graphiques MVRV historiques.',
+  'MVRV au bottom 2018 estimé à 0.75-0.80.',
+  'MVRV au bottom 2022 confirmé à 0.75 (source Blockworks).',
+  'Valeur CVDD en juin 2022 confirmée à $15,400 via Willy Woo (créateur du CVDD).',
+  'CVDD auto-calculé : CVDD = Σ(CDD×Prix) / (Âge × 6,000,000).',
+  'Balanced Price auto-calculé : BP = Realized Price - Σ(CDD×Prix)/(Supply×Âge). Vérifié à 0.4-2.3% de Bitcoin Magazine Pro.',
+  'BP = Realized Price - Transferred Price ; historiquement ~78-91% du RP aux bottoms de cycle.',
+  'Le prix a touché/traversé le BP à chaque bottom de cycle complété (Prix/BP : 0.95, 0.91, 0.99).',
+  'Gain halving-vers-ATH Cycle 5 (+27%) : régression log-linéaire de ln(gain%) vs numéro de cycle sur 4 points, R²=0.99.',
+  'Gain bottom-vers-ATH Cycle 5 (+149%) : régression log-linéaire sur 3 points, R²=0.98.',
+  'Durée bull run Cycle 5 (~520j) : moyenne pondérée par récence avec poids 4:3:2:1.',
+  'Prochain halving (~fév. 2028) : moyenne pondérée des intervalles de halving = 1,407 jours depuis le 19 avr. 2024.',
+  'Fear & Greed Index sourcé depuis l\'API alternative.me (cache 10 min).',
+  'RSI(14) calculé avec le lissage Wilder pour les timeframes 4h, 1d, 1w à partir des klines Binance. L\'EMA(14) de la série RSI sert de ligne de signal.',
+  'Le coût de minage utilise un modèle dual : moyenne mineurs ($0.05/kWh, estimation expert CBECI) vs taux industriel US (API EIA avec cache 24h, fallback $0.09/kWh).',
+  'POST_ATH_LOW suit le plus bas close journalier depuis la date ATH, pas le prix courant. Les valeurs se figent jusqu\'à un nouveau plus bas.',
+  'Les transitions de zone sont détectées en scannant l\'historique de prix post-ATH contre les seuils de métriques live (111d MA, 2Y MA, 200W MA, RP, CVDD, BP).',
 ];
 
-// Phase 5 — Dynamic Content System (not yet implemented)
-// These templates are from the reference project and are not functional in our codebase.
+// Phase 5 — Système de contenu dynamique (pas encore implémenté)
+// Ces templates viennent du projet de référence et ne sont pas fonctionnels dans notre codebase.
 //
 // LIVE_VARIABLES: [
 //   '{LIVE:BTC_PRICE}', '{LIVE:ATH_PRICE}', '{LIVE:ATH_DATE}', '{LIVE:HALVING_DATE}',

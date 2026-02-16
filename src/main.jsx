@@ -10,6 +10,7 @@ import './styles/score-gauge.css';
 import './styles/metric-card.css';
 import './styles/key-signals.css';
 import './styles/data-table.css';
+import './styles/zone-visuals.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);

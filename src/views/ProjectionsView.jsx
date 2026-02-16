@@ -1,6 +1,7 @@
 import React from 'react';
 import DualPanel from '../components/DualPanel';
 import ScenarioBar from '../components/ScenarioBar';
+import ScenarioGauge from '../components/ScenarioGauge';
 import TimelineVertical from '../components/TimelineVertical';
 import FactorList from '../components/FactorList';
 import {
@@ -16,14 +17,14 @@ export default function ProjectionsView({ live, calc, mob }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
       <div>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.02em' }}>
-          Projected Bottom Scenario
+          Scénario de bottom projeté
         </div>
         <div style={{ fontSize: 14, color: 'var(--text-tertiary)' }}>
-          If historical patterns hold — price and timing projections for Cycle 4.
+          Si les patterns historiques se maintiennent — projections de prix et timing pour le Cycle 4.
         </div>
       </div>
 
-      {/* Section 1: Dual Panel — Bottom + ATH Projections */}
+      {/* Section 1: Dual Panel — Projections Bottom + ATH */}
       <DualPanel
         panels={[
           {
@@ -47,23 +48,24 @@ export default function ProjectionsView({ live, calc, mob }) {
         ]}
       />
 
-      {/* Section 2: Four Scenarios */}
+      {/* Section 2: Quatre scénarios */}
       <div>
-        <div className="dt-title">Four Scenarios Based on Zone Depth</div>
-        <div className="dt-subtitle">Projected cycle bottom scenarios ranked by severity</div>
+        <div className="dt-title">Quatre scénarios selon la profondeur de zone</div>
+        <div className="dt-subtitle">Scénarios de bottom projetés classés par sévérité</div>
         <ScenarioBar scenarios={PROJ_SCENARIOS} />
+        <ScenarioGauge scenarios={PROJ_SCENARIOS} currentPrice={live?.price} mob={mob} />
       </div>
 
-      {/* Section 3: Timeline + Differentiators */}
+      {/* Section 3: Timeline + Différenciateurs */}
       <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1.2fr 1fr', gap: 24, alignItems: 'start' }}>
         <div>
-          <div className="dt-title">Timeline Synthesis</div>
+          <div className="dt-title">Synthèse de la timeline</div>
           <div style={{ marginTop: 16 }}>
             <TimelineVertical events={TIMELINE} />
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div className="dt-title">Key Differentiators for Cycle 4</div>
+          <div className="dt-title">Différenciateurs clés du Cycle 4</div>
           <FactorList
             title={DIFFERENTIATORS.reduce.title}
             accent="green"

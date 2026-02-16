@@ -10,11 +10,11 @@ export default function ScenarioBar({ scenarios }) {
   return (
     <div className="sb-container">
       <div className="sb-header">
-        <div>Scenario</div>
-        <div>Depth</div>
-        <div>Projected Bottom</div>
+        <div>Scénario</div>
+        <div>Profondeur</div>
+        <div>Bottom projeté</div>
         <div>Drawdown</div>
-        <div>Probability Assessment</div>
+        <div>Évaluation de probabilité</div>
       </div>
       {scenarios.map((s, i) => (
         <div key={i} className="sb-row">

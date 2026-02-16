@@ -25,7 +25,7 @@ export default function DualPanel({ panels }) {
 
           {panel.dateMethods && panel.dateMethods.length > 0 && (
             <>
-              <div className="dp-section-title">Date Methods</div>
+              <div className="dp-section-title">Méthodes par date</div>
               {panel.dateMethods.map((m, j) => (
                 <div key={j} className="dp-method">
                   <div>
@@ -40,7 +40,7 @@ export default function DualPanel({ panels }) {
 
           {panel.priceMethods && panel.priceMethods.length > 0 && (
             <>
-              <div className="dp-section-title">Price Methods</div>
+              <div className="dp-section-title">Méthodes par prix</div>
               {panel.priceMethods.map((m, j) => (
                 <div key={j} className="dp-method">
                   <div>

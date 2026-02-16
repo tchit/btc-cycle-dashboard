@@ -8,8 +8,8 @@ import React from 'react';
  */
 export default function TimelineVertical({ events }) {
   const badgeLabel = {
-    confirmed: 'CONFIRMED',
-    current: 'WE ARE HERE',
+    confirmed: 'CONFIRMÉ',
+    current: 'NOUS SOMMES ICI',
   };
 
   return (

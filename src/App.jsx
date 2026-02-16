@@ -78,8 +78,8 @@ export default function App() {
       case 'scenarios': return <ScenariosView live={live} calc={calc} mob={mob} />;
       case 'connectors': return <ConnectorsView live={live} mob={mob} />;
       case 'tradingview': return <TradingViewView />;
-      case 'rawdata': return <RawDataView />;
-      case 'zones': return <ZoneAnalysisView />;
+      case 'rawdata': return <RawDataView live={live} />;
+      case 'zones': return <ZoneAnalysisView live={live} calc={calc} mob={mob} />;
       case 'projections': return <ProjectionsView live={live} calc={calc} mob={mob} />;
       case 'sources': return <SourcesView />;
       default: return <DashboardView live={live} calc={calc} hist={hist} mob={mob} />;

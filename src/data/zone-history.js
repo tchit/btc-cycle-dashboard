@@ -1,154 +1,194 @@
-// Zone Duration Analysis — how long price stays at each depth level across bear market cycles
-// 5 zones from shallowest (Zone 1) to deepest (Zone 5)
+// Analyse de durée par zone — combien de temps le prix reste à chaque niveau de profondeur
+// 5 zones de la moins profonde (Zone 1) à la plus profonde (Zone 5)
+
+// Date approximative d'entrée en Zone 2 pour le cycle courant
+const ZONE2_ENTRY_DATE = '2026-01-30';
+
+function daysSince(dateStr) {
+  return Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
+}
 
 export const ZONE_1 = {
-  title: 'Zone 1: Below 111d MA, Above 2-Year MA',
-  subtitle: 'Bear Confirmed',
-  columns: ['Cycle', 'Dropped Below 111d MA', 'Dropped Below 2Y MA', 'Duration in Zone', 'Exit Type', 'Entry / Exit Gap'],
+  title: 'Zone 1 : Sous la 111d MA, au-dessus de la 2-Year MA',
+  subtitle: 'Bear confirmé',
+  columns: ['Cycle', 'Passage sous 111d MA', 'Passage sous 2Y MA', 'Durée dans la zone', 'Type de sortie', 'Écart entrée / sortie'],
   rows: [
-    { cycle: '2014-15', col1: '~Feb 2014', col2: '~Dec 2014', duration: '~10 months', exitType: 'Downward', gap: '...' },
-    { cycle: '2018', col1: '~Feb 2018', col2: '~Nov 2018', duration: '~9 months (slow bleed at $6-8K)', exitType: 'Downward', gap: '74.3% / 14.2%' },
-    { cycle: '2022', col1: '~Dec 2021', col2: '~May 2022', duration: '~5 months', exitType: 'Downward', gap: '48.5% / 13.8%' },
-    { cycle: '2025-26', col1: '~mid-Oct 2025', col2: '~late Jan 2026', duration: '4 months', exitType: 'Downward', gap: '32.6% / 10.3%', isCurrent: true },
+    { cycle: '2014-15', col1: '~Fév. 2014', col2: '~Déc. 2014', duration: '~10 mois', exitType: 'Vers le bas', gap: '...' },
+    { cycle: '2018', col1: '~Fév. 2018', col2: '~Nov. 2018', duration: '~9 mois (lente descente à $6-8K)', exitType: 'Vers le bas', gap: '74.3% / 14.2%' },
+    { cycle: '2022', col1: '~Déc. 2021', col2: '~Mai 2022', duration: '~5 mois', exitType: 'Vers le bas', gap: '48.5% / 13.8%' },
+    { cycle: '2025-26', col1: '~mi-oct. 2025', col2: '~fin jan. 2026', duration: '4 mois', exitType: 'Vers le bas', gap: '32.6% / 10.3%', isCurrent: true },
   ],
-  trend: 'Variable \u2014 depends on crash speed',
+  trend: 'Variable — dépend de la vitesse du crash',
 };
 
-export const ZONE_2 = {
-  title: 'Zone 2: Below 2-Year MA, Above 200-Week MA',
-  subtitle: 'Bottom Zone Entry',
-  columns: ['Cycle', 'Dropped Below 2Y MA', 'Dropped Below 200W MA', 'Duration in Zone', 'Exit Type', 'Entry / Exit Gap'],
-  rows: [
-    { cycle: '2014-15', col1: '~Dec 2014', col2: '~Aug 2015 (200W first avail.)', duration: '~8 months', exitType: 'Downward', gap: '...' },
-    { cycle: '2018', col1: '~Nov 2018', col2: 'Never (within ~1%)', duration: '~6 months (Nov 2018 \u2192 May 2019)', exitType: 'Upward', gap: '44.4% / 43.3%' },
-    { cycle: '2022', col1: '~May 2022', col2: '~Jun 2022', duration: '~1 month', exitType: 'Downward', gap: '38.1% / 38.2%' },
-    { cycle: '2025-26', col1: '~late Jan 2026', col2: 'Not yet reached', duration: 'In progress (17 days)', exitType: 'In zone', gap: '32.5% / \u2014', isCurrent: true },
-  ],
-  trend: 'Fast crash in later cycles',
-};
+export function getZone2() {
+  const days = daysSince(ZONE2_ENTRY_DATE);
+  return {
+    title: 'Zone 2 : Sous la 2-Year MA, au-dessus de la 200-Week MA',
+    subtitle: 'Entrée en zone bottom',
+    columns: ['Cycle', 'Passage sous 2Y MA', 'Passage sous 200W MA', 'Durée dans la zone', 'Type de sortie', 'Écart entrée / sortie'],
+    rows: [
+      { cycle: '2014-15', col1: '~Déc. 2014', col2: '~Août 2015 (200W dispo. depuis peu)', duration: '~8 mois', exitType: 'Vers le bas', gap: '...' },
+      { cycle: '2018', col1: '~Nov. 2018', col2: 'Jamais (à ~1% près)', duration: '~6 mois (nov. 2018 → mai 2019)', exitType: 'Vers le haut', gap: '44.4% / 43.3%' },
+      { cycle: '2022', col1: '~Mai 2022', col2: '~Juin 2022', duration: '~1 mois', exitType: 'Vers le bas', gap: '38.1% / 38.2%' },
+      { cycle: '2025-26', col1: '~fin jan. 2026', col2: 'Pas encore atteinte', duration: `En cours (${days} jours)`, exitType: 'Dans la zone', gap: '32.5% / —', isCurrent: true },
+    ],
+    trend: 'Crash rapide dans les cycles récents',
+  };
+}
 
 export const ZONE_3 = {
-  title: 'Zone 3: 200-Week MA <\u2194> Realized Price',
-  subtitle: 'Between the two historic floor metrics',
-  columns: ['Cycle', 'Behavior', 'Duration in Zone', 'Exit Type', 'Entry / Exit Gap'],
+  title: 'Zone 3 : 200-Week MA ↔ Realized Price',
+  subtitle: 'Entre les deux métriques plancher historiques',
+  columns: ['Cycle', 'Comportement', 'Durée dans la zone', 'Type de sortie', 'Écart entrée / sortie'],
   rows: [
     {
       cycle: '2015',
-      behavior: 'RP (~$260) above 200W MA (~$185). Price crossed below RP first, then below 200W MA ~3 months later.',
-      duration: '~3 months (Oct 2014 \u2192 Jan 2015)',
-      exitType: 'Downward',
+      behavior: 'RP (~$260) au-dessus de 200W MA (~$185). Le prix est passé sous le RP d\'abord, puis sous la 200W MA ~3 mois plus tard.',
+      duration: '~3 mois (oct. 2014 → jan. 2015)',
+      exitType: 'Vers le bas',
       gap: '...',
     },
     {
       cycle: '2018',
-      behavior: 'RP (~$4,000) above 200W MA (~$3,100). Price crossed below RP but never sustained below 200W MA (bottom $3,122 within ~1% of 200W).',
-      duration: '~4.5 months (Nov 2018 \u2192 Apr 2019)',
-      exitType: 'Upward',
+      behavior: 'RP (~$4,000) au-dessus de 200W MA (~$3,100). Le prix est passé sous le RP mais jamais durablement sous la 200W MA (bottom $3,122 à ~1% de la 200W).',
+      duration: '~4.5 mois (nov. 2018 → avr. 2019)',
+      exitType: 'Vers le haut',
       gap: '-55.9% / -55.5%',
     },
     {
       cycle: '2022',
-      behavior: '200W MA (~$23K) above RP (~$20.6K). Broke below both within days (Jun 2022).',
-      duration: '~1 day (crossed both Jun 14-15)',
-      exitType: 'Downward',
+      behavior: '200W MA (~$23K) au-dessus du RP (~$20.6K). Les deux cassés en quelques jours (juin 2022).',
+      duration: '~1 jour (croisement 14-15 juin)',
+      exitType: 'Vers le bas',
       gap: '-2.8% / -3.3%',
     },
     {
       cycle: '2025-26',
-      behavior: '200W MA ($58,180) above RP ($51,414). Price $68,432 above both \u2014 Zone 3 not yet entered.',
-      duration: 'Not yet entered',
-      exitType: 'Not yet entered',
-      gap: 'Not yet entered',
+      behavior: '200W MA ($58,180) au-dessus du RP ($51,414). Prix $68,432 au-dessus des deux — Zone 3 pas encore atteinte.',
+      duration: 'Pas encore atteinte',
+      exitType: 'Pas encore atteinte',
+      gap: 'Pas encore atteinte',
       isCurrent: true,
     },
   ],
-  trend: 'Price always crossed below RP at some point. 200W MA is above RP since the last cycle.',
+  trend: 'Le prix est toujours passé sous le RP à un moment. La 200W MA est au-dessus du RP depuis le dernier cycle.',
   notes: [
-    'In 2015 and 2018, RP was above 200W MA \u2014 price crossed below RP first.',
-    'In 2022, 200W MA was above RP \u2014 price crossed below 200W MA first.',
-    'Currently: 200W MA ($58,180) is moderately above RP ($51,414) \u2014 12% gap.',
+    'En 2015 et 2018, le RP était au-dessus de la 200W MA — le prix a cassé le RP en premier.',
+    'En 2022, la 200W MA était au-dessus du RP — le prix a cassé la 200W MA en premier.',
+    'Actuellement : 200W MA ($58,180) modérément au-dessus du RP ($51,414) — écart de 12%.',
   ],
 };
 
 export const ZONE_4 = {
-  title: 'Zone 4: Realized Price <\u2194> CVDD <\u2194> Balanced Price',
-  subtitle: 'Extreme Undervaluation',
-  columns: ['Cycle', 'Behavior', 'Duration in Zone', 'Exit Type', 'Entry / Exit Gap'],
+  title: 'Zone 4 : Realized Price ↔ CVDD ↔ Balanced Price',
+  subtitle: 'Sous-évaluation extrême',
+  columns: ['Cycle', 'Comportement', 'Durée dans la zone', 'Type de sortie', 'Écart entrée / sortie'],
   rows: [
     {
       cycle: '2015',
-      behavior: 'RP (~$260) > BP (~$237) > CVDD (~$70). MVRV ~0.55-0.60. Price $152 below RP and BP but well above CVDD (2.2\u00d7 CVDD).',
-      duration: '~12 months (Oct 2014 \u2192 Oct 2015)',
-      exitType: 'Upward',
+      behavior: 'RP (~$260) > BP (~$237) > CVDD (~$70). MVRV ~0.55-0.60. Prix $152 sous RP et BP mais bien au-dessus de CVDD (2.2× CVDD).',
+      duration: '~12 mois (oct. 2014 → oct. 2015)',
+      exitType: 'Vers le haut',
       gap: '...',
     },
     {
       cycle: '2018',
-      behavior: 'RP (~$4,000) > BP (~$3,519) > CVDD (~$2,200). MVRV ~0.75-0.80. Price $3,122 below RP and BP but above CVDD (1.4\u00d7 CVDD).',
-      duration: '~5 months (Nov 2018 \u2192 Apr 2019)',
-      exitType: 'Upward',
+      behavior: 'RP (~$4,000) > BP (~$3,519) > CVDD (~$2,200). MVRV ~0.75-0.80. Prix $3,122 sous RP et BP mais au-dessus de CVDD (1.4× CVDD).',
+      duration: '~5 mois (nov. 2018 → avr. 2019)',
+      exitType: 'Vers le haut',
       gap: '42.9% / 30.9%',
     },
     {
       cycle: '2022',
-      behavior: 'RP (~$20.6K) > BP (~$15,971) \u2248 CVDD (~$15,400). MVRV 0.75. Price $15,476 near both BP and CVDD (1.0\u00d7 CVDD).',
-      duration: '~5 months (Jun \u2192 Nov 2022)',
-      exitType: 'Upward',
+      behavior: 'RP (~$20.6K) > BP (~$15,971) ≈ CVDD (~$15,400). MVRV 0.75. Prix $15,476 proche de BP et CVDD (1.0× CVDD).',
+      duration: '~5 mois (juin → nov. 2022)',
+      exitType: 'Vers le haut',
       gap: '37.1% / 33.3%',
     },
     {
       cycle: '2025-26',
-      behavior: 'RP ($51,414) > CVDD ($44,526) > BP ($37,990). Price $68,432 above RP \u2014 Zone 4 not yet entered. MVRV: 1.28',
-      duration: 'Not yet entered',
-      exitType: 'Not entered',
-      gap: 'Not yet entered',
+      behavior: 'RP ($51,414) > CVDD ($44,526) > BP ($37,990). Prix $68,432 au-dessus du RP — Zone 4 pas encore atteinte. MVRV : 1.28',
+      duration: 'Pas encore atteinte',
+      exitType: 'Non atteinte',
+      gap: 'Pas encore atteinte',
       isCurrent: true,
     },
   ],
-  trend: 'RP > BP > CVDD in all prior cycles. Price always below RP \u2014 floor was CVDD since BP was above it. Price approached CVDD closer each cycle (2.2\u00d7 \u2192 1.4\u00d7 \u2192 1.0\u00d7). Now that CVDD > BP, BP may be the ultimate floor.',
+  trend: 'RP > BP > CVDD dans tous les cycles précédents. Le prix était toujours sous le RP — le plancher était CVDD puisque BP était au-dessus. Le prix s\'est approché de CVDD à chaque cycle (2.2× → 1.4× → 1.0×). Maintenant que CVDD > BP, BP pourrait être le plancher ultime.',
 };
 
 export const ZONE_5 = {
-  title: 'Zone 5: CVDD <\u2194> Balanced Price',
-  subtitle: 'Capitulation Bottom',
-  columns: ['Cycle', 'Behavior', 'Duration in Zone', 'Exit Type', 'Entry / Exit Gap'],
+  title: 'Zone 5 : CVDD ↔ Balanced Price',
+  subtitle: 'Bottom de capitulation',
+  columns: ['Cycle', 'Comportement', 'Durée dans la zone', 'Type de sortie', 'Écart entrée / sortie'],
   rows: [
     {
       cycle: '2015',
-      behavior: 'BP (~$237) above CVDD (~$70). Price $224 dipped below BP (0.95\u00d7) but stayed well above CVDD (3.2\u00d7).',
-      duration: 'Brief wick',
-      exitType: 'Upward',
+      behavior: 'BP (~$237) au-dessus de CVDD (~$70). Prix $224 brièvement sous BP (0.95×) mais bien au-dessus de CVDD (3.2×).',
+      duration: 'Mèche brève',
+      exitType: 'Vers le haut',
       gap: '...',
     },
     {
       cycle: '2018',
-      behavior: 'BP (~$3,519) above CVDD (~$2,200). Price $3,195 dipped below BP (0.91\u00d7) but stayed above CVDD (1.45\u00d7).',
-      duration: '~2-3 weeks',
-      exitType: 'Upward',
+      behavior: 'BP (~$3,519) au-dessus de CVDD (~$2,200). Prix $3,195 brièvement sous BP (0.91×) mais au-dessus de CVDD (1.45×).',
+      duration: '~2-3 semaines',
+      exitType: 'Vers le haut',
       gap: '-37.6% / -37.3%',
     },
     {
       cycle: '2022',
-      behavior: 'BP (~$15,971) near CVDD (~$15,400). Price $15,758 dipped below BP (0.99\u00d7), barely above CVDD (1.02\u00d7).',
-      duration: 'Brief wick (FTX crash)',
-      exitType: 'Upward',
+      behavior: 'BP (~$15,971) proche de CVDD (~$15,400). Prix $15,758 brièvement sous BP (0.99×), à peine au-dessus de CVDD (1.02×).',
+      duration: 'Mèche brève (crash FTX)',
+      exitType: 'Vers le haut',
       gap: '-8.7% / -8.3%',
     },
     {
       cycle: '2025-26',
-      behavior: 'CVDD ($44,526) above BP ($37,990). Price $68,432 above both \u2014 Zone 5 not yet entered.',
-      duration: 'Not yet entered',
-      exitType: 'Not entered',
-      gap: 'Not yet entered',
+      behavior: 'CVDD ($44,526) au-dessus de BP ($37,990). Prix $68,432 au-dessus des deux — Zone 5 pas encore atteinte.',
+      duration: 'Pas encore atteinte',
+      exitType: 'Non atteinte',
+      gap: 'Pas encore atteinte',
       isCurrent: true,
     },
   ],
-  trend: 'BP was above CVDD in all prior cycles. Price dipped below BP but stayed above CVDD. In 2025-26, CVDD > BP for the first time \u2014 BP is the ultimate floor.',
+  trend: 'BP était au-dessus de CVDD dans tous les cycles précédents. Le prix passait sous BP mais restait au-dessus de CVDD. En 2025-26, CVDD > BP pour la première fois — BP est le plancher ultime.',
   notes: [
-    'In all prior cycles, BP was above CVDD. Price touched/dipped below BP but never sustained below CVDD.',
-    'In 2025-26, CVDD has risen above BP for the first time \u2014 BP is the true lower floor.',
-    'BP is remarkably precise as a bottom indicator. Price/BP ratio at bottom: 0.95 \u2192 0.91 \u2192 0.99.',
+    'Dans tous les cycles précédents, BP était au-dessus de CVDD. Le prix a touché/traversé BP mais jamais durablement sous CVDD.',
+    'En 2025-26, CVDD est passé au-dessus de BP pour la première fois — BP est le vrai plancher bas.',
+    'BP est remarquablement précis comme indicateur de bottom. Ratio prix/BP au bottom : 0.95 → 0.91 → 0.99.',
   ],
 };
 
-export const ALL_ZONES = [ZONE_1, ZONE_2, ZONE_3, ZONE_4, ZONE_5];
+export function getAllZones() {
+  return [ZONE_1, getZone2(), ZONE_3, ZONE_4, ZONE_5];
+}
+
+export const ZONE_DEFINITIONS = [
+  { id: 1, name: 'Sous la 111d MA, au-dessus de la 2Y MA', shortName: 'Z1', colorHex: '#D4A843' },
+  { id: 2, name: 'Sous la 2Y MA, au-dessus de la 200W MA', shortName: 'Z2', colorHex: '#E8732A' },
+  { id: 3, name: 'Sous la 200W MA, au-dessus du RP', shortName: 'Z3', colorHex: '#3ECFA0' },
+  { id: 4, name: 'RP \u2194 CVDD \u2194 BP', shortName: 'Z4', colorHex: '#EC4899' },
+  { id: 5, name: 'CVDD \u2194 Balanced Price', shortName: 'Z5', colorHex: '#D946EF' },
+];
+
+export const ZONE_DURATION_DATA = [
+  { cycle: '2014-15', zones: [10, 8, 1, 12, 0.1] },
+  { cycle: '2018', zones: [9, 6, 0.5, 5, 0.7] },
+  { cycle: '2022', zones: [5, 1, 0.03, 5, 0.1] },
+  { cycle: '2025-26', zones: [4, 0.6, 0, 0, 0], isCurrent: true },
+];
+
+export function getCurrentZoneStatus() {
+  return {
+    activeZone: 2,
+    zones: [
+      { id: 1, state: 'completed', duration: '4 mois' },
+      { id: 2, state: 'active', duration: `${daysSince(ZONE2_ENTRY_DATE)} jours` },
+      { id: 3, state: 'future', duration: '\u2014' },
+      { id: 4, state: 'future', duration: '\u2014' },
+      { id: 5, state: 'future', duration: '\u2014' },
+    ]
+  };
+}
